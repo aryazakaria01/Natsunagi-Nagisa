@@ -193,7 +193,7 @@ else:
     CERT_PATH = Config.CERT_PATH
     API_ID = Config.API_ID
     API_HASH = Config.API_HASH
-    DB_URL = Config.DB_URL
+    DB_URI = Config.SQLALCHEMY_DATABASE_URI
     DONATION_LINK = Config.DONATION_LINK
     STRICT_GBAN = Config.STRICT_GBAN
     WORKERS = Config.WORKERS
