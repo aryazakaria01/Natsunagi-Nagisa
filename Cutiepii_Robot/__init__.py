@@ -247,7 +247,7 @@ try:
 
     REDIS.ping()
 
-    LOGGER.info("[Natsunagi]: Connecting To Redis Database")
+    LOGGER.info("Connecting To Redis Database")
 
 except BaseException:
 
@@ -257,12 +257,12 @@ finally:
 
    REDIS.ping()
 
-   LOGGER.info("[Natsunagi]: Connection To The Redis Database Established Successfully!")
+   LOGGER.info("Connection To The Redis Database Established Successfully!")
     
 
 if not SPAMWATCH_API:
     sw = None
-    LOGGER.warning("[Natsunagi Error]: SpamWatch API key Is Missing! Recheck Your Config.")
+    LOGGER.warning("SpamWatch API key Is Missing! Recheck Your Config.")
 else:
     try:
         sw = spamwatch.Client(SPAMWATCH_API)
@@ -272,9 +272,9 @@ else:
 
 
 # Credits Logger
-print("[Natsunagi] Natsunagi Nagisa Is Starting. | CyberNetwork Project | Licensed Under GPLv3.")
-print("[Natsunagi] Successfully Connected With A CyberNetwork")
-print("[Natsunagi] Project Maintained By: github.com/aryazakaria01 (t.me/Badboyanim)")
+print("Natsunagi Nagisa Is Starting. | CyberNetwork Project | Licensed Under GPLv3.")
+print("Successfully Connected With A CyberNetwork")
+print("Project Maintained By: github.com/aryazakaria01 (t.me/Badboyanim)")
 
 
 print("[Natsunagi]: Telegraph Installing")
