@@ -1,31 +1,4 @@
-"""
-MIT License
-
-Copyright (C) 2017-2019, Paul Larsen
-Copyright (C) 2021 Awesome-RJ
-Copyright (c) 2021, Yūki • Black Knights Union, <https://github.com/Awesome-RJ/CutiepiiRobot>
-
-This file is part of @Cutiepii_Robot (Telegram Bot)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-
-furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
+import codecs
 import asyncio
 import os
 import re
@@ -96,6 +69,64 @@ async def paste_func(_, message):
             pass
     return await m.edit(link)
 
+@typing_action
+def paste(update, context):
+    message = update.effective_message
+    bot, args = context.bot, context.args
+
+    if not message.reply_to_message.text:
+        file = bot.getFile(message.reply_to_message.document)
+        file.download("file.txt")
+        text = codecs.open("file.txt", "r+", encoding="utf-8")
+        paste_text = text.read()
+        print(paste_text)
+        os.remove("file.txt")
+
+    elif message.reply_to_message.text:
+        paste_text = message.reply_to_message.text
+    elif len(args) >= 1:
+        paste_text = message.text.split(None, 1)[1]
+
+    else:
+        message.reply_text(
+            "reply to any message or just do /paste <what you want to paste>"
+        )
+        return
+
+    extension = "txt"
+    url = "https://spaceb.in/api/v1/documents/"
+    try:
+        response = requests.post(
+            url, data={"content": paste_text, "extension": extension}
+        )
+    except Exception as e:
+        return {"error": str(e)}
+
+    response = response.json()
+    text = (
+        f"**Pasted to [Space.bin]('https://spaceb.in/{response['payload']['id']}')!!!**"
+    )
+    buttons = [
+        [
+            InlineKeyboardButton(
+                text="View Link", url=f"https://spaceb.in/{response['payload']['id']}"
+            ),
+            InlineKeyboardButton(
+                text="View Raw",
+                url=f"https://spaceb.in/api/v1/documents/{response['payload']['id']}/raw",
+            ),
+        ]
+    ]
+    message.reply_text(
+        text,
+        reply_markup=InlineKeyboardMarkup(buttons),
+        parse_mode=ParseMode.MARKDOWN,
+        disable_web_page_preview=True,
+    )
 
 
 __mod_name__ = "Paste"
+
+PASTE_HANDLER = DisableAbleCommandHandler("npaste", paste, run_async=True)
+
+dispatcher.add_handler(PASTE_HANDLER)
