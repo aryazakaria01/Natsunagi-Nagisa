@@ -7,8 +7,10 @@ import httpx
 import aiohttp
 import telegram.ext as tg
 
+from inspect import getfullargspec
 from pyrogram import Client, errors
 from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInvalid
+from pyrogram.types import Message
 from telethon import TelegramClient
 from telethon.sessions import MemorySession
 from telethon.sessions import StringSession
