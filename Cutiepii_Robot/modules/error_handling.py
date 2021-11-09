@@ -1,31 +1,3 @@
-"""
-MIT License
-
-Copyright (C) 2017-2019, Paul Larsen
-Copyright (C) 2021 Awesome-RJ
-Copyright (c) 2021, Yūki • Black Knights Union, <https://github.com/Awesome-RJ/CutiepiiRobot>
-
-This file is part of @Cutiepii_Robot (Telegram Bot)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-
-furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
 import html
 import io
 import random
@@ -117,7 +89,7 @@ def error_callback(update: Update, context: CallbackContext):
             context.bot.send_document(
                 ERROR_LOGS,
                 open("error.txt", "rb"),
-                caption=f"#{context.error.identifier}\n<b>Your enemy's make an error for you, demon king:"
+                caption=f"#{context.error.identifier}\n<b>Your Natsunagi Nagisa Have An Error For You:"
                 f"</b>\n<code>{e}</code>",
                 parse_mode="html",
             )
@@ -126,10 +98,10 @@ def error_callback(update: Update, context: CallbackContext):
         url = f"https://nekobin.com/{key}.py"
         context.bot.send_message(
             ERROR_LOGS,
-            text=f"#{context.error.identifier}\n<b>Your enemy's make an error for you, demon king:"
+            text=f"#{context.error.identifier}\n<b>Your Natsunagi Nagisa Have An Error For You:"
             f"</b>\n<code>{e}</code>",
             reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton("Cursed Errors", url=url)]],
+                [[InlineKeyboardButton("Natsunagi Error Logs", url=url)]],
             ),
             parse_mode="html",
         )
