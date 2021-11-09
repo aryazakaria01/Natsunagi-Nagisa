@@ -6,6 +6,7 @@ import aiofiles
 from pykeyboard import InlineKeyboard
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton
+from pyrogram.types import Message
 
 from Cutiepii_Robot import pgram, aiohttpsession
 from Cutiepii_Robot.utils.errors import capture_err
