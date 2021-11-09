@@ -1,31 +1,3 @@
-"""
-MIT License
-
-Copyright (C) 2017-2019, Paul Larsen
-Copyright (C) 2021 Awesome-RJ
-Copyright (c) 2021, Yūki • Black Knights Union, <https://github.com/Awesome-RJ/CutiepiiRobot>
-
-This file is part of @Cutiepii_Robot (Telegram Bot)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-
-furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
 import logging
 import os
 import sys
@@ -52,14 +24,32 @@ from telegram import Chat
 
 StartTime = time.time()
 
+
+def get_user_list(__init__, key):
+    with open("{}/Cutiepii_Robot/{}".format(os.getcwd(), __init__), "r") as json_file:
+        return json.load(json_file)[key]
+
+
 # enable logging
+FORMAT = "[Natsunagi] %(message)s"
 logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
     level=logging.INFO,
+    format=FORMAT,
+    datefmt="[%X]",
 )
+logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 LOGGER = logging.getLogger(__name__)
+LOGGER.info(
+    "[Natsunagi] Natsunagi is starting. | An CyberNetwork Project Parts. | Licensed under GPLv3."
+)
+LOGGER.info(
+    "[Natsunagi] Not affiliated to Tantei Wa Mou or Villain in any way whatsoever."
+)
+LOGGER.info(
+    "[Natsunagi] Project maintained by: github.com/aryazakaria01 (t.me/Badboyanim)"
+)
 
 # if version < 3.6, stop bot.
 if sys.version_info[0] < 3 or sys.version_info[1] < 6:
@@ -150,7 +140,7 @@ if ENV:
 
     HELP_IMG = os.environ.get("HELP_IMG", True)
     GROUP_START_IMG = os.environ.get("GROUP_START_IMG", True)
-    CUTIEPII_PHOTO = os.environ.get("CUTIEPII_PHOTO", True)
+    NAGISA_PHOTO = os.environ.get("NAGISA_PHOTO", True)
     
     try:
         BL_CHATS = {int(x) for x in os.environ.get("BL_CHATS", "").split()}
@@ -257,45 +247,45 @@ try:
 
     REDIS.ping()
 
-    LOGGER.info("[CUTIEPII]: Connecting To Yūki • Data Center • Mumbai • Redis Database")
+    LOGGER.info("[Natsunagi]: Connecting To Redis Database")
 
 except BaseException:
 
-    raise Exception("[CUTIEPII ERROR]: Your Yūki • Data Center • Mumbai • Redis Database Is Not Alive, Please Check Again.")
+    raise Exception("[Natsunagi Error]: Your Redis Database Is Not Alive, Please Check Again.")
 
 finally:
 
    REDIS.ping()
 
-   LOGGER.info("[CUTIEPII]: Connection To The Yūki • Data Center • Mumbai • Redis Database Established Successfully!")
+   LOGGER.info("[Natsunagi]: Connection To The Redis Database Established Successfully!")
     
 
 if not SPAMWATCH_API:
     sw = None
-    LOGGER.warning("[CUTIEPII ERROR]: SpamWatch API key Is Missing! Recheck Your Config.")
+    LOGGER.warning("[Natsunagi Error]: SpamWatch API key Is Missing! Recheck Your Config.")
 else:
     try:
         sw = spamwatch.Client(SPAMWATCH_API)
     except:
         sw = None
-        LOGGER.warning("[CUTIEPII ERROR]: Can't connect to SpamWatch!")
+        LOGGER.warning("[Natsunagi Error]: Can't connect to SpamWatch!")
 
 
 # Credits Logger
-print("[CUTIEPII] CUTIEPII Is Starting. | Yūki • Black Knights Union Project | Licensed Under GPLv3.")
-print("[CUTIEPII] Cutie Cutie! Successfully Connected With A  Yūki • Data Center • Mumbai")
-print("[CUTIEPII] Project Maintained By: github.com/Awesome-RJ (t.me/Awesome_Rj)")
+print("[Natsunagi] Natsunagi Nagisa Is Starting. | CyberNetwork Project | Licensed Under GPLv3.")
+print("[Natsunagi] Successfully Connected With A CyberNetwork")
+print("[Natsunagi] Project Maintained By: github.com/aryazakaria01 (t.me/Badboyanim)")
 
 
-print("[CUTIEPII]: Telegraph Installing")
+print("[Natsunagi]: Telegraph Installing")
 telegraph = Telegraph()
-print("[CUTIEPII]: Telegraph Account Creating")
-telegraph.create_account(short_name='Cutiepii')
+print("[Natsunagi]: Telegraph Account Creating")
+telegraph.create_account(short_name='Natsunagi')
 updater = tg.Updater(token=TOKEN, base_url=BOT_API_URL, workers=WORKERS, request_kwargs={"read_timeout": 10, "connect_timeout": 10}, use_context=True)           
-print("[CUTIEPII]: TELETHON CLIENT STARTING")
+print("[Natsunagi]: TELETHON CLIENT STARTING")
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 dispatcher = updater.dispatcher
-print("[CUTIEPII]: PYROGRAM CLIENT STARTING")
+print("[Natsunagi]: PYROGRAM CLIENT STARTING")
 session_name = TOKEN.split(":")[0]
 pgram = Client(
     session_name,
@@ -303,19 +293,19 @@ pgram = Client(
     api_hash=API_HASH,
     bot_token=TOKEN,
 )
-print("[CUTIEPII]: Connecting To Yūki • Data Center • Mumbai • MongoDB Database")
+print("[Natsunagi]: Connecting To MongoDB Database")
 mongodb = MongoClient(MONGO_DB_URL, 27017)[MONGO_DB]
 motor = motor_asyncio.AsyncIOMotorClient(MONGO_DB_URL)
 db = motor[MONGO_DB]
 engine = AIOEngine(motor, MONGO_DB)
-print("[INFO]: INITIALZING AIOHTTP SESSION")
+print("[Natsunagi]: INITIALZING AIOHTTP SESSION")
 aiohttpsession = ClientSession()
 # ARQ Client
-print("[INFO]: INITIALIZING ARQ CLIENT")
+print("[Natsunagi]: INITIALIZING ARQ CLIENT")
 arq = ARQ("https://thearq.tech", "YIECCC-NAJARO-OLLREW-SJSRIP-ARQ", aiohttpsession)
-print("[CUTIEPII]: Connecting To Yūki • Data Center • Mumbai • PostgreSQL Database")
+print("[Natsunagi]: Connecting To PostgreSQL Database")
 ubot = TelegramClient(StringSession(STRING_SESSION), APP_ID, APP_HASH)
-print("[CUTIEPII]: Connecting To Yūki • Cutiepii Userbot (t.me/Awesome_Cutiepii)")
+print("[Natsunagi]: Connecting To Natsunagi Nagisa Userbot (t.me/JinakuShibagen)")
 timeout = httpx.Timeout(40)
 http = httpx.AsyncClient(http2=True, timeout=timeout)
 
