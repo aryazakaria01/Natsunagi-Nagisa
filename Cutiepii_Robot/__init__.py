@@ -101,7 +101,9 @@ if ENV:
     CERT_PATH = os.environ.get("CERT_PATH")
     API_ID = os.environ.get("API_ID", None) # Bot Owner's API_ID (From:- https://my.telegram.org/auth)
     API_HASH = os.environ.get("API_HASH", None) # Bot Owner's API_HASH (From:- https://my.telegram.org/auth)
-    DB_URL = os.environ.get("DATABASE_URL") # Any SQL Database Link (RECOMMENDED:- PostgreSQL & https://www.elephantsql.com)
+    DB_URI = DB_URI.replace(
+        "postgres://", "postgresql://", 1
+    )  # rest of connection code using the connection string `uri`
     DONATION_LINK = os.environ.get("DONATION_LINK") # Donation Link (ANY)
     LOAD = os.environ.get("LOAD", "").split() # Don't Change
     NO_LOAD = os.environ.get("NO_LOAD", "translation").split() # Don't Change
