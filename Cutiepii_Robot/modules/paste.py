@@ -32,7 +32,6 @@ async def isPreviewUp(preview: str) -> bool:
     return False
 
 
-)
 @pgram.on_message(filters.command("paste") & ~filters.edited)
 @capture_err
 async def paste_func(_, message: Message):
