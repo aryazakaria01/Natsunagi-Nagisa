@@ -43,7 +43,7 @@ async def logo_gen(event):
         id_ = random.choice(pics)
         bg_ = await id_.download_media()
     if not font_:
-        fpath_ = glob.glob("./Cutiepii_Robot/resources/fonts/*")
+        fpath_ = glob.glob("./Cutiepii_Robot/resources/*")
         font_ = random.choice(fpath_)
     if len(name) <= 8:
         fnt_size = 120
@@ -85,5 +85,5 @@ async def logo_gen(event):
     if os.path.exists(bg_):
         os.remove(bg_) 
     if os.path.exists(font_):
-        if not font_.startswith("./Cutiepii_Robot/resources/fonts"):
+        if not font_.startswith("./Cutiepii_Robot/resources"):
             os.remove(font_)
