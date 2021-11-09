@@ -1,31 +1,3 @@
-"""
-MIT License
-
-Copyright (C) 2017-2019, Paul Larsen
-Copyright (C) 2021 Awesome-RJ
-Copyright (c) 2021, Yūki • Black Knights Union, <https://github.com/Awesome-RJ/CutiepiiRobot>
-
-This file is part of @Cutiepii_Robot (Telegram Bot)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-
-furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
 import html
 import os
 import json
@@ -55,7 +27,7 @@ from Cutiepii_Robot import (
     EVENT_LOGS,
     HELP_IMG,
     GROUP_START_IMG,
-    CUTIEPII_PHOTO,
+    NAGISA_PHOTO,
     dispatcher,
     StartTime,
     telethn,
@@ -96,23 +68,23 @@ from telethon import Button, events
 
 @telethn.on(events.NewMessage(pattern="/alive"))
 async def awake(event):
-  CUTIEPII = event.sender.first_name
-  CUTIEPII = "**♡ I,m Cutiepii Robot 愛** \n\n"
-  CUTIEPII += "**♡ I'm Working With Awesome Speed**\n\n"
-  CUTIEPII += "**♡ Cutiepii: LATEST Version**\n\n"
-  CUTIEPII += "**♡ My Creator:** [Rajkumar](t.me/Awesome_RJ)\n\n"
-  CUTIEPII += "**♡ python-Telegram-Bot: 13.7**\n\n"
-  CUTIEPII_BUTTON = [
+  NAGISA = event.sender.first_name
+  NAGISA = "**♡ I,m Natsunagi Nagisa** \n\n"
+  NAGISA += "**♡ I'm Working With Awesome Speed**\n\n"
+  NAGISA += "**♡ Natsunagi Is Using The Latest Version**\n\n"
+  NAGISA += "**♡ My Creator:** [Arya](t.me/Badboyanim)\n\n"
+  NAGISA += "**♡ Python-Telegram-Bot: 13.8.1**\n\n"
+  NAGISA_BUTTON = [
       [
           Button.url("🚑 Support", f"https://t.me/{SUPPORT_CHAT}"),
-          Button.url("📢 Updates", "https://t.me/Black_Knights_Union")
+          Button.url("📢 Updates", "https://t.me/CyberMusicProject")
       ]
   ]
   await telethn.send_file(
       event.chat_id,
-      CUTIEPII_PHOTO,
-      caption = CUTIEPII,
-      buttons = CUTIEPII_BUTTON,
+      NAGISA_PHOTO,
+      caption = NAGISA,
+      buttons = NAGISA_BUTTON,
   )
 
     
@@ -144,7 +116,7 @@ HELP_MSG = "Click the button below to get help manu in your pm."
 START_MSG = "I'm awake already!\n<b>Haven't slept since:</b> <code>{}</code>"
     
 PM_START_TEXT = """
-────「 [{}](https://telegra.ph/file/2909a312d9438798d237a.png) 」────
+────「 [{}](https://telegra.ph/file/cd1ff43d08d42cdd93ab5.jpg) 」────
 *Hola! {},*
 *I am an Anime themed advance group management bot with a lot of Sexy Features.*
 ➖➖➖➖➖➖➖➖➖➖➖➖➖
@@ -167,7 +139,7 @@ buttons = [
                     ],
                    [
                        InlineKeyboardButton(text="[► Help ◄]", callback_data="help_back"),
-                       InlineKeyboardButton(text="❔ Chit Chat", url="https://t.me/HindiKDrama"),
+                       InlineKeyboardButton(text="❔ Chit Chat", url="https://t.me/Grup_Wibu"),
                        InlineKeyboardButton(text="[► Inline ◄]", switch_inline_query_current_chat=""),
                      ],
                     [                  
@@ -176,7 +148,7 @@ buttons = [
                              url=f"https://t.me/{SUPPORT_CHAT}"),
                        InlineKeyboardButton(
                              text="📢 Updates",
-                             url="https://t.me/Black_Knights_Union")
+                             url="https://t.me/CyberMusicProject")
                      ], 
     ]
 
@@ -319,7 +291,7 @@ def start(update: Update, context: CallbackContext):
                         ),
                         InlineKeyboardButton(
                             text="📢 Updates",
-                            url="https://telegram.dog/Black_Knights_Union",
+                            url="https://telegram.dog/CyberMusicProject",
                         ),
                     ]
                 ]
@@ -729,6 +701,17 @@ def migrate_chats(update: Update, context: CallbackContext):
     raise DispatcherHandlerStop
     
 def main():
+
+    if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
+        try:
+            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "I Aᴍ Aʟɪᴠᴇ 🔥")
+        except Unauthorized:
+            LOGGER.warning(
+                "Bot isnt able to send message to support_chat, go and check!"
+            )
+        except BadRequest as e:
+            LOGGER.warning(e.message)
+            
     test_handler = DisableAbleCommandHandler("test", test, run_async=True)
     start_handler = DisableAbleCommandHandler("start", start, run_async=True)
 
