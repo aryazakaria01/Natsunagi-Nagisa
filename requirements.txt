@@ -28,7 +28,7 @@ telegraph==2.0.1
 tgcrypto==1.2.2
 youtube_search==2.1.0
 pytube==11.0.1
-pymongo==3.12.1
+pymongo
 motor>=2.1.0,<2.6.0
 dnspython==2.1.0
 redis==3.5.3
