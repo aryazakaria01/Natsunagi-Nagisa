@@ -101,6 +101,7 @@ if ENV:
     CERT_PATH = os.environ.get("CERT_PATH")
     API_ID = os.environ.get("API_ID", None) # Bot Owner's API_ID (From:- https://my.telegram.org/auth)
     API_HASH = os.environ.get("API_HASH", None) # Bot Owner's API_HASH (From:- https://my.telegram.org/auth)
+    DB_URI = os.environ.get("DATABASE_URL")
     DB_URI = DB_URI.replace(
         "postgres://", "postgresql://", 1
     )  # rest of connection code using the connection string `uri`
@@ -193,7 +194,7 @@ else:
     CERT_PATH = Config.CERT_PATH
     API_ID = Config.API_ID
     API_HASH = Config.API_HASH
-    DB_URI = Config.SQLALCHEMY_DATABASE_URI
+    DB_URL = Config.SQLALCHEMY_DATABASE_URI
     DONATION_LINK = Config.DONATION_LINK
     STRICT_GBAN = Config.STRICT_GBAN
     WORKERS = Config.WORKERS
