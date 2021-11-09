@@ -8,7 +8,7 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton
 from pyrogram.types import Message
 
-from Cutiepii_Robot import pgram, aiohttpsession
+from Cutiepii_Robot import pgram, aiohttpsession, eor
 from Cutiepii_Robot.utils.errors import capture_err
 from Cutiepii_Robot.utils.pastebin import paste
 from Cutiepii_Robot.utils.keyboard import ikb
