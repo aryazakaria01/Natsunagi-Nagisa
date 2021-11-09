@@ -1,9 +1,13 @@
-
 import codecs
 import pickle
 from asyncio import gather, get_running_loop
+from io import BytesIO
 from math import atan2, cos, radians, sin, sqrt
 from random import randint
+from datetime import datetime, timedelta
+from os import execvp
+from re import sub as re_sub
+from sys import executable
 
 import aiofiles
 import aiohttp
@@ -11,9 +15,13 @@ import speedtest
 from carbonnow import Carbon
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 from wget import download
+from pyrogram.types import Message
 
 from Cutiepii_Robot.utils import aiodownloader
 from Cutiepii_Robot.utils.fetch import fetch
+from Cutiepii_Robot import aiohttpsession as aiosession
+from Cutiepii_Robot.utils.http import get, post
+from Cutiepii_Robot.utils.dbfunctions import start_restart_stage
 
 """
 Just import 'downloader' anywhere and do downloader.download() to
@@ -22,6 +30,11 @@ download file from a given url
 downloader = aiodownloader.Handler()
 
 # Another downloader, but with wget
+
+async def restart(m: Message):
+    if m:
+        await start_restart_stage(m.chat.id, m.message_id)
+    execvp(executable, [executable, "-m", "Cutiepii_Robot"])
 
 
 async def download_url(url: str):
@@ -138,3 +151,164 @@ async def calc_distance_from_ip(ip1: str, ip2: str) -> float:
     a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
     return Radius_Earth * c
+
+
+def get_urls_from_text(text: str) -> bool:
+    regex = r"""(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]
+                [.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(
+                \([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\
+                ()<>]+\)))*\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’]))""".strip()
+    return [x[0] for x in findall(regex, str(text))]
+
+
+async def time_converter(message: Message, time_value: str) -> int:
+    unit = ["m", "h", "d"]  # m == minutes | h == hours | d == days
+    check_unit = "".join(list(filter(time_value[-1].lower().endswith, unit)))
+    currunt_time = datetime.now()
+    time_digit = time_value[:-1]
+    if not time_digit.isdigit():
+        return await message.reply_text("Incorrect time specified")
+    if check_unit == "m":
+        temp_time = currunt_time + timedelta(minutes=int(time_digit))
+    elif check_unit == "h":
+        temp_time = currunt_time + timedelta(hours=int(time_digit))
+    elif check_unit == "d":
+        temp_time = currunt_time + timedelta(days=int(time_digit))
+    else:
+        return await message.reply_text("Incorrect time specified.")
+    return int(datetime.timestamp(temp_time))
+
+async def extract_userid(message, text: str):
+    """
+    NOT TO BE USED OUTSIDE THIS FILE
+    """
+
+    def is_int(text: str):
+        try:
+            int(text)
+        except ValueError:
+            return False
+        return True
+
+    text = text.strip()
+
+    if is_int(text):
+        return int(text)
+
+    entities = message.entities
+    app = message._client
+    if len(entities) < 2:
+        return (await app.get_users(text)).id
+    entity = entities[1]
+    if entity.type == "mention":
+        return (await app.get_users(text)).id
+    if entity.type == "text_mention":
+        return entity.user.id
+    return None
+
+async def extract_user_and_reason(message):
+    args = message.text.strip().split()
+    text = message.text
+    user = None
+    reason = None
+    if message.reply_to_message:
+        reply = message.reply_to_message
+        # if reply to a message and no reason is given
+        if not reply.from_user:
+            return None, None
+        if len(args) < 2:
+            reason = None
+        else:
+            reason = text.split(None, 1)[1]
+        return reply.from_user.id, reason
+
+    # if not reply to a message and no reason is given
+    if len(args) == 2:
+        user = text.split(None, 1)[1]
+        return await extract_userid(message, user), None
+
+    # if reason is given
+    if len(args) > 2:
+        user, reason = text.split(None, 2)[1:]
+        return await extract_userid(message, user), reason
+
+    return user, reason
+
+async def extract_user(message):
+    return (await extract_user_and_reason(message))[0]
+
+
+def get_file_id_from_message(
+    message,
+    max_file_size=3145728,
+    mime_types=["image/png", "image/jpeg"],
+):
+    file_id = None
+    if message.document:
+        if int(message.document.file_size) > max_file_size:
+            return
+
+        mime_type = message.document.mime_type
+
+        if mime_types and mime_type not in mime_types:
+            return
+        file_id = message.document.file_id
+
+    if message.sticker:
+        if message.sticker.is_animated:
+            if not message.sticker.thumbs:
+                return
+            file_id = message.sticker.thumbs[0].file_id
+        else:
+            file_id = message.sticker.file_id
+
+    if message.photo:
+        file_id = message.photo.file_id
+
+    if message.animation:
+        if not message.animation.thumbs:
+            return
+        file_id = message.animation.thumbs[0].file_id
+
+    if message.video:
+        if not message.video.thumbs:
+            return
+        file_id = message.video.thumbs[0].file_id
+    return file_id
+
+
+def extract_text_and_keyb(ikb, text: str, row_width: int = 2):
+    keyboard = {}
+    try:
+        text = text.strip()
+        if text.startswith("`"):
+            text = text[1:]
+        if text.endswith("`"):
+            text = text[:-1]
+
+        text, keyb = text.split("~")
+
+        keyb = findall(r"\[.+\,.+\]", keyb)
+        for btn_str in keyb:
+            btn_str = re_sub(r"[\[\]]", "", btn_str)
+            btn_str = btn_str.split(",")
+            btn_txt, btn_url = btn_str[0], btn_str[1].strip()
+
+            if not get_urls_from_text(btn_url):
+                continue
+            keyboard[btn_txt] = btn_url
+        keyboard = ikb(keyboard, row_width)
+    except Exception:
+        return
+    return text, keyboard
+
+
+async def get_user_id_and_usernames(client) -> dict:
+    with client.storage.lock, client.storage.conn:
+        users = client.storage.conn.execute(
+            'SELECT * FROM peers WHERE type in ("user", "bot") AND username NOT null'
+        ).fetchall()
+    users_ = {}
+    for user in users:
+        users_[user[0]] = user[3]
+    return users_
