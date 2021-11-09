@@ -11,6 +11,7 @@ from pyrogram.types import InlineKeyboardButton
 from Cutiepii_Robot import pgram, aiohttpsession
 from Cutiepii_Robot.utils.errors import capture_err
 from Cutiepii_Robot.utils.pastebin import paste
+from Cutiepii_Robot.modules.helper_funcs.alternate import typing_action, send_action
 
 pattern = re.compile(
     r"^text/|json$|yaml$|xml$|toml$|x-sh$|x-shellscript$"
