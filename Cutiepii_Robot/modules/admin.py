@@ -24,7 +24,6 @@ from Cutiepii_Robot.modules.helper_funcs.chat_status import (
     user_can_pin,
     user_can_promote,
     ADMIN_CACHE,
-    can_manage_voice_chats,
 )
 
 from Cutiepii_Robot.modules.helper_funcs.extraction import (
@@ -230,86 +229,87 @@ def setchat_title(update: Update, context: CallbackContext):
         return
         
         
-@connection_status
 @bot_admin
 @can_promote
 @user_admin
 @loggable
-def promote(update: Update, context: CallbackContext) -> str:
-    bot = context.bot
-    args = context.args
-
+@typing_action
+def promote(update, context):
+    chat_id = update.effective_chat.id
     message = update.effective_message
     chat = update.effective_chat
     user = update.effective_user
+    bot, args = context.bot, context.args
 
-    promoter = chat.get_member(user.id)
-
-    if (
-        not (promoter.can_promote_members or promoter.status == "creator")
-        and user.id not in DRAGONS
-    ):
-        message.reply_text("You don't have the necessary rights to do that!")
-        return
+    if user_can_promote(chat, user, bot.id) is False:
+        message.reply_text("You don't have enough rights to promote someone!")
+        return ""
 
     user_id = extract_user(message, args)
-
     if not user_id:
-        message.reply_text(
-            "You don't seem to be referring to a user or the ID specified is incorrect..",
-        )
-        return
+        message.reply_text("Mention one.... 🤷🏻‍♂.")
+        return ""
 
-    try:
-        user_member = chat.get_member(user_id)
-    except:
-        return
-
-    if user_member.status in ('administrator', 'creator'):
-        message.reply_text("How am I meant to promote someone that's already an admin?")
-        return
+    user_member = chat.get_member(user_id)
+    if user_member.status in ["administrator", "creator"]:
+        message.reply_text("This person is already an admin...!")
+        return ""
 
     if user_id == bot.id:
-        message.reply_text("I can't promote myself! Get an admin to do it for me.")
-        return
+        message.reply_text("I hope, if i could promote myself!")
+        return ""
 
     # set same perms as bot - bot can't assign higher perms than itself!
     bot_member = chat.get_member(bot.id)
 
-    try:
-        bot.promoteChatMember(
-            chat.id,
-            user_id,
-            can_change_info=bot_member.can_change_info,
-            can_post_messages=bot_member.can_post_messages,
-            can_edit_messages=bot_member.can_edit_messages,
-            can_delete_messages=bot_member.can_delete_messages,
-            can_invite_users=bot_member.can_invite_users,
-            # can_promote_members=bot_member.can_promote_members,
-            can_restrict_members=bot_member.can_restrict_members,
-            can_pin_messages=bot_member.can_pin_messages,
-        )
-    except BadRequest as err:
-        if err.message == "User_not_mutual_contact":
-            message.reply_text("I can't promote someone who isn't in the group.")
-        else:
-            message.reply_text("An error occured while promoting.")
-        return
+    bot.promoteChatMember(
+        chat_id,
+        user_id,
+        can_change_info=bot_member.can_change_info,
+        can_post_messages=bot_member.can_post_messages,
+        can_edit_messages=bot_member.can_edit_messages,
+        can_delete_messages=bot_member.can_delete_messages,
+        can_invite_users=bot_member.can_invite_users,
+        can_restrict_members=bot_member.can_restrict_members,
+        can_pin_messages=bot_member.can_pin_messages,
+    )
 
-    bot.sendMessage(
-        chat.id,
-        f"Sucessfully promoted <b>{user_member.user.first_name or user_id}</b>!",
+    title = "admin"
+    if " " in message.text:
+        title = message.text.split(" ", 1)[1]
+        if len(title) > 16:
+            message.reply_text(
+                "The title length is longer than 16 characters.\nTruncating it to 16 characters."
+            )
+
+        try:
+            bot.setChatAdministratorCustomTitle(chat.id, user_id, title)
+
+        except BadRequest:
+            message.reply_text(
+                "I can't set custom title for admins that I didn't promote!"
+            )
+
+    message.reply_text(
+        f"Promoted <b>{user_member.user.first_name or user_id}</b>"
+        + f" with title <code>{title[:16]}</code>!",
         parse_mode=ParseMode.HTML,
     )
-
-    log_message = (
-        f"<b>{html.escape(chat.title)}:</b>\n"
-        f"#PROMOTED\n"
-        f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>User:</b> {mention_html(user_member.user.id, user_member.user.first_name)}"
+    # refresh admin cache
+    try:
+        ADMIN_CACHE.pop(update.effective_chat.id)
+    except KeyError:
+        pass
+    return (
+        "<b>{}:</b>"
+        "\n#PROMOTED"
+        "\n<b>Admin:</b> {}"
+        "\n<b>User:</b> {}".format(
+            html.escape(chat.title),
+            mention_html(user.id, user.first_name),
+            mention_html(user_member.user.id, user_member.user.first_name),
+        )
     )
-
-    return log_message
 
 @connection_status
 @bot_admin
@@ -463,87 +463,83 @@ def lowpromote(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
-@connection_status
 @bot_admin
 @can_promote
 @user_admin
 @loggable
-def fullpromote(update: Update, context: CallbackContext) -> str:
-    bot = context.bot
-    args = context.args
-
+@typing_action
+def fullpromote(update, context):
     message = update.effective_message
     chat = update.effective_chat
     user = update.effective_user
+    bot, args = context.bot, context.args
 
-    promoter = chat.get_member(user.id)
-
-    if (
-        not (promoter.can_promote_members or promoter.status == "creator")
-        and user.id not in DRAGONS
-    ):
-        message.reply_text("You don't have the necessary rights to do that!")
-        return
+    if user_can_promote(chat, user, bot.id) is False:
+        message.reply_text("You don't have enough rights to promote someone!")
+        return ""
 
     user_id = extract_user(message, args)
-
     if not user_id:
-        message.reply_text(
-            "You don't seem to be referring to a user or the ID specified is incorrect..",
-        )
-        return
+        message.reply_text("mention one.... 🤷🏻‍♂.")
+        return ""
 
-    try:
-        user_member = chat.get_member(user_id)
-    except:
-        return
-
-    if user_member.status in ('administrator', 'creator'):
-        message.reply_text("How am I meant to promote someone that's already an admin?")
-        return
+    user_member = chat.get_member(user_id)
+    if user_member.status in ["administrator", "creator"]:
+        message.reply_text("This person is already an admin...!")
+        return ""
 
     if user_id == bot.id:
-        message.reply_text("I can't promote myself! Get an admin to do it for me.")
-        return
+        message.reply_text("I hope, if i could promote myself!")
+        return ""
 
     # set same perms as bot - bot can't assign higher perms than itself!
     bot_member = chat.get_member(bot.id)
 
-    try:
-        bot.promoteChatMember(
-            chat.id,
-            user_id,
-            can_change_info=bot_member.can_change_info,
-            can_post_messages=bot_member.can_post_messages,
-            can_edit_messages=bot_member.can_edit_messages,
-            can_delete_messages=bot_member.can_delete_messages,
-            can_invite_users=bot_member.can_invite_users,
-            can_promote_members=bot_member.can_promote_members,
-            can_restrict_members=bot_member.can_restrict_members,
-            can_pin_messages=bot_member.can_pin_messages,
-            can_manage_voice_chats=bot_member.can_manage_voice_chats,
-        )
-    except BadRequest as err:
-        if err.message == "User_not_mutual_contact":
-            message.reply_text("I can't promote someone who isn't in the group.")
-        else:
-            message.reply_text("An error occured while promoting.")
-        return
+    bot.promoteChatMember(
+        chat.id,
+        user_id,
+        can_change_info=bot_member.can_change_info,
+        can_post_messages=bot_member.can_post_messages,
+        can_edit_messages=bot_member.can_edit_messages,
+        can_delete_messages=bot_member.can_delete_messages,
+        can_invite_users=bot_member.can_invite_users,
+        can_promote_members=bot_member.can_promote_members,
+        can_restrict_members=bot_member.can_restrict_members,
+        can_pin_messages=bot_member.can_pin_messages,
+        can_manage_voice_chats=bot_member.can_manage_voice_chats,
+    )
+
+    title = "admin"
+    if " " in message.text:
+        title = message.text.split(" ", 1)[1]
+        if len(title) > 16:
+            message.reply_text(
+                "The title length is longer than 16 characters.\nTruncating it to 16 characters."
+            )
+
+        try:
+            bot.setChatAdministratorCustomTitle(chat.id, user_id, title)
+
+        except BadRequest:
+            message.reply_text(
+                "I can't set custom title for admins that I didn't promote!"
+            )
 
     message.reply_text(
         f"Fully Promoted <b>{user_member.user.first_name or user_id}</b>"
         + f" with title <code>{title[:16]}</code>!",
         parse_mode=ParseMode.HTML,
     )
-
-    log_message = (
-        f"<b>{html.escape(chat.title)}:</b>\n"
-        f"#FULLPROMOTED\n"
-        f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>User:</b> {mention_html(user_member.user.id, user_member.user.first_name)}"
+    return (
+        "<b>{}:</b>"
+        "\n#FULLPROMOTED"
+        "\n<b>Admin:</b> {}"
+        "\n<b>User:</b> {}".format(
+            html.escape(chat.title),
+            mention_html(user.id, user.first_name),
+            mention_html(user_member.user.id, user_member.user.first_name),
+        )
     )
-
-    return log_message
 
 @bot.on(events.NewMessage(pattern="/middemote(?: |$)(.*)"))
 async def middemote(dmod):
@@ -629,47 +625,45 @@ async def lowdemote(dmod):
         return
 
     
-@connection_status
 @bot_admin
 @can_promote
 @user_admin
 @loggable
-def demote(update: Update, context: CallbackContext) -> str:
-    bot = context.bot
-    args = context.args
-
+@typing_action
+def demote(update, context):
     chat = update.effective_chat
     message = update.effective_message
     user = update.effective_user
+    bot, args = context.bot, context.args
+
+    if user_can_promote(chat, user, bot.id) is False:
+        message.reply_text("You don't have enough rights to demote someone!")
+        return ""
 
     user_id = extract_user(message, args)
     if not user_id:
-        message.reply_text(
-            "You don't seem to be referring to a user or the ID specified is incorrect..",
-        )
-        return
+        message.reply_text("mention one.... 🤷🏻‍♂.")
+        return ""
 
-    try:
-        user_member = chat.get_member(user_id)
-    except:
-        return
-
+    user_member = chat.get_member(user_id)
     if user_member.status == "creator":
-        message.reply_text("This person CREATED the chat, how would I demote them?")
-        return
+        message.reply_text("I'm not gonna demote Creator this group.... 🙄")
+        return ""
 
-    if not user_member.status == "administrator":
-        message.reply_text("Can't demote what wasn't promoted!")
-        return
+    if user_member.status != "administrator":
+        message.reply_text(
+            "How I'm supposed to demote someone who is not even an admin!"
+        )
+        return ""
 
     if user_id == bot.id:
-        message.reply_text("I can't demote myself! Get an admin to do it for me.")
-        return
+        message.reply_text("Yeahhh... Not gonna demote myself!")
+        return ""
 
     try:
         bot.promoteChatMember(
-            chat.id,
-            user_id,
+            int(chat.id),
+            int(user_id),
             can_change_info=False,
             can_post_messages=False,
             can_edit_messages=False,
@@ -677,28 +671,29 @@ def demote(update: Update, context: CallbackContext) -> str:
             can_invite_users=False,
             can_restrict_members=False,
             can_pin_messages=False,
-            can_promote_members=False,
             can_manage_voice_chats=False,
         )
         message.reply_text(
             f"Successfully demoted <b>{user_member.user.first_name or user_id}</b>!",
             parse_mode=ParseMode.HTML,
         )
-
-        log_message = (
-            f"<b>{html.escape(chat.title)}:</b>\n"
-            f"#DEMOTED\n"
-            f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-            f"<b>User:</b> {mention_html(user_member.user.id, user_member.user.first_name)}"
+        return (
+            "<b>{}:</b>"
+            "\n#DEMOTED"
+            "\n<b>Admin:</b> {}"
+            "\n<b>User:</b> {}".format(
+                html.escape(chat.title),
+                mention_html(user.id, user.first_name),
+                mention_html(user_member.user.id, user_member.user.first_name),
+            )
         )
 
-        return log_message
     except BadRequest:
         message.reply_text(
-            "Could not demote. I might not be admin, or the admin status was appointed by another"
-            " user, so I can't act upon them!",
+            "Failed to demote. I might not be admin, or the admin status was appointed by another "
+            "user, so I can't act upon them!"
         )
-        return
+        return ""
 
 
 @user_admin
@@ -781,6 +776,7 @@ def set_title(update: Update, context: CallbackContext):
 @can_pin
 @user_admin
 @loggable
+@typing_action
 def pin(update, context):
     bot, args = context.bot, context.args
     user = update.effective_user
@@ -830,6 +826,7 @@ def pin(update, context):
 @can_pin
 @user_admin
 @loggable
+@typing_action
 def unpin(update, context):
     bot = context.bot
     chat = update.effective_chat
@@ -884,27 +881,37 @@ def pinned(update: Update, context: CallbackContext) -> str:
 
 @bot_admin
 @user_admin
-@connection_status
-def invite(update: Update, context: CallbackContext):
+@typing_action
+def invite(update, context):
     bot = context.bot
+    user = update.effective_user
+    msg = update.effective_message
     chat = update.effective_chat
 
+    conn = connected(bot, update, chat, user.id, need_admin=True)
+    if conn:
+        chat = dispatcher.bot.getChat(conn)
+    else:
+        if msg.chat.type == "private":
+            msg.reply_text("This command is meant to use in chat not in PM")
+            return ""
+        chat = update.effective_chat
+
     if chat.username:
-        update.effective_message.reply_text(f"https://t.me/{chat.username}")
+        msg.reply_text(chat.username)
     elif chat.type in [chat.SUPERGROUP, chat.CHANNEL]:
         bot_member = chat.get_member(bot.id)
         if bot_member.can_invite_users:
-            invitelink = bot.exportChatInviteLink(chat.id)
-            update.effective_message.reply_text(invitelink)
+            invitelink = context.bot.exportChatInviteLink(chat.id)
+            msg.reply_text(invitelink)
         else:
-            update.effective_message.reply_text(
-                "I don't have access to the invite link, try changing my permissions!",
+            msg.reply_text(
+                "I don't have access to the invite link, try changing my permissions!"
             )
     else:
-        update.effective_message.reply_text(
-            "I can only give you invite links for supergroups and channels, sorry!",
+        msg.reply_text(
+            "I can only give you invite links for supergroups and channels, sorry!"
         )
-
 
 @connection_status
 def adminlist(update, context):
@@ -1052,6 +1059,7 @@ __help__ = """
   ➢ `/logchannel`*:* get log channel info
   ➢ `/setlog`*:* set the log channel.
   ➢ `/unsetlog`*:* unset the log channel.
+
 *Setting the log channel is done by*:
  ➩ adding the bot to the desired channel (as an admin!)
  ➩ sending `/setlog` in the channel
