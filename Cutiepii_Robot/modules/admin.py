@@ -31,7 +31,7 @@ from Cutiepii_Robot.modules.helper_funcs.extraction import (
     extract_user_and_text,
 )
 from Cutiepii_Robot.modules.log_channel import loggable
-from Cutiepii_Robot.modules.helper_funcs.alternate import send_message
+from Cutiepii_Robot.modules.helper_funcs.alternate import send_message, typing_action
 
 async def is_register_admin(chat, user):
     if isinstance(chat, (types.InputPeerChannel, types.InputChannel)):
