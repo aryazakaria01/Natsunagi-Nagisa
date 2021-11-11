@@ -147,6 +147,7 @@ if ENV:
     GROUP_START_IMG = os.environ.get("GROUP_START_IMG", True)
     NAGISA_PHOTO = os.environ.get("NAGISA_PHOTO", True)
     OPENWEATHERMAP_ID = os.environ.get("OPENWEATHERMAP_ID", "")
+    ARQ_API_KEY = "AKOMNF-MEOOFM-EKMPFC-HIKRXK-ARQ"
 
     try:
         BL_CHATS = {int(x) for x in os.environ.get("BL_CHATS", "").split()}
@@ -237,6 +238,7 @@ else:
     NAGISA_PHOTO = Config.CUTIEPII_PHOTO
     LOG_GROUP_ID = Config.LOG_GROUP_ID
     OPENWEATHERMAP_ID = Config.OPENWEATHERMAP_ID
+    ARQ_API_KEY = Config.ARQ_API_KEY
 
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
