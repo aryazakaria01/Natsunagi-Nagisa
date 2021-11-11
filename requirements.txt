@@ -96,3 +96,8 @@ httpx
 hurry.filesize
 ujson
 gpytranslate
+fuzzysearch
+pybase64
+pySmartDL
+validators
+flag
