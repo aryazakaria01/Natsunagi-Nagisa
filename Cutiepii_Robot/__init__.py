@@ -142,11 +142,12 @@ if ENV:
     GOOGLE_CHROME_BIN = "/usr/bin/google-chrome"
     CHROME_DRIVER = "/usr/bin/chromedriver"
     BOT_API_URL = os.environ.get('BOT_API_URL', "https://api.telegram.org/bot")
-
+    LOG_GROUP_ID = os.environ.get("LOG_GROUP_ID", None)
     HELP_IMG = os.environ.get("HELP_IMG", True)
     GROUP_START_IMG = os.environ.get("GROUP_START_IMG", True)
     NAGISA_PHOTO = os.environ.get("NAGISA_PHOTO", True)
-    
+    OPENWEATHERMAP_ID = os.environ.get("OPENWEATHERMAP_ID", "")
+
     try:
         BL_CHATS = {int(x) for x in os.environ.get("BL_CHATS", "").split()}
     except ValueError:
@@ -233,7 +234,9 @@ else:
     MONGO_DB = Config.MONGO_DB
     HELP_IMG = Config.HELP_IMG
     START_IMG = Config.START_IMG
-    CUTIEPII_PHOTO = Config.CUTIEPII_PHOTO
+    NAGISA_PHOTO = Config.CUTIEPII_PHOTO
+    LOG_GROUP_ID = Config.LOG_GROUP_ID
+    OPENWEATHERMAP_ID = Config.OPENWEATHERMAP_ID
 
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
