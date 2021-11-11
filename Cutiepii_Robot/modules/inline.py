@@ -1,7 +1,7 @@
 import traceback
 
 from Cutiepii_Robot import pbot as app
-from Cutiepii_Robot.utils.inlinefuncs import *
+from Cutiepii_Robot.utils.inlinehelper import *
 
 __mod_name__ = "Inline"
 __help__ = """
