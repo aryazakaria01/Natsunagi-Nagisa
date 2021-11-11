@@ -80,28 +80,29 @@ def error_callback(update: Update, context: CallbackContext):
             tb,
         )
         key = requests.post(
-            "https://nekobin.com/api/documents", json={"content": pretty_message}
+            "https://www.toptal.com/developers/hastebin/documents",
+            data=pretty_message.encode("UTF-8"),
         ).json()
         e = html.escape(f"{context.error}")
-        if not key.get("result", {}).get("key"):
+        if not key.get("key"):
             with open("error.txt", "w+") as f:
                 f.write(pretty_message)
             context.bot.send_document(
                 ERROR_LOGS,
                 open("error.txt", "rb"),
-                caption=f"#{context.error.identifier}\n<b>Your Natsunagi Nagisa Have An Error For You:"
+                caption=f"#{context.error.identifier}\n<b>Your Cute Natsunagi Nagisa Have An Error For You:"
                 f"</b>\n<code>{e}</code>",
                 parse_mode="html",
             )
             return
-        key = key.get("result").get("key")
-        url = f"https://nekobin.com/{key}.py"
+        key = key.get("key")
+        url = f"https://www.toptal.com/developers/hastebin/{key}"
         context.bot.send_message(
             ERROR_LOGS,
-            text=f"#{context.error.identifier}\n<b>Your Natsunagi Nagisa Have An Error For You:"
+            text=f"#{context.error.identifier}\n<b>Your Cute Natsunagi Nagisa Have An Error For You:"
             f"</b>\n<code>{e}</code>",
             reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton("Natsunagi Error Logs", url=url)]],
+                [[InlineKeyboardButton("Sexy Natsunagi Error Logs", url=url)]],
             ),
             parse_mode="html",
         )
