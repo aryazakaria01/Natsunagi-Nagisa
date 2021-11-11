@@ -1,31 +1,3 @@
-"""
-MIT License
-
-Copyright (C) 2017-2019, Paul Larsen
-Copyright (C) 2021 Awesome-RJ
-Copyright (c) 2021, Yūki • Black Knights Union, <https://github.com/Awesome-RJ/CutiepiiRobot>
-
-This file is part of @Cutiepii_Robot (Telegram Bot)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-
-furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
 from pyrogram import filters
 from pyrogram.types import (
     CallbackQuery,
@@ -37,7 +9,7 @@ from pyrogram.types import (
 from Cutiepii_Robot import BOT_NAME
 
 # By @TroJanzHEX
-from Cutiepii_Robot.utils.resources.ImageEditor.edit_1 import (  # pylint:disable=import-error
+from Cutiepii_Robot.utils.ImageEditor.edit_1 import (  # pylint:disable=import-error
     black_white,
     box_blur,
     bright,
@@ -45,7 +17,7 @@ from Cutiepii_Robot.utils.resources.ImageEditor.edit_1 import (  # pylint:disabl
     mix,
     normal_blur,
 )
-from Cutiepii_Robot.utils.resources.ImageEditor.edit_2 import (  # pylint:disable=import-error
+from Cutiepii_Robot.utils.ImageEditor.edit_2 import (  # pylint:disable=import-error
     cartoon,
     circle_with_bg,
     circle_without_bg,
@@ -55,13 +27,13 @@ from Cutiepii_Robot.utils.resources.ImageEditor.edit_2 import (  # pylint:disabl
     sepia_mode,
     sticker,
 )
-from Cutiepii_Robot.utils.resources.ImageEditor.edit_3 import (  # pylint:disable=import-error
+from Cutiepii_Robot.utils.ImageEditor.edit_3 import (  # pylint:disable=import-error
     black_border,
     blue_border,
     green_border,
     red_border,
 )
-from Cutiepii_Robot.utils.resources.ImageEditor.edit_4 import (  # pylint:disable=import-error
+from Cutiepii_Robot.utils.ImageEditor.edit_4 import (  # pylint:disable=import-error
     inverted,
     removebg_plain,
     removebg_sticker,
@@ -71,7 +43,7 @@ from Cutiepii_Robot.utils.resources.ImageEditor.edit_4 import (  # pylint:disabl
     rotate_270,
     round_sticker,
 )
-from Cutiepii_Robot.utils.resources.ImageEditor.edit_5 import (  # pylint:disable=import-error
+from Cutiepii_Robot.utils.ImageEditor.edit_5 import (  # pylint:disable=import-error
     normalglitch_1,
     normalglitch_2,
     normalglitch_3,
