@@ -70,7 +70,7 @@ async def logo_gen(event):
     y = (image_height - h) / 2
     draw.text((x, y), name, font=font, fill="white",
               stroke_width=strke, stroke_fill="black")
-    flnme = f"lina.png"
+    flnme = f"natsunagi.png"
     img.save(flnme, "png")
     await xx.edit("`Done!`")
     if os.path.exists(flnme):
