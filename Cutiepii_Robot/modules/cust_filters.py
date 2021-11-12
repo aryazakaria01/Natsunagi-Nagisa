@@ -599,6 +599,7 @@ doin?
  %%%
  Reply 3`
   ➢ `/stop <filter keyword>`*:* Stop that filter.
+
 *Chat creator only:*
   ➢ `/removeallfilters`*:* Remove all chat filters at once.
 
