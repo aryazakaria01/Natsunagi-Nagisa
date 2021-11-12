@@ -1,31 +1,3 @@
-"""
-MIT License
-
-Copyright (C) 2017-2019, Paul Larsen
-Copyright (C) 2021 Awesome-RJ
-Copyright (c) 2021, Yūki • Black Knights Union, <https://github.com/Awesome-RJ/CutiepiiRobot>
-
-This file is part of @Cutiepii_Robot (Telegram Bot)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-
-furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
 import re
 import random
 from html import escape
@@ -612,6 +584,7 @@ def __chat_settings__(chat_id, user_id):
 
 __help__ = """
   ➢ `/filters`*:* List all active filters saved in the chat.
+
 *Admin only:*
   ➢ `/filter <keyword> <reply message>`*:* Add a filter to this chat. The bot will now reply that message whenever 'keyword'\
 is mentioned. If you reply to a sticker with a keyword, the bot will reply with that sticker. NOTE: all filter \
@@ -628,14 +601,15 @@ doin?
   ➢ `/stop <filter keyword>`*:* Stop that filter.
 *Chat creator only:*
   ➢ `/removeallfilters`*:* Remove all chat filters at once.
+
 *Note*: Filters also support markdown formatters like: {first}, {last} etc.. and buttons.
 Check `/markdownhelp` to know more!
 """
 
 __mod_name__ = "Filters"
 
-FILTER_HANDLER = DisableAbleCommandHandler("filter", filters)
-STOP_HANDLER = DisableAbleCommandHandler("stop", stop_filter)
+FILTER_HANDLER = DisableAbleCommandHandler("filter", filters, run_async=True)
+STOP_HANDLER = DisableAbleCommandHandler("stop", stop_filter, run_async=True)
 RMALLFILTER_HANDLER = DisableAbleCommandHandler(
     "removeallfilters", rmall_filters, filters=Filters.chat_type.groups, run_async=True)
 RMALLFILTER_CALLBACK = CallbackQueryHandler(
