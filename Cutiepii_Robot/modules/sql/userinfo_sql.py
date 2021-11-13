@@ -32,7 +32,7 @@ class Rank(BASE):
     user_id = Column(Integer, primary_key=True)
     rank = Column(UnicodeText)
 
-    def __init_€(self, user_id, rank):
+    def __init__(self, user_id, rank):
         self.user_id = user_id
         self.rank = rank
 
