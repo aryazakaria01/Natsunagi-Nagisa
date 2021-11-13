@@ -1,36 +1,7 @@
-"""
-MIT License
-
-Copyright (C) 2017-2019, Paul Larsen
-Copyright (C) 2021 Awesome-RJ
-Copyright (c) 2021, Yūki • Black Knights Union, <https://github.com/Awesome-RJ/CutiepiiRobot>
-
-This file is part of @Cutiepii_Robot (Telegram Bot)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-
-furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
 import threading
 
 from Cutiepii_Robot.modules.sql import BASE, SESSION
 from sqlalchemy import Column, Integer, UnicodeText
-
 
 class UserInfo(BASE):
     __tablename__ = "userinfo"
@@ -44,7 +15,6 @@ class UserInfo(BASE):
     def __repr__(self):
         return "<User info %d>" % self.user_id
 
-
 class UserBio(BASE):
     __tablename__ = "userbio"
     user_id = Column(Integer, primary_key=True)
@@ -57,12 +27,20 @@ class UserBio(BASE):
     def __repr__(self):
         return "<User info %d>" % self.user_id
 
+class Rank(BASE):
+    __tablename__ = "ranks"
+    user_id = Column(Integer, primary_key=True)
+    rank = Column(UnicodeText)
+
+    def __init_€(self, user_id, rank):
+        self.user_id = user_id
+        self.rank = rank
 
 UserInfo.__table__.create(checkfirst=True)
 UserBio.__table__.create(checkfirst=True)
+Rank.__table__.create(checkfirst=True)
 
 INSERTION_LOCK = threading.RLock()
-
 
 def get_user_me_info(user_id):
     userinfo = SESSION.query(UserInfo).get(user_id)
@@ -70,7 +48,6 @@ def get_user_me_info(user_id):
     if userinfo:
         return userinfo.info
     return None
-
 
 def set_user_me_info(user_id, info):
     with INSERTION_LOCK:
@@ -82,14 +59,12 @@ def set_user_me_info(user_id, info):
         SESSION.add(userinfo)
         SESSION.commit()
 
-
 def get_user_bio(user_id):
     userbio = SESSION.query(UserBio).get(user_id)
     SESSION.close()
     if userbio:
         return userbio.bio
     return None
-
 
 def set_user_bio(user_id, bio):
     with INSERTION_LOCK:
@@ -100,4 +75,22 @@ def set_user_bio(user_id, bio):
             userbio = UserBio(user_id, bio)
 
         SESSION.add(userbio)
+        SESSION.commit()
+
+def get_rank(user_id):
+    ranks = SESSION.query(Rank).get(user_id)
+    SESSION.close()
+    if ranks:
+        return ranks.rank
+    return None
+       
+def set_rank(user_id, rank):
+    with INSERTION_LOCK:
+        ranks = SESSION.query(Rank).get(user_id)
+        if ranks:
+            ranks.rank = rank
+        else:
+            ranks = Rank(user_id, rank)
+
+        SESSION.add(ranks)
         SESSION.commit()
