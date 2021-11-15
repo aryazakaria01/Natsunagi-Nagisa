@@ -1,31 +1,3 @@
-"""
-MIT License
-
-Copyright (C) 2017-2019, Paul Larsen
-Copyright (C) 2021 Awesome-RJ
-Copyright (c) 2021, Yūki • Black Knights Union, <https://github.com/Awesome-RJ/CutiepiiRobot>
-
-This file is part of @Cutiepii_Robot (Telegram Bot)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-
-furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
 import os
 
 from telethon.tl.types import ChatBannedRights
@@ -157,7 +129,7 @@ async def job_close():
     for pro in chats:
         try:
             await telethn.send_message(
-              int(pro.chat_id), "12:00 Am, Group Is Closing Till 6 Am. Night Mode Started ! \n**Powered By Yūki Network**"
+              int(pro.chat_id), "12:00 Am, Group Is Closing Till 6 Am. Night Mode Started ! \n**Powered By @YuiiDev_bot**"
             )
             await telethn(
             functions.messages.EditChatDefaultBannedRightsRequest(
@@ -168,7 +140,7 @@ async def job_close():
             LOGGER.info(f"Unable To Close Group {chat} - {e}")
 
 #Run everyday at 12am
-scheduler = AsyncIOScheduler(timezone="Asia/Kolkata")
+scheduler = AsyncIOScheduler(timezone="Asia/Jakarta")
 scheduler.add_job(job_close, trigger="cron", hour=23, minute=59)
 scheduler.start()
 
@@ -179,7 +151,7 @@ async def job_open():
     for pro in chats:
         try:
             await telethn.send_message(
-              int(pro.chat_id), "06:00 Am, Group Is Opening.\n**Powered By Yūki Network**"
+              int(pro.chat_id), "06:00 Am, Group Is Opening.\n**Powered By @YuiiDev_bot**"
             )
             await telethn(
             functions.messages.EditChatDefaultBannedRightsRequest(
@@ -190,7 +162,7 @@ async def job_open():
             logger.info(f"Unable To Open Group {pro.chat_id} - {e}")
 
 # Run everyday at 06
-scheduler = AsyncIOScheduler(timezone="Asia/Kolkata")
+scheduler = AsyncIOScheduler(timezone="Asia/Jakarta")
 scheduler.add_job(job_open, trigger="cron", hour=5, minute=58)
 scheduler.start()
 
@@ -198,8 +170,8 @@ scheduler.start()
 __help__ = """
   ➢ `/nightmode`*:* on/off
  
-**Note:** Night Mode chats get Automatically closed at 12pm(IST)
-and Automatically openned at 6am(IST) To Prevent Night Spams.
+**Note:** Night Mode chats get Automatically closed at 12 PM (IST)
+and Automatically openned at 6 AM (IST) To Prevent Night Spams.
 """
 
 __mod_name__ = "NightMode"
