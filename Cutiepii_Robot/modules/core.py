@@ -9,7 +9,7 @@ from Cutiepii_Robot import OWNER_ID, DEV_USERS
 from Cutiepii_Robot import TEMP_DOWNLOAD_DIRECTORY as path
 from Cutiepii_Robot import TEMP_DOWNLOAD_DIRECTORY
 from datetime import datetime
-water = './Cutiepii_Robot/resources/natsunagi.jpg'
+water = './Cutiepii_Robot/images/natsunagi.jpg'
 client = tbot
 
 @register(pattern=r"^/send ?(.*)")
