@@ -75,7 +75,7 @@ requests_html
 bs4
 multicolorcaptcha
 launchpadlib
-google-trans-new=
+google-trans-new
 jikanpy
 futures
 future
