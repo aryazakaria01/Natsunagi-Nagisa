@@ -1,4 +1,5 @@
 import random
+import requests as r
 
 from Cutiepii_Robot.modules.helper_funcs.chat_status import user_admin
 from Cutiepii_Robot.modules.disable import DisableAbleCommandHandler
