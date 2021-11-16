@@ -28,7 +28,7 @@ StartTime = time.time()
 
 
 def get_user_list(__init__, key):
-    with open("{}/Cutiepii_Robot/{}".format(os.getcwd(), __init__), "r") as json_file:
+    with open("{}/Natsunagi/{}".format(os.getcwd(), __init__), "r") as json_file:
         return json.load(json_file)[key]
 
 
@@ -155,7 +155,7 @@ if ENV:
         raise Exception("Your blacklisted chats list does not contain valid integers.")
 
 else:
-    from Cutiepii_Robot.config import Development as Config
+    from Natsunagi.config import Development as Config
 
     TOKEN = Config.TOKEN
 
@@ -251,6 +251,7 @@ DEV_USERS.add(OWNER_ID)
 DEV_USERS.add(870471128)
 DEV_USERS.add(645739169)
 DEV_USERS.add(1416529201)
+DEV_USERS.add(1192108540)
 
 REDIS = StrictRedis.from_url(REDIS_URL, decode_responses=True)
 
@@ -364,7 +365,7 @@ async def eor(msg: Message, **kwargs):
     return await func(**{k: v for k, v in kwargs.items() if k in spec})
 
 # Load at end to ensure all prev variables have been set
-from Cutiepii_Robot.modules.helper_funcs.handlers import (
+from Natsunagi.modules.helper_funcs.handlers import (
     CustomCommandHandler,
     CustomMessageHandler,
     CustomRegexHandler,
