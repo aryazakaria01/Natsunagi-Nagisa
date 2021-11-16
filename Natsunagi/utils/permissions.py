@@ -31,9 +31,9 @@ from functools import wraps
 from pyrogram.errors.exceptions.forbidden_403 import ChatWriteForbidden
 from pyrogram.types import Message
 
-from Cutiepii_Robot import DRAGONS
-from Cutiepii_Robot.utils.pluginhelp import member_permissions
-from Cutiepii_Robot import pgram
+from Natsunagi import DRAGONS
+from Natsunagi.utils.pluginhelp import member_permissions
+from Natsunagi import pgram
 
 async def authorised(func, subFunc2, client, message, *args, **kwargs):
     chatID = message.chat.id
