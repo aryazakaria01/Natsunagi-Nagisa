@@ -1,6 +1,6 @@
 from asyncio import gather
 
-from Cutiepii_Robot import aiohttpsession as session
+from Natsunagi import aiohttpsession as session
 
 
 async def get(url: str, *args, **kwargs):
