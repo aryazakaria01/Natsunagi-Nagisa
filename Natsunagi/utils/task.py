@@ -4,9 +4,9 @@ from time import time
 from pyrogram import filters
 from pyrogram.types import Message
 
-from Cutiepii_Robot import BOT_ID, BOT_USERNAME
-from Cutiepii_Robot import DEV_USERS
-from Cutiepii_Robot.utils.sections import bold, section, w
+from Natsunagi import BOT_ID, BOT_USERNAME
+from Natsunagi import DEV_USERS
+from Natsunagi.utils.sections import bold, section, w
 
 tasks = {}
 TASKS_LOCK = Lock()
