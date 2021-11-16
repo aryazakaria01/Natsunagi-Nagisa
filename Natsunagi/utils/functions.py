@@ -18,11 +18,11 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 from wget import download
 from pyrogram.types import Message
 
-from Cutiepii_Robot.utils import aiodownloader
-from Cutiepii_Robot.utils.fetch import fetch
-from Cutiepii_Robot import aiohttpsession as aiosession
-from Cutiepii_Robot.utils.http import get, post
-from Cutiepii_Robot.utils.dbfunctions import start_restart_stage
+from Natsunagi.utils import aiodownloader
+from Natsunagi.utils.fetch import fetch
+from Natsunagi import aiohttpsession as aiosession
+from Natsunagi.utils.http import get, post
+from Natsunagi.utils.dbfunctions import start_restart_stage
 
 """
 Just import 'downloader' anywhere and do downloader.download() to
@@ -35,7 +35,7 @@ downloader = aiodownloader.Handler()
 async def restart(m: Message):
     if m:
         await start_restart_stage(m.chat.id, m.message_id)
-    execvp(executable, [executable, "-m", "Cutiepii_Robot"])
+    execvp(executable, [executable, "-m", "Natsunagi"])
 
 
 async def download_url(url: str):
