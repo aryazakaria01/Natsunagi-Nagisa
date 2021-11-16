@@ -26,7 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from Cutiepii_Robot import aiohttpsession
+from Natsunagi import aiohttpsession
 
 headers = {
     "Accept": "application/json",
