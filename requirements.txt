@@ -58,7 +58,7 @@ faker
 PyDictionary
 ffmpeg
 python-rapidjson
-markdown2
+git+https://github.com/starry69/python-markdown2.git
 cowpy
 selenium
 hiredis
@@ -101,3 +101,4 @@ pybase64
 pySmartDL
 validators
 flag
+coffeehouse
