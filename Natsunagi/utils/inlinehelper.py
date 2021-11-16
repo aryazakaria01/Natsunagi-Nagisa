@@ -18,17 +18,17 @@ from pyrogram.types import (CallbackQuery, InlineKeyboardButton,
                             InputTextMessageContent)
 from search_engine_parser import GoogleSearch
 
-from Cutiepii_Robot import DEV_USERS
-from Cutiepii_Robot import LOG_GROUP_ID
-from Cutiepii_Robot import pbot as app 
-from Cutiepii_Robot.modules.arq_client import arq
-from Cutiepii_Robot.utils.keyboard import ikb
-from Cutiepii_Robot.utils.task import _get_tasks_text, all_tasks, rm_task
-from Cutiepii_Robot.utils.Inline import InlineQueryResultCachedDocument
-from Cutiepii_Robot.modules.info import get_chat_info, get_user_info
-from Cutiepii_Robot.modules.music import download_youtube_audio
-from Cutiepii_Robot.utils.functions import test_speedtest
-from Cutiepii_Robot.utils.pastebin import paste
+from Natsunagi import DEV_USERS
+from Natsunagi import LOG_GROUP_ID
+from Natsunagi import pbot as app 
+from Natsunagi.modules.arq_client import arq
+from Natsunagi.utils.keyboard import ikb
+from Natsunagi.utils.task import _get_tasks_text, all_tasks, rm_task
+from Natsunagi.utils.Inline import InlineQueryResultCachedDocument
+from Natsunagi.modules.info import get_chat_info, get_user_info
+from Natsunagi.modules.music import download_youtube_audio
+from Natsunagi.utils.functions import test_speedtest
+from Natsunagi.utils.pastebin import paste
 
 MESSAGE_DUMP_CHAT = LOG_GROUP_ID
 
