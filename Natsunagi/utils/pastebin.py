@@ -1,4 +1,4 @@
-from Cutiepii_Robot.utils.http import post
+from Natsunagi.utils.http import post
 
 BASE = "https://batbin.me/"
 
