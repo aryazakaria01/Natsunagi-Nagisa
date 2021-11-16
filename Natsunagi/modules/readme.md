@@ -3,7 +3,7 @@
 ## Advanced: Pyrogram
 ```python3
 from pyrogram import filters
-from Cutiepii_Robot import pgram
+from Natsunagi import pgram
 
 @pgram.on_message(filters.command("hi"))
 async def hmm(_, message):
