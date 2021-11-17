@@ -8,12 +8,12 @@ from pathlib import Path
 from telethon import events
 
 from pymongo import MongoClient
-from Natsunagi  import MONGO_DB_URI
+from Natsunagi  import MONGO_DB_URL
 from telethon import events
 from Natsunagi import telethn
 
 client = MongoClient()
-client = MongoClient(MONGO_DB_URI)
+client = MongoClient(MONGO_DB_URL)
 db = client["Natsunagi"]
 gbanned = db.gban
 
