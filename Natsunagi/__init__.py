@@ -44,13 +44,13 @@ logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 LOGGER = logging.getLogger(__name__)
 LOGGER.info(
-    "[Natsunagi] Natsunagi is starting. | An CyberNetwork Project Parts. | Licensed under GPLv3."
+    "Natsunagi is starting. | An CyberNetwork Project Parts. | Licensed under GPLv3."
 )
 LOGGER.info(
-    "[Natsunagi] Not affiliated to Tantei Wa Mou or Villain in any way whatsoever."
+    "Not affiliated to Tantei Wa Mou or Villain in any way whatsoever."
 )
 LOGGER.info(
-    "[Natsunagi] Project maintained by: github.com/aryazakaria01 (t.me/Badboyanim)"
+    "Project maintained by: github.com/aryazakaria01 (t.me/Badboyanim)"
 )
 
 # if version < 3.6, stop bot.
