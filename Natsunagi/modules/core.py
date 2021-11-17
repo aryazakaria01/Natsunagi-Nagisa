@@ -9,7 +9,7 @@ from Natsunagi import OWNER_ID, DEV_USERS
 from Natsunagi import TEMP_DOWNLOAD_DIRECTORY as path
 from Natsunagi import TEMP_DOWNLOAD_DIRECTORY
 from datetime import datetime
-water = './Natsunagi/images/natsunagi.jpg'
+water = './Natsunagi/image/natsunagi.jpg'
 client = tbot
 
 @register(pattern=r"^/send ?(.*)")
