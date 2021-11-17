@@ -20,6 +20,7 @@ from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.handlers import MessageHandlerChecker
 from Natsunagi.modules.helper_funcs.chat_status import user_admin
 from Natsunagi.modules.helper_funcs.extraction import extract_text
+from Natsunagi.modules.helper_funcs.filters import CustomFilters
 from Natsunagi.modules.helper_funcs.misc import build_keyboard_parser
 from Natsunagi.modules.helper_funcs.msg_types import get_filter_type
 from Natsunagi.modules.helper_funcs.string_handling import (
