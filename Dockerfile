@@ -68,12 +68,12 @@ RUN pip3 install --upgrade pip setuptools
 ENV PATH="/home/bot/bin:$PATH"
 
 # make directory
-RUN mkdir /Cutiepii_Robot/
-COPY . /Cutiepii_Robot
-WORKDIR /Cutiepii_Robot
+RUN mkdir /Natsunagi/
+COPY . /Natsunagi 
+WORKDIR /Natsunagi
 
 # Install requirements
 RUN pip3 install -U -r requirements.txt
 
 # Starting Worker
-CMD ["python3","-m","Cutiepii_Robot"]
+CMD ["python3","-m","Natsunagi"]
