@@ -106,3 +106,4 @@ aiogram
 quotefancy
 httpx[http2]
 dateparser
+sylviorus 
