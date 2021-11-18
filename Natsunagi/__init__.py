@@ -148,7 +148,17 @@ if ENV:
     NAGISA_PHOTO = os.environ.get("NAGISA_PHOTO", True)
     OPENWEATHERMAP_ID = os.environ.get("OPENWEATHERMAP_ID", "")
     ARQ_API_KEY = "AKOMNF-MEOOFM-EKMPFC-HIKRXK-ARQ"
-
+    IBM_WATSON_CRED_URL = os.environ.get("IBM_WATSON_CRED_URL", None)
+    IBM_WATSON_CRED_PASSWORD = os.environ.get("IBM_WATSON_CRED_PASSWORD", None)
+    DEL_CMDS = bool(os.environ.get("DEL_CMDS", False))
+    STRICT_GBAN = bool(os.environ.get("STRICT_GBAN", False))
+    WORKERS = int(os.environ.get("WORKERS", 8))
+    
+    try:
+        WHITELIST_CHATS = set(int(x) for x in os.environ.get('WHITELIST_CHATS', "").split())
+    except ValueError:
+        raise Exception("Your blacklisted chats list does not contain valid integers.")
+        
     try:
         BL_CHATS = {int(x) for x in os.environ.get("BL_CHATS", "").split()}
     except ValueError:
@@ -235,11 +245,16 @@ else:
     MONGO_DB = Config.MONGO_DB
     HELP_IMG = Config.HELP_IMG
     START_IMG = Config.START_IMG
-    NAGISA_PHOTO = Config.CUTIEPII_PHOTO
+    NAGISA_PHOTO = Config.NAGISA_PHOTO
     LOG_GROUP_ID = Config.LOG_GROUP_ID
     OPENWEATHERMAP_ID = Config.OPENWEATHERMAP_ID
     ARQ_API_KEY = Config.ARQ_API_KEY
-
+    IBM_WATSON_CRED_URL = Config.IBM_WATSON_CRED_URL
+    IBM_WATSON_CRED_PASSWORD = Config.IBM_WATSON_CRED_PASSWORD
+    WORKERS = Config.WORKERS
+    STRICT_GBAN = Config.STRICT_GBAN
+    DEL_CMDS = Config.DEL_CMDS
+    
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
     except ValueError:
