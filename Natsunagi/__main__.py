@@ -68,28 +68,6 @@ from telegram.utils.helpers import escape_markdown
 from pyrogram import Client, idle
 from telethon import Button, events
 
-@telethn.on(events.NewMessage(pattern="/alive"))
-async def awake(event):
-  NAGISA = event.sender.first_name
-  NAGISA = "**♡ I,m Natsunagi Nagisa** \n\n"
-  NAGISA += "**♡ I'm Working With Awesome Speed**\n\n"
-  NAGISA += "**♡ Natsunagi Is Using The Latest Version**\n\n"
-  NAGISA += "**♡ My Creator:** [Arya](t.me/Badboyanim)\n\n"
-  NAGISA += "**♡ Python-Telegram-Bot: 13.8.1**\n\n"
-  NAGISA_BUTTON = [
-      [
-          Button.url("🚑 Support", f"https://t.me/{SUPPORT_CHAT}"),
-          Button.url("📢 Updates", "https://t.me/CyberMusicProject")
-      ]
-  ]
-  await telethn.send_file(
-      event.chat_id,
-      NAGISA_PHOTO,
-      caption = NAGISA,
-      buttons = NAGISA_BUTTON,
-  )
-
-    
 def get_readable_time(seconds: int) -> str:
     count = 0
     ping_time = ""
