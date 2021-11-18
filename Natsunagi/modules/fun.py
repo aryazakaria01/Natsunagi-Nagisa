@@ -211,20 +211,6 @@ earth_ani = [
             "🌏"
 ]
 
-@bot.on_message(filters.command("meme", f"meme@{BOT_USERNAME}"))
-def meme(_,message):
-	r = requests.get('https://nksamamemeapi.pythonanywhere.com').json()
-	pic = r['image']
-	title = r['title']
-	bot.send_photo(message.chat.id , pic , caption=title)
-
-    
-@bot.on_message(filters.command("hentaimeme", "hmeme", f"hmeme@{BOT_USERNAME}"))
-def hmeme(_,message):
-	r = requests.get('https://nksamamemeapi.pythonanywhere.com/get/hentaimemes').json()
-	pic = r['image']
-	title = r['title']
-	bot.send_photo(message.chat.id , pic , caption=title)
 
 def runs(update: Update, context: CallbackContext):
     temp = random.choice(fun_strings.RUN_STRINGS)
@@ -249,36 +235,6 @@ def goodmorning(update, context):
     message.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
 	
 	
-def sanitize(update: Update, context: CallbackContext):
-    message = update.effective_message
-    name = (
-        message.reply_to_message.from_user.first_name
-        if message.reply_to_message
-        else message.from_user.first_name
-    )
-    reply_animation = (
-        message.reply_to_message.reply_animation
-        if message.reply_to_message
-        else message.reply_animation
-    )
-    reply_animation(GIF_ID, caption=f"*Sanitizes {name}*")
-
-
-def sanitize(update: Update, context: CallbackContext):
-    message = update.effective_message
-    name = (
-        message.reply_to_message.from_user.first_name
-        if message.reply_to_message
-        else message.from_user.first_name
-    )
-    reply_animation = (
-        message.reply_to_message.reply_animation
-        if message.reply_to_message
-        else message.reply_animation
-    )
-    reply_animation(random.choice(fun_strings.GIFS), caption=f"*Sanitizes {name}*")
-
-
 def slap(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -347,22 +303,8 @@ def pat(update: Update, _):
     msg.reply_video(link)
 
 	
-
 def roll(update: Update, context: CallbackContext):
     update.message.reply_text(random.choice(range(1, 7)))
-
-
-def shout(update: Update, context: CallbackContext):
-	args = context.args
-	text = " ".join(args)
-	result = [" ".join(list(text))]
-	for pos, symbol in enumerate(text[1:]):
-	    result.append(symbol + " " + "  " * pos + symbol)
-	result = list("\n".join(result))
-	result[0] = text[0]
-	result = "".join(result)
-	msg = "```\n" + result + "```"
-	return update.effective_message.reply_text(msg, parse_mode="MARKDOWN")
 
 
 def toss(update: Update, context: CallbackContext):
@@ -408,15 +350,6 @@ def decide(update: Update, context: CallbackContext):
     reply_text(random.choice(fun_strings.DECIDE))
 
 
-def eightball(update: Update, context: CallbackContext):
-    reply_text = (
-        update.effective_message.reply_to_message.reply_text
-        if update.effective_message.reply_to_message
-        else update.effective_message.reply_text
-    )
-    reply_text(random.choice(fun_strings.EIGHTBALL))
-
-
 def table(update: Update, context: CallbackContext):
     reply_text = (
         update.effective_message.reply_to_message.reply_text
@@ -454,6 +387,7 @@ normiefont = [
     "y",
     "z",
 ]
+
 weebyfont = [
     "卂",
     "乃",
@@ -482,7 +416,6 @@ weebyfont = [
     "丫",
     "乙",
 ]
-
 
 def weebify(update: Update, context: CallbackContext):
     args = context.args
@@ -582,45 +515,7 @@ def flirt(update: Update, context: CallbackContext):
     reply_text = update.effective_message.reply_to_message.reply_text if update.effective_message.reply_to_message else update.effective_message.reply_text
     reply_text(random.choice(fun_strings.FLIRT_TEXT))
 
-def lewd(update: Update, context: CallbackContext):
-	bot = context.bot
-	args = context.args
-	message = update.effective_message
-
-	reply_to = message.reply_to_message or message
-
-	curr_user = html.escape(message.from_user.first_name)
-	user_id = extract_user(message, args)
-
-	if user_id:
-	    lewd_user = bot.get_chat(user_id)
-	    user1 = curr_user
-	    user2 = html.escape(lewd_user.first_name)
-
-	else:
-	    user1 = bot.first_name
-	    user2 = curr_user
-
-	lewd_type = random.choice(("Text", "Gif", "Sticker"))
-	if lewd_type == "Gif":
-	    try:
-	        temp = random.choice(fun_strings.LEWD_GIFS)
-	        reply_to.reply_animation(temp)
-	    except BadRequest:
-	        lewd_type = "Text"
-
-	if lewd_type == "Sticker":
-	    try:
-	        temp = random.choice(fun_strings.LEWD_STICKERS)
-	        reply_to.reply_sticker(temp)
-	    except BadRequest:
-	        lewd_type = "Text"
-
-	if lewd_type == "Text":
-	    temp = random.choice(fun_strings.LEWD_TEMPLATES)
-	    reply = temp.format(user1=user1, user2=user2)
-	    reply_to.reply_text(reply, parse_mode=ParseMode.HTML)
-
+	
 def romance(update: Update, context: CallbackContext):
 	bot = context.bot
 	args = context.args
@@ -694,137 +589,27 @@ def owo(update: Update, context: CallbackContext):
 	        reply_to.reply_sticker(temp)
 	    except BadRequest:
 	        owo_type = "Text"
-
-
-def uwu(update: Update, context: CallbackContext):
-	bot = context.bot
-	args = context.args
-	message = update.effective_message
-
-	reply_to = message.reply_to_message or message
-
-	curr_user = html.escape(message.from_user.first_name)
-	user_id = extract_user(message, args)
-
-	if user_id:
-	    uwu_user = bot.get_chat(user_id)
-	    user1 = curr_user
-	    user2 = html.escape(uwu_user.first_name)
-
-	else:
-	    user1 = bot.first_name
-	    user2 = curr_user
-
-	uwu_type = random.choice(("Gif", "Sticker"))
-	if uwu_type == "Gif":
-	    try:
-	        temp = random.choice(fun_strings.UWU_GIFS)
-	        reply_to.reply_animation(temp)
-	    except BadRequest:
-	        uwu_type = "Text"
-
-	if uwu_type == "Sticker":
-	    try:
-	        temp = random.choice(fun_strings.UWU_STICKERS)
-	        reply_to.reply_sticker(temp)
-	    except BadRequest:
-	        uwu_type = "Text"
-	
-
-def blockanimation(bot: Bot, update: Update):
-    msg = update.effective_message.reply_text('⬜') 
-    for x in range(EDIT_TIMES):
-        msg.edit_text(block_chain[x%18])
-        time.sleep(EDIT_SLEEP)
-    msg.edit_text('🟥')
-
-
-
-def clockanimation(bot: Bot, update: Update):
-    msg = update.effective_message.reply_text('🕛') 
-    for x in range(EDIT_TIMES):
-        msg.edit_text(clock_ani[x%11])
-        time.sleep(EDIT_SLEEP)
-    msg.edit_text('🕚')
-
-
-
-def earthanimation(bot: Bot, update: Update):
-    msg = update.effective_message.reply_text('🌏') 
-    for x in range(EDIT_TIMES):
-        msg.edit_text(earth_ani[x%18])
-        time.sleep(EDIT_SLEEP)
-    msg.edit_text('🌍')
-
-
-
-def moonanimation(bot: Bot, update: Update):
-    msg = update.effective_message.reply_text('🌚') 
-    for x in range(EDIT_TIMES):
-        msg.edit_text(moon_ani[x%32])
-        time.sleep(EDIT_SLEEP)
-    msg.edit_text('🌙')
-
-
-
-def bombs(bot: Bot, update: Update):
-    msg = update.effective_message.reply_text('💣') 
-    for x in range(EDIT_TIMES):
-        msg.edit_text(bomb_ettu[x%9])
-        time.sleep(EDIT_SLEEP)
-    msg.edit_text('RIP PLOX...')
-
-
-
-def hack(bot: Bot, update: Update):
-    msg = update.effective_message.reply_text('Target selected') 
-    for x in range(EDIT_TIMES):
-        msg.edit_text(hack_you[x%5])
-        time.sleep(EDIT_SLEEP)
-    msg.edit_text('successful hacked')
-
-
-
-def love(bot: Bot, update: Update):
-    msg = update.effective_message.reply_text('❣️') 
-    for x in range(EDIT_TIMES):
-        msg.edit_text(love_siren[x%5])
-        time.sleep(EDIT_SLEEP)
-    msg.edit_text('പ്രണയം  😂 ')
-
-
-def kill(bot: Bot, update: Update):
-    msg = update.effective_message.reply_text('🔫') 
-    for x in range(EDIT_TIMES):
-        msg.edit_text(kill_you[x%12])
-        time.sleep(EDIT_SLEEP)
-    msg.edit_text('⚰')
-
-
+		
+		
 __help__ = f"""
   ➢ `/runs`*:* reply a random string from an array of replies
   ➢ `/slap`*:* slap a user, or get slapped if not a reply
   ➢ `/shrug`*:* get shrug XD
   ➢ `/table`*:* get flip/unflip :v
   ➢ `/decide`*:* Randomly answers yes/no/maybe
-  ➢ `/toss`*:* Tosses A coin
   ➢ `/bluetext`*:* check urself :V
   ➢ `/roll`*:* Roll a dice
   ➢ `/rlg`*:* Join ears,nose,mouth and create an emo ;-;
   ➢ `/shout <keyword>`*:* write anything you want to give loud shout
   ➢ `/weebify <text>`*:* returns a weebified text
-  ➢ `/sanitize`*:* always use this before /pat or any contact
   ➢ `/pat`*:* pats a user, or get patted
   ➢ `/8ball`*:* predicts using 8ball method
   ➢ `/gbam`*:* troll somone with fake gbans, only Disaster People can do this
-  ➢ `/meme`*:* sends random anime memes
-  ➢ `/hmeme`*:* sends random hentai memes
   ➢ `/cuddle`*:* cuddle someone by replying to his/her message or get cuddled
   ➢ `/hug`*:* hug someone or get hugged by {BOT_NAME}
   ➢ `/love`*:* Checks Love in your heart weather it's true or fake
   ➢ `/kiss`*:* Kiss someone or get kissed 
   ➢ `/flirt`*:* {BOT_NAME} will flirt to the replied person or with you
-  ➢ `/lewd`*:* {BOT_NAME} will act lewd with you or with the replied person
   ➢ `/romance`*:* {BOT_NAME} will act all romantic with you or replied person
   ➢ `/couples`*:* To Choose Couple Of The Day
   ➢ `/owo`*:* OWO de text
@@ -856,23 +641,14 @@ __help__ = f"""
   ➢ `/animate`*:* Enwrap your text in a beautiful anime
   ➢ `/dare`*:* sends random dare
   ➢ `/truth`*:* sends random truth
-  ➢ `/love`*:* ❣️
-  ➢ `/hack`*:* 👨‍💻
-  ➢ `/bombs`*:* 💣
-  ➢ `/moonanimation`*:* 🌚
-  ➢ `/clockanimation`*:* 🕛
-  ➢ `/earthanimation`*:* 🌍
-  ➢ `/blockanimation`*:* 🟥
   ➢ `/kill`*:* ⚰
   ➢ `/police`*:* 🚓
 """
 
-SANITIZE_HANDLER = DisableAbleCommandHandler("sanitize", sanitize, run_async=True)
 RUNS_HANDLER = DisableAbleCommandHandler("runs", runs, run_async=True)
 SLAP_HANDLER = DisableAbleCommandHandler("slap", slap, run_async=True)
 PAT_HANDLER = DisableAbleCommandHandler("pat", pat, run_async=True)
 ROLL_HANDLER = DisableAbleCommandHandler("roll", roll, run_async=True)
-TOSS_HANDLER = DisableAbleCommandHandler("toss", toss, run_async=True)
 SHRUG_HANDLER = DisableAbleCommandHandler("shrug", shrug, run_async=True)
 BLUETEXT_HANDLER = DisableAbleCommandHandler("bluetext", bluetext, run_async=True)
 RLG_HANDLER = DisableAbleCommandHandler("rlg", rlg, run_async=True)
@@ -890,26 +666,16 @@ UWU_HANDLER = DisableAbleCommandHandler("uwu", uwu, run_async=True)
 OWO_HANDLER = DisableAbleCommandHandler("owo", owo, run_async=True)
 GDMORNING_HANDLER = DisableAbleMessageHandler(Filters.regex(r"(?i)(goodmorning|good morning)"), goodmorning, friendly="goodmorning", run_async=True)
 GDNIGHT_HANDLER = DisableAbleMessageHandler(Filters.regex(r"(?i)(goodnight|good night)"), goodnight, friendly="goodnight", run_async=True)
-KILL_HANDLER = DisableAbleCommandHandler("kill",kill, run_async=True)
-LOVE_HANDLER = DisableAbleCommandHandler("love", love, run_async=True)
-HACK_HANDLER = DisableAbleCommandHandler("hack", hack, run_async=True)
-BOMBS_HANDLER = DisableAbleCommandHandler("bombs",bombs, run_async=True)
-MOONANIMATION_HANDLER = DisableAbleCommandHandler("moonanimation", moonanimation, run_async=True)
-CLOCKANIMATION_HANDLER = DisableAbleCommandHandler("clockanimation", clockanimation, run_async=True)
-BLOCKANIMATION_HANDLER = DisableAbleCommandHandler("blockanimation", blockanimation, run_async=True)
-EARTHANIMATION_HANDLER = DisableAbleCommandHandler("earthanimation", earthanimation, run_async=True)
 
 
 dispatcher.add_handler(GBAM_HANDLER)
 dispatcher.add_handler(GBUN_HANDLER)
 dispatcher.add_handler(WEEBIFY_HANDLER)
 dispatcher.add_handler(SHOUT_HANDLER)
-dispatcher.add_handler(SANITIZE_HANDLER)
 dispatcher.add_handler(RUNS_HANDLER)
 dispatcher.add_handler(SLAP_HANDLER)
 dispatcher.add_handler(PAT_HANDLER)
 dispatcher.add_handler(ROLL_HANDLER)
-dispatcher.add_handler(TOSS_HANDLER)
 dispatcher.add_handler(SHRUG_HANDLER)
 dispatcher.add_handler(BLUETEXT_HANDLER)
 dispatcher.add_handler(RLG_HANDLER)
@@ -923,14 +689,6 @@ dispatcher.add_handler(UWU_HANDLER)
 dispatcher.add_handler(OWO_HANDLER)
 dispatcher.add_handler(GDMORNING_HANDLER)
 dispatcher.add_handler(GDNIGHT_HANDLER)
-dispatcher.add_handler(KILL_HANDLER)
-dispatcher.add_handler(LOVE_HANDLER)
-dispatcher.add_handler(HACK_HANDLER)
-dispatcher.add_handler(BOMBS_HANDLER)
-dispatcher.add_handler(EARTHANIMATION_HANDLER)
-dispatcher.add_handler(MOONANIMATION_HANDLER)
-dispatcher.add_handler(CLOCKANIMATION_HANDLER)
-dispatcher.add_handler(BLOCKANIMATION_HANDLER)
 
 
 __mod_name__ = "Fun"
@@ -956,14 +714,6 @@ __command_list__ = [
     "romance", 
     "uwu", 
     "owo",
-     "love",
-     "hack",
-     "bombs",
-     "moonanimation",
-     "clockanimation",
-     "earthanimation",
-     "blockanimation",
-     "kill"
 ]
 __handlers__ = [
     RUNS_HANDLER,
@@ -989,12 +739,4 @@ __handlers__ = [
     OWO_HANDLER,
     GDMORNING_HANDLER,
     GDNIGHT_HANDLER,
-    LOVE_HANDLER,
-    HACK_HANDLER,
-    BOMBS_HANDLER,
-    MOONANIMATION_HANDLER,
-    CLOCKANIMATION_HANDLER,
-    EARTHANIMATION_HANDLER,
-    BLOCKANIMATION_HANDLER,
-    KILL_HANDLER
 ]
