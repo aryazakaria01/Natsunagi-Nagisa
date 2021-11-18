@@ -8,7 +8,6 @@ import sys
 import traceback
 import Natsunagi.modules.sql.users_sql as sql
 
-
 from sys import argv
 from typing import Optional
 from Natsunagi import (
@@ -34,10 +33,12 @@ from Natsunagi import (
     updater,
     pgram,
     ubot,
-    )
+    WHITELIST_CHATS,
+    REPOSITORY,
+    BL_CHATS,
+    pbot,
+)
 
-# needed to dynamically load modules
-# NOTE: Module order is not guaranteed, specify that in the config file!
 from Natsunagi.events import register
 from Natsunagi.modules import ALL_MODULES
 from Natsunagi.modules.helper_funcs.chat_status import is_user_admin
@@ -53,6 +54,7 @@ from telegram.error import (
     TimedOut,
     Unauthorized,
 )
+
 from telegram.ext import (
     CallbackContext,
     CallbackQueryHandler,
