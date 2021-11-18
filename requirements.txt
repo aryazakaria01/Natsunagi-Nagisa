@@ -102,3 +102,7 @@ pySmartDL
 validators
 flag
 coffeehouse
+aiogram
+quotefancy
+httpx[http2]
+dateparser
