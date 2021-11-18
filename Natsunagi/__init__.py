@@ -153,6 +153,8 @@ if ENV:
     DEL_CMDS = bool(os.environ.get("DEL_CMDS", False))
     STRICT_GBAN = bool(os.environ.get("STRICT_GBAN", False))
     WORKERS = int(os.environ.get("WORKERS", 8))
+    REPOSITORY = os.environ.get("REPOSITORY", "")
+    WHITELIST_CHATS = os.environ.get('WHITELIST_CHATS', "")
     
     try:
         WHITELIST_CHATS = set(int(x) for x in os.environ.get('WHITELIST_CHATS', "").split())
@@ -254,6 +256,8 @@ else:
     WORKERS = Config.WORKERS
     STRICT_GBAN = Config.STRICT_GBAN
     DEL_CMDS = Config.DEL_CMDS
+    REPOSITORY = Config.REPOSITORY
+    WHITELIST_CHATS = Config.WHITELIST_CHATS
     
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
