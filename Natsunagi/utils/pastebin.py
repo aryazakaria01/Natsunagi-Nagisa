@@ -5,6 +5,6 @@ BASE = "https://batbin.me/"
 
 async def paste(content: str):
     resp = await post(f"{BASE}api/paste", data={"content": content})
-    if not resp["status"]:
+    if not resp:
         return
     return BASE + resp["message"]
