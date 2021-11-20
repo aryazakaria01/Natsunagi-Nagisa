@@ -1,20 +1,17 @@
-import asyncio
 import io
 import os
-# Common imports for eval
 import textwrap
 import traceback
-from contextlib import redirect_stdout
 
-from Natsunagi import LOGGER, dispatcher
-from Natsunagi.modules.helper_funcs.chat_status import dev_plus
+from contextlib import redirect_stdout
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, CommandHandler, run_async
+from Natsunagi import LOGGER, dispatcher
+from Natsunagi.modules.helper_funcs.chat_status import dev_plus
 
 namespaces = {}
 
-
-async def namespace_of(chat, update, bot):
+def namespace_of(chat, update, bot):
     if chat not in namespaces:
         namespaces[chat] = {
             '__builtins__': globals()['__builtins__'],
@@ -27,15 +24,13 @@ async def namespace_of(chat, update, bot):
 
     return namespaces[chat]
 
-
-async def log_input(update):
+def log_input(update):
     user = update.effective_user.id
     chat = update.effective_chat.id
     LOGGER.info(
         f"IN: {update.effective_message.text} (user={user}, chat={chat})")
 
-
-async def send(msg, bot, update):
+def send(msg, bot, update):
     if len(str(msg)) > 2000:
         with io.BytesIO(str.encode(msg)) as out_file:
             out_file.name = "output.txt"
@@ -50,24 +45,24 @@ async def send(msg, bot, update):
 
 
 @dev_plus
-async def evaluate(update: Update, context: CallbackContext):
+def evaluate(update: Update, context: CallbackContext):
     bot = context.bot
     send(do(eval, bot, update), bot, update)
 
 
 @dev_plus
-async def execute(update: Update, context: CallbackContext):
+def execute(update: Update, context: CallbackContext):
     bot = context.bot
     send(do(exec, bot, update), bot, update)
 
 
-async def cleanup_code(code):
+def cleanup_code(code):
     if code.startswith('```') and code.endswith('```'):
         return '\n'.join(code.split('\n')[1:-1])
     return code.strip('` \n')
 
 
-async def do(func, bot, update):
+def do(func, bot, update):
     log_input(update)
     content = update.message.text.split(' ', 1)[-1]
     body = cleanup_code(content)
@@ -115,7 +110,7 @@ async def do(func, bot, update):
 
 
 @dev_plus
-async def clear(update: Update, context: CallbackContext):
+def clear(update: Update, context: CallbackContext):
     bot = context.bot
     log_input(update)
     global namespaces
