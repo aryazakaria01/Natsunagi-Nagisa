@@ -65,7 +65,7 @@ from telegram.ext import (
 
 from telegram.ext.dispatcher import DispatcherHandlerStop, run_async
 from telegram.utils.helpers import escape_markdown
-from pyrogram import Client, idle
+from pyrogram import Client
 from telethon import Button, events
 
 def get_readable_time(seconds: int) -> str:
@@ -873,4 +873,3 @@ if __name__ == '__main__':
     telethn.start(bot_token=TOKEN)
     pgram.start()
     main()
-    idle()
