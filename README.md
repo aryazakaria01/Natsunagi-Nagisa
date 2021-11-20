@@ -9,7 +9,7 @@
 <p align="center">
 <a href="https://t.me/BlackKnightsUnion_DevChat"> <img src="https://img.shields.io/badge/Support-Chat-blue?&logo=telegram" alt="Support Chat" /> </a>
 <a href="https://t.me/CyberMusicProject"> <img src="https://img.shields.io/badge/Update-Channel-blue?&logo=telegram" alt="Update Channel" /> </a><br>
-<a href="https://t.me/ZeldrisRobot"> <img src="https://img.shields.io/badge/Zeldris-Robot-blue?&logo=telegram" alt="Natsunagi Nagisa on Telegram" /> </a><br>
+<a href="https://t.me/ZeldrisRobot"> <img src="https://img.shields.io/badge/Natsunagi-Nagisa-blue?&logo=telegram" alt="Natsunagi Nagisa on Telegram" /> </a><br>
 <a href="https://www.codacy.com/gh/aryazakaria01/Natsunagi-Nagisa/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=IDN-C-X/ZeldrisRobot&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/b290cfb10337403ba1e8d29fd474d39b"/></a><a href="https://www.codefactor.io/repository/github/idn-c-x/zeldrisrobot"><img src="https://www.codefactor.io/repository/github/idn-c-x/zeldrisrobot/badge" alt="CodeFactor" /></a><br>
 <a href="https://deepsource.io/gh/aryazakaria01/Natsunagi-Nagisa/?ref=repository-badge"><img src="https://static.deepsource.io/deepsource-badge-light-mini.svg" alt="DeepSource"></a><br>
 <a href="https://python-telegram-bot.org"> <img src="https://img.shields.io/badge/PTB-13.8.1-brightgreen?&style=flat-round&logo=github" alt="Python Telegram Bot" /> </a>
