@@ -304,7 +304,13 @@ else:
     except:
         sw = None
         LOGGER.warning("[Natsunagi Error]: Can't connect to SpamWatch!")
-
+        
+# Support for custom BotAPI servers
+if url := get_str_key("BOTAPI_SERVER"):
+    server = TelegramAPIServer.from_base(url)
+else:
+    server = TELEGRAM_PRODUCTION
+    
 telegraph = Telegraph()
 telegraph.create_account(short_name='Natsunagi')
 updater = tg.Updater(token=TOKEN, base_url=BOT_API_URL, workers=WORKERS, request_kwargs={"read_timeout": 10, "connect_timeout": 10}, use_context=True)
