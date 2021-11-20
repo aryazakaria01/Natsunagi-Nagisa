@@ -131,3 +131,6 @@ captcha
 coloredlogs
 PyYAML>5.0
 cryptg
+natsort
+lottie
+tracemoepy
