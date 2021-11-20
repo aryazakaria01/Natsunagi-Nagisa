@@ -4,11 +4,9 @@ import os
 import sys
 import time
 import spamwatch
-import httpx
 import aiohttp
 import telegram.ext as tg
 
-from inspect import getfullargspec
 from pyrogram import Client, errors
 from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInvalid
 from pyrogram.types import Message
@@ -22,7 +20,6 @@ from pymongo.errors import ServerSelectionTimeoutError
 from redis import StrictRedis
 from Python_ARQ import ARQ
 from aiohttp import ClientSession
-from telegraph import Telegraph
 from telegram import Chat
 
 StartTime = time.time()
@@ -303,21 +300,8 @@ else:
         LOGGER.warning("[Natsunagi Error]: Can't connect to SpamWatch!")
 
 
-# Credits Logger
-print("Natsunagi Nagisa Is Starting. | CyberNetwork Project | Licensed Under GPLv3.")
-print("Successfully Connected With A CyberNetwork")
-print("Project Maintained By: github.com/aryazakaria01 (t.me/Badboyanim)")
-
-
-print("[Natsunagi]: Telegraph Installing")
-telegraph = Telegraph()
-print("[Natsunagi]: Telegraph Account Creating")
-telegraph.create_account(short_name='Natsunagi')
-updater = tg.Updater(token=TOKEN, base_url=BOT_API_URL, workers=WORKERS, request_kwargs={"read_timeout": 10, "connect_timeout": 10}, use_context=True)           
-print("[Natsunagi]: TELETHON CLIENT STARTING")
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 dispatcher = updater.dispatcher
-print("[Natsunagi]: PYROGRAM CLIENT STARTING")
 session_name = TOKEN.split(":")[0]
 pgram = Client(
     session_name,
@@ -325,21 +309,14 @@ pgram = Client(
     api_hash=API_HASH,
     bot_token=TOKEN,
 )
-print("[Natsunagi]: Connecting To MongoDB Database")
 mongodb = MongoClient(MONGO_DB_URL, 27017)[MONGO_DB]
 motor = motor_asyncio.AsyncIOMotorClient(MONGO_DB_URL)
 db = motor[MONGO_DB]
 engine = AIOEngine(motor, MONGO_DB)
-print("[Natsunagi]: INITIALZING AIOHTTP SESSION")
 aiohttpsession = ClientSession()
 # ARQ Client
-print("[Natsunagi]: INITIALIZING ARQ CLIENT")
 arq = ARQ("https://thearq.tech", "YIECCC-NAJARO-OLLREW-SJSRIP-ARQ", aiohttpsession)
-print("[Natsunagi]: Connecting To PostgreSQL Database")
 ubot = TelegramClient(StringSession(STRING_SESSION), APP_ID, APP_HASH)
-print("[Natsunagi]: Connecting To Natsunagi Nagisa Userbot (t.me/JinakuShibagen)")
-timeout = httpx.Timeout(40)
-http = httpx.AsyncClient(http2=True, timeout=timeout)
 pbot = Client("NatsunagiBot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 loop = asyncio.get_event_loop()
 
@@ -385,14 +362,12 @@ async def eor(msg: Message, **kwargs):
     spec = getfullargspec(func.__wrapped__).args
     return await func(**{k: v for k, v in kwargs.items() if k in spec})
 
-# Load at end to ensure all prev variables have been set
 from Natsunagi.modules.helper_funcs.handlers import (
     CustomCommandHandler,
     CustomMessageHandler,
     CustomRegexHandler,
 )
 
-# make sure the regex handler can take extra kwargs
 tg.RegexHandler = CustomRegexHandler
 tg.CommandHandler = CustomCommandHandler
 tg.MessageHandler = CustomMessageHandler
