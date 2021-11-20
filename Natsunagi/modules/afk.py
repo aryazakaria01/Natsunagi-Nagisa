@@ -1,3 +1,4 @@
+import asyncio
 import time
 import random
 import humanize
@@ -22,7 +23,7 @@ AFK_GROUP = 7
 AFK_REPLY_GROUP = 8
 
 
-def afk(update, context):
+async def afk(update, context):
     args = update.effective_message.text.split(None, 1)
     user = update.effective_user
     if not user:  # ignore channels
@@ -41,7 +42,7 @@ def afk(update, context):
     except BadRequest:
         pass
 
-def no_longer_afk(update, context):
+async def no_longer_afk(update, context):
     user = update.effective_user
     message = update.effective_message
     if not user:  # ignore channels
@@ -76,11 +77,8 @@ def no_longer_afk(update, context):
             )
         except BaseException:
             pass
-            
-
-
-
-def reply_afk(update, context):
+           
+async def reply_afk(update, context):
     message = update.effective_message
     userc = update.effective_user
     userc_id = userc.id
@@ -128,8 +126,7 @@ def reply_afk(update, context):
         fst_name = message.reply_to_message.from_user.first_name
         check_afk(update, context, user_id, fst_name, userc_id)
 
-
-def check_afk(update, context, user_id, fst_name, userc_id):
+async def check_afk(update, context, user_id, fst_name, userc_id):
     if is_user_afk(user_id):
         reason = afk_reason(user_id)
         since_afk = get_readable_time((time.time() - float(REDIS.get(f'afk_time_{user_id}'))))
@@ -142,8 +139,7 @@ def check_afk(update, context, user_id, fst_name, userc_id):
 
         update.effective_message.reply_text(res)
 
-
-def __user_info__(user_id):
+async def __user_info__(user_id):
     is_afk = is_user_afk(user_id)
     text = ""
     if is_afk:
@@ -155,15 +151,15 @@ def __user_info__(user_id):
         text = "This user currently isn't afk (not away from keyboard)."
     return text
 
-def __stats__():
+async def __stats__():
     return f"• {len(REDIS.keys())} Total Keys in Redis Database."
 
-def __gdpr__(user_id):
+async def __gdpr__(user_id):
     end_afk(user_id)
 
 
 AFK_HANDLER = DisableAbleCommandHandler("afk", afk, run_async=True)
-AFK_REGEX_HANDLER = MessageHandler(Filters.regex("(?i)brb"), afk)
+AFK_REGEX_HANDLER = MessageHandler(Filters.regex("(?i)brb"), afk, run_async=True)
 NO_AFK_HANDLER = MessageHandler(Filters.all & Filters.chat_type.groups, no_longer_afk, run_async=True)
 AFK_REPLY_HANDLER = MessageHandler(Filters.all & Filters.chat_type.groups, reply_afk, run_async=True)
 
