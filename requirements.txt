@@ -108,3 +108,5 @@ httpx[http2]
 dateparser
 sylviorus 
 asyncio
+aiogram
+aioredis
