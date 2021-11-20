@@ -2,15 +2,11 @@ import os
 import time
 import zipfile
 
-from datetime import datetime
 from telethon import types
 from telethon.tl import functions
-from telethon.tl.types import DocumentAttributeVideo
-from hachoir.metadata import extractMetadata
-from hachoir.parser import createParser
 
-
-from Natsunagi import TEMP_DOWNLOAD_DIRECTORY, telethn
+from Natsunagi import TEMP_DOWNLOAD_DIRECTORY
+from Natsunagi import telethn as client
 from Natsunagi.events import register
 
 
@@ -19,15 +15,15 @@ async def is_register_admin(chat, user):
 
         return isinstance(
             (
-                await telethn(functions.channels.GetParticipantRequest(chat, user))
+                await client(functions.channels.GetParticipantRequest(chat, user))
             ).participant,
             (types.ChannelParticipantAdmin, types.ChannelParticipantCreator),
         )
     if isinstance(chat, types.InputPeerChat):
 
-        ui = await telethn.get_peer_id(user)
+        ui = await client.get_peer_id(user)
         ps = (
-            await telethn(functions.messages.GetFullChatRequest(chat.chat_id))
+            await client(functions.messages.GetFullChatRequest(chat.chat_id))
         ).full_chat.participants.participants
         return isinstance(
             next((p for p in ps if p.user_id == ui), None),
@@ -44,22 +40,21 @@ async def _(event):
     if not event.is_reply:
         await event.reply("Reply to a file to compress it.")
         return
-    if (
-        event.is_group
-        and not (await is_register_admin(event.input_chat, event.message.sender_id))
-    ):
-        await event.reply(
-            "Hey, You are not admin. You can't use this command, But you can use in my pm 🙂"
-        )
-        return
-    mone = await event.reply("⏳️ Please wait...")
+    if event.is_group:
+        if not (await is_register_admin(event.input_chat, event.message.sender_id)):
+            await event.reply(
+                "Hai.. You are not admin.. You can't use this command.. But you can use in my pm"
+            )
+            return
+
+    mone = await event.reply("`⏳️ Please wait...`")
     if not os.path.isdir(TEMP_DOWNLOAD_DIRECTORY):
         os.makedirs(TEMP_DOWNLOAD_DIRECTORY)
     if event.reply_to_msg_id:
         reply_message = await event.get_reply_message()
         try:
             time.time()
-            downloaded_file_name = await event.telethn.download_media(
+            downloaded_file_name = await event.client.download_media(
                 reply_message, TEMP_DOWNLOAD_DIRECTORY
             )
             directory_name = downloaded_file_name
@@ -68,14 +63,13 @@ async def _(event):
     zipfile.ZipFile(directory_name + ".zip", "w", zipfile.ZIP_DEFLATED).write(
         directory_name
     )
-    await event.telethn.send_file(
+    await event.client.send_file(
         event.chat_id,
         directory_name + ".zip",
         force_document=True,
         allow_cache=False,
         reply_to=event.message.id,
     )
-    await mone.delete()
 
 
 def zipdir(path, ziph):
@@ -84,6 +78,13 @@ def zipdir(path, ziph):
         for file in files:
             ziph.write(os.path.join(root, file))
             os.remove(os.path.join(root, file))
+
+
+from datetime import datetime
+
+from hachoir.metadata import extractMetadata
+from hachoir.parser import createParser
+from telethon.tl.types import DocumentAttributeVideo
 
 extracted = TEMP_DOWNLOAD_DIRECTORY + "extracted/"
 thumb_image_path = TEMP_DOWNLOAD_DIRECTORY + "/thumb_image.jpg"
@@ -96,15 +97,15 @@ async def is_register_admin(chat, user):
 
         return isinstance(
             (
-                await telethn(functions.channels.GetParticipantRequest(chat, user))
+                await client(functions.channels.GetParticipantRequest(chat, user))
             ).participant,
             (types.ChannelParticipantAdmin, types.ChannelParticipantCreator),
         )
     if isinstance(chat, types.InputPeerChat):
 
-        ui = await telethn.get_peer_id(user)
+        ui = await client.get_peer_id(user)
         ps = (
-            await telethn(functions.messages.GetFullChatRequest(chat.chat_id))
+            await client(functions.messages.GetFullChatRequest(chat.chat_id))
         ).full_chat.participants.participants
         return isinstance(
             next((p for p in ps if p.user_id == ui), None),
@@ -121,16 +122,14 @@ async def _(event):
     if not event.is_reply:
         await event.reply("Reply to a zip file.")
         return
-    if (
-        event.is_group
-        and not (await is_register_admin(event.input_chat, event.message.sender_id))
-    ):
-        await event.reply(
-            "Hey, You are not admin. You can't use this command, But you can use in my pm 🙂"
-        )
-        return
+    if event.is_group:
+        if not (await is_register_admin(event.input_chat, event.message.sender_id)):
+            await event.reply(
+                " Hai.. You are not admin.. You can't use this command.. But you can use in my pm🙈"
+            )
+            return
 
-    mone = await event.reply("Processing...")
+    mone = await event.reply("Processing ...")
     if not os.path.isdir(TEMP_DOWNLOAD_DIRECTORY):
         os.makedirs(TEMP_DOWNLOAD_DIRECTORY)
     if event.reply_to_msg_id:
@@ -138,7 +137,7 @@ async def _(event):
         reply_message = await event.get_reply_message()
         try:
             time.time()
-            downloaded_file_name = await telethn.download_media(
+            downloaded_file_name = await client.download_media(
                 reply_message, TEMP_DOWNLOAD_DIRECTORY
             )
         except Exception as e:
@@ -150,7 +149,7 @@ async def _(event):
         with zipfile.ZipFile(downloaded_file_name, "r") as zip_ref:
             zip_ref.extractall(extracted)
         filename = sorted(get_lst_of_files(extracted, []))
-        await mone.edit("Unzipping now 😌")
+        await event.reply("Unzipping now")
         for single_file in filename:
             if os.path.exists(single_file):
                 caption_rts = os.path.basename(single_file)
@@ -159,9 +158,11 @@ async def _(event):
                 document_attributes = []
                 if single_file.endswith((".mp4", ".mp3", ".flac", ".webm")):
                     metadata = extractMetadata(createParser(single_file))
+                    duration = 0
                     width = 0
                     height = 0
-                    duration = metadata.get("duration").seconds if metadata.has("duration") else 0
+                    if metadata.has("duration"):
+                        duration = metadata.get("duration").seconds
                     if os.path.exists(thumb_image_path):
                         metadata = extractMetadata(createParser(thumb_image_path))
                         if metadata.has("width"):
@@ -178,7 +179,7 @@ async def _(event):
                         )
                     ]
                 try:
-                    await telethn.send_file(
+                    await client.send_file(
                         event.chat_id,
                         single_file,
                         force_document=force_document,
@@ -188,13 +189,12 @@ async def _(event):
                         attributes=document_attributes,
                     )
                 except Exception as e:
-                    await telethn.send_message(
+                    await client.send_message(
                         event.chat_id,
                         "{} caused `{}`".format(caption_rts, str(e)),
                         reply_to=event.message.id,
                     )
                     continue
-                await mone.delete()
                 os.remove(single_file)
         os.remove(downloaded_file_name)
 
@@ -208,5 +208,10 @@ def get_lst_of_files(input_directory, output_lst):
         output_lst.append(current_file_name)
     return output_lst
 
+
+__help__ = """
+ ✪ /zip: reply to a telegram file to compress it in .zip format
+ ✪ /unzip: reply to a telegram file to decompress it from the .zip format
+"""
 
 __mod_name__ = "Zipper"
