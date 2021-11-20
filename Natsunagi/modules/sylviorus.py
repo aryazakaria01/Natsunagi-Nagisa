@@ -1,6 +1,8 @@
-from Natsunagi import telethn as Natsunagi
 import requests
+import asyncio 
+
 from telethon import events
+from Natsunagi import telethn as Natsunagi
 
 @Natsunagi.on(events.NewMessage(pattern="^/sylv ?(.*)"))
 async def h(e):
