@@ -23,7 +23,7 @@ AFK_GROUP = 7
 AFK_REPLY_GROUP = 8
 
 
-async def afk(update, context):
+def afk(update, context):
     args = update.effective_message.text.split(None, 1)
     user = update.effective_user
     if not user:  # ignore channels
@@ -42,7 +42,7 @@ async def afk(update, context):
     except BadRequest:
         pass
 
-async def no_longer_afk(update, context):
+def no_longer_afk(update, context):
     user = update.effective_user
     message = update.effective_message
     if not user:  # ignore channels
@@ -78,7 +78,7 @@ async def no_longer_afk(update, context):
         except BaseException:
             pass
            
-async def reply_afk(update, context):
+def reply_afk(update, context):
     message = update.effective_message
     userc = update.effective_user
     userc_id = userc.id
@@ -126,7 +126,7 @@ async def reply_afk(update, context):
         fst_name = message.reply_to_message.from_user.first_name
         check_afk(update, context, user_id, fst_name, userc_id)
 
-async def check_afk(update, context, user_id, fst_name, userc_id):
+def check_afk(update, context, user_id, fst_name, userc_id):
     if is_user_afk(user_id):
         reason = afk_reason(user_id)
         since_afk = get_readable_time((time.time() - float(REDIS.get(f'afk_time_{user_id}'))))
@@ -139,7 +139,7 @@ async def check_afk(update, context, user_id, fst_name, userc_id):
 
         update.effective_message.reply_text(res)
 
-async def __user_info__(user_id):
+def __user_info__(user_id):
     is_afk = is_user_afk(user_id)
     text = ""
     if is_afk:
@@ -151,10 +151,10 @@ async def __user_info__(user_id):
         text = "This user currently isn't afk (not away from keyboard)."
     return text
 
-async def __stats__():
+def __stats__():
     return f"• {len(REDIS.keys())} Total Keys in Redis Database."
 
-async def __gdpr__(user_id):
+def __gdpr__(user_id):
     end_afk(user_id)
 
 
