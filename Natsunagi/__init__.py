@@ -312,7 +312,7 @@ pgram = Client(
     api_hash=API_HASH,
     bot_token=TOKEN,
 )
-mongodb = MongoClient(MONGO_DB_URL, MONGO_PORT)[MONGO_DB]
+mongodb = MongoClient(MONGO_DB_URL, 27017)[MONGO_DB]
 motor = motor_asyncio.AsyncIOMotorClient(MONGO_DB_URL)
 db = motor[MONGO_DB]
 engine = AIOEngine(motor, MONGO_DB)
