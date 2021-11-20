@@ -25,6 +25,7 @@ from telegraph import Telegraph
 from aiogram import Bot, Dispatcher, types
 from aiogram.bot.api import TELEGRAM_PRODUCTION, TelegramAPIServer
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
+from Natsunagi.conf import get_bool_key, get_int_key, get_list_key, get_str_key
 
 StartTime = time.time()
 
