@@ -92,51 +92,51 @@ if ENV:
     except ValueError:
         raise Exception("Your scout users list does not contain valid integers.")
 
-    INFOPIC = bool(os.environ.get("INFOPIC", False)) # Info Pic (use True[Value] If You Want To Show In /info.)
-    EVENT_LOGS = os.environ.get("EVENT_LOGS", None) # G-Ban Logs (Channel) (-100)
-    ERROR_LOGS = os.environ.get("ERROR_LOGS", None) # Error Logs (Channel Ya Group Choice Is Yours) (-100)
+    INFOPIC = bool(os.environ.get("INFOPIC", False)) 
+    EVENT_LOGS = os.environ.get("EVENT_LOGS", None) 
+    ERROR_LOGS = os.environ.get("ERROR_LOGS", None) 
     WEBHOOK = bool(os.environ.get("WEBHOOK", False))
-    URL = os.environ.get("URL", "")  # If You Deploy On Heraku. [URL PERTEN:- https://{App Name}.herokuapp.com/ || EXP:- https://yuki-cutiepii-robot.herokuapp.com/]
+    URL = os.environ.get("URL", "")  
     PORT = int(os.environ.get("PORT", 8443)) 
     CERT_PATH = os.environ.get("CERT_PATH")
-    API_ID = os.environ.get("API_ID", None) # Bot Owner's API_ID (From:- https://my.telegram.org/auth)
-    API_HASH = os.environ.get("API_HASH", None) # Bot Owner's API_HASH (From:- https://my.telegram.org/auth)
+    API_ID = os.environ.get("API_ID", None) 
+    API_HASH = os.environ.get("API_HASH", None) 
     DB_URL = os.environ.get("DATABASE_URL")
     DB_URL = DB_URL.replace(
         "postgres://", "postgresql://", 1
-    )  # rest of connection code using the connection string `uri`
-    DONATION_LINK = os.environ.get("DONATION_LINK") # Donation Link (ANY)
-    LOAD = os.environ.get("LOAD", "").split() # Don't Change
-    NO_LOAD = os.environ.get("NO_LOAD", "translation").split() # Don't Change
-    DEL_CMDS = bool(os.environ.get("DEL_CMDS", False)) # Don't Change
-    STRICT_GBAN = bool(os.environ.get("STRICT_GBAN", False)) # Use `True` Value
-    WORKERS = int(os.environ.get("WORKERS", 8)) # Don't Change
-    BAN_STICKER = os.environ.get("BAN_STICKER", "CAADAgADOwADPPEcAXkko5EB3YGYAg") # Don't Change
-    ALLOW_EXCL = os.environ.get("ALLOW_EXCL", False) # Don't Change
-    TEMP_DOWNLOAD_DIRECTORY = os.environ.get("TEMP_DOWNLOAD_DIRECTORY", "./") # Don't Change
-    CASH_API_KEY = os.environ.get("CASH_API_KEY", None) # From:- https://www.alphavantage.co/support/#api-key
-    TIME_API_KEY = os.environ.get("TIME_API_KEY", None) # From:- https://timezonedb.com/api
-    WALL_API = os.environ.get("WALL_API", None) # From:- https://wall.alphacoders.com/api.php
-    REM_BG_API_KEY = os.environ.get("REM_BG_API_KEY", None) # From:- https://www.remove.bg/
-    OPENWEATHERMAP_ID = os.environ.get("OPENWEATHERMAP_ID", "") # From:- https://openweathermap.org/api
-    GENIUS_API_TOKEN = os.environ.get("GENIUS_API_TOKEN", None) # From:- http://genius.com/api-clients
-    MONGO_DB_URL = os.environ.get("MONGO_DB_URL", None) # MongoDB URL (From:- https://www.mongodb.com/)
-    REDIS_URL = os.environ.get("REDIS_URL", None) # REDIS URL (From:- Heraku & Redis)
-    BOT_ID = int(os.environ.get("BOT_ID", None)) # Telegram Bot ID (EXP:- 1241223850)
-    SUPPORT_CHAT = os.environ.get("SUPPORT_CHAT", None) # Support Chat Group Link (Use @Black_Knights_Union_Support || Dont Use https://t.me/Black_Knights_Union_Support)
-    SPAMWATCH_SUPPORT_CHAT = os.environ.get("SPAMWATCH_SUPPORT_CHAT", None) # Use @SpamWatchSupport
-    SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None) # From https://t.me/SpamWatchBot 
-    BOT_USERNAME = os.environ.get("BOT_USERNAME", "") # Bot Username
-    STRING_SESSION = os.environ.get("STRING_SESSION", None) # Telethon Based String Session (2nd ID) [ From https://repl.it/@SpEcHiDe/GenerateStringSession ]
-    APP_ID = os.environ.get("APP_ID", None) # 2nd ID 
-    APP_HASH = os.environ.get("APP_HASH", None) # 2nd ID
-    HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", True) # Heroku App Name 
-    HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY", True) # Heroku API [From https://dashboard.heroku.com/account]
+    )  
+    DONATION_LINK = os.environ.get("DONATION_LINK") 
+    LOAD = os.environ.get("LOAD", "").split() 
+    NO_LOAD = os.environ.get("NO_LOAD", "translation").split() 
+    DEL_CMDS = bool(os.environ.get("DEL_CMDS", False)) 
+    STRICT_GBAN = bool(os.environ.get("STRICT_GBAN", False)) 
+    WORKERS = int(os.environ.get("WORKERS", 8)) 
+    BAN_STICKER = os.environ.get("BAN_STICKER", "CAADAgADOwADPPEcAXkko5EB3YGYAg") 
+    ALLOW_EXCL = os.environ.get("ALLOW_EXCL", False) 
+    TEMP_DOWNLOAD_DIRECTORY = os.environ.get("TEMP_DOWNLOAD_DIRECTORY", "./") 
+    CASH_API_KEY = os.environ.get("CASH_API_KEY", None) 
+    TIME_API_KEY = os.environ.get("TIME_API_KEY", None) 
+    WALL_API = os.environ.get("WALL_API", None) 
+    REM_BG_API_KEY = os.environ.get("REM_BG_API_KEY", None) 
+    OPENWEATHERMAP_ID = os.environ.get("OPENWEATHERMAP_ID", "") 
+    GENIUS_API_TOKEN = os.environ.get("GENIUS_API_TOKEN", None) 
+    MONGO_DB_URL = os.environ.get("MONGO_DB_URL", None) 
+    REDIS_URL = os.environ.get("REDIS_URL", None) 
+    BOT_ID = int(os.environ.get("BOT_ID", None)) 
+    SUPPORT_CHAT = os.environ.get("SUPPORT_CHAT", None) 
+    SPAMWATCH_SUPPORT_CHAT = os.environ.get("SPAMWATCH_SUPPORT_CHAT", None) 
+    SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None) 
+    BOT_USERNAME = os.environ.get("BOT_USERNAME", "") 
+    STRING_SESSION = os.environ.get("STRING_SESSION", None) 
+    APP_ID = os.environ.get("APP_ID", None) 
+    APP_HASH = os.environ.get("APP_HASH", None) 
+    HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", True) 
+    HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY", True) 
     YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY", True)
-    ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True) # Don't Change
-    BOT_NAME = os.environ.get("BOT_NAME", True) # Name Of your Bot.4
-    MONGO_DB = "Cutiepii"
-    ARQ_API_URL = "https://thearq.tech"
+    ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True) 
+    BOT_NAME = os.environ.get("BOT_NAME", True) 
+    MONGO_DB = os.environ.get("MONGO_DB", "Natsunagi")
+    ARQ_API_URL = os.environ.get("ARQ_API_URL", None)
     GOOGLE_CHROME_BIN = "/usr/bin/google-chrome"
     CHROME_DRIVER = "/usr/bin/chromedriver"
     BOT_API_URL = os.environ.get('BOT_API_URL', "https://api.telegram.org/bot")
@@ -145,7 +145,7 @@ if ENV:
     GROUP_START_IMG = os.environ.get("GROUP_START_IMG", True)
     NAGISA_PHOTO = os.environ.get("NAGISA_PHOTO", True)
     OPENWEATHERMAP_ID = os.environ.get("OPENWEATHERMAP_ID", "")
-    ARQ_API_KEY = "AKOMNF-MEOOFM-EKMPFC-HIKRXK-ARQ"
+    ARQ_API_KEY = os.environ.get("ARQ_API_KEY", None)
     IBM_WATSON_CRED_URL = os.environ.get("IBM_WATSON_CRED_URL", None)
     IBM_WATSON_CRED_PASSWORD = os.environ.get("IBM_WATSON_CRED_PASSWORD", None)
     DEL_CMDS = bool(os.environ.get("DEL_CMDS", False))
@@ -153,6 +153,7 @@ if ENV:
     WORKERS = int(os.environ.get("WORKERS", 8))
     REPOSITORY = os.environ.get("REPOSITORY", "")
     WHITELIST_CHATS = os.environ.get('WHITELIST_CHATS', "")
+    MONGO_PORT = os.environ.get("MONGO_PORT", None)
     
     try:
         WHITELIST_CHATS = set(int(x) for x in os.environ.get('WHITELIST_CHATS', "").split())
@@ -256,6 +257,7 @@ else:
     DEL_CMDS = Config.DEL_CMDS
     REPOSITORY = Config.REPOSITORY
     WHITELIST_CHATS = Config.WHITELIST_CHATS
+    MONGO_PORT = Config.MONGO_PORT
     
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
@@ -299,7 +301,8 @@ else:
         sw = None
         LOGGER.warning("[Natsunagi Error]: Can't connect to SpamWatch!")
 
-
+        
+updater = tg.Updater(token=TOKEN, base_url=BOT_API_URL, workers=WORKERS, request_kwargs={"read_timeout": 10, "connect_timeout": 10}, use_context=True)
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 dispatcher = updater.dispatcher
 session_name = TOKEN.split(":")[0]
@@ -309,13 +312,13 @@ pgram = Client(
     api_hash=API_HASH,
     bot_token=TOKEN,
 )
-mongodb = MongoClient(MONGO_DB_URL, 27017)[MONGO_DB]
+mongodb = MongoClient(MONGO_DB_URL, MONGO_PORT)[MONGO_DB]
 motor = motor_asyncio.AsyncIOMotorClient(MONGO_DB_URL)
 db = motor[MONGO_DB]
 engine = AIOEngine(motor, MONGO_DB)
 aiohttpsession = ClientSession()
 # ARQ Client
-arq = ARQ("https://thearq.tech", "YIECCC-NAJARO-OLLREW-SJSRIP-ARQ", aiohttpsession)
+arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 ubot = TelegramClient(StringSession(STRING_SESSION), APP_ID, APP_HASH)
 pbot = Client("NatsunagiBot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 loop = asyncio.get_event_loop()
