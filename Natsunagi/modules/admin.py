@@ -1,3 +1,4 @@
+import asyncio
 import os
 import html
 
@@ -99,7 +100,7 @@ async def get_users(show):
 
 @bot_admin
 @user_admin
-def set_sticker(update: Update, context: CallbackContext):
+async def set_sticker(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
     user = update.effective_user
@@ -128,7 +129,7 @@ def set_sticker(update: Update, context: CallbackContext):
     
 @bot_admin
 @user_admin
-def setchatpic(update: Update, context: CallbackContext):
+async def setchatpic(update: Update, context: CallbackContext):
     chat = update.effective_chat
     msg = update.effective_message
     user = update.effective_user
@@ -163,7 +164,7 @@ def setchatpic(update: Update, context: CallbackContext):
         
 @bot_admin
 @user_admin
-def rmchatpic(update: Update, context: CallbackContext):
+async def rmchatpic(update: Update, context: CallbackContext):
     chat = update.effective_chat
     msg = update.effective_message
     user = update.effective_user
@@ -180,7 +181,7 @@ def rmchatpic(update: Update, context: CallbackContext):
     
 @bot_admin
 @user_admin
-def set_desc(update: Update, context: CallbackContext):
+async def set_desc(update: Update, context: CallbackContext):
     msg = update.effective_message
     chat = update.effective_chat
     user = update.effective_user
@@ -203,7 +204,7 @@ def set_desc(update: Update, context: CallbackContext):
         
 @bot_admin
 @user_admin
-def setchat_title(update: Update, context: CallbackContext):
+async def setchat_title(update: Update, context: CallbackContext):
     chat = update.effective_chat
     msg = update.effective_message
     user = update.effective_user
@@ -234,7 +235,7 @@ def setchat_title(update: Update, context: CallbackContext):
 @user_admin
 @loggable
 @typing_action
-def promote(update, context):
+async def promote(update, context):
     chat_id = update.effective_chat.id
     message = update.effective_message
     chat = update.effective_chat
@@ -316,7 +317,7 @@ def promote(update, context):
 @user_admin
 @loggable
 @typing_action
-def fullpromote(update, context):
+async def fullpromote(update, context):
     message = update.effective_message
     chat = update.effective_chat
     user = update.effective_user
@@ -394,7 +395,7 @@ def fullpromote(update, context):
 @user_admin
 @loggable
 @typing_action
-def demote(update, context):
+async def demote(update, context):
     chat = update.effective_chat
     message = update.effective_message
     user = update.effective_user
@@ -474,7 +475,7 @@ def refresh_admin(update, _):
 @bot_admin
 @can_promote
 @user_admin
-def set_title(update: Update, context: CallbackContext):
+async def set_title(update: Update, context: CallbackContext):
     bot = context.bot
     args = context.args
 
@@ -541,7 +542,7 @@ def set_title(update: Update, context: CallbackContext):
 @user_admin
 @loggable
 @typing_action
-def pin(update, context):
+async def pin(update, context):
     bot, args = context.bot, context.args
     user = update.effective_user
     chat = update.effective_chat
@@ -591,7 +592,7 @@ def pin(update, context):
 @user_admin
 @loggable
 @typing_action
-def unpin(update, context):
+async def unpin(update, context):
     bot = context.bot
     chat = update.effective_chat
     user = update.effective_user
@@ -623,7 +624,7 @@ def unpin(update, context):
 
 
 @bot_admin
-def pinned(update: Update, context: CallbackContext) -> str:
+async def pinned(update: Update, context: CallbackContext) -> str:
     bot = context.bot
     msg = update.effective_message
     msg_id = update.effective_message.reply_to_message.message_id if update.effective_message.reply_to_message else update.effective_message.message_id
@@ -646,7 +647,7 @@ def pinned(update: Update, context: CallbackContext) -> str:
 @bot_admin
 @user_admin
 @typing_action
-def invite(update, context):
+async def invite(update, context):
     bot = context.bot
     user = update.effective_user
     msg = update.effective_message
@@ -678,7 +679,7 @@ def invite(update, context):
         )
 
 @connection_status
-def adminlist(update, context):
+async def adminlist(update, context):
     chat = update.effective_chat  # type: Optional[Chat] -> unused variable
     user = update.effective_user  # type: Optional[User]
     args = context.args  # -> unused variable
@@ -729,13 +730,13 @@ def adminlist(update, context):
         # if user.username:
         #    name = escape_markdown("@" + user.username)
         if status == "creator":
-            text += "\n 🌏 Creator:"
+            text += "\n 👑 Creator:"
             text += "\n<code> • </code>{}\n".format(name)
 
             if custom_title:
                 text += f"<code> ┗━ {html.escape(custom_title)}</code>\n"
 
-    text += "\n🌟 Admins:"
+    text += "\n🔱 Admins:"
 
     custom_admin_list = {}
     normal_admin_list = []
