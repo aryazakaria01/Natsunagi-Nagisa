@@ -134,3 +134,4 @@ cryptg
 natsort
 lottie
 tracemoepy
+hiredis
