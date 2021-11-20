@@ -7,6 +7,7 @@ import spamwatch
 import aiohttp
 import telegram.ext as tg
 
+from inspect import getfullargspec
 from pyrogram import Client, errors
 from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInvalid
 from pyrogram.types import Message
@@ -324,6 +325,7 @@ arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 ubot = TelegramClient(StringSession(STRING_SESSION), APP_ID, APP_HASH)
 pbot = Client("NatsunagiBot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 app = Client("Natsunagi", bot_token=TOKEN, api_id=API_ID, api_hash=API_HASH)
+app.start
 loop = asyncio.get_event_loop()
 
 async def get_entity(client, entity):
