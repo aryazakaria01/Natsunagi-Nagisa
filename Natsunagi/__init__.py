@@ -21,6 +21,7 @@ from redis import StrictRedis
 from Python_ARQ import ARQ
 from aiohttp import ClientSession
 from telegram import Chat
+from telegraph import Telegraph
 
 StartTime = time.time()
 
@@ -301,7 +302,8 @@ else:
         sw = None
         LOGGER.warning("[Natsunagi Error]: Can't connect to SpamWatch!")
 
-        
+telegraph = Telegraph()
+telegraph.create_account(short_name='Natsunagi')
 updater = tg.Updater(token=TOKEN, base_url=BOT_API_URL, workers=WORKERS, request_kwargs={"read_timeout": 10, "connect_timeout": 10}, use_context=True)
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 dispatcher = updater.dispatcher
