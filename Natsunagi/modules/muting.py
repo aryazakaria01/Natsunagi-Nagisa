@@ -1,3 +1,4 @@
+import asyncio
 import html
 import re
 from typing import Optional
@@ -169,7 +170,7 @@ def unmute(update: Update, context: CallbackContext) -> str:
             pass
         bot.sendMessage(
         chat.id,
-        "{} was unmuted by {} in <b>{}</b>\n<b>Reason</b>: <code>{}</code>".format(
+        "Yep! Unmuted {} by {} in <b>{}</b>\n<b>Reason</b>: <code>{}</code>".format(
             mention_html(member.user.id, member.user.first_name), mention_html(user.id, user.first_name), message.chat.title, reason
         ),
         parse_mode=ParseMode.HTML,
@@ -310,7 +311,7 @@ def button(update: Update, context: CallbackContext) -> str:
 MUTE_HANDLER = CommandHandler("mute", mute, run_async=True)
 UNMUTE_HANDLER = CommandHandler("unmute", unmute, run_async=True)
 TEMPMUTE_HANDLER = CommandHandler(["tmute", "tempmute"], temp_mute, run_async=True)
-UNMUTE_BUTTON_HANDLER = CallbackQueryHandler(button, pattern=r"unmute_")
+UNMUTE_BUTTON_HANDLER = CallbackQueryHandler(button, pattern=r"unmute_", run_async=True)
 
 dispatcher.add_handler(MUTE_HANDLER)
 dispatcher.add_handler(UNMUTE_HANDLER)
