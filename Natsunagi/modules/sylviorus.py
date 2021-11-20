@@ -1,5 +1,4 @@
 import requests
-import asyncio 
 
 from telethon import events
 from Natsunagi import telethn as Natsunagi
