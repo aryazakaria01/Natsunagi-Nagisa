@@ -1,5 +1,4 @@
 import os
-import asyncio
 
 from gpytranslate import SyncTranslator
 from telegram import Update, ChatAction, InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
