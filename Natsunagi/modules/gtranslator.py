@@ -1,17 +1,17 @@
 import os
-import gTTS
+import asyncio
 
 from gpytranslate import SyncTranslator
 from telegram import Update, ChatAction, InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 from telegram.ext import CallbackContext
-
+from gtts import gTTS
 from Natsunagi import dispatcher
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.alternate import typing_action, send_action
 
 trans = SyncTranslator()
 
-def translate(update: Update, context: CallbackContext) -> None:
+async def translate(update: Update, context: CallbackContext) -> None:
     bot = context.bot
     message = update.effective_message
     reply_msg = message.reply_to_message
@@ -41,7 +41,7 @@ def translate(update: Update, context: CallbackContext) -> None:
     bot.send_message(text=reply, chat_id=message.chat.id, parse_mode=ParseMode.HTML)
 
     
-def languages(update: Update, context: CallbackContext) -> None:
+async def languages(update: Update, context: CallbackContext) -> None:
     update.effective_message.reply_text(
         "Click on the button below to see the list of supported language codes.",
         reply_markup=InlineKeyboardMarkup(
@@ -58,7 +58,7 @@ def languages(update: Update, context: CallbackContext) -> None:
     )
     
 @send_action(ChatAction.RECORD_AUDIO)
-def gtts(update, context):
+async def gtts(update, context):
     msg = update.effective_message
     reply = " ".join(context.args)
     if not reply:
@@ -86,7 +86,7 @@ URL = "http://services.gingersoftware.com/Ginger/correct/json/GingerTheText"
 
 
 @typing_action
-def spellcheck(update, _):
+async def spellcheck(update, _):
     if update.effective_message.reply_to_message:
         msg = update.effective_message.reply_to_message
 
