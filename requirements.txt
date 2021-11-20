@@ -111,3 +111,4 @@ asyncio
 aiogram
 aioredis
 gTTS
+yaml
