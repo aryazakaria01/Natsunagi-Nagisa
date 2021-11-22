@@ -1,3 +1,5 @@
+import aiofiles
+import urllib
 import asyncio
 import random
 import re
@@ -8,11 +10,23 @@ from telethon import events
 from Natsunagi.events import register
 from Natsunagi import eor
 
+async def download_file(link, name):
+    """for files, without progress callback with aiohttp"""
+    if not aiohttp:
+        urllib.request.urlretrieve(link, name)
+        return name
+    async with aiohttp.ClientSession() as ses:
+        async with ses.get(link) as re_ses:
+            file = await aiofiles.open(name, "wb")
+            await file.write(await re_ses.read())
+            await file.close()
+    return name
+
 @register(pattern="^/devianart ?(.*)")
 async def downakd(e):
     match = e.pattern_match.group(1)
     if not match:
-        return await eor(e, "`Give Query to Search...`")
+        return await e.reply("`Give Query to Search...`")
     Random = False
     if ";" in match:
         num = int(match.split(";")[1])
@@ -21,7 +35,7 @@ async def downakd(e):
         match = match.split(";")[0]
     else:
         num = 5
-    xd = await event.reply(e, "`Processing...`")
+    xd = await e.reply("`Processing...`")
     match = match.replace(" ", "+")
     link = "https://www.deviantart.com/search?q=" + match
     ct = requests.get(link).content
@@ -34,7 +48,7 @@ async def downakd(e):
     out = []
     num = 0
     for on in res:
-        img = await download_file(on["src"], f"resources/downloads/{match}-{num}.jpg")
+        img = await download_file(on["src"], f"Natsunagi/utils/downloads/{match}-{num}.jpg")
         num += 1
         out.append(img)
     if len(out) == 0:
