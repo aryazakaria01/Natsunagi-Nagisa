@@ -156,6 +156,12 @@ if ENV:
     REPOSITORY = os.environ.get("REPOSITORY", "")
     WHITELIST_CHATS = os.environ.get('WHITELIST_CHATS', "")
     MONGO_PORT = os.environ.get("MONGO_PORT", None)
+    TRIGGERS = os.environ.get("TRIGGERS", "/ !").split()
+    ANILIST_CLIENT = os.environ.get("ANILIST_CLIENT")
+    ANILIST_SECRET = os.environ.get("ANILIST_SECRET")
+    ANILIST_REDIRECT_URL = os.environ.get("ANILIST_REDIRECT_URL", "https://anilist.co/api/v2/oauth/pin")
+    OWNER = list(filter(lambda x: x, map(int, os.environ.get("OWNER_ID", "1138045685").split())))
+    LOG_CHANNEL_ID = int(os.environ.get("LOG_CHANNEL_ID"))
     
     try:
         WHITELIST_CHATS = set(int(x) for x in os.environ.get('WHITELIST_CHATS', "").split())
@@ -260,6 +266,12 @@ else:
     REPOSITORY = Config.REPOSITORY
     WHITELIST_CHATS = Config.WHITELIST_CHATS
     MONGO_PORT = Config.MONGO_PORT
+    TRIGGERS = Config.TRIGGERS
+    ANILIST_CLIENT = Config.ANILIST_CLIENT
+    ANILIST_SECRET = Config.ANILIST_SECRET
+    ANILIST_REDIRECT_URL = Config.ANILIST_REDIRECT_URL
+    LOG_CHANNEL_ID = Config.LOG_CHANNEL_ID
+    OWNER = Config.OWNER
     
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
@@ -273,6 +285,9 @@ DEV_USERS.add(870471128)
 DEV_USERS.add(645739169)
 DEV_USERS.add(1416529201)
 DEV_USERS.add(1192108540)
+
+DOWN_PATH = "Natsunagi/downloads/"
+HELP_DICT = dict()
 
 REDIS = StrictRedis.from_url(REDIS_URL, decode_responses=True)
 
@@ -324,6 +339,8 @@ aiohttpsession = ClientSession()
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 ubot = TelegramClient(StringSession(STRING_SESSION), APP_ID, APP_HASH)
 pbot = Client("NatsunagiBot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
+Natsunagi = Client("Natsunagi", bot_token=BOT_TOKEN, api_id=API_ID, api_hash=API_HASH, plugins=plugins)
+plugins = dict(root="Natsunagi/modules")
 app = Client("Natsunagi", bot_token=TOKEN, api_id=API_ID, api_hash=API_HASH)
 app.start
 loop = asyncio.get_event_loop()
