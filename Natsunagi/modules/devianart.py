@@ -3,11 +3,10 @@ import re
 
 import requests
 from bs4 import BeautifulSoup as bs
-from Natsunagi import eor
 from Natsunagi.events import register
+from Natsunagi import eor
 
-
-@register(pattern="^/devian ?(.*)")
+@register(pattern="^/devianart ?(.*)")
 async def downakd(e):
     match = e.pattern_match.group(1)
     if not match:
@@ -20,7 +19,7 @@ async def downakd(e):
         match = match.split(";")[0]
     else:
         num = 5
-    xd = await eor(e, "`Processing...`")
+    xd = await event.reply(e, "`Processing...`")
     match = match.replace(" ", "+")
     link = "https://www.deviantart.com/search?q=" + match
     ct = requests.get(link).content
