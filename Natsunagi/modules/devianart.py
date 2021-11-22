@@ -21,7 +21,7 @@ async def downakd(e):
         match = match.split(";")[0]
     else:
         num = 5
-    xd = await e.reply(e, "`Processing...`")
+    xd = await event.reply(e, "`Processing...`")
     match = match.replace(" ", "+")
     link = "https://www.deviantart.com/search?q=" + match
     ct = requests.get(link).content
