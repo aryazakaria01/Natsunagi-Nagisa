@@ -119,7 +119,7 @@ buttons = [
                     ],
                    [
                        InlineKeyboardButton(text="[► Help ◄]", callback_data="help_back"),
-                       InlineKeyboardButton(text="About Me", callback_data="natsunagiabout_"),
+                       InlineKeyboardButton(text="About Me", callback_data="natsunagi_"),
                        InlineKeyboardButton(text="[► Inline ◄]", switch_inline_query_current_chat=""),
                      ],
                     [                  
