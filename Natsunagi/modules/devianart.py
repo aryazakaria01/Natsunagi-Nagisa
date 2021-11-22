@@ -1,8 +1,10 @@
+import asyncio
 import random
 import re
 
 import requests
 from bs4 import BeautifulSoup as bs
+from telethon import events
 from Natsunagi.events import register
 from Natsunagi import eor
 
