@@ -119,7 +119,7 @@ buttons = [
                     ],
                    [
                        InlineKeyboardButton(text="[► Help ◄]", callback_data="help_back"),
-                       InlineKeyboardButton(text="About Me", callback_data="aboutmanu_"),
+                       InlineKeyboardButton(text="About Me", callback_data="natsunagiabout_"),
                        InlineKeyboardButton(text="[► Inline ◄]", switch_inline_query_current_chat=""),
                      ],
                     [                  
@@ -398,7 +398,7 @@ def help_button(update, context):
 
 def natsunagi_about_callback(update, context):
     query = update.callback_query
-    if query.data == "aboutmanu_":
+    if query.data == "natsunagiabout_":
         query.message.edit_text(
             text=f"*Hi again! My Name Is {dispatcher.bot.first_name}. \n\nAs You Know I'm An Anime Themed Group Management Bot.* "
                  f"\n\n Join [Updates Channel](https://t.me/CyberMusicProject) To Keep Yourself Updated About {dispatcher.bot.first_name}."
@@ -410,19 +410,19 @@ def natsunagi_about_callback(update, context):
             reply_markup=InlineKeyboardMarkup(
                 [
                   [
-                    InlineKeyboardButton(text="How To Use Me", callback_data="aboutmanu_howto"),
-                    InlineKeyboardButton(text="T & C", callback_data="aboutmanu_tac")
+                    InlineKeyboardButton(text="How To Use Me", callback_data="natsunagiabout_howto"),
+                    InlineKeyboardButton(text="T & C", callback_data="natsunagiabout_tac")
                   ],
                  [
                     InlineKeyboardButton(text="❔Help & Commands", callback_data="help_back")
                  ],
                  [
-                    InlineKeyboardButton(text="Back", callback_data="aboutmanu_back")
+                    InlineKeyboardButton(text="Back", callback_data="natsunagiabout_back")
                  ] 
                 ]
             ),
         )
-    elif query.data == "aboutmanu_back":
+    elif query.data == "natsunagiabout_back":
         query.message.edit_text(
                 PM_START_TEXT,
                 reply_markup=InlineKeyboardMarkup(buttons),
@@ -430,7 +430,7 @@ def natsunagi_about_callback(update, context):
                 timeout=60, 
             )
         
-    elif query.data == "aboutmanu_howto":
+    elif query.data == "natsunagiabout_howto":
         query.message.edit_text(
             text=f"* ｢ Basic Help 」*"
                  f"\nIf You Can Also Add {dispatcher.bot.first_name} To Your Chats By Clicking [Here](http://t.me/{dispatcher.bot.username}?startgroup=true) And Selecting Chat. \n"
@@ -439,13 +439,13 @@ def natsunagi_about_callback(update, context):
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup([[
-                InlineKeyboardButton(text="Admins Settings", callback_data="aboutmanu_permis"),
-                InlineKeyboardButton(text="Anti Spam", callback_data="aboutmanu_spamprot")],
+                InlineKeyboardButton(text="Admins Settings", callback_data="natsunagiabout_permis"),
+                InlineKeyboardButton(text="Anti Spam", callback_data="natsunagiabout_spamprotec")],
                 [
-                InlineKeyboardButton(text="Back", callback_data="aboutmanu_")]
+                InlineKeyboardButton(text="Back", callback_data="natsunagiabout_")]
                                                ]),
         )
-    elif query.data == "aboutmanu_credit":
+    elif query.data == "natsunagiabout_credit":
         query.message.edit_text(
             text=f"*{dispatcher.bot.first_name} Is A Powerful Bot For Managing Groups With Additional Features.*"
                  f"\n\nFork Of [Cutiepii](https://github.com/Awesome-RJ/CutiepiiRobot) + [Saitama](https://github.com/AnimeKaizoku/SaitamaRobot)."
@@ -453,9 +453,9 @@ def natsunagi_about_callback(update, context):
                  f"\n\nIf Any Question About {dispatcher.bot.first_name}, \nLet Us Know At @{SUPPORT_CHAT}.",
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text="Back", callback_data="aboutmanu_tac")]]),
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text="Back", callback_data="natsunagiabout_tac")]]),
         )
-    elif query.data == "aboutmanu_permis":
+    elif query.data == "natsunagiabout_permis":
         query.message.edit_text(
             text=f"<b> ｢ Admin Permissions 」</b>"
                  f"\nTo avoid slowing down, {dispatcher.bot.first_name} caches admin rights for each user. This cache lasts about 10 minutes; this may change in the future. This means that if you promote a user manually (without using the /promote command), {dispatcher.bot.first_name} will only find out ~10 minutes later."
@@ -465,9 +465,9 @@ def natsunagi_about_callback(update, context):
                  f"\nThis has nothing to do with {dispatcher.bot.first_name}'s rights; this is all about your permissions as an admin. {dispatcher.bot.first_name} respects admin permissions; if you do not have the Ban Users permission as a telegram admin, you won't be able to ban users with {dispatcher.bot.first_name}. Similarly, to change {dispatcher.bot.first_name} settings, you need to have the Change group info permission."
                  f"\n\nThe message very clearly says that you need these rights - <i>not {dispatcher.bot.first_name}.</i>",
             parse_mode=ParseMode.HTML,
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text="Back", callback_data="aboutmanu_howto")]]),
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text="Back", callback_data="natsunagiabout_howto")]]),
         )
-    elif query.data == "aboutmanu_spamprot":
+    elif query.data == "natsunagiabout_spamprotec":
         query.message.edit_text(
             text="* ｢ Anti-Spam Settings 」*"
                  "\n✪ /antispam <on/off/yes/no>: Change antispam security settings in the group, or return your current settings(when no arguments)."
@@ -492,9 +492,9 @@ def natsunagi_about_callback(update, context):
                  "\n\n✪ /welcomemute <off/soft/strong>: All users that join, get muted"
                  "\n_ A button gets added to the welcome message for them to unmute themselves. This proves they aren't a bot! soft - restricts users ability to post media for 24 hours. strong - mutes on join until they prove they're not bots._",
             parse_mode=ParseMode.MARKDOWN,
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text="Back", callback_data="aboutmanu_howto")]]),
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text="Back", callback_data="natsunagiabout_howto")]]),
         )
-    elif query.data == "aboutmanu_tac":
+    elif query.data == "natsunagiabout_tac":
         query.message.edit_text(
             text=f"<b> ｢ Terms and Conditions 」</b>\n"
                  f"\n<i>To Use This Bot, You Need To Read Terms and Conditions Carefully.</i>\n"
@@ -511,8 +511,8 @@ def natsunagi_about_callback(update, context):
             reply_markup=InlineKeyboardMarkup(
                 [
                   [
-                    InlineKeyboardButton(text="Credits", callback_data="aboutmanu_credit"),
-                    InlineKeyboardButton(text="Back", callback_data="aboutmanu_")
+                    InlineKeyboardButton(text="Credits", callback_data="natsunagiabout_credit"),
+                    InlineKeyboardButton(text="Back", callback_data="natsunagiabout_")
                   ]])
         )
 
@@ -825,7 +825,7 @@ def main():
     settings_handler = DisableAbleCommandHandler("settings", get_settings)
     settings_callback_handler = CallbackQueryHandler(settings_button, pattern=r"stngs_", run_async=True)
 
-    data_callback_handler = CallbackQueryHandler(natsunagi_about_callback, pattern=r"aboutmanu_", run_async=True)
+    about_callback_handler = CallbackQueryHandler(natsunagi_about_callback, pattern=r"natsunagiabout_", run_async=True)
     donate_handler = DisableAbleCommandHandler("donate", donate, run_async=True)
     migrate_handler = MessageHandler(Filters.status_update.migrate, migrate_chats, run_async=True)
     is_chat_allowed_handler = MessageHandler(Filters.chat_type.groups, is_chat_allowed, run_async=True)
@@ -833,7 +833,7 @@ def main():
     # dispatcher.add_handler(test_handler)
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(help_handler)
-    dispatcher.add_handler(data_callback_handler)
+    dispatcher.add_handler(about_callback_handler)
     dispatcher.add_handler(settings_handler)
     dispatcher.add_handler(help_callback_handler)
     dispatcher.add_handler(settings_callback_handler)
