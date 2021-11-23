@@ -93,6 +93,7 @@ def get_readable_time(seconds: int) -> str:
     return ping_time
 
 HELP_MSG = "Click the button below to get help manu in your pm."
+HELP_MSG_MODULES = "Contact me in PM to get help of {}"
 START_MSG = "I'm awake already!\n<b>Haven't slept since:</b> <code>{}</code>"
     
 PM_START_TEXT = """
@@ -524,9 +525,29 @@ def get_help(update, context):
 
     # ONLY send help in PM
     if chat.type != chat.PRIVATE:
-
+        
+        if len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
+            module = args[1].lower()
+            update.effective_message.reply_photo(
+                HELP_IMG,
+                HELP_MSG_MODULES.format(module.capitalize()),
+                reply_markup=InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton(
+                                text="Open In Private Chat",
+                                url="t.me/{}?start=ghelp_{}".format(
+                                    context.bot.username, module,
+                                ),
+                            ),
+                        ],
+                    ],
+                ),
+            )
+            return
         update.effective_message.reply_photo(
-            HELP_IMG, HELP_MSG,
+            HELP_IMG,
+            HELP_MSG,
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
