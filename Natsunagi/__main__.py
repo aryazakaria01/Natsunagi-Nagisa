@@ -436,7 +436,12 @@ def natsunagi_about_callback(update, context):
         )
     elif query.data == "natsunagi_back":
         query.message.edit_text(
-                PM_START_TEXT,
+                PM_START_TEXT.format(
+                    escape_markdown(context.bot.first_name),
+                    escape_markdown(first_name),
+                    escape_markdown(uptime),
+                    sql.num_users(),
+                    sql.num_chats()),
                 reply_markup=InlineKeyboardMarkup(buttons),
                 parse_mode=ParseMode.MARKDOWN,
                 timeout=60, 
@@ -876,7 +881,7 @@ def main():
 
     if WEBHOOK:
         LOGGER.info("Natsunagi Started, Using webhooks.")
-        updater.start_webhook(listen="127.0.0.1", port=PORT, url_path=TOKEN)
+        updater.start_webhook(listen="0.0.0.0", port=PORT, url_path=TOKEN)
 
         if CERT_PATH:
             updater.bot.set_webhook(url=URL + TOKEN, certificate=open(CERT_PATH, "rb"))
