@@ -1,7 +1,7 @@
 # Language name in their native
 language: "English 🇺🇲"
 # name of people(s) who worked on this translation
-authors: "@dank_as_fuck"
+authors: "@Badboyanim"
 
 # languages
 curr_chat_lang: "Hey. Your current language is {}, select the one you want from the buttons below :)"
@@ -13,7 +13,7 @@ pm_start_text: |
    I am an Anime themed group management bot with some fun extras ;)
    Try the buttons below to know how I work.
    
-grp_start_text: "Well I'm alive!"
+grp_start_text: "I Aᴍ Aʟɪᴠᴇ 🔥"
 
 pm_help_text: |
    Hello there! My name is *Yuii*.*.
