@@ -97,6 +97,10 @@ def ban(update: Update, context: CallbackContext) -> str:
         else:
             message.reply_text("This user has immunity and cannot be banned.")
         return log_message
+
+    if message.text.startswith("/d") and message.reply_to_message:
+        message.reply_to_message.delete()
+
     if message.text.startswith("/s"):
         silent = True
         if not can_delete(chat, context.bot.id):
@@ -562,7 +566,7 @@ __help__ = """
 """
 
 
-BAN_HANDLER = CommandHandler(["ban", "sban"], ban, run_async=True)
+BAN_HANDLER = CommandHandler(["ban", "sban", "dban"], ban, run_async=True)
 TEMPBAN_HANDLER = CommandHandler(["tban"], temp_ban, run_async=True)
 KICK_HANDLER = CommandHandler(["kick", "punch"], punch, run_async=True)
 UNBAN_HANDLER = CommandHandler("unban", unban, run_async=True)
