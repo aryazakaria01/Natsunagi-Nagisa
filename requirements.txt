@@ -17,7 +17,7 @@ requests
 spamwatch
 speedtest-cli
 spongemock
-SQLAlchemy==1.4.26
+SQLAlchemy==1.4.27
 telethon==1.23.0
 ujson
 wikipedia
@@ -140,3 +140,7 @@ humanfriendly
 yarl
 pytio
 meval
+git+https://github.com/python-telegram-bot/ptbcontrib.git
+gitpython
+Intellivoid-SPB
+rich
