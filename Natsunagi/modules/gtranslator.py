@@ -10,7 +10,7 @@ from Natsunagi.modules.helper_funcs.alternate import typing_action, send_action
 
 trans = SyncTranslator()
 
-async def translate(update: Update, context: CallbackContext) -> None:
+def translate(update: Update, context: CallbackContext) -> None:
     bot = context.bot
     message = update.effective_message
     reply_msg = message.reply_to_message
@@ -40,7 +40,7 @@ async def translate(update: Update, context: CallbackContext) -> None:
     bot.send_message(text=reply, chat_id=message.chat.id, parse_mode=ParseMode.HTML)
 
     
-async def languages(update: Update, context: CallbackContext) -> None:
+def languages(update: Update, context: CallbackContext) -> None:
     update.effective_message.reply_text(
         "Click on the button below to see the list of supported language codes.",
         reply_markup=InlineKeyboardMarkup(
@@ -57,7 +57,7 @@ async def languages(update: Update, context: CallbackContext) -> None:
     )
     
 @send_action(ChatAction.RECORD_AUDIO)
-async def gtts(update, context):
+def gtts(update, context):
     msg = update.effective_message
     reply = " ".join(context.args)
     if not reply:
@@ -85,7 +85,7 @@ URL = "http://services.gingersoftware.com/Ginger/correct/json/GingerTheText"
 
 
 @typing_action
-async def spellcheck(update, _):
+def spellcheck(update, _):
     if update.effective_message.reply_to_message:
         msg = update.effective_message.reply_to_message
 
