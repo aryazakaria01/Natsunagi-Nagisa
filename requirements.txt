@@ -135,11 +135,3 @@ natsort
 lottie
 tracemoepy
 hiredis
-humanfriendly
-yarl
-pytio
-meval
-git+https://github.com/python-telegram-bot/ptbcontrib.git
-gitpython
-Intellivoid-SPB
-rich
