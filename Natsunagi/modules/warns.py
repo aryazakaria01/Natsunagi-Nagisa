@@ -112,7 +112,7 @@ def warn(user: User,
                     ]
                 ]
             )
-        )
+        
         reply = (
             f"<code>❕</code><b>Warn Event</b>\n"
             f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
