@@ -89,7 +89,6 @@ git+https://github.com/yt-dlp/yt-dlp@master
 git+https://github.com/aio-libs/async-lru.git
 python-arq
 aiohttp
-aiohttp[speedups]
 carbonnow
 search_engine_parser
 googletrans
