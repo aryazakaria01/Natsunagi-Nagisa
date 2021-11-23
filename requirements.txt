@@ -84,8 +84,9 @@ geopy
 humanize
 heroku3
 beautifulsoup4
-git+https://github.com/pyrogram/pyrogram@master
+git+https://github.com/AmanoTeam/pyrogram.git
 git+https://github.com/yt-dlp/yt-dlp@master
+git+https://github.com/aio-libs/async-lru.git
 python-arq
 aiohttp
 aiohttp[speedups]
@@ -135,3 +136,7 @@ natsort
 lottie
 tracemoepy
 hiredis
+humanfriendly
+yarl
+pytio
+meval
