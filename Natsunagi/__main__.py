@@ -45,7 +45,13 @@ from Natsunagi.modules.helper_funcs.chat_status import is_user_admin
 from Natsunagi.modules.helper_funcs.alternate import typing_action
 from Natsunagi.modules.helper_funcs.misc import paginate_modules
 from Natsunagi.modules.disable import DisableAbleCommandHandler
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
+from telegram import ( 
+    InlineKeyboardButton, 
+    InlineKeyboardMarkup, 
+    ParseMode, 
+    Update,
+)
+
 from telegram.error import (
     BadRequest,
     ChatMigrated,
@@ -63,10 +69,17 @@ from telegram.ext import (
     MessageHandler,
 )
 
-from telegram.ext.dispatcher import DispatcherHandlerStop, run_async
+from telegram.ext.dispatcher import ( 
+    DispatcherHandlerStop, 
+    run_async,
+)
+
 from telegram.utils.helpers import escape_markdown
 from pyrogram import Client
-from telethon import Button, events
+from telethon import (
+    Button, 
+    events,
+)    
 
 def get_readable_time(seconds: int) -> str:
     count = 0
@@ -97,14 +110,12 @@ HELP_MSG_MODULES = "Contact me in PM to get help of {}"
 START_MSG = "I'm awake already!\n<b>Haven't slept since:</b> <code>{}</code>"
     
 PM_START_TEXT = """
-────「 [{}](https://telegra.ph/file/cd1ff43d08d42cdd93ab5.jpg) 」────
-*Hola! {},*
-*I am an Anime themed advance group management bot with a lot of Sexy Features.*
-➖➖➖➖➖➖➖➖➖➖➖➖➖
-• *Uptime:* `{}`
-• `{}` *users, across* `{}` *chats.*
-➖➖➖➖➖➖➖➖➖➖➖➖➖
-➛ Try The Help Buttons Below To Know My Abilities ××
+Hello {}, My name is {}, and i'm here for you![.](https://telegra.ph/file/cd1ff43d08d42cdd93ab5.jpg)
+────────────────────────
+❂ I'm an anime-themed group management bot with an Tantei wa mou, shindeiru theme.
+❂ Maintenance by @Badboyanim
+────────────────────────
+❂ Click the button /help below to see how to use me.
 """
 
 GROUP_START_TEXT = """
@@ -135,16 +146,16 @@ buttons = [
 
                     
 HELP_STRINGS = """
-*Main* commands available:
+*Main commands available*[:](https://telegra.ph/file/b7430b90a96224f0a79b6.jpg)
  ➛ /help: PM's you this message.
  ➛ /help <module name>: PM's you info about that module.
  ➛ /donate: information on how to donate!
  ➛ /settings:
-   ❂ in PM: will send you your settings for all supported modules.
-   ❂ in a group: will redirect you to pm, with all that chat's settings.
+   × in PM: will send you your settings for all supported modules.
+   × in a group: will redirect you to pm, with all that chat's settings.
 """
 
-DONATE_STRING = """❂ I'm Free for Everyone ❂"""
+DONATE_STRING = """× I'm Free for Everyone ×"""
 
 
 IMPORTED = {}
@@ -435,7 +446,7 @@ def natsunagi_about_callback(update, context):
         query.message.edit_text(
             text=f"* ｢ Basic Help 」*"
                  f"\nIf You Can Also Add {dispatcher.bot.first_name} To Your Chats By Clicking [Here](http://t.me/{dispatcher.bot.username}?startgroup=true) And Selecting Chat. \n"
-                 f"\n\nYou Can Know Main commands of {dispatcher.bot.first_name} by Just Clicking [Here](https://t.me/{dispatcher.bot.username}?start=help).\n"
+                 f"\nYou Can Know Main commands of {dispatcher.bot.first_name} by Just Clicking [Here](https://t.me/{dispatcher.bot.username}?start=help).\n"
                  f"",
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
@@ -865,7 +876,7 @@ def main():
 
     if WEBHOOK:
         LOGGER.info("Natsunagi Started, Using webhooks.")
-        updater.start_webhook(listen="0.0.0.0", port=PORT, url_path=TOKEN)
+        updater.start_webhook(listen="127.0.0.1", port=PORT, url_path=TOKEN)
 
         if CERT_PATH:
             updater.bot.set_webhook(url=URL + TOKEN, certificate=open(CERT_PATH, "rb"))
