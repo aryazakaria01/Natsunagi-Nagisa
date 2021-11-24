@@ -65,7 +65,7 @@ def warn(user: User, update: Update, context: CallbackContext)
     chat: Chat,
     reason: str,
     message: Message,
-    warner: User = None) -> str:
+    warner: User = None -> str:
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
