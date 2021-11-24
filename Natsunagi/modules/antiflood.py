@@ -19,13 +19,12 @@ from Natsunagi.modules.helper_funcs.alternate import send_message, typing_action
 FLOOD_GROUP = 3
 
 
-
 @loggable
 def check_flood(update, context) -> str:
     user = update.effective_user  # type: Optional[User]
     chat = update.effective_chat  # type: Optional[Chat]
-    msg = update.effective_message  # type: Optional[Message]    
-    
+    msg = update.effective_message  # type: Optional[Message]
+
     if is_approved(chat.id, user.id):
         sql.update_flood(chat.id, None)
         return
@@ -37,7 +36,7 @@ def check_flood(update, context) -> str:
     if is_user_admin(chat, user.id):
         sql.update_flood(chat.id, None)
         return ""
-    
+
     should_ban = sql.update_flood(chat.id, user.id)
     if not should_ban:
         return ""
@@ -74,8 +73,10 @@ def check_flood(update, context) -> str:
             )
             execstrings = "Muted for {}".format(getvalue)
             tag = "TMUTE"
-        send_message(update.effective_message,
-                     "Wanna Spam?! Sorry it's not your house Man!\n{}!".format(execstrings))
+        send_message(
+            update.effective_message,
+            "Wanna Spam?! Sorry it's not your house Man!\n{}!".format(execstrings),
+        )
 
         return (
             "<b>{}:</b>"
@@ -98,7 +99,6 @@ def check_flood(update, context) -> str:
                 chat.title
             )
         )
-
 
 
 @user_admin
@@ -239,7 +239,6 @@ def flood(update, context):
     send_message(update.effective_message, text, parse_mode="markdown")
 
 
-
 @user_admin
 @loggable
 @typing_action
@@ -376,7 +375,9 @@ will result in restricting that user.
 __mod_name__ = "Anti-Flood"
 
 FLOOD_BAN_HANDLER = MessageHandler(
-    Filters.all & ~Filters.status_update & Filters.chat_type.groups, check_flood, run_async=True
+    Filters.all & ~Filters.status_update & Filters.chat_type.groups,
+    check_flood,
+    run_async=True,
 )
 SET_FLOOD_HANDLER = CommandHandler(
     "setflood", set_flood, pass_args=True, run_async=True
@@ -384,7 +385,9 @@ SET_FLOOD_HANDLER = CommandHandler(
 SET_FLOOD_MODE_HANDLER = CommandHandler(
     "setfloodmode", set_flood_mode, pass_args=True, run_async=True
 )  # , filters=Filters.chat_type.groups)
-FLOOD_HANDLER = CommandHandler("flood", flood, run_async=True)  # , filters=Filters.chat_type.groups)
+FLOOD_HANDLER = CommandHandler(
+    "flood", flood, run_async=True
+)  # , filters=Filters.chat_type.groups)
 
 dispatcher.add_handler(FLOOD_BAN_HANDLER, FLOOD_GROUP)
 dispatcher.add_handler(SET_FLOOD_HANDLER)

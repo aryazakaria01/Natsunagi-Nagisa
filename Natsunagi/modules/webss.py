@@ -4,6 +4,7 @@ from pyrogram.types import Message
 from Natsunagi import pgram
 from Natsunagi.utils.errors import capture_err
 
+
 @pgram.on_message(filters.command("webss"))
 @capture_err
 async def take_ss(_, message: Message):
@@ -23,5 +24,6 @@ async def take_ss(_, message: Message):
         await m.delete()
     except Exception as e:
         await message.reply_text(str(e))
+
 
 __mod_name__ = "webss"

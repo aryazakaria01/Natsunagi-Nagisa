@@ -6,6 +6,7 @@ try:
 except BaseException:
     REDIS.set("Approvals", "{}")
 
+
 def approve(chat_id, user_id):
     approved = ast.literal_eval(REDIS.get("Approvals"))
     try:
@@ -16,6 +17,7 @@ def approve(chat_id, user_id):
     except BaseException:
         approved.update({chat_id: [user_id]})
     return REDIS.set("Approvals", str(approved))
+
 
 def disapprove(chat_id, user_id):
     approved = ast.literal_eval(REDIS.get("Approvals"))
@@ -28,6 +30,7 @@ def disapprove(chat_id, user_id):
         pass
     return REDIS.set("Approvals", str(approved))
 
+
 def is_approved(chat_id, user_id):
     approved = ast.literal_eval(REDIS.get("Approvals"))
     try:
@@ -37,6 +40,7 @@ def is_approved(chat_id, user_id):
         return
     except BaseException:
         return
+
 
 def list_approved(chat_id):
     approved = ast.literal_eval(REDIS.get("Approvals"))

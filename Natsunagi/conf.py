@@ -31,6 +31,7 @@ if os.path.isfile(CONFIG_PATH):
 else:
     log.info("Using env vars")
 
+
 def get_list_key(name, required=False):
     if name in DEFAULTS:
         default = DEFAULTS[name]
@@ -45,6 +46,7 @@ def get_list_key(name, required=False):
     else:
         return data
 
+
 def get_bool_key(name, required=False):
     if name in DEFAULTS:
         default = DEFAULTS[name]
@@ -57,8 +59,9 @@ def get_bool_key(name, required=False):
         log.critical("No bool key: " + name)
         sys.exit(2)
     else:
-        return data   
- 
+        return data
+
+
 def get_str_key(name, required=False):
     if name in DEFAULTS:
         default = DEFAULTS[name]
@@ -72,6 +75,7 @@ def get_str_key(name, required=False):
         sys.exit(2)
     else:
         return data
+
 
 def get_int_key(name, required=False):
     if name in DEFAULTS:

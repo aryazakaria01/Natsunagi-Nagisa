@@ -30,6 +30,7 @@ def leave_cb(update: Update, context: CallbackContext):
     bot.leave_chat(chat_id=chat)
     callback.answer(text="Left chat")
 
+
 @dev_plus
 def allow_groups(update: Update, context: CallbackContext):
     args = context.args
@@ -46,7 +47,7 @@ def allow_groups(update: Update, context: CallbackContext):
         return
     update.effective_message.reply_text("Done! Lockdown value toggled.")
 
-	
+
 class Store:
     def __init__(self, func):
         self.func = func
@@ -74,8 +75,8 @@ class Store:
 
 async def nothing(event):
     pass
-	
-	
+
+
 messages = Store(nothing)
 inline_queries = Store(nothing)
 callback_queries = Store(nothing)
@@ -83,15 +84,16 @@ callback_queries = Store(nothing)
 telethn.add_event_handler(messages, events.NewMessage())
 telethn.add_event_handler(inline_queries, events.InlineQuery())
 telethn.add_event_handler(callback_queries, events.CallbackQuery())
-	
-	
+
+
 @telethn.on(events.NewMessage(pattern=r"/getstats", from_users=OWNER_ID))
 async def getstats(event):
     await event.reply(
         f"**__CUTIEPII EVENT STATISTICS__**\n**Average messages:** {messages.average()}/s\n**Average Callback Queries:** {callback_queries.average()}/s\n**Average Inline Queries:** {inline_queries.average()}/s",
-        parse_mode='md'
+        parse_mode="md",
     )
-	
+
+
 @dev_plus
 def pip_install(update: Update, context: CallbackContext):
     message = update.effective_message
@@ -100,9 +102,12 @@ def pip_install(update: Update, context: CallbackContext):
         message.reply_text("Enter a package name.")
         return
     if len(args) >= 1:
-        cmd = "py -m pip install {}".format(' '.join(args))
+        cmd = "py -m pip install {}".format(" ".join(args))
         process = subprocess.Popen(
-            cmd.split(" "), stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True,
+            cmd.split(" "),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            shell=True,
         )
         stdout, stderr = process.communicate()
         reply = ""
@@ -115,7 +120,7 @@ def pip_install(update: Update, context: CallbackContext):
 
         message.reply_text(text=reply, parse_mode=ParseMode.MARKDOWN)
 
-	
+
 @dev_plus
 def leave(update: Update, context: CallbackContext):
     bot = context.bot
@@ -132,12 +137,22 @@ def leave(update: Update, context: CallbackContext):
     else:
         chat = update.effective_chat
         # user = update.effective_user
-        cutiepii_leave_bt = [[
-            InlineKeyboardButton(text="I am sure of this action.", callback_data="leavechat_cb_({})".format(chat.id))
-        ]]
-        update.effective_message.reply_text("I'm going to leave {}, press the button below to confirm".format(chat.title), reply_markup=InlineKeyboardMarkup(cutiepii_leave_bt))
+        cutiepii_leave_bt = [
+            [
+                InlineKeyboardButton(
+                    text="I am sure of this action.",
+                    callback_data="leavechat_cb_({})".format(chat.id),
+                )
+            ]
+        ]
+        update.effective_message.reply_text(
+            "I'm going to leave {}, press the button below to confirm".format(
+                chat.title
+            ),
+            reply_markup=InlineKeyboardMarkup(cutiepii_leave_bt),
+        )
 
-	
+
 @dev_plus
 def gitpull(update: Update, context: CallbackContext):
     sent_msg = update.effective_message.reply_text(
@@ -160,17 +175,22 @@ def gitpull(update: Update, context: CallbackContext):
 @dev_plus
 def restart(update: Update, context: CallbackContext):
     update.effective_message.reply_text(
-	"Exiting all Processes and starting a new Instance!"
+        "Exiting all Processes and starting a new Instance!"
     )
-    process = subprocess.run("pkill python3 && python3 -m Natsunagi", shell=True, check=True)
+    process = subprocess.run(
+        "pkill python3 && python3 -m Natsunagi", shell=True, check=True
+    )
     process.communicate()
+
 
 PIP_INSTALL_HANDLER = CommandHandler("install", pip_install, run_async=True)
 LEAVE_HANDLER = CommandHandler("leave", leave, run_async=True)
 GITPULL_HANDLER = CommandHandler("gitpull", gitpull, run_async=True)
 RESTART_HANDLER = CommandHandler("reboot", restart, run_async=True)
 ALLOWGROUPS_HANDLER = CommandHandler("lockdown", allow_groups, run_async=True)
-LEAVE_CALLBACK_HANDLER = CallbackQueryHandler(leave_cb, pattern=r"leavechat_cb_", run_async=True)
+LEAVE_CALLBACK_HANDLER = CallbackQueryHandler(
+    leave_cb, pattern=r"leavechat_cb_", run_async=True
+)
 
 dispatcher.add_handler(PIP_INSTALL_HANDLER)
 dispatcher.add_handler(ALLOWGROUPS_HANDLER)
@@ -180,4 +200,11 @@ dispatcher.add_handler(RESTART_HANDLER)
 dispatcher.add_handler(LEAVE_CALLBACK_HANDLER)
 
 __mod_name__ = "Dev"
-__handlers__ = [LEAVE_HANDLER, GITPULL_HANDLER, RESTART_HANDLER, ALLOWGROUPS_HANDLER, LEAVE_CALLBACK_HANDLER, PIP_INSTALL_HANDLER]
+__handlers__ = [
+    LEAVE_HANDLER,
+    GITPULL_HANDLER,
+    RESTART_HANDLER,
+    ALLOWGROUPS_HANDLER,
+    LEAVE_CALLBACK_HANDLER,
+    PIP_INSTALL_HANDLER,
+]

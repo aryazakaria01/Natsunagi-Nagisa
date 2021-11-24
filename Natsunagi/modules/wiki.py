@@ -25,7 +25,8 @@ def wiki(update: Update, context: CallbackContext):
         )
     except PageError as e:
         update.message.reply_text(
-            "<code>{}</code>".format(e), parse_mode=ParseMode.HTML,
+            "<code>{}</code>".format(e),
+            parse_mode=ParseMode.HTML,
         )
     if res:
         result = f"<b>{search}</b>\n\n"
@@ -44,7 +45,9 @@ def wiki(update: Update, context: CallbackContext):
                 )
         else:
             update.message.reply_text(
-                result, parse_mode=ParseMode.HTML, disable_web_page_preview=True,
+                result,
+                parse_mode=ParseMode.HTML,
+                disable_web_page_preview=True,
             )
 
 

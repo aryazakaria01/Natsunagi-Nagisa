@@ -213,7 +213,7 @@ async def edit_or_reply(message, text, parse_mode="md"):
 
 
 async def runcmd(cmd: str) -> Tuple[str, str, int, int]:
-    """ run command in terminal """
+    """run command in terminal"""
     args = shlex.split(cmd)
     process = await asyncio.create_subprocess_exec(
         *args, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
@@ -306,10 +306,7 @@ async def get_administrators(chat: Chat) -> List[User]:
         return _get
     set(
         chat.id,
-        (
-            member.user
-            for member in await chat.get_member(filter="administrators")
-        ),
+        (member.user for member in await chat.get_member(filter="administrators")),
     )
 
     return await get_administrators(chat)

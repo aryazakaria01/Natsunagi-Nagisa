@@ -1,6 +1,5 @@
 TRUTH = (
-    "Have you ghosted someone?"
-    "Have you ever walked in on your parents doing 'it'?",
+    "Have you ghosted someone?" "Have you ever walked in on your parents doing 'it'?",
     "Who was the last person you liked the most? Why?",
     "Have you ever been suspended from school?",
     "If you had to choose between going naked or having your thoughts appear in thought bubbles above your head for everyone to read, which would you choose?",
@@ -17,7 +16,6 @@ TRUTH = (
     "Have you ever lied about your age to participate in a contest?",
     "Have you ever been caught checking someone out?",
     "Have you ever send picture like boobs?",
-  
 )
 
 DARE = (

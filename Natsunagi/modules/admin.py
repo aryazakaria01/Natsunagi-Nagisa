@@ -33,6 +33,7 @@ from Natsunagi.modules.helper_funcs.extraction import (
 from Natsunagi.modules.log_channel import loggable
 from Natsunagi.modules.helper_funcs.alternate import send_message, typing_action
 
+
 async def is_register_admin(chat, user):
     if isinstance(chat, (types.InputPeerChannel, types.InputChannel)):
         return isinstance(
@@ -43,7 +44,8 @@ async def is_register_admin(chat, user):
         )
     if isinstance(chat, types.InputPeerUser):
         return True
-    
+
+
 async def can_promote_users(message):
     result = await bot(
         functions.channels.GetParticipantRequest(
@@ -55,6 +57,7 @@ async def can_promote_users(message):
     return isinstance(p, types.ChannelParticipantCreator) or (
         isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.ban_users
     )
+
 
 async def can_ban_users(message):
     result = await bot(
@@ -68,7 +71,6 @@ async def can_ban_users(message):
         isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.ban_users
     )
 
-    
 
 @bot.on(events.NewMessage(pattern="/users$"))
 async def get_users(show):
@@ -124,8 +126,8 @@ def set_sticker(update: Update, context: CallbackContext):
             msg.reply_text(f"Error! {excp.message}.")
     else:
         msg.reply_text("You need to reply to some sticker to set chat sticker set!")
-       
-    
+
+
 @bot_admin
 @user_admin
 def setchatpic(update: Update, context: CallbackContext):
@@ -160,7 +162,8 @@ def setchatpic(update: Update, context: CallbackContext):
                 os.remove("gpic.png")
     else:
         msg.reply_text("Reply to some photo or file to set new chat pic!")
-        
+
+
 @bot_admin
 @user_admin
 def rmchatpic(update: Update, context: CallbackContext):
@@ -177,7 +180,8 @@ def rmchatpic(update: Update, context: CallbackContext):
     except BadRequest as excp:
         msg.reply_text(f"Error! {excp.message}.")
         return
-    
+
+
 @bot_admin
 @user_admin
 def set_desc(update: Update, context: CallbackContext):
@@ -199,8 +203,9 @@ def set_desc(update: Update, context: CallbackContext):
         context.bot.set_chat_description(chat.id, desc)
         msg.reply_text(f"Successfully updated chat description in {chat.title}!")
     except BadRequest as excp:
-        msg.reply_text(f"Error! {excp.message}.")        
-        
+        msg.reply_text(f"Error! {excp.message}.")
+
+
 @bot_admin
 @user_admin
 def setchat_title(update: Update, context: CallbackContext):
@@ -227,8 +232,8 @@ def setchat_title(update: Update, context: CallbackContext):
     except BadRequest as excp:
         msg.reply_text(f"Error! {excp.message}.")
         return
-        
-        
+
+
 @bot_admin
 @can_promote
 @user_admin
@@ -311,6 +316,7 @@ def promote(update, context):
         )
     )
 
+
 @bot_admin
 @can_promote
 @user_admin
@@ -388,6 +394,7 @@ def fullpromote(update, context):
             mention_html(user_member.user.id, user_member.user.first_name),
         )
     )
+
 
 @bot_admin
 @can_promote
@@ -626,21 +633,30 @@ def unpin(update, context):
 def pinned(update: Update, context: CallbackContext) -> str:
     bot = context.bot
     msg = update.effective_message
-    msg_id = update.effective_message.reply_to_message.message_id if update.effective_message.reply_to_message else update.effective_message.message_id
+    msg_id = (
+        update.effective_message.reply_to_message.message_id
+        if update.effective_message.reply_to_message
+        else update.effective_message.message_id
+    )
 
     chat = bot.getChat(chat_id=msg.chat.id)
     if chat.pinned_message:
         pinned_id = chat.pinned_message.message_id
         if msg.chat.username:
             link_chat_id = msg.chat.username
-            message_link = (f"https://t.me/{link_chat_id}/{pinned_id}")
+            message_link = f"https://t.me/{link_chat_id}/{pinned_id}"
         elif (str(msg.chat.id)).startswith("-100"):
             link_chat_id = (str(msg.chat.id)).replace("-100", "")
-            message_link = (f"https://t.me/c/{link_chat_id}/{pinned_id}")
-            
-        msg.reply_text(f'The pinned message of {html.escape(chat.title)} is <a href="{message_link}">here</a>.', reply_to_message_id=msg_id, parse_mode=ParseMode.HTML, disable_web_page_preview=True,)
+            message_link = f"https://t.me/c/{link_chat_id}/{pinned_id}"
+
+        msg.reply_text(
+            f'The pinned message of {html.escape(chat.title)} is <a href="{message_link}">here</a>.',
+            reply_to_message_id=msg_id,
+            parse_mode=ParseMode.HTML,
+            disable_web_page_preview=True,
+        )
     else:
-        msg.reply_text(f'There is no pinned message in {html.escape(chat.title)}!')
+        msg.reply_text(f"There is no pinned message in {html.escape(chat.title)}!")
 
 
 @bot_admin
@@ -676,6 +692,7 @@ def invite(update, context):
         msg.reply_text(
             "I can only give you invite links for supergroups and channels, sorry!"
         )
+
 
 @connection_status
 def adminlist(update, context):
@@ -839,26 +856,48 @@ __help__ = """
   ➢ `/setsticker`*:* Set group sticker
 """
 
-SET_DESC_HANDLER = CommandHandler("setdesc", set_desc, filters=Filters.chat_type.groups, run_async=True)
-SET_STICKER_HANDLER = CommandHandler("setsticker", set_sticker, filters=Filters.chat_type.groups, run_async=True)
-SETCHATPIC_HANDLER = CommandHandler("setgpic", setchatpic, filters=Filters.chat_type.groups, run_async=True)
-RMCHATPIC_HANDLER = CommandHandler("delgpic", rmchatpic, filters=Filters.chat_type.groups, run_async=True)
-SETCHAT_TITLE_HANDLER = CommandHandler("setgtitle", setchat_title, filters=Filters.chat_type.groups, run_async=True)
+SET_DESC_HANDLER = CommandHandler(
+    "setdesc", set_desc, filters=Filters.chat_type.groups, run_async=True
+)
+SET_STICKER_HANDLER = CommandHandler(
+    "setsticker", set_sticker, filters=Filters.chat_type.groups, run_async=True
+)
+SETCHATPIC_HANDLER = CommandHandler(
+    "setgpic", setchatpic, filters=Filters.chat_type.groups, run_async=True
+)
+RMCHATPIC_HANDLER = CommandHandler(
+    "delgpic", rmchatpic, filters=Filters.chat_type.groups, run_async=True
+)
+SETCHAT_TITLE_HANDLER = CommandHandler(
+    "setgtitle", setchat_title, filters=Filters.chat_type.groups, run_async=True
+)
 
-ADMINLIST_HANDLER = DisableAbleCommandHandler(["admins", "adminlist"], adminlist, run_async=True)
+ADMINLIST_HANDLER = DisableAbleCommandHandler(
+    ["admins", "adminlist"], adminlist, run_async=True
+)
 
-PIN_HANDLER = CommandHandler("pin", pin, filters=Filters.chat_type.groups, run_async=True)
-UNPIN_HANDLER = CommandHandler("unpin", unpin, filters=Filters.chat_type.groups, run_async=True)
-PINNED_HANDLER = CommandHandler("pinned", pinned, filters=Filters.chat_type.groups, run_async=True)
+PIN_HANDLER = CommandHandler(
+    "pin", pin, filters=Filters.chat_type.groups, run_async=True
+)
+UNPIN_HANDLER = CommandHandler(
+    "unpin", unpin, filters=Filters.chat_type.groups, run_async=True
+)
+PINNED_HANDLER = CommandHandler(
+    "pinned", pinned, filters=Filters.chat_type.groups, run_async=True
+)
 
 INVITE_HANDLER = DisableAbleCommandHandler("invitelink", invite, run_async=True)
 
 PROMOTE_HANDLER = DisableAbleCommandHandler("promote", promote, run_async=True)
-FULLPROMOTE_HANDLER = DisableAbleCommandHandler("fullpromote", fullpromote, run_async=True)
+FULLPROMOTE_HANDLER = DisableAbleCommandHandler(
+    "fullpromote", fullpromote, run_async=True
+)
 DEMOTE_HANDLER = DisableAbleCommandHandler("demote", demote, run_async=True)
 
 SET_TITLE_HANDLER = CommandHandler("title", set_title, run_async=True)
-ADMIN_REFRESH_HANDLER = CommandHandler("admincache", refresh_admin, filters=Filters.chat_type.groups, run_async=True)
+ADMIN_REFRESH_HANDLER = CommandHandler(
+    "admincache", refresh_admin, filters=Filters.chat_type.groups, run_async=True
+)
 
 dispatcher.add_handler(SET_DESC_HANDLER)
 dispatcher.add_handler(SET_STICKER_HANDLER)
@@ -878,18 +917,13 @@ dispatcher.add_handler(ADMIN_REFRESH_HANDLER)
 
 __mod_name__ = "Admins"
 __command_list__ = [
-    "setdesc"
-    "setsticker"
-    "setgpic"
-    "delgpic"
-    "setgtitle"
-    "adminlist",
-    "admins", 
-    "invitelink", 
-    "promote", 
+    "setdesc" "setsticker" "setgpic" "delgpic" "setgtitle" "adminlist",
+    "admins",
+    "invitelink",
+    "promote",
     "fullpromote",
-    "demote", 
-    "admincache"
+    "demote",
+    "admincache",
 ]
 __handlers__ = [
     SET_DESC_HANDLER,

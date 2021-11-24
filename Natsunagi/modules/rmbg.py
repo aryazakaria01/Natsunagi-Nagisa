@@ -8,6 +8,7 @@ from telethon.tl import functions
 from Natsunagi.events import register
 from Natsunagi import TEMP_DOWNLOAD_DIRECTORY, REM_BG_API_KEY, telethn, SUPPORT_CHAT
 
+
 async def is_register_admin(chat, user):
     if isinstance(chat, (types.InputPeerChannel, types.InputChannel)):
         return isinstance(

@@ -25,7 +25,6 @@ BLACKLISTWHITELIST = [OWNER_ID] + DEV_USERS + DRAGONS + WOLVES + DEMONS
 BLABLEUSERS = [OWNER_ID] + DEV_USERS
 
 
-
 @dev_plus
 @gloggable
 def bl_user(update: Update, context: CallbackContext) -> str:
@@ -65,7 +64,6 @@ def bl_user(update: Update, context: CallbackContext) -> str:
         log_message += f"\n<b>Reason:</b> {reason}"
 
     return log_message
-
 
 
 @dev_plus

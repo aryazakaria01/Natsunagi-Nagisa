@@ -7,7 +7,6 @@ from Natsunagi import telethn, BOT_NAME
 from Natsunagi.events import register
 
 
-
 @register(pattern="^/tagall ?(.*)")
 async def _(event):
     if event.fwd_from:
@@ -18,6 +17,7 @@ async def _(event):
         mentions += f" \n [{x.first_name}](tg://user?id={x.id})"
     await event.reply(mentions)
     await event.delete()
+
 
 __mod_name__ = "Tagger"
 __help__ = """

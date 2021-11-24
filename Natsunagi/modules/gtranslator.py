@@ -1,7 +1,13 @@
 import os
 
 from gpytranslate import SyncTranslator
-from telegram import Update, ChatAction, InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
+from telegram import (
+    Update,
+    ChatAction,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    ParseMode,
+)
 from telegram.ext import CallbackContext
 from gtts import gTTS
 from Natsunagi import dispatcher
@@ -9,6 +15,7 @@ from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.alternate import typing_action, send_action
 
 trans = SyncTranslator()
+
 
 def translate(update: Update, context: CallbackContext) -> None:
     bot = context.bot
@@ -32,14 +39,15 @@ def translate(update: Update, context: CallbackContext) -> None:
     except IndexError:
         source = trans.detect(to_translate)
         dest = "en"
-    translation = trans(to_translate,
-                        sourcelang=source, targetlang=dest)
-    reply = f"<b>Translated from {source} to {dest}</b>:\n" \
+    translation = trans(to_translate, sourcelang=source, targetlang=dest)
+    reply = (
+        f"<b>Translated from {source} to {dest}</b>:\n"
         f"<code>{translation.text}</code>"
+    )
 
     bot.send_message(text=reply, chat_id=message.chat.id, parse_mode=ParseMode.HTML)
 
-    
+
 def languages(update: Update, context: CallbackContext) -> None:
     update.effective_message.reply_text(
         "Click on the button below to see the list of supported language codes.",
@@ -55,7 +63,8 @@ def languages(update: Update, context: CallbackContext) -> None:
             disable_web_page_preview=True,
         ),
     )
-    
+
+
 @send_action(ChatAction.RECORD_AUDIO)
 def gtts(update, context):
     msg = update.effective_message
@@ -111,7 +120,8 @@ def spellcheck(update, _):
         update.effective_message.reply_text(
             "Reply to some message to get grammar corrected text!"
         )
-        
+
+
 __help__ = """ 
 Use this module to translate stuff!
 *Commands:*

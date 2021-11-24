@@ -10,6 +10,7 @@ from Natsunagi.modules.helper_funcs.alternate import send_action
 
 # Wallpaper module powered by wall.alphacoders.com
 
+
 @send_action(ChatAction.UPLOAD_PHOTO)
 def wall(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id

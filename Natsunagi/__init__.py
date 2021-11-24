@@ -46,12 +46,8 @@ LOGGER = logging.getLogger(__name__)
 LOGGER.info(
     "Natsunagi is starting. | An CyberNetwork Project Parts. | Licensed under GPLv3."
 )
-LOGGER.info(
-    "Not affiliated to Tantei Wa Mou or Villain in any way whatsoever."
-)
-LOGGER.info(
-    "Project maintained by: github.com/aryazakaria01 (t.me/Badboyanim)"
-)
+LOGGER.info("Not affiliated to Tantei Wa Mou or Villain in any way whatsoever.")
+LOGGER.info("Project maintained by: github.com/aryazakaria01 (t.me/Badboyanim)")
 
 # if version < 3.6, stop bot.
 if sys.version_info[0] < 3 or sys.version_info[1] < 6:
@@ -94,54 +90,52 @@ if ENV:
     except ValueError:
         raise Exception("Your scout users list does not contain valid integers.")
 
-    INFOPIC = bool(os.environ.get("INFOPIC", False)) 
-    EVENT_LOGS = os.environ.get("EVENT_LOGS", None) 
-    ERROR_LOGS = os.environ.get("ERROR_LOGS", None) 
+    INFOPIC = bool(os.environ.get("INFOPIC", False))
+    EVENT_LOGS = os.environ.get("EVENT_LOGS", None)
+    ERROR_LOGS = os.environ.get("ERROR_LOGS", None)
     WEBHOOK = bool(os.environ.get("WEBHOOK", False))
-    URL = os.environ.get("URL", "")  
-    PORT = int(os.environ.get("PORT", 8443)) 
+    URL = os.environ.get("URL", "")
+    PORT = int(os.environ.get("PORT", 8443))
     CERT_PATH = os.environ.get("CERT_PATH")
-    API_ID = os.environ.get("API_ID", None) 
-    API_HASH = os.environ.get("API_HASH", None) 
+    API_ID = os.environ.get("API_ID", None)
+    API_HASH = os.environ.get("API_HASH", None)
     DB_URL = os.environ.get("DATABASE_URL")
-    DB_URL = DB_URL.replace(
-        "postgres://", "postgresql://", 1
-    )  
-    DONATION_LINK = os.environ.get("DONATION_LINK") 
-    LOAD = os.environ.get("LOAD", "").split() 
-    NO_LOAD = os.environ.get("NO_LOAD", "translation").split() 
-    DEL_CMDS = bool(os.environ.get("DEL_CMDS", False)) 
-    STRICT_GBAN = bool(os.environ.get("STRICT_GBAN", False)) 
-    WORKERS = int(os.environ.get("WORKERS", 8)) 
-    BAN_STICKER = os.environ.get("BAN_STICKER", "CAADAgADOwADPPEcAXkko5EB3YGYAg") 
-    ALLOW_EXCL = os.environ.get("ALLOW_EXCL", False) 
-    TEMP_DOWNLOAD_DIRECTORY = os.environ.get("TEMP_DOWNLOAD_DIRECTORY", "./") 
-    CASH_API_KEY = os.environ.get("CASH_API_KEY", None) 
-    TIME_API_KEY = os.environ.get("TIME_API_KEY", None) 
-    WALL_API = os.environ.get("WALL_API", None) 
-    REM_BG_API_KEY = os.environ.get("REM_BG_API_KEY", None) 
-    OPENWEATHERMAP_ID = os.environ.get("OPENWEATHERMAP_ID", "") 
-    GENIUS_API_TOKEN = os.environ.get("GENIUS_API_TOKEN", None) 
-    MONGO_DB_URL = os.environ.get("MONGO_DB_URL", None) 
-    REDIS_URL = os.environ.get("REDIS_URL", None) 
-    BOT_ID = int(os.environ.get("BOT_ID", None)) 
-    SUPPORT_CHAT = os.environ.get("SUPPORT_CHAT", None) 
-    SPAMWATCH_SUPPORT_CHAT = os.environ.get("SPAMWATCH_SUPPORT_CHAT", None) 
-    SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None) 
-    BOT_USERNAME = os.environ.get("BOT_USERNAME", "") 
-    STRING_SESSION = os.environ.get("STRING_SESSION", None) 
-    APP_ID = os.environ.get("APP_ID", None) 
-    APP_HASH = os.environ.get("APP_HASH", None) 
-    HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", True) 
-    HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY", True) 
+    DB_URL = DB_URL.replace("postgres://", "postgresql://", 1)
+    DONATION_LINK = os.environ.get("DONATION_LINK")
+    LOAD = os.environ.get("LOAD", "").split()
+    NO_LOAD = os.environ.get("NO_LOAD", "translation").split()
+    DEL_CMDS = bool(os.environ.get("DEL_CMDS", False))
+    STRICT_GBAN = bool(os.environ.get("STRICT_GBAN", False))
+    WORKERS = int(os.environ.get("WORKERS", 8))
+    BAN_STICKER = os.environ.get("BAN_STICKER", "CAADAgADOwADPPEcAXkko5EB3YGYAg")
+    ALLOW_EXCL = os.environ.get("ALLOW_EXCL", False)
+    TEMP_DOWNLOAD_DIRECTORY = os.environ.get("TEMP_DOWNLOAD_DIRECTORY", "./")
+    CASH_API_KEY = os.environ.get("CASH_API_KEY", None)
+    TIME_API_KEY = os.environ.get("TIME_API_KEY", None)
+    WALL_API = os.environ.get("WALL_API", None)
+    REM_BG_API_KEY = os.environ.get("REM_BG_API_KEY", None)
+    OPENWEATHERMAP_ID = os.environ.get("OPENWEATHERMAP_ID", "")
+    GENIUS_API_TOKEN = os.environ.get("GENIUS_API_TOKEN", None)
+    MONGO_DB_URL = os.environ.get("MONGO_DB_URL", None)
+    REDIS_URL = os.environ.get("REDIS_URL", None)
+    BOT_ID = int(os.environ.get("BOT_ID", None))
+    SUPPORT_CHAT = os.environ.get("SUPPORT_CHAT", None)
+    SPAMWATCH_SUPPORT_CHAT = os.environ.get("SPAMWATCH_SUPPORT_CHAT", None)
+    SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None)
+    BOT_USERNAME = os.environ.get("BOT_USERNAME", "")
+    STRING_SESSION = os.environ.get("STRING_SESSION", None)
+    APP_ID = os.environ.get("APP_ID", None)
+    APP_HASH = os.environ.get("APP_HASH", None)
+    HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", True)
+    HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY", True)
     YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY", True)
-    ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True) 
-    BOT_NAME = os.environ.get("BOT_NAME", True) 
+    ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
+    BOT_NAME = os.environ.get("BOT_NAME", True)
     MONGO_DB = os.environ.get("MONGO_DB", "Natsunagi")
     ARQ_API_URL = os.environ.get("ARQ_API_URL", None)
     GOOGLE_CHROME_BIN = "/usr/bin/google-chrome"
     CHROME_DRIVER = "/usr/bin/chromedriver"
-    BOT_API_URL = os.environ.get('BOT_API_URL', "https://api.telegram.org/bot")
+    BOT_API_URL = os.environ.get("BOT_API_URL", "https://api.telegram.org/bot")
     LOG_GROUP_ID = os.environ.get("LOG_GROUP_ID", None)
     HELP_IMG = os.environ.get("HELP_IMG", True)
     GROUP_START_IMG = os.environ.get("GROUP_START_IMG", True)
@@ -154,20 +148,26 @@ if ENV:
     STRICT_GBAN = bool(os.environ.get("STRICT_GBAN", False))
     WORKERS = int(os.environ.get("WORKERS", 8))
     REPOSITORY = os.environ.get("REPOSITORY", "")
-    WHITELIST_CHATS = os.environ.get('WHITELIST_CHATS', "")
+    WHITELIST_CHATS = os.environ.get("WHITELIST_CHATS", "")
     MONGO_PORT = os.environ.get("MONGO_PORT", None)
     TRIGGERS = os.environ.get("TRIGGERS", "/ !").split()
     ANILIST_CLIENT = os.environ.get("ANILIST_CLIENT")
     ANILIST_SECRET = os.environ.get("ANILIST_SECRET")
-    ANILIST_REDIRECT_URL = os.environ.get("ANILIST_REDIRECT_URL", "https://anilist.co/api/v2/oauth/pin")
-    OWNER = list(filter(lambda x: x, map(int, os.environ.get("OWNER_ID", "1138045685").split())))
+    ANILIST_REDIRECT_URL = os.environ.get(
+        "ANILIST_REDIRECT_URL", "https://anilist.co/api/v2/oauth/pin"
+    )
+    OWNER = list(
+        filter(lambda x: x, map(int, os.environ.get("OWNER_ID", "1138045685").split()))
+    )
     LOG_CHANNEL_ID = int(os.environ.get("LOG_CHANNEL_ID"))
-    
+
     try:
-        WHITELIST_CHATS = set(int(x) for x in os.environ.get('WHITELIST_CHATS', "").split())
+        WHITELIST_CHATS = set(
+            int(x) for x in os.environ.get("WHITELIST_CHATS", "").split()
+        )
     except ValueError:
         raise Exception("Your blacklisted chats list does not contain valid integers.")
-        
+
     try:
         BL_CHATS = {int(x) for x in os.environ.get("BL_CHATS", "").split()}
     except ValueError:
@@ -207,9 +207,8 @@ else:
     except ValueError:
         raise Exception("Your tiger users list does not contain valid integers.")
 
-
     INFOPIC = Config.INFOPIC
-    EVENT_LOGS = Config.EVENT_LOGS 
+    EVENT_LOGS = Config.EVENT_LOGS
     ERROR_LOGS = Config.ERROR_LOGS
     WEBHOOK = Config.WEBHOOK
     URL = Config.URL
@@ -272,12 +271,12 @@ else:
     ANILIST_REDIRECT_URL = Config.ANILIST_REDIRECT_URL
     LOG_CHANNEL_ID = Config.LOG_CHANNEL_ID
     OWNER = Config.OWNER
-    
+
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
     except ValueError:
         raise Exception("Your blacklisted chats list does not contain valid integers.")
-        
+
 
 DRAGONS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
@@ -299,14 +298,16 @@ try:
 
 except BaseException:
 
-    raise Exception("[Natsunagi Error]: Your Redis Database Is Not Alive, Please Check Again.")
+    raise Exception(
+        "[Natsunagi Error]: Your Redis Database Is Not Alive, Please Check Again."
+    )
 
 finally:
 
-   REDIS.ping()
+    REDIS.ping()
 
-   LOGGER.info("Connection To The Redis Database Established Successfully!")
-    
+    LOGGER.info("Connection To The Redis Database Established Successfully!")
+
 
 if not SPAMWATCH_API:
     sw = None
@@ -319,8 +320,14 @@ else:
         LOGGER.warning("[Natsunagi Error]: Can't connect to SpamWatch!")
 
 telegraph = Telegraph()
-telegraph.create_account(short_name='Natsunagi')
-updater = tg.Updater(token=TOKEN, base_url=BOT_API_URL, workers=WORKERS, request_kwargs={"read_timeout": 10, "connect_timeout": 10}, use_context=True)
+telegraph.create_account(short_name="Natsunagi")
+updater = tg.Updater(
+    token=TOKEN,
+    base_url=BOT_API_URL,
+    workers=WORKERS,
+    request_kwargs={"read_timeout": 10, "connect_timeout": 10},
+    use_context=True,
+)
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 dispatcher = updater.dispatcher
 session_name = TOKEN.split(":")[0]
@@ -340,10 +347,13 @@ arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 ubot = TelegramClient(StringSession(STRING_SESSION), APP_ID, APP_HASH)
 pbot = Client("NatsunagiBot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 plugins = dict(root="Natsunagi/modules")
-Natsunagi = Client("Natsunagi", bot_token=TOKEN, api_id=API_ID, api_hash=API_HASH, plugins=plugins)
+Natsunagi = Client(
+    "Natsunagi", bot_token=TOKEN, api_id=API_ID, api_hash=API_HASH, plugins=plugins
+)
 app = Client("Natsunagi", bot_token=TOKEN, api_id=API_ID, api_hash=API_HASH)
 app.start
 loop = asyncio.get_event_loop()
+
 
 async def get_entity(client, entity):
     entity_client = client
@@ -371,12 +381,14 @@ async def get_entity(client, entity):
                 entity_client = pgram
     return entity, entity_client
 
+
 apps = [pgram]
 DRAGONS = list(DRAGONS) + list(DEV_USERS)
 DEV_USERS = list(DEV_USERS)
 WOLVES = list(WOLVES)
 DEMONS = list(DEMONS)
 TIGERS = list(TIGERS)
+
 
 async def eor(msg: Message, **kwargs):
     func = (
@@ -386,6 +398,7 @@ async def eor(msg: Message, **kwargs):
     )
     spec = getfullargspec(func.__wrapped__).args
     return await func(**{k: v for k, v in kwargs.items() if k in spec})
+
 
 from Natsunagi.modules.helper_funcs.handlers import (
     CustomCommandHandler,

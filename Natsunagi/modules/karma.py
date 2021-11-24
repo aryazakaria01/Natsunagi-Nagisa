@@ -1,4 +1,4 @@
-import asyncio 
+import asyncio
 import re
 
 from pyrogram import filters
@@ -6,8 +6,13 @@ from pyrogram import filters
 from Natsunagi import pgram, BOT_USERNAME
 from Natsunagi.utils.errors import capture_err
 from Natsunagi.utils.permissions import adminsOnly
-from Natsunagi.modules.mongo.karma_mongo import (alpha_to_int, get_karma,
-                                   get_karmas, int_to_alpha, update_karma)   
+from Natsunagi.modules.mongo.karma_mongo import (
+    alpha_to_int,
+    get_karma,
+    get_karmas,
+    int_to_alpha,
+    update_karma,
+)
 from Natsunagi.modules.mongo.karma_mongo import is_karma_on, karma_off, karma_on
 
 karma_positive_group = 3
@@ -15,6 +20,7 @@ karma_negative_group = 4
 
 regex_upvote = r"^((?i)\+|\+\+|\+1|thx|tnx|ty|thank you|thanx|thanks|pro|cool|good|👍)$"
 regex_downvote = r"^(\-|\-\-|\-1|👎)$"
+
 
 @pgram.on_message(
     filters.text
@@ -40,18 +46,14 @@ async def upvote(_, message):
     chat_id = message.chat.id
     user_id = message.reply_to_message.from_user.id
     user_mention = message.reply_to_message.from_user.mention
-    current_karma = await get_karma(
-        chat_id, await int_to_alpha(user_id)
-    )
+    current_karma = await get_karma(chat_id, await int_to_alpha(user_id))
     if current_karma:
-        current_karma = current_karma['karma']
+        current_karma = current_karma["karma"]
         karma = current_karma + 1
     else:
         karma = 1
     new_karma = {"karma": karma}
-    await update_karma(
-        chat_id, await int_to_alpha(user_id), new_karma
-    )
+    await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
     await message.reply_text(
         f"Incremented Karma of {user_mention} By 1 \nTotal Points: {karma}"
     )
@@ -82,18 +84,14 @@ async def downvote(_, message):
     chat_id = message.chat.id
     user_id = message.reply_to_message.from_user.id
     user_mention = message.reply_to_message.from_user.mention
-    current_karma = await get_karma(
-        chat_id, await int_to_alpha(user_id)
-    )
+    current_karma = await get_karma(chat_id, await int_to_alpha(user_id))
     if current_karma:
-        current_karma = current_karma['karma']
+        current_karma = current_karma["karma"]
         karma = current_karma - 1
     else:
         karma = 1
     new_karma = {"karma": karma}
-    await update_karma(
-        chat_id, await int_to_alpha(user_id), new_karma
-    )
+    await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
     await message.reply_text(
         f"Decremented Karma Of {user_mention} By 1 \nTotal Points: {karma}"
     )
@@ -104,9 +102,7 @@ async def downvote(_, message):
 async def command_karma(_, message):
     chat_id = message.chat.id
     if not message.reply_to_message:
-        m = await message.reply_text(
-            "Getting Karma list of top 10 users wait..."
-        )
+        m = await message.reply_text("Getting Karma list of top 10 users wait...")
         karma = await get_karmas(chat_id)
         if not karma:
             await m.edit("No karma in DB for this chat.")
@@ -116,7 +112,7 @@ async def command_karma(_, message):
         karma_dicc = {}
         for i in karma:
             user_id = await alpha_to_int(i)
-            user_karma = karma[i]['karma']
+            user_karma = karma[i]["karma"]
             karma_dicc[str(user_id)] = user_karma
             karma_arranged = dict(
                 sorted(
@@ -146,7 +142,7 @@ async def command_karma(_, message):
     else:
         user_id = message.reply_to_message.from_user.id
         karma = await get_karma(chat_id, await int_to_alpha(user_id))
-        karma = karma['karma'] if karma else 0
+        karma = karma["karma"] if karma else 0
         await message.reply_text(f"**Total Points**: __{karma}__")
 
 
@@ -167,6 +163,7 @@ async def captcha_state(_, message):
         await message.reply_text("Disabled karma System!")
     else:
         await message.reply_text(usage)
+
 
 __mod_name__ = "Karma"
 __help__ = """

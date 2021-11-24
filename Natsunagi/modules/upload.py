@@ -11,6 +11,7 @@ from Natsunagi import BOT_USERNAME, telethn, TEMP_DOWNLOAD_DIRECTORY, SUPPORT_CH
 from Natsunagi.modules.urluploader import download_file
 from Natsunagi.utils.pluginhelpers import humanbytes, progress
 
+
 def get_date_in_two_weeks():
     """
     get maximum date of storage for file
@@ -32,7 +33,9 @@ async def send_to_transfersh_async(file):
     url = "https://transfer.sh/"
 
     with open(file, "rb") as f:
-        async with aiohttp.ClientSession() as session, session.post(url, data={str(file): f}) as response:
+        async with aiohttp.ClientSession() as session, session.post(
+            url, data={str(file): f}
+        ) as response:
             download_link = await response.text()
 
     print(
@@ -47,7 +50,9 @@ async def send_to_tmp_async(file):
     url = "https://tmp.ninja/api.php?d=upload-tool"
 
     with open(file, "rb") as f:
-        async with aiohttp.ClientSession() as session, session.post(url, data={"file": f}) as response:
+        async with aiohttp.ClientSession() as session, session.post(
+            url, data={"file": f}
+        ) as response:
             download_link = await response.text()
 
     return download_link
@@ -154,7 +159,7 @@ async def up(event):
                 event.chat.id,
                 dosya,
                 force_document=True,
-                caption = f"Uploaded By *@{BOT_USERNAME}*",
+                caption=f"Uploaded By *@{BOT_USERNAME}*",
             )
         except Exception as e:
             traceback.print_exc()

@@ -14,7 +14,11 @@ from cowpy import cow
 from PIL import Image, ImageDraw, ImageEnhance, ImageFont, ImageOps
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from telethon.tl.types import DocumentAttributeFilename, InputMessagesFilterDocument, InputMediaDice
+from telethon.tl.types import (
+    DocumentAttributeFilename,
+    InputMessagesFilterDocument,
+    InputMediaDice,
+)
 from telethon import events
 from zalgo_text import zalgo
 
@@ -23,7 +27,15 @@ from pyrogram import filters
 from Natsunagi.utils.errors import capture_err
 from Natsunagi.utils.carbon import make_carbon
 from Natsunagi.events import register
-from Natsunagi import telethn, ubot, pgram, TEMP_DOWNLOAD_DIRECTORY, SUPPORT_CHAT, GOOGLE_CHROME_BIN, CHROME_DRIVER
+from Natsunagi import (
+    telethn,
+    ubot,
+    pgram,
+    TEMP_DOWNLOAD_DIRECTORY,
+    SUPPORT_CHAT,
+    GOOGLE_CHROME_BIN,
+    CHROME_DRIVER,
+)
 
 nltk.download("punkt")
 nltk.download("averaged_perceptron_tagger")
@@ -53,7 +65,7 @@ async def _(event):
         sed1 = img
         sedm = f"**Title : {titles}** \n{sedlyf} \nDate : {dateis} \nAuthor : {writter} \nReadMore : {readthis}"
         await pgram.send_photo(event.chat_id, sed1, caption=sedm)
-        
+
 
 @register(pattern="^/ball(?: |$)(.*)")
 async def _(event):
@@ -64,7 +76,7 @@ async def _(event):
     input_int = int(input_str)
     if input_int > 5:
         await event.reply("hey nigga use number 1 to 6 only")
-    
+
     else:
         try:
             required_number = input_int
@@ -73,6 +85,7 @@ async def _(event):
                 r = await event.reply(file=InputMediaDice("🏀"))
         except BaseException:
             pass
+
 
 @register(pattern="^/asupan ?(.*)")
 async def asupan(event):
@@ -103,7 +116,7 @@ async def chika(event):
     except Exception:
         await event.reply(f"Error Report @{SUPPORT_CHAT}")
 
-        
+
 @register(pattern="^/truth ?(.*)")
 async def _(td):
     try:
@@ -312,6 +325,7 @@ async def msg(event):
     reply_text = string.capwords(" ".join(reply_text))
     await event.reply(reply_text)
 
+
 @register(pattern="^/angrymoji$")
 async def msg(event):
 
@@ -341,18 +355,14 @@ async def msg(event):
     reply_text += " 😭"
     await event.reply(reply_text)
 
-    
+
 @pgram.on_message(filters.command("carbon"))
 @capture_err
 async def carbon_func(_, message):
     if not message.reply_to_message:
-        return await message.reply_text(
-            "Reply to a text message to make carbon."
-        )
+        return await message.reply_text("Reply to a text message to make carbon.")
     if not message.reply_to_message.text:
-        return await message.reply_text(
-            "Reply to a text message to make carbon."
-        )
+        return await message.reply_text("Reply to a text message to make carbon.")
     m = await message.reply_text("Preparing Carbon.")
     carbon = await make_carbon(message.reply_to_message.text)
     await m.edit("Uploading...")
@@ -593,7 +603,7 @@ async def _(event):
     input_int = int(input_str)
     if input_int > 6:
         await event.reply("hey nigga use number 1 to 6 only")
-    
+
     else:
         try:
             required_number = input_int
@@ -667,7 +677,7 @@ async def _(event):
     input_int = int(input_str)
     if input_int > 6:
         await event.reply("hey nigga use number 1 to 6 only")
-    
+
     else:
         try:
             required_number = input_int
@@ -958,7 +968,9 @@ async def _(event):
         replyto = reply.sender_id
     else:
         replyto = event.sender_id
-    await telethn.send_message(event.chat_id, random.choice(SFW_STRINGS), reply_to=replyto)
+    await telethn.send_message(
+        event.chat_id, random.choice(SFW_STRINGS), reply_to=replyto
+    )
 
 
 reactionhappy = [

@@ -155,7 +155,7 @@ def is_enabled(chat_id):
         resultcurr = SESSION.query(CleanerBlueTextChatSettings).get(str(chat_id))
         if resultcurr:
             return resultcurr.is_enable
-        return False #default
+        return False  # default
     finally:
         SESSION.close()
 

@@ -14,9 +14,7 @@ async def song(client, message):
     if args.startswith(" "):
         await message.reply("<b> Song name required!! </b>")
         return ""
-    m = await message.reply_text(
-        "Downloading the song, Please wait..."
-    )
+    m = await message.reply_text("Downloading the song, Please wait...")
     try:
         r = requests.get(f"https://jostapi.herokuapp.com/saavn?query={args}")
     except Exception as e:

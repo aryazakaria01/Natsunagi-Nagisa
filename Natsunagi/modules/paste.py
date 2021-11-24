@@ -13,9 +13,7 @@ from Natsunagi.utils.errors import capture_err
 from Natsunagi.utils.pastebin import paste
 from Natsunagi.utils.keyboard import ikb
 
-pattern = re.compile(
-    r"^text/|json$|yaml$|xml$|toml$|x-sh$|x-shellscript$"
-)
+pattern = re.compile(r"^text/|json$|yaml$|xml$|toml$|x-sh$|x-shellscript$")
 
 
 async def isPreviewUp(preview: str) -> bool:
@@ -41,9 +39,7 @@ async def paste_func(_, message: Message):
     r = message.reply_to_message
 
     if not r.text and not r.document:
-        return await eor(
-            message, text="Only text and documents are supported."
-        )
+        return await eor(message, text="Only text and documents are supported.")
 
     m = await eor(message, text="Pasting...")
 
@@ -81,7 +77,6 @@ async def paste_func(_, message: Message):
         await m.delete()
     except Exception:
         await m.edit("Here's your paste", reply_markup=kb)
-
 
 
 __mod_name__ = "Paste"

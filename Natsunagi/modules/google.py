@@ -25,17 +25,15 @@ from telethon.tl.types import *
 from Natsunagi import telethn, BOT_NAME
 from Natsunagi.events import register
 
+
 @register(pattern="^/gps (.*)")
 async def _(event):
     if event.fwd_from:
         return
-    if (
-        event.is_group
-        and not await is_register_admin(event.input_chat, event.message.sender_id)
+    if event.is_group and not await is_register_admin(
+        event.input_chat, event.message.sender_id
     ):
-        await event.reply(
-            "You are not Admin. So, You can't use this. Try in my inbox"
-        )
+        await event.reply("You are not Admin. So, You can't use this. Try in my inbox")
         return
 
     args = event.pattern_match.group(1)
@@ -61,11 +59,12 @@ async def _(event):
         print(e)
         await event.reply("I can't find that")
 
+
 @register(pattern="^/google (.*)")
 async def _(event):
     if event.fwd_from:
         return
-    
+
     webevent = await event.reply("searching........")
     match = event.pattern_match.group(1)
     page = re.findall(r"page=\d+", match)
@@ -91,11 +90,12 @@ async def _(event):
         "**Search Query:**\n`" + match + "`\n\n**Results:**\n" + msg, link_preview=False
     )
 
+
 @register(pattern="^/img (.*)")
 async def img_sampler(event):
     if event.fwd_from:
         return
-    
+
     query = event.pattern_match.group(1)
     jit = f'"{query}"'
     downloader.download(
@@ -167,7 +167,7 @@ async def scam(results, lim):
 
 @register(pattern="^/app (.*)")
 async def apk(e):
-    
+
     try:
         app_name = e.pattern_match.group(1)
         remove_space = app_name.split(" ")
@@ -283,7 +283,9 @@ async def parseqr(qr_e):
     end = datetime.now()
     duration = (end - start).seconds
     await qr_e.reply(
-        "Obtained QRCode contents in {} seconds, Inside the QR Code was:\n{}".format(duration, qr_contents)
+        "Obtained QRCode contents in {} seconds, Inside the QR Code was:\n{}".format(
+            duration, qr_contents
+        )
     )
 
 
@@ -333,6 +335,7 @@ size=200x200&charset-source=UTF-8&charset-target=UTF-8\
     duration = (datetime.now() - start).seconds
     await qrcode.reply("Created QRCode in {} seconds".format(duration))
     await sleep(5)
+
 
 __mod_name__ = "Google"
 

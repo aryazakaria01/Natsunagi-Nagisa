@@ -6,10 +6,16 @@ import shutil
 import requests
 
 from yt_dlp import YoutubeDL
-from yt_dlp.utils import (DownloadError, ContentTooShortError,
-                              ExtractorError, GeoRestrictedError,
-                              MaxDownloadsReached, PostProcessingError,
-                              UnavailableVideoError, XAttrMetadataError)
+from yt_dlp.utils import (
+    DownloadError,
+    ContentTooShortError,
+    ExtractorError,
+    GeoRestrictedError,
+    MaxDownloadsReached,
+    PostProcessingError,
+    UnavailableVideoError,
+    XAttrMetadataError,
+)
 from asyncio import sleep
 from telethon.tl.types import DocumentAttributeAudio
 from collections import deque
@@ -19,67 +25,48 @@ from Natsunagi.events import register
 from Natsunagi import YOUTUBE_API_KEY
 
 
-
 @register(pattern="^/yt(audio|video) (.*)")
 async def download_video(v_url):
-    """ For .ytdl command, download media from YouTube and many other sites. """
+    """For .ytdl command, download media from YouTube and many other sites."""
     url = v_url.pattern_match.group(2)
     type = v_url.pattern_match.group(1).lower()
     lmao = await v_url.reply("`Preparing to download...`")
     if type == "audio":
         opts = {
-            'format':
-            'bestaudio',
-            'addmetadata':
-            True,
-            'key':
-            'FFmpegMetadata',
-            'writethumbnail':
-            True,
-            'prefer_ffmpeg':
-            True,
-            'geo_bypass':
-            True,
-            'nocheckcertificate':
-            True,
-            'postprocessors': [{
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': 'mp3',
-                'preferredquality': '256',
-            }],
-            'outtmpl':
-            '%(id)s.mp3',
-            'quiet':
-            True,
-            'logtostderr':
-            False
+            "format": "bestaudio",
+            "addmetadata": True,
+            "key": "FFmpegMetadata",
+            "writethumbnail": True,
+            "prefer_ffmpeg": True,
+            "geo_bypass": True,
+            "nocheckcertificate": True,
+            "postprocessors": [
+                {
+                    "key": "FFmpegExtractAudio",
+                    "preferredcodec": "mp3",
+                    "preferredquality": "256",
+                }
+            ],
+            "outtmpl": "%(id)s.mp3",
+            "quiet": True,
+            "logtostderr": False,
         }
         video = False
         song = True
     elif type == "video":
         opts = {
-            'format':
-            'best',
-            'addmetadata':
-            True,
-            'key':
-            'FFmpegMetadata',
-            'prefer_ffmpeg':
-            True,
-            'geo_bypass':
-            True,
-            'nocheckcertificate':
-            True,
-            'postprocessors': [{
-                'key': 'FFmpegVideoConvertor',
-                'preferedformat': 'mp4'
-            }],
-            'outtmpl':
-            '%(id)s.mp4',
-            'logtostderr':
-            False,
-            'quiet':
-            True
+            "format": "best",
+            "addmetadata": True,
+            "key": "FFmpegMetadata",
+            "prefer_ffmpeg": True,
+            "geo_bypass": True,
+            "nocheckcertificate": True,
+            "postprocessors": [
+                {"key": "FFmpegVideoConvertor", "preferedformat": "mp4"}
+            ],
+            "outtmpl": "%(id)s.mp4",
+            "logtostderr": False,
+            "quiet": True,
         }
         song = False
         video = True
@@ -88,7 +75,7 @@ async def download_video(v_url):
         with YoutubeDL(opts) as ytdl:
             ytdl_data = ytdl.extract_info(url)
     except DownloadError as DE:
-        await lmao.edit(f'`{DE}`')
+        await lmao.edit(f"`{DE}`")
         return
     except ContentTooShortError:
         await lmao.edit("`The download content was too short.`")
@@ -114,30 +101,38 @@ async def download_video(v_url):
         await lmao.edit("`There was an error during info extraction.`")
         return
     except Exception as e:
-        await lmao.edit(f'{str(type(e)): {e}}')
+        await lmao.edit(f"{str(type(e)): {e}}")
         return
     c_time = time.time()
     if song:
-        await lmao.edit(f"`Preparing to upload song:`\
+        await lmao.edit(
+            f"`Preparing to upload song:`\
         \n**{ytdl_data['title']}**\
-        \nby *{ytdl_data['uploader']}*")
+        \nby *{ytdl_data['uploader']}*"
+        )
         await v_url.client.send_file(
             v_url.chat_id,
             f"{ytdl_data['id']}.mp3",
             supports_streaming=True,
             attributes=[
-                DocumentAttributeAudio(duration=int(ytdl_data['duration']),
-                                       title=str(ytdl_data['title']),
-                                       performer=str(ytdl_data['uploader']))
-            ])
+                DocumentAttributeAudio(
+                    duration=int(ytdl_data["duration"]),
+                    title=str(ytdl_data["title"]),
+                    performer=str(ytdl_data["uploader"]),
+                )
+            ],
+        )
         os.remove(f"{ytdl_data['id']}.mp3")
     elif video:
-        await lmao.edit(f"`Preparing to upload video:`\
+        await lmao.edit(
+            f"`Preparing to upload video:`\
         \n**{ytdl_data['title']}**\
-        \nby *{ytdl_data['uploader']}*")
+        \nby *{ytdl_data['uploader']}*"
+        )
         await v_url.client.send_file(
             v_url.chat_id,
             f"{ytdl_data['id']}.mp4",
             supports_streaming=True,
-            caption=ytdl_data['title'])
+            caption=ytdl_data["title"],
+        )
         os.remove(f"{ytdl_data['id']}.mp4")
