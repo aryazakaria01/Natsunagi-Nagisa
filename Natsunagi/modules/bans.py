@@ -301,7 +301,7 @@ def unbanb_btn(update: Update, context: CallbackContext) -> str:
             except BadRequest:
                 pass
             chat.unban_member(user_id)
-            query.message.edit_text("Yep! Unbanned {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\nUnbanned By: {mention_html(user.id, html.escape(user.first_name))}")
+            query.message.edit_text(f"Yep! Unbanned {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\nUnbanned By: {mention_html(user.id, html.escape(user.first_name))}")
             bot.answer_callback_query(query.id, text="Unbanned!")
             return (
                 f"<b>{html.escape(chat.title)}:</b>\n"
@@ -432,7 +432,7 @@ def unban(update: Update, context: CallbackContext) -> str:
         return log_message
 
     chat.unban_member(user_id)
-    message.reply_text("Yep! Unbanned {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\nUnbanned By: {mention_html(user.id, html.escape(user.first_name))}!")
+    message.reply_text(f"Yep! Unbanned {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\nUnbanned By: {mention_html(user.id, html.escape(user.first_name))}!")
 
     log = (
         f"<b>{html.escape(chat.title)}:</b>\n"
@@ -479,7 +479,7 @@ def selfunban(update: Update, context: CallbackContext) -> str:
         return
 
     chat.unban_member(user.id)
-    message.reply_text("Yep! I Have Unbanned You {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\nUnbanned By: {mention_html(user.id, html.escape(user.first_name))}.")
+    message.reply_text(f"Yep! I Have Unbanned You {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\nUnbanned By: {mention_html(user.id, html.escape(user.first_name))}.")
 
     log = (
         f"<b>{html.escape(chat.title)}:</b>\n"
