@@ -38,7 +38,28 @@ def warn(user: User,
          reason: str,
          message: Message,
          warner: User = None) -> str: 
-                               
+         chat = update.effective_chat
+         user = update.effective_user
+         message = update.effective_message
+         log_message = ""
+         bot = context.bot
+         args = context.args
+         user_id, reason = extract_user_and_text(message, args)
+    
+    if not user_id:
+        message.reply_text("Dude at least refer some user to warn!")
+        return log_message
+    try:
+        member = chat.get_member(user_id)
+    except BadRequest as excp:
+        if excp.message != "User not found":
+            raise
+        message.reply_text("Can't seem to find this person.")
+        return log_message
+    if user_id == bot.id:
+        message.reply_text("Oh yeah, warn myself, nigga!")
+        return log_message
+      
     if is_user_admin(chat, user.id):
         # message.reply_text("Damn admins, They are too far to be One Punched!")
         return
