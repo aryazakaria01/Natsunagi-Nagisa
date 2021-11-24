@@ -76,7 +76,6 @@ bs4
 multicolorcaptcha
 launchpadlib
 google-trans-new
-jikanpy
 futures
 future
 psycopg2-binary
@@ -116,10 +115,8 @@ pygithub
 captcha
 coloredlogs
 PyYAML>5.0
-cryptg
-natsort
-lottie
 tracemoepy
 hiredis
 git+https://github.com/python-telegram-bot/ptbcontrib.git
 Intellivoid-SPB
+jikanpy
