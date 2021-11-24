@@ -114,7 +114,7 @@ countryinfo
 pygithub
 captcha
 coloredlogs
-PyYAML>5.0
+PyYAML
 tracemoepy
 hiredis
 git+https://github.com/python-telegram-bot/ptbcontrib.git
