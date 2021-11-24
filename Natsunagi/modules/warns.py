@@ -61,11 +61,11 @@ CURRENT_WARNING_FILTER_STRING = "<b>Current warning filters in this chat:</b>\n"
 
 
 # Not async
-def warn(user: User, update: Update, context: CallbackContext)
+def warn(user: User, update: Update, context: CallbackContext,
     chat: Chat,
     reason: str,
     message: Message,
-    warner: User = None -> str:
+    warner: User = None) -> str:
     chat = update.effective_chat
     user = update.effective_user
     message = update.effective_message
