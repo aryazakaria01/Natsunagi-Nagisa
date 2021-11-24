@@ -63,6 +63,7 @@ def send_rules(update, chat_id, from_pm=False):
                     ]
                 ]
             )
+        
     elif rules:
         update.effective_message.reply_text(
             "Please click the button below to see the rules.",
@@ -74,6 +75,7 @@ def send_rules(update, chat_id, from_pm=False):
                     ]
                 ]
             )
+        
     else:
         update.effective_message.reply_text(
             "The group admins haven't set any rules for this chat yet. "
