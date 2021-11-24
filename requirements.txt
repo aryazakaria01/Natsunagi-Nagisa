@@ -94,7 +94,6 @@ googletrans
 youtube_search_python
 httpx
 git+https://github.com/python-telegram-bot/ptbcontrib.git
-Intellivoid-SPB
 asyncio
 quotefancy
 aiogram 
