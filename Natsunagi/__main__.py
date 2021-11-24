@@ -439,7 +439,7 @@ def natsunagi_about_callback(update, context):
                 PM_START_TEXT.format(
                     escape_markdown(context.bot.first_name),
                     escape_markdown(update.effective_user.first_name),
-                    escape_markdown(uptime),
+                    escape_markdown(get_readable_time((time.time() - StartTime))),
                     sql.num_users(),
                     sql.num_chats()),
                 reply_markup=InlineKeyboardMarkup(buttons),
