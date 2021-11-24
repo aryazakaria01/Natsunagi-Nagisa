@@ -295,13 +295,21 @@ def unbanb_btn(update: Update, context: CallbackContext) -> str:
                     show_alert=True,
                 )
                 return ""
-            log_message = ""
+
             try:
                 member = chat.get_member(user_id)
             except BadRequest:
                 pass
+
+            dick = (
+                f"Yep! Unbanned {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\n"
+                f"Unbanned By: {mention_html(user.id, html.escape(user.first_name))}"
+            )
             chat.unban_member(user_id)
-            query.message.edit_text(f"Yep! Unbanned {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\nUnbanned By: {mention_html(user.id, html.escape(user.first_name))}")
+            query.message.edit_text(
+                dick,
+                parse_mode=ParseMode.HTML,
+            )
             bot.answer_callback_query(query.id, text="Unbanned!")
             return (
                 f"<b>{html.escape(chat.title)}:</b>\n"
