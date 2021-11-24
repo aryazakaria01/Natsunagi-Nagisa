@@ -126,10 +126,8 @@ def ban(update: Update, context: CallbackContext) -> str:
             return log
 
         # bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
-        reply = (
-            f"<code>❕</code><b>Ban Event</b>\n"
-            f"<code> </code><b>• User:</b> {mention_html(member.user.id, html.escape(member.user.first_name))}"
-        )
+        reply = f"Yep! Banned {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\nBy {mention_html(user.id, html.escape(user.first_name))}"
+
         if reason:
             reply += f"\n<code> </code><b>• Reason:</b> \n{html.escape(reason)}"
 
@@ -140,9 +138,9 @@ def ban(update: Update, context: CallbackContext) -> str:
                 [
                     [
                         InlineKeyboardButton(
-                            text="Unban", callback_data=f"unbanb_unban={user_id}"
+                            text="⚠️ Unban", callback_data=f"unbanb_unban={user_id}"
                         ),
-                        InlineKeyboardButton(text="Delete", callback_data="unbanb_del"),
+                        InlineKeyboardButton(text="❌ Delete", callback_data="unbanb_del"),
                     ]
                 ]
             ),
@@ -231,11 +229,7 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
         chat.ban_member(user_id, until_date=bantime)
         # bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
 
-        reply_msg = (
-            f"<code>❕</code><b>Temp Banned</b>\n"
-            f"<code> </code><b>• User:</b> {mention_html(member.user.id, html.escape(member.user.first_name))}\n"
-            f"<code> </code><b>• Banned for: {time_val}</b>"
-        )
+        reply = f"Yep! Temporary Banned {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\nBy {mention_html(user.id, html.escape(user.first_name))}"
 
         if reason:
             reply_msg += f"\n<code> </code><b>• Reason:</b> {html.escape(reason)}"
@@ -247,9 +241,9 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
                 [
                     [
                         InlineKeyboardButton(
-                            text="Unban", callback_data=f"unbanb_unban={user_id}"
+                            text="⚠️ Unban", callback_data=f"unbanb_unban={user_id}"
                         ),
-                        InlineKeyboardButton(text="Delete", callback_data="unbanb_del"),
+                        InlineKeyboardButton(text="❌ Delete", callback_data="unbanb_del"),
                     ]
                 ]
             ),
