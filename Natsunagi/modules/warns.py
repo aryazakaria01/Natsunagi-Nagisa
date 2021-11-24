@@ -3,29 +3,57 @@ import re
 from typing import Optional
 
 import telegram
-from Natsunagi import BAN_STICKER, TIGERS, WOLVES, dispatcher
+from Natsunagi import (
+  BAN_STICKER, 
+  TIGERS, 
+  WOLVES, 
+  dispatcher, 
+) 
+
 from Natsunagi.modules.disable import DisableAbleCommandHandler
-from Natsunagi.modules.helper_funcs.chat_status import (bot_admin,
-                                                           can_restrict,
-                                                           is_user_admin,
-                                                           user_admin,
-                                                           user_admin_no_reply,
-                                                           can_delete)
-from Natsunagi.modules.helper_funcs.extraction import (extract_text,
-                                                          extract_user,
-                                                          extract_user_and_text)
+from Natsunagi.modules.helper_funcs.chat_status import (
+  bot_admin,
+  can_restrict,
+  is_user_admin,
+  user_admin,
+  user_admin_no_reply,
+  can_delete, 
+)
+
+from Natsunagi.modules.helper_funcs.extraction import (
+  extract_text,
+  extract_user,
+  extract_user_and_text,
+)
+
 from Natsunagi.modules.helper_funcs.filters import CustomFilters
 from Natsunagi.modules.helper_funcs.misc import split_message
 from Natsunagi.modules.helper_funcs.string_handling import split_quotes
 from Natsunagi.modules.log_channel import loggable
 from Natsunagi.modules.sql import warns_sql as sql
 from Natsunagi.modules.redis.approvals_redis import is_approved
-from telegram import (CallbackQuery, Chat, InlineKeyboardButton,
-                      InlineKeyboardMarkup, Message, ParseMode, Update, User)
+from telegram import (
+  CallbackQuery, 
+  Chat, 
+  InlineKeyboardButton,
+  InlineKeyboardMarkup, 
+  Message, 
+  ParseMode, 
+  Update, 
+  User,
+)
+
 from telegram.error import BadRequest
-from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
-                          DispatcherHandlerStop, Filters, MessageHandler,
-                          run_async)
+from telegram.ext import (
+  CallbackContext, 
+  CallbackQueryHandler, 
+  CommandHandler,
+  DispatcherHandlerStop, 
+  Filters, 
+  MessageHandler,
+  run_async,
+)
+
 from telegram.utils.helpers import mention_html
 
 WARN_HANDLER_GROUP = 9
@@ -46,7 +74,7 @@ def warn(user: User,
          args = context.args
          user_id, reason = extract_user_and_text(message, args)
     
-    if not user_id:
+    if not user_id: 
         message.reply_text("Dude at least refer some user to warn!")
         return log_message
     try:
