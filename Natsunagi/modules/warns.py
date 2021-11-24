@@ -79,17 +79,12 @@ def warn(user: User,
         sql.reset_warns(user.id, chat.id)
         if soft_warn:  # punch
             chat.unban_member(user.id)
-            reply = (
-                f"<code>❕</code><b>kick Event</b>\n"
-                f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
-                f"<code> </code><b>•  Count:</b> {limit}")
+            reply = f"Yep! Kicked {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\nBy: {mention_html(user.id, html.escape(user.first_name))}"
+
 
         else:  # ban
             chat.ban_member(user.id)
-            reply = (
-                f"<code>❕</code><b>Ban Event</b>\n"
-                f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
-                f"<code> </code><b>•  Count:</b> {limit}")
+            reply = f"Yep! Banned {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\nBy: {mention_html(user.id, html.escape(user.first_name))}"
 
         for warn_reason in reasons:
             reply += f"\n - {html.escape(warn_reason)}"
@@ -113,12 +108,9 @@ def warn(user: User,
                 ]
             )
         
-        reply = (
-            f"<code>❕</code><b>Warn Event</b>\n"
-            f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
-            f"<code> </code><b>•  Count:</b> {num_warns}/{limit}")
+        reply = f"Yep! User: {mention_html(user.id, html.escape(user.first_name))} has warnned {mention_html(member.user.id, html.escape(member.user.first_name))} in {chat.title}\nCount Warns: {num_warns}/{limit}")"
         if reason:
-            reply += f"\n<code> </code><b>•  Reason:</b> {html.escape(reason)}"
+            reply += f"\n<code> </code><b>Reason:</b> {html.escape(reason)}"
 
         log_reason = (f"<b>{html.escape(chat.title)}:</b>\n"
                       f"#WARN\n"
@@ -467,6 +459,7 @@ def __chat_settings__(chat_id, user_id):
 __help__ = """
   ➢ `/warns <userhandle>`*:* get a user's number, and reason, of warns.
   ➢ `/warnlist`*:* list of all current warning filters
+
 *Admins only:*
   ➢ `/warn <userhandle>`*:* warn a user. After 3 warns, the user will be banned from the group. Can also be used as a reply.
   ➢ `/dwarn <userhandle>`*:* warn a user and delete the message. After 3 warns, the user will be banned from the group. Can also be used as a reply.
