@@ -56,6 +56,7 @@ def warn(user: User,
             raise
         message.reply_text("Can't seem to find this person.")
         return log_message
+    
     if user_id == bot.id:
         message.reply_text("Oh yeah, warn myself, nigga!")
         return log_message
