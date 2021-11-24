@@ -160,6 +160,7 @@ if ENV:
         filter(lambda x: x, map(int, os.environ.get("OWNER_ID", "1138045685").split()))
     )
     LOG_CHANNEL_ID = int(os.environ.get("LOG_CHANNEL_ID"))
+    SPB_MODE = os.environ.get("SPB_MODE", False)
 
     try:
         WHITELIST_CHATS = set(
@@ -271,6 +272,7 @@ else:
     ANILIST_REDIRECT_URL = Config.ANILIST_REDIRECT_URL
     LOG_CHANNEL_ID = Config.LOG_CHANNEL_ID
     OWNER = Config.OWNER
+    SPB_MODE = Config.SPB_MODE
 
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
