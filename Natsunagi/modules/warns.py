@@ -62,17 +62,17 @@ CURRENT_WARNING_FILTER_STRING = "<b>Current warning filters in this chat:</b>\n"
 
 # Not async
 def warn(user: User,
-         chat: Chat,
-         reason: str,
-         message: Message,
-         warner: User = None) -> str:
-         chat = update.effective_chat
-         user = update.effective_user
-         message = update.effective_message
-         log_message = ""
-         bot = context.bot
-         args = context.args
-         user_id, reason = extract_user_and_text(message, args)
+    chat: Chat,
+    reason: str,
+    message: Message,
+    warner: User = None) -> str:
+    chat = update.effective_chat
+    user = update.effective_user
+    message = update.effective_message
+    log_message = ""
+    bot = context.bot
+    args = context.args
+    user_id, reason = extract_user_and_text(message, args)
     
     if not user_id: 
         message.reply_text("Dude at least refer some user to warn!")
