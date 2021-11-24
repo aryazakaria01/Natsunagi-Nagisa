@@ -26,7 +26,6 @@ import Natsunagi.modules.sql.locks_sql as locksql
 from Natsunagi.modules.connection import connected
 
 
-
 @user_admin
 @typing_action
 def import_data(update, context):
@@ -120,7 +119,6 @@ def import_data(update, context):
         msg.reply_text(text, parse_mode="markdown")
 
 
-
 @user_admin
 def export_data(update, context):
     chat_data = context.chat_data
@@ -147,7 +145,8 @@ def export_data(update, context):
     checkchat = get_chat(chat_id, chat_data)
     if checkchat.get("status") and jam <= int(checkchat.get("value")):
         timeformatt = time.strftime(
-            "%H:%M:%S %d/%m/%Y", time.localtime(checkchat.get("value")),
+            "%H:%M:%S %d/%m/%Y",
+            time.localtime(checkchat.get("value")),
         )
         update.effective_message.reply_text(
             "You can only backup once a day!\nYou can backup again in about `{}`".format(
@@ -186,34 +185,41 @@ def export_data(update, context):
                         ("{}".format(btn.name), "{}".format(btn.url), False),
                     )
             isicat += "###button###: {}<###button###>{}<###splitter###>".format(
-                note.value, str(buttonlist),
+                note.value,
+                str(buttonlist),
             )
             buttonlist.clear()
         elif note.msgtype == 2:
             isicat += "###sticker###:{}<###splitter###>".format(note.file)
         elif note.msgtype == 3:
             isicat += "###file###:{}<###TYPESPLIT###>{}<###splitter###>".format(
-                note.file, note.value,
+                note.file,
+                note.value,
             )
         elif note.msgtype == 4:
             isicat += "###photo###:{}<###TYPESPLIT###>{}<###splitter###>".format(
-                note.file, note.value,
+                note.file,
+                note.value,
             )
         elif note.msgtype == 5:
             isicat += "###audio###:{}<###TYPESPLIT###>{}<###splitter###>".format(
-                note.file, note.value,
+                note.file,
+                note.value,
             )
         elif note.msgtype == 6:
             isicat += "###voice###:{}<###TYPESPLIT###>{}<###splitter###>".format(
-                note.file, note.value,
+                note.file,
+                note.value,
             )
         elif note.msgtype == 7:
             isicat += "###video###:{}<###TYPESPLIT###>{}<###splitter###>".format(
-                note.file, note.value,
+                note.file,
+                note.value,
             )
         elif note.msgtype == 8:
             isicat += "###video_note###:{}<###TYPESPLIT###>{}<###splitter###>".format(
-                note.file, note.value,
+                note.file,
+                note.value,
             )
         else:
             isicat += "{}<###splitter###>".format(note.value)
@@ -263,7 +269,7 @@ def export_data(update, context):
     """
 
     # Welcome (TODO)
-    #welc = welcsql.get_welc_pref(chat_id)
+    # welc = welcsql.get_welc_pref(chat_id)
     # Locked
     curr_locks = locksql.get_locks(chat_id)
     curr_restr = locksql.get_restr(chat_id)
@@ -317,7 +323,7 @@ def export_data(update, context):
             "extra": notes,
             "blacklist": bl,
             "disabled": disabledcmd,
-            "locks": locks,            
+            "locks": locks,
         },
     }
     baccinfo = json.dumps(backup, indent=4)
@@ -329,7 +335,9 @@ def export_data(update, context):
         context.bot.sendMessage(
             JOIN_LOGGER,
             "*Successfully imported backup:*\nChat: `{}`\nChat ID: `{}`\nOn: `{}`".format(
-                chat.title, chat_id, tgl,
+                chat.title,
+                chat_id,
+                tgl,
             ),
             parse_mode=ParseMode.MARKDOWN,
         )
@@ -339,7 +347,9 @@ def export_data(update, context):
         current_chat_id,
         document=open("Natsunagi_Nagisa{}Backup".format(chat_id), "rb"),
         caption="*Successfully Exported backup:*\nChat: `{}`\nChat ID: `{}`\nOn: `{}`\n\nNote: This `Natsunagi-Nagisa-Backup` was specially made for notes.".format(
-            chat.title, chat_id, tgl,
+            chat.title,
+            chat_id,
+            tgl,
         ),
         timeout=360,
         reply_to_message_id=msg.message_id,
@@ -373,7 +383,9 @@ __help__ = """
 """
 
 IMPORT_HANDLER = CommandHandler("import", import_data, run_async=True)
-EXPORT_HANDLER = CommandHandler("export", export_data, pass_chat_data=True, run_async=True)
+EXPORT_HANDLER = CommandHandler(
+    "export", export_data, pass_chat_data=True, run_async=True
+)
 
 dispatcher.add_handler(IMPORT_HANDLER)
 dispatcher.add_handler(EXPORT_HANDLER)

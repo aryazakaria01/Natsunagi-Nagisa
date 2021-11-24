@@ -6,7 +6,13 @@ from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi import dispatcher
 from Natsunagi.modules.helper_funcs.alternate import typing_action, send_action
 
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update, ChatAction
+from telegram import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    ParseMode,
+    Update,
+    ChatAction,
+)
 from telegram.ext.dispatcher import run_async
 from telegram.ext import CallbackContext, Filters, CommandHandler
 
@@ -29,7 +35,6 @@ If you want multiple buttons on the same line, use :same, as such:
 This will create two buttons on a single line, instead of one button per line.
 Keep in mind that your message <b>MUST</b> contain some text other than just a button!
 """
-
 
 
 @user_admin
@@ -71,7 +76,7 @@ def src(update, _):
         disable_web_page_preview=True,
     )
 
-    
+
 @send_action(ChatAction.UPLOAD_PHOTO)
 def rmemes(update, context):
     msg = update.effective_message
@@ -120,8 +125,8 @@ def rmemes(update, context):
 
     except BadRequest as excp:
         return msg.reply_text(f"Error! {excp.message}")
-   
-   
+
+
 def markdown_help(update: Update, context: CallbackContext):
     if update.effective_chat.type != "private":
         update.effective_message.reply_text(
@@ -219,9 +224,13 @@ Bass Boosting
   ➢ `/bassboost`*:* Reply To Music Bass Boost.
 """
 
-ECHO_HANDLER = DisableAbleCommandHandler("echo", echo, filters=Filters.chat_type.groups, run_async=True)
+ECHO_HANDLER = DisableAbleCommandHandler(
+    "echo", echo, filters=Filters.chat_type.groups, run_async=True
+)
 MD_HELP_HANDLER = CommandHandler("markdownhelp", markdown_help, run_async=True)
-SRC_HANDLER = CommandHandler("source", src, filters=Filters.chat_type.private, run_async=True)
+SRC_HANDLER = CommandHandler(
+    "source", src, filters=Filters.chat_type.private, run_async=True
+)
 REDDIT_MEMES_HANDLER = DisableAbleCommandHandler("rmeme", rmemes, run_async=True)
 
 dispatcher.add_handler(ECHO_HANDLER)

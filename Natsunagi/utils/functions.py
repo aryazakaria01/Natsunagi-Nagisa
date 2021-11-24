@@ -32,6 +32,7 @@ downloader = aiodownloader.Handler()
 
 # Another downloader, but with wget
 
+
 async def restart(m: Message):
     if m:
         await start_restart_stage(m.chat.id, m.message_id)
@@ -123,7 +124,9 @@ async def make_carbon(code):
 async def transfer_sh(file):
     async with aiofiles.open(file, "rb") as f:
         params = {file: await f.read()}
-    async with aiohttp.ClientSession() as session, session.post("https://transfer.sh/", data=params) as resp:
+    async with aiohttp.ClientSession() as session, session.post(
+        "https://transfer.sh/", data=params
+    ) as resp:
         download_link = str(await resp.text()).strip()
     return download_link
 
@@ -179,6 +182,7 @@ async def time_converter(message: Message, time_value: str) -> int:
         return await message.reply_text("Incorrect time specified.")
     return int(datetime.timestamp(temp_time))
 
+
 async def extract_userid(message, text: str):
     """
     NOT TO BE USED OUTSIDE THIS FILE
@@ -207,6 +211,7 @@ async def extract_userid(message, text: str):
         return entity.user.id
     return None
 
+
 async def extract_user_and_reason(message):
     args = message.text.strip().split()
     text = message.text
@@ -234,6 +239,7 @@ async def extract_user_and_reason(message):
         return await extract_userid(message, user), reason
 
     return user, reason
+
 
 async def extract_user(message):
     return (await extract_user_and_reason(message))[0]

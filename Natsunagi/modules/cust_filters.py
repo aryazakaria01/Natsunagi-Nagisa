@@ -50,7 +50,6 @@ ENUM_FUNC_MAP = {
 }
 
 
-
 @typing_action
 def list_handlers(update, context):
     chat = update.effective_chat
@@ -258,6 +257,7 @@ def stop_filter(update, context):
         update.effective_message,
         "That's not a filter - Click: /filters to get currently active filters.",
     )
+
 
 def reply_filter(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
@@ -499,13 +499,12 @@ def rmall_filters(update, context):
         )
 
 
-
 def rmall_callback(update, context):
     query = update.callback_query
     chat = update.effective_chat
     msg = update.effective_message
     member = chat.get_member(query.from_user.id)
-    if query.data == 'filters_rmall':
+    if query.data == "filters_rmall":
         if member.status == "creator" or query.from_user.id in DRAGONS:
             allfilters = sql.get_chat_triggers(chat.id)
             if not allfilters:
@@ -528,7 +527,7 @@ def rmall_callback(update, context):
 
         if member.status == "member":
             query.answer("You need to be admin to do this.")
-    elif query.data == 'filters_cancel':
+    elif query.data == "filters_cancel":
         if member.status == "creator" or query.from_user.id in DRAGONS:
             msg.edit_text("Clearing of all filters has been cancelled.")
             return
@@ -545,8 +544,9 @@ def get_exception(excp, filt, chat):
     if excp.message == "Reply message not found":
         return "noreply"
     LOGGER.warning("Message %s could not be parsed", str(filt.reply))
-    LOGGER.exception("Could not parse filter %s in chat %s",
-                     str(filt.keyword), str(chat.id))
+    LOGGER.exception(
+        "Could not parse filter %s in chat %s", str(filt.keyword), str(chat.id)
+    )
     return "This data could not be sent because it is incorrectly formatted."
 
 
@@ -562,8 +562,7 @@ def addnew_filter(update, chat_id, keyword, text, file_type, file_id, buttons):
 
 
 def __stats__():
-    return "• {} filters, across {} chats.".format(sql.num_filters(),
-                                                   sql.num_chats())
+    return "• {} filters, across {} chats.".format(sql.num_filters(), sql.num_chats())
 
 
 def __import_data__(chat_id, data):
@@ -609,13 +608,19 @@ __mod_name__ = "Filters"
 FILTER_HANDLER = DisableAbleCommandHandler("filter", filters, run_async=True)
 STOP_HANDLER = DisableAbleCommandHandler("stop", stop_filter, run_async=True)
 RMALLFILTER_HANDLER = DisableAbleCommandHandler(
-    "removeallfilters", rmall_filters, filters=Filters.chat_type.groups, run_async=True)
+    "removeallfilters", rmall_filters, filters=Filters.chat_type.groups, run_async=True
+)
 RMALLFILTER_CALLBACK = CallbackQueryHandler(
-    rmall_callback, pattern=r"filters_.*", run_async=True)
+    rmall_callback, pattern=r"filters_.*", run_async=True
+)
 LIST_HANDLER = DisableAbleCommandHandler(
-    "filters", list_handlers, admin_ok=True, run_async=True)
+    "filters", list_handlers, admin_ok=True, run_async=True
+)
 CUST_FILTER_HANDLER = MessageHandler(
-    CustomFilters.has_text & ~Filters.update.edited_message, reply_filter, run_async=True)
+    CustomFilters.has_text & ~Filters.update.edited_message,
+    reply_filter,
+    run_async=True,
+)
 
 dispatcher.add_handler(FILTER_HANDLER)
 dispatcher.add_handler(STOP_HANDLER)
@@ -625,6 +630,8 @@ dispatcher.add_handler(RMALLFILTER_HANDLER)
 dispatcher.add_handler(RMALLFILTER_CALLBACK)
 
 __handlers__ = [
-    FILTER_HANDLER, STOP_HANDLER, LIST_HANDLER,
-    (CUST_FILTER_HANDLER, HANDLER_GROUP, RMALLFILTER_HANDLER)
+    FILTER_HANDLER,
+    STOP_HANDLER,
+    LIST_HANDLER,
+    (CUST_FILTER_HANDLER, HANDLER_GROUP, RMALLFILTER_HANDLER),
 ]

@@ -4,7 +4,7 @@ import requests
 from telethon import types
 from telethon.tl import functions
 
-from Natsunagi.events import register,telethn
+from Natsunagi.events import register, telethn
 
 
 async def is_register_admin(chat, user):
@@ -31,9 +31,8 @@ async def is_register_admin(chat, user):
 
 @register(pattern=r"^/phone (.*)")
 async def phone(event):
-    if (
-        event.is_group
-        and not await is_register_admin(event.input_chat, event.message.sender_id)
+    if event.is_group and not await is_register_admin(
+        event.input_chat, event.message.sender_id
     ):
         await event.reply("☎️ You are not admin 🚶‍♀️")
         return

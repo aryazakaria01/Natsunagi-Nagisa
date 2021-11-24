@@ -138,7 +138,17 @@ def _check_member(client, message):
             return
 
 
-@pgram.on_message(filters.command(["forcesubscribe", "forcesub", f"forcesub@{BOT_USERNAME}", f"forcesubscribe@{BOT_USERNAME}"]) & ~filters.private)
+@pgram.on_message(
+    filters.command(
+        [
+            "forcesubscribe",
+            "forcesub",
+            f"forcesub@{BOT_USERNAME}",
+            f"forcesubscribe@{BOT_USERNAME}",
+        ]
+    )
+    & ~filters.private
+)
 def config(client, message):
     user = client.get_chat_member(message.chat.id, message.from_user.id)
     if user.status == "creator":

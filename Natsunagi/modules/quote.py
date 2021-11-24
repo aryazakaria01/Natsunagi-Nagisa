@@ -9,7 +9,6 @@ from Natsunagi.utils.errors import capture_err
 from Natsunagi import pgram, BOT_USERNAME
 
 
-
 async def quotify(messages: list):
     response = await arq.quotly(messages)
     if not response.ok:
@@ -39,9 +38,7 @@ async def quotly_func(client, message: Message):
     if not message.reply_to_message:
         return await message.reply_text("Reply to a message to quote it.")
     if not message.reply_to_message.text:
-        return await message.reply_text(
-            "Replied message has no text, can't quote it."
-        )
+        return await message.reply_text("Replied message has no text, can't quote it.")
     m = await message.reply_text("Quoting Messages Please wait....")
     if len(message.command) < 2:
         messages = [message.reply_to_message]
@@ -54,10 +51,12 @@ async def quotly_func(client, message: Message):
             count = arg[1]
             messages = await client.get_messages(
                 message.chat.id,
-                list(range(
+                list(
+                    range(
                         message.reply_to_message.message_id,
                         message.reply_to_message.message_id + (count + 5),
-                    )),
+                    )
+                ),
                 replies=0,
             )
         else:
@@ -72,9 +71,7 @@ async def quotly_func(client, message: Message):
             )
             messages = [reply_message]
     else:
-        return await m.edit(
-            "Incorrect argument, check quotly module in help section."
-        )
+        return await m.edit("Incorrect argument, check quotly module in help section.")
     try:
         sticker = await quotify(messages)
         if not sticker[0]:

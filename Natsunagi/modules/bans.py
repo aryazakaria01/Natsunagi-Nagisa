@@ -9,7 +9,13 @@ from telegram import (
     InlineKeyboardMarkup,
 )
 from telegram.error import BadRequest
-from telegram.ext import CallbackContext, Filters, CommandHandler, run_async, CallbackQueryHandler
+from telegram.ext import (
+    CallbackContext,
+    Filters,
+    CommandHandler,
+    run_async,
+    CallbackQueryHandler,
+)
 from telegram.utils.helpers import mention_html
 from typing import Optional, List
 from telegram import TelegramError
@@ -43,7 +49,6 @@ from Natsunagi.modules.helper_funcs.chat_status import (
 from Natsunagi.modules.helper_funcs.extraction import extract_user_and_text
 from Natsunagi.modules.helper_funcs.string_handling import extract_time
 from Natsunagi.modules.log_channel import gloggable, loggable
-
 
 
 @connection_status
@@ -140,7 +145,9 @@ def ban(update: Update, context: CallbackContext) -> str:
                         InlineKeyboardButton(
                             text="⚠️ Unban", callback_data=f"unbanb_unban={user_id}"
                         ),
-                        InlineKeyboardButton(text="❌ Delete", callback_data="unbanb_del"),
+                        InlineKeyboardButton(
+                            text="❌ Delete", callback_data="unbanb_del"
+                        ),
                     ]
                 ]
             ),
@@ -243,7 +250,9 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
                         InlineKeyboardButton(
                             text="⚠️ Unban", callback_data=f"unbanb_unban={user_id}"
                         ),
-                        InlineKeyboardButton(text="❌ Delete", callback_data="unbanb_del"),
+                        InlineKeyboardButton(
+                            text="❌ Delete", callback_data="unbanb_del"
+                        ),
                     ]
                 ]
             ),
@@ -330,7 +339,7 @@ def unbanb_btn(update: Update, context: CallbackContext) -> str:
         bot.answer_callback_query(query.id, text="Deleted!")
         return ""
 
-    
+
 @connection_status
 @bot_admin
 @can_restrict
@@ -390,7 +399,6 @@ def punch(update: Update, context: CallbackContext) -> str:
     return log_message
 
 
-
 @bot_admin
 @can_restrict
 def punchme(update: Update, context: CallbackContext):
@@ -440,7 +448,9 @@ def unban(update: Update, context: CallbackContext) -> str:
         return log_message
 
     chat.unban_member(user_id)
-    message.reply_text(f"Yep! Unbanned {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\nUnbanned By: {mention_html(user.id, html.escape(user.first_name))}!")
+    message.reply_text(
+        f"Yep! Unbanned {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\nUnbanned By: {mention_html(user.id, html.escape(user.first_name))}!"
+    )
 
     log = (
         f"<b>{html.escape(chat.title)}:</b>\n"
@@ -487,7 +497,9 @@ def selfunban(update: Update, context: CallbackContext) -> str:
         return
 
     chat.unban_member(user.id)
-    message.reply_text(f"Yep! I Have Unbanned You {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\nUnbanned By: {mention_html(user.id, html.escape(user.first_name))}.")
+    message.reply_text(
+        f"Yep! I Have Unbanned You {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\nUnbanned By: {mention_html(user.id, html.escape(user.first_name))}."
+    )
 
     log = (
         f"<b>{html.escape(chat.title)}:</b>\n"
@@ -546,6 +558,7 @@ def snipe(update: Update, context: CallbackContext):
                 "Couldn't send the message. Perhaps I'm not part of that group?"
             )
 
+
 __mod_name__ = "Bans/Mutes"
 
 __help__ = """
@@ -573,9 +586,15 @@ TEMPBAN_HANDLER = CommandHandler(["tban"], temp_ban, run_async=True)
 KICK_HANDLER = CommandHandler(["kick", "punch"], punch, run_async=True)
 UNBAN_HANDLER = CommandHandler("unban", unban, run_async=True)
 ROAR_HANDLER = CommandHandler("roar", selfunban, run_async=True)
-UNBAN_BUTTON_HANDLER = CallbackQueryHandler(unbanb_btn, pattern=r"unbanb_", run_async=True)
-KICKME_HANDLER = DisableAbleCommandHandler(["kickme", "punchme"], punchme, filters=Filters.chat_type.groups, run_async=True)
-SNIPE_HANDLER = CommandHandler("snipe", snipe, pass_args=True, filters=CustomFilters.sudo_filter, run_async=True)
+UNBAN_BUTTON_HANDLER = CallbackQueryHandler(
+    unbanb_btn, pattern=r"unbanb_", run_async=True
+)
+KICKME_HANDLER = DisableAbleCommandHandler(
+    ["kickme", "punchme"], punchme, filters=Filters.chat_type.groups, run_async=True
+)
+SNIPE_HANDLER = CommandHandler(
+    "snipe", snipe, pass_args=True, filters=CustomFilters.sudo_filter, run_async=True
+)
 BANME_HANDLER = CommandHandler("banme", banme, run_async=True)
 
 dispatcher.add_handler(BAN_HANDLER)

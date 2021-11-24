@@ -203,6 +203,7 @@ def scam(imgspage, lim):
 
     return imglinks
 
+
 REVERSE_HANDLER = DisableAbleCommandHandler(
     ["grs", "reverse"], reverse, pass_args=True, run_async=True
 )

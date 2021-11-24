@@ -10,6 +10,7 @@ from telethon import events
 from Natsunagi.events import register
 from Natsunagi import eor
 
+
 async def download_file(link, name):
     """for files, without progress callback with aiohttp"""
     if not aiohttp:
@@ -21,6 +22,7 @@ async def download_file(link, name):
             await file.write(await re_ses.read())
             await file.close()
     return name
+
 
 @register(pattern="^/devianart ?(.*)")
 async def downakd(e):
@@ -48,7 +50,9 @@ async def downakd(e):
     out = []
     num = 0
     for on in res:
-        img = await download_file(on["src"], f"Natsunagi/utils/downloads/{match}-{num}.jpg")
+        img = await download_file(
+            on["src"], f"Natsunagi/utils/downloads/{match}-{num}.jpg"
+        )
         num += 1
         out.append(img)
     if len(out) == 0:

@@ -13,7 +13,6 @@ from telegram.utils.helpers import mention_html
 from telegram.error import BadRequest
 
 
-
 @loggable
 @user_admin
 def approve(update, context):
@@ -33,9 +32,7 @@ def approve(update, context):
     except BadRequest:
         return ""
     if member.status in ("administrator", "creator"):
-        message.reply_text(
-            "No need to approve an Admin!"
-        )
+        message.reply_text("No need to approve an Admin!")
         return ""
     if redis.is_approved(message.chat_id, user_id):
         message.reply_text(
@@ -209,11 +206,15 @@ That's what approvals are for - approve of trustworthy users to allow them to se
 """
 
 APPROVE = DisableAbleCommandHandler("approve", approve, run_async=True)
-DISAPPROVE = DisableAbleCommandHandler(["unapprove", "disapprove"], disapprove, run_async=True)
+DISAPPROVE = DisableAbleCommandHandler(
+    ["unapprove", "disapprove"], disapprove, run_async=True
+)
 APPROVED = DisableAbleCommandHandler("approved", approved, run_async=True)
 APPROVAL = DisableAbleCommandHandler("approval", approval, run_async=True)
 UNAPPROVEALL = DisableAbleCommandHandler("unapproveall", unapproveall, run_async=True)
-UNAPPROVEALL_BTN = CallbackQueryHandler(unapproveall_btn, pattern=r"unapproveall_.*", run_async=True)
+UNAPPROVEALL_BTN = CallbackQueryHandler(
+    unapproveall_btn, pattern=r"unapproveall_.*", run_async=True
+)
 
 dispatcher.add_handler(APPROVE)
 dispatcher.add_handler(DISAPPROVE)

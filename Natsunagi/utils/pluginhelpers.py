@@ -61,6 +61,7 @@ def get_user(message: Message, text: str) -> [int, str, None]:
             reason_ = asplit[1]
     return user_s, reason_
 
+
 async def is_admin(event, user):
     try:
         sed = await event.client.get_permissions(event.chat_id, user)
@@ -68,6 +69,7 @@ async def is_admin(event, user):
     except:
         is_mod = False
     return is_mod
+
 
 def get_readable_time(seconds: int) -> int:
     count = 0
@@ -314,10 +316,7 @@ async def get_administrators(chat: Chat) -> List[User]:
         return _get
     set(
         chat.id,
-        (
-            member.user
-            for member in await chat.get_member(filter="administrators")
-        ),
+        (member.user for member in await chat.get_member(filter="administrators")),
     )
 
     return await get_administrators(chat)

@@ -2,8 +2,22 @@ import re
 
 from jikanpy import Jikan
 from jikanpy.exceptions import APIException
-from telegram import Message, Chat, User, ParseMode, Update, InlineKeyboardMarkup, InlineKeyboardButton
-from telegram.ext import CallbackContext, CommandHandler, Filters, CallbackQueryHandler, run_async
+from telegram import (
+    Message,
+    Chat,
+    User,
+    ParseMode,
+    Update,
+    InlineKeyboardMarkup,
+    InlineKeyboardButton,
+)
+from telegram.ext import (
+    CallbackContext,
+    CommandHandler,
+    Filters,
+    CallbackQueryHandler,
+    run_async,
+)
 
 from Natsunagi import dispatcher, REDIS
 from Natsunagi.modules.disable import DisableAbleCommandHandler
@@ -22,7 +36,7 @@ def anime(update: Update, context: CallbackContext):
         msg.reply_text("Error connecting to the API. Please try again!")
         return ""
     try:
-        res = res.get("results")[0].get("mal_id") # Grab first result
+        res = res.get("results")[0].get("mal_id")  # Grab first result
     except APIException:
         msg.reply_text("Error connecting to the API. Please try again!")
         return ""
@@ -67,19 +81,28 @@ def anime(update: Update, context: CallbackContext):
     rep += f"<i>{synopsis}</i>\n"
     if trailer:
         keyb = [
-            [InlineKeyboardButton("More Information", url=url),
-           InlineKeyboardButton("Trailer", url=trailer),
-          InlineKeyboardButton("Add to Watchlist", callback_data=f"xanime_watchlist={title}")]
+            [
+                InlineKeyboardButton("More Information", url=url),
+                InlineKeyboardButton("Trailer", url=trailer),
+                InlineKeyboardButton(
+                    "Add to Watchlist", callback_data=f"xanime_watchlist={title}"
+                ),
+            ]
         ]
     else:
         keyb = [
-             [InlineKeyboardButton("More Information", url=url),
-            InlineKeyboardButton("Add to Watchlist", callback_data=f"xanime_watchlist={title}")]]
+            [
+                InlineKeyboardButton("More Information", url=url),
+                InlineKeyboardButton(
+                    "Add to Watchlist", callback_data=f"xanime_watchlist={title}"
+                ),
+            ]
+        ]
 
+    msg.reply_text(
+        rep, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(keyb)
+    )
 
-
-    msg.reply_text(rep, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(keyb))
-    
 
 def character(update: Update, context: CallbackContext):
     msg = update.effective_message
@@ -111,13 +134,19 @@ def character(update: Update, context: CallbackContext):
         rep += f"<a href='{image}'>\u200c</a>"
         rep += f"<i>{about}</i>"
         keyb = [
-            [InlineKeyboardButton("More Information", url=url),
-           InlineKeyboardButton("Add to favorite character", callback_data=f"xanime_fvrtchar={name}")]]
-            
-        
-        msg.reply_text(rep, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(keyb))
-        
-        
+            [
+                InlineKeyboardButton("More Information", url=url),
+                InlineKeyboardButton(
+                    "Add to favorite character", callback_data=f"xanime_fvrtchar={name}"
+                ),
+            ]
+        ]
+
+        msg.reply_text(
+            rep, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(keyb)
+        )
+
+
 def upcoming(update: Update, context: CallbackContext):
     msg = update.effective_message
     rep = "<b>Upcoming anime</b>\n"
@@ -130,8 +159,8 @@ def upcoming(update: Update, context: CallbackContext):
         if len(rep) > 2000:
             break
     msg.reply_text(rep, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
-    
-  
+
+
 def manga(update: Update, context: CallbackContext):
     msg = update.effective_message
     args = context.args
@@ -172,60 +201,86 @@ def manga(update: Update, context: CallbackContext):
         rep += f"<a href='{image}'>\u200c</a>"
         rep += f"<i>{synopsis}</i>"
         keyb = [
-            [InlineKeyboardButton("More Information", url=url),
-           InlineKeyboardButton("Add to Read list", callback_data=f"xanime_manga={title}")]]
+            [
+                InlineKeyboardButton("More Information", url=url),
+                InlineKeyboardButton(
+                    "Add to Read list", callback_data=f"xanime_manga={title}"
+                ),
+            ]
+        ]
+
+        msg.reply_text(
+            rep, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(keyb)
+        )
 
 
-        msg.reply_text(rep, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(keyb))
-        
-        
 def animestuffs(update, context):
     query = update.callback_query
     user = update.effective_user
-    splitter = query.data.split('=')
+    splitter = query.data.split("=")
     query_match = splitter[0]
     callback_anime_data = splitter[1]
     if query_match == "xanime_watchlist":
-        watchlist = list(REDIS.sunion(f'anime_watch_list{user.id}'))
+        watchlist = list(REDIS.sunion(f"anime_watch_list{user.id}"))
         if callback_anime_data not in watchlist:
-            REDIS.sadd(f'anime_watch_list{user.id}', callback_anime_data)
-            context.bot.answer_callback_query(query.id,
-                                                text=f"{callback_anime_data} is successfully added to your watch list.",
-                                                show_alert=True)
+            REDIS.sadd(f"anime_watch_list{user.id}", callback_anime_data)
+            context.bot.answer_callback_query(
+                query.id,
+                text=f"{callback_anime_data} is successfully added to your watch list.",
+                show_alert=True,
+            )
         else:
-            context.bot.answer_callback_query(query.id,
-                                                text=f"{callback_anime_data} already exists in your watch list!",
-                                                show_alert=True)
+            context.bot.answer_callback_query(
+                query.id,
+                text=f"{callback_anime_data} already exists in your watch list!",
+                show_alert=True,
+            )
 
-    elif query_match == "xanime_fvrtchar":   
-        fvrt_char = list(REDIS.sunion(f'anime_fvrtchar{user.id}'))
+    elif query_match == "xanime_fvrtchar":
+        fvrt_char = list(REDIS.sunion(f"anime_fvrtchar{user.id}"))
         if callback_anime_data not in fvrt_char:
-            REDIS.sadd(f'anime_fvrtchar{user.id}', callback_anime_data)
-            context.bot.answer_callback_query(query.id,
-                                                text=f"{callback_anime_data} is successfully added to your favorite character.",
-                                                show_alert=True)
+            REDIS.sadd(f"anime_fvrtchar{user.id}", callback_anime_data)
+            context.bot.answer_callback_query(
+                query.id,
+                text=f"{callback_anime_data} is successfully added to your favorite character.",
+                show_alert=True,
+            )
         else:
-            context.bot.answer_callback_query(query.id,
-                                                text=f"{callback_anime_data} already exists in your favorite characters list!",
-                                                show_alert=True)
-    elif query_match == "xanime_manga":   
-        fvrt_char = list(REDIS.sunion(f'anime_mangaread{user.id}'))
+            context.bot.answer_callback_query(
+                query.id,
+                text=f"{callback_anime_data} already exists in your favorite characters list!",
+                show_alert=True,
+            )
+    elif query_match == "xanime_manga":
+        fvrt_char = list(REDIS.sunion(f"anime_mangaread{user.id}"))
         if callback_anime_data not in fvrt_char:
-            REDIS.sadd(f'anime_mangaread{user.id}', callback_anime_data)
-            context.bot.answer_callback_query(query.id,
-                                                text=f"{callback_anime_data} is successfully added to your read list.",
-                                                show_alert=True)
+            REDIS.sadd(f"anime_mangaread{user.id}", callback_anime_data)
+            context.bot.answer_callback_query(
+                query.id,
+                text=f"{callback_anime_data} is successfully added to your read list.",
+                show_alert=True,
+            )
         else:
-            context.bot.answer_callback_query(query.id,
-                                                text=f"{callback_anime_data} already exists in your favorite read list!",
-                                                show_alert=True)
+            context.bot.answer_callback_query(
+                query.id,
+                text=f"{callback_anime_data} already exists in your favorite read list!",
+                show_alert=True,
+            )
 
 
-ANIME_STUFFS_HANDLER = CallbackQueryHandler(animestuffs, pattern='xanime_.*', run_async=True)        
-ANIME_HANDLER = DisableAbleCommandHandler("manime", anime, pass_args=True, run_async=True)
-CHARACTER_HANDLER = DisableAbleCommandHandler("mcharacter", character, pass_args=True, run_async=True)
+ANIME_STUFFS_HANDLER = CallbackQueryHandler(
+    animestuffs, pattern="xanime_.*", run_async=True
+)
+ANIME_HANDLER = DisableAbleCommandHandler(
+    "manime", anime, pass_args=True, run_async=True
+)
+CHARACTER_HANDLER = DisableAbleCommandHandler(
+    "mcharacter", character, pass_args=True, run_async=True
+)
 UPCOMING_HANDLER = DisableAbleCommandHandler("mupcoming", upcoming, run_async=True)
-MANGA_HANDLER = DisableAbleCommandHandler("mmanga", manga, pass_args=True, run_async=True)
+MANGA_HANDLER = DisableAbleCommandHandler(
+    "mmanga", manga, pass_args=True, run_async=True
+)
 
 dispatcher.add_handler(ANIME_STUFFS_HANDLER)
 dispatcher.add_handler(ANIME_HANDLER)

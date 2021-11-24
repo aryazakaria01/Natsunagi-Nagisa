@@ -58,19 +58,17 @@ def download_youtube_audio(url: str):
             os.remove(audio_file)
             audio_file = audio_file_opus
         thumbnail_url = info_dict["thumbnail"]
-        thumbnail_file = (
-            basename
-            + "."
-            + get_file_extension_from_url(thumbnail_url)
-        )
+        thumbnail_file = basename + "." + get_file_extension_from_url(thumbnail_url)
         title = info_dict["title"]
         performer = info_dict["uploader"]
         duration = int(float(info_dict["duration"]))
     return [title, performer, duration, audio_file, thumbnail_file]
 
+
 def time_to_seconds(time):
     stringt = str(time)
-    return sum(int(x) * 60 ** i for i, x in enumerate(reversed(stringt.split(':'))))
+    return sum(int(x) * 60 ** i for i, x in enumerate(reversed(stringt.split(":"))))
+
 
 @pgram.on_message(filters.command(["vsong", "video"]))
 async def ytmusic(client, message: Message):
@@ -93,7 +91,6 @@ async def ytmusic(client, message: Message):
     url = mo
     sedlyf = wget.download(kekme)
     opts = {
-
         "format": "best",
         "addmetadata": True,
         "key": "FFmpegMetadata",
@@ -141,22 +138,21 @@ def song(client, message):
 
     user_id = message.from_user.id
     user_name = message.from_user.first_name
-    rpk = "["+user_name+"](tg://user?id="+str(user_id)+")"
+    rpk = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
 
-    query = ''.join(' ' + str(i) for i in message.command[1:])
+    query = "".join(" " + str(i) for i in message.command[1:])
     print(query)
-    m = message.reply('🔎 Finding the song...')
+    m = message.reply("🔎 Finding the song...")
     ydl_opts = {"format": "bestaudio[ext=m4a]"}
     try:
         results = YoutubeSearch(query, max_results=1).to_dict()
         link = f"https://youtube.com{results[0]['url_suffix']}"
-        #print(results)
-        title = results[0]["title"][:40]       
+        # print(results)
+        title = results[0]["title"][:40]
         thumbnail = results[0]["thumbnails"][0]
-        thumb_name = f'thumb{title}.jpg'
+        thumb_name = f"thumb{title}.jpg"
         thumb = requests.get(thumbnail, allow_redirects=True)
-        open(thumb_name, 'wb').write(thumb.content)
-
+        open(thumb_name, "wb").write(thumb.content)
 
         duration = results[0]["duration"]
         url_suffix = results[0]["url_suffix"]
@@ -174,15 +170,22 @@ def song(client, message):
             info_dict = ydl.extract_info(link, download=False)
             audio_file = ydl.prepare_filename(info_dict)
             ydl.process_info(info_dict)
-        rep = f'🎙 **Title**: [{title[:35]}]({link})\n🎬 **Source**: YouTube\n⏱️ **Duration**: `{duration}`\n👁‍🗨 **Views**: `{views}`\n📤 **By**: @{BOT_USERNAME}'
-        secmul, dur, dur_arr = 1, 0, duration.split(':')
-        for i in range(len(dur_arr)-1, -1, -1):
-            dur += (int(dur_arr[i]) * secmul)
+        rep = f"🎙 **Title**: [{title[:35]}]({link})\n🎬 **Source**: YouTube\n⏱️ **Duration**: `{duration}`\n👁‍🗨 **Views**: `{views}`\n📤 **By**: @{BOT_USERNAME}"
+        secmul, dur, dur_arr = 1, 0, duration.split(":")
+        for i in range(len(dur_arr) - 1, -1, -1):
+            dur += int(dur_arr[i]) * secmul
             secmul *= 60
-        message.reply_audio(audio_file, caption=rep, thumb=thumb_name, parse_mode='md', title=title, duration=dur)
+        message.reply_audio(
+            audio_file,
+            caption=rep,
+            thumb=thumb_name,
+            parse_mode="md",
+            title=title,
+            duration=dur,
+        )
         m.delete()
     except Exception as e:
-        m.edit('❌ Error')
+        m.edit("❌ Error")
         print(e)
 
     try:
@@ -191,28 +194,23 @@ def song(client, message):
     except Exception as e:
         print(e)
 
+
 @app.on_message(filters.command("ytmusic"))
 @capture_err
 async def music(_, message):
     global is_downloading
     if len(message.command) != 2:
-        return await message.reply_text(
-            "/ytmusic needs a link as argument"
-        )
+        return await message.reply_text("/ytmusic needs a link as argument")
     url = message.text.split(None, 1)[1]
     if is_downloading:
         return await message.reply_text(
             "Another download is in progress, try again after sometime."
         )
     is_downloading = True
-    m = await message.reply_text(
-        f"Downloading {url}", disable_web_page_preview=True
-    )
+    m = await message.reply_text(f"Downloading {url}", disable_web_page_preview=True)
     try:
         loop = get_running_loop()
-        music = await loop.run_in_executor(
-            None, partial(download_youtube_audio, url)
-        )
+        music = await loop.run_in_executor(None, partial(download_youtube_audio, url))
         if not music:
             await m.edit("Too Long, Can't Download.")
         (
@@ -255,9 +253,7 @@ async def download_song(url):
 async def jssong(_, message):
     global is_downloading
     if len(message.command) < 2:
-        return await message.reply_text(
-            "/saavn requires an argument."
-        )
+        return await message.reply_text("/saavn requires an argument.")
     if is_downloading:
         return await message.reply_text(
             "Another download is in progress, try again after sometime."
