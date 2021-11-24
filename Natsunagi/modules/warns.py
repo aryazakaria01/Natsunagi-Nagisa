@@ -108,7 +108,7 @@ def warn(user: User,
                 ]
             )
         
-        reply = f"Yep! User: {mention_html(user.id, html.escape(user.first_name))} has warnned {mention_html(member.user.id, html.escape(member.user.first_name))} in {chat.title}\nCount Warns: {num_warns}/{limit}")"
+        reply = f"Yep! User: {mention_html(user.id, html.escape(user.first_name))} has warnned {mention_html(member.user.id, html.escape(member.user.first_name))} in {chat.title}\nCount Warns: {num_warns}/{limit}"
         if reason:
             reply += f"\n<code> </code><b>Reason:</b> {html.escape(reason)}"
 
