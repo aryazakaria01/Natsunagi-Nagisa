@@ -18,6 +18,7 @@ from motor import motor_asyncio
 from odmantic import AIOEngine
 from pymongo import MongoClient
 from pymongo.errors import ServerSelectionTimeoutError
+from ptbcontrib.postgres_persistence import PostgresPersistence
 from redis import StrictRedis
 from Python_ARQ import ARQ
 from aiohttp import ClientSession
@@ -302,16 +303,22 @@ else:
         sw = None
         LOGGER.warning("[Natsunagi Error]: Can't connect to SpamWatch!")
 
+from Natsunagi.modules.sql import SESSION
+
 telegraph = Telegraph()
 telegraph.create_account(short_name="Natsunagi")
+# Updater
 updater = tg.Updater(
     token=TOKEN,
     base_url=BOT_API_URL,
-    workers=WORKERS,
+    workers=min(32, os.cpu_count() + 4),
     request_kwargs={"read_timeout": 10, "connect_timeout": 10},
     use_context=True,
+    persistence=PostgresPersistence(session=SESSION),
 )
+# Telethon
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
+# Dispacther
 dispatcher = updater.dispatcher
 session_name = TOKEN.split(":")[0]
 pgram = Client(
@@ -324,6 +331,7 @@ mongodb = MongoClient(MONGO_DB_URL, 27017)[MONGO_DB]
 motor = motor_asyncio.AsyncIOMotorClient(MONGO_DB_URL)
 db = motor[MONGO_DB]
 engine = AIOEngine(motor, MONGO_DB)
+# AioHttp Session
 aiohttpsession = ClientSession()
 # ARQ Client
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
