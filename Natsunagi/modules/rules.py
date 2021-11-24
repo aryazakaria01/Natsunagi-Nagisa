@@ -58,33 +58,38 @@ def send_rules(update, chat_id, from_pm=False):
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton(
-                            text="Rules", url=f"t.me/{bot.username}?start={chat_id}",
-                        ),
-                    ],
-                ],
-            ),
-        )
+                        InlineKeyboardButton(text="📝 Read Rules", url=f"t.me/{bot.username}?start={chat_id}"),
+                        InlineKeyboardButton(text="❌ Delete", callback_data="close2")
+                    ]
+                ]
+            )
     elif rules:
         update.effective_message.reply_text(
             "Please click the button below to see the rules.",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton(
-                            text="Rules", url=f"t.me/{bot.username}?start={chat_id}",
-                        ),
-                    ],
-                ],
-            ),
-        )
+                        InlineKeyboardButton(text="📝 Read Rules", url=f"t.me/{bot.username}?start={chat_id}"),
+                        InlineKeyboardButton(text="❌ Delete", callback_data="close2")
+                    ]
+                ]
+            )
     else:
         update.effective_message.reply_text(
             "The group admins haven't set any rules for this chat yet. "
             "This probably doesn't mean it's lawless though...!",
         )
 
-
+close_keyboard = InlineKeyboardMarkup( 
+            [
+                [
+                    InlineKeyboardButton(
+                        "❌ Delete", callback_data="close2"
+                    )
+                ]    
+            ]
+        )
+            
 @user_admin
 def set_rules(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
