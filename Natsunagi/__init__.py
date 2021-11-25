@@ -27,9 +27,6 @@ from telegraph import Telegraph
 from configparser import ConfigParser
 from logging.config import fileConfig
 
-fileConfig('logging.ini')
-
-
 StartTime = time.time()
 
 def get_user_list(__init__, key):
@@ -46,10 +43,9 @@ logging.basicConfig(
 )
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
-LOGGER = logging.getLogger(__name__)
-LOGGER.info(
-    "Natsunagi is starting. | An CyberNetwork Project Parts. | Licensed under GPLv3."
-)
+LOGGER = logging.getLogger('[Natsunagi]')
+logging.getLogger('ptbcontrib.postgres_persistence.postgrespersistence').setLevel(logging.WARNING)
+LOGGER.info("Natsunagi is starting. | An CyberNetwork Project Parts. | Licensed under GPLv3.")
 LOGGER.info("Not affiliated to Tantei Wa Mou or Villain in any way whatsoever.")
 LOGGER.info("Project maintained by: github.com/aryazakaria01 (t.me/Badboyanim)")
 
