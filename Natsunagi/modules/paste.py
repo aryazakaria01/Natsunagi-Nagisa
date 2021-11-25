@@ -6,6 +6,7 @@ import aiofiles
 from pykeyboard import InlineKeyboard
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, Message
+from asyncio import get_running_loop
 
 from Natsunagi import pbot as app
 from Natsunagi import pgram, aiohttpsession, eor
