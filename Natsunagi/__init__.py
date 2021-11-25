@@ -307,7 +307,7 @@ from Natsunagi.modules.sql import SESSION
 
 telegraph = Telegraph()
 telegraph.create_account(short_name="Natsunagi")
-# Updater
+defaults = tg.Defaults(run_async=True)
 updater = tg.Updater(
     token=TOKEN,
     base_url=BOT_API_URL,
@@ -336,9 +336,16 @@ aiohttpsession = ClientSession()
 # ARQ Client
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 ubot = TelegramClient(StringSession(STRING_SESSION), APP_ID, APP_HASH)
-pbot = Client("NatsunagiBot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 app = Client("Natsunagi", bot_token=TOKEN, api_id=API_ID, api_hash=API_HASH)
-app.start
+pbot = Client(
+    ":memory:",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    bot_token=TOKEN,
+    workers=min(32, os.cpu_count() + 4),
+)
+apps = []
+apps.append(pbot)
 loop = asyncio.get_event_loop()
 
 
