@@ -367,14 +367,41 @@ def info(update: Update, context: CallbackContext):
                 chat.id,
                 photo=profile,
                 caption=(text),
+                reply_markup=InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton(
+                                "Health", url="https://t.me/CyberMusicProject/45"),
+                            InlineKeyboardButton(
+                                "Disaster", url="https://t.me/CyberMusicProject/70")
+                        ],
+                    ]
+                ),
                 parse_mode=ParseMode.HTML,
             )
+            
         # Incase user don't have profile pic, send normal text
         except IndexError:
-            message.reply_text(text, parse_mode=ParseMode.HTML)
+            message.reply_text(
+                text, 
+                reply_markup=InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton(
+                                "Health", url="https://t.me/CyberMusicProject/45"),
+                            InlineKeyboardButton(
+                                "Levelling", url="https://t.me/CyberMusicProject/70")
+                        ],
+                    ]
+                ),
+                parse_mode=ParseMode.HTML,
+                disable_web_page_preview=True
+            )
 
     else:
-        message.reply_text(text, parse_mode=ParseMode.HTML)
+        message.reply_text(
+            text, parse_mode=ParseMode.HTML,
+        )
 
     rep.delete()
 
