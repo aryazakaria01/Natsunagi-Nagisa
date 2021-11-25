@@ -154,9 +154,7 @@ if ENV:
     SPB_MODE = os.environ.get("SPB_MODE", False)
 
     try:
-        WHITELIST_CHATS = set(
-            int(x) for x in os.environ.get("WHITELIST_CHATS", "").split()
-        )
+        WHITELIST_CHATS = {int(x) for x in os.environ.get("WHITELIST_CHATS", "").split()}
     except ValueError:
         raise Exception("Your blacklisted chats list does not contain valid integers.")
 
