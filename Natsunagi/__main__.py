@@ -884,7 +884,7 @@ def main():
         try:
             dispatcher.bot.sendMessage(
                 f"@{SUPPORT_CHAT}", 
-                f"""*Natsunagi Nagisa Started!**
+                f"""**Natsunagi Nagisa Started!**
 
 Python: `{python_version}`
 Telethon: `{__version__}`
