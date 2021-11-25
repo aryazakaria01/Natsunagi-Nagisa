@@ -1,40 +1,58 @@
-import traceback
-from asyncio import get_running_loop
-from io import BytesIO
+import os
 
-from googletrans import Translator
 from gtts import gTTS
-from pyrogram import filters
-from pyrogram.types import Message
+from gtts import gTTSError
+from telethon import *
+from telethon.tl import functions
+from telethon.tl import types
+from telethon.tl.types import *
 
-from Natsunagi import app
+from Natsunagi import *
 
-
-def convert(text):
-    audio = BytesIO()
-    i = Translator().translate(text, dest="en")
-    lang = i.src
-    tts = gTTS(text, lang=lang)
-    audio.name = lang + ".mp3"
-    tts.write_to_fp(audio)
-    return audio
+from Natsunagi import telethn as tbot
+from Natsunagi.events import register
 
 
-@app.on_message(filters.command("tts"))
-async def text_to_speech(_, message: Message):
-    if not message.reply_to_message:
-        return await message.reply_text("Reply to some text ffs.")
-    if not message.reply_to_message.text:
-        return await message.reply_text("Reply to some text ffs.")
-    m = await message.reply_text("Processing")
-    text = message.reply_to_message.text
+@register(pattern="^/tts (.*)")
+async def _(event):
+    if event.fwd_from:
+        return
+    input_str = event.pattern_match.group(1)
+    reply_to_id = event.message.id
+    if event.reply_to_msg_id:
+        previous_message = await event.get_reply_message()
+        text = previous_message.message
+        lan = input_str
+    elif "|" in input_str:
+        lan, text = input_str.split("|")
+    else:
+        await event.reply(
+            "Invalid Syntax\nFormat `/tts lang | text`\nFor eg: `/tts en | hello`"
+        )
+        return
+    text = text.strip()
+    lan = lan.strip()
     try:
-        loop = get_running_loop()
-        audio = await loop.run_in_executor(None, convert, text)
-        await message.reply_audio(audio)
-        await m.delete()
-        audio.close()
-    except Exception as e:
-        await m.edit(e)
-        e = traceback.format_exc()
-        print(e)
+        tts = gTTS(text, tld="com", lang=lan)
+        tts.save("k.mp3")
+    except AssertionError:
+        await event.reply(
+            "The text is empty.\n"
+            "Nothing left to speak after pre-precessing, "
+            "tokenizing and cleaning."
+        )
+        return
+    except ValueError:
+        await event.reply("Language is not supported.")
+        return
+    except RuntimeError:
+        await event.reply("Error loading the languages dictionary.")
+        return
+    except gTTSError:
+        await event.reply("Error in Google Text-to-Speech API request !")
+        return
+    with open("k.mp3", "r"):
+        await tbot.send_file(
+            event.chat_id, "k.mp3", voice_note=True, reply_to=reply_to_id
+        )
+        os.remove("k.mp3")
