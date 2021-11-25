@@ -50,6 +50,7 @@ from telegram import (
     InlineKeyboardMarkup,
     ParseMode,
     Update,
+    __version__,
 )
 
 from telegram.error import (
@@ -79,8 +80,10 @@ from pyrogram import Client
 from telethon import (
     Button,
     events,
+    __version__,
 )
 
+from platform import python_version
 
 def get_readable_time(seconds: int) -> str:
     count = 0
@@ -877,15 +880,17 @@ def is_chat_allowed(update, context):
 
 def main():
 
-    if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
+if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
-            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "I Aᴍ Aʟɪᴠᴇ 🔥")
-        except Unauthorized:
-            LOGGER.warning(
-                "Bot isnt able to send message to support_chat, go and check!"
+            dispatcher.bot.sendMessage(
+                f"@{SUPPORT_CHAT}", 
+                f"""*Natsunagi Nagisa Started!**
+
+Python: `{python_version}`
+Telethon: `{__version__}`
+Telegram Library: v`{__version__}`""",
+                parse_mode=ParseMode.MARKDOWN
             )
-        except BadRequest as e:
-            LOGGER.warning(e.message)
 
     test_handler = DisableAbleCommandHandler("test", test, run_async=True)
     start_handler = DisableAbleCommandHandler("start", start, run_async=True)
