@@ -29,12 +29,11 @@ from logging.config import fileConfig
 
 StartTime = time.time()
 
-fileConfig('logging.ini')
-
 def get_user_list(__init__, key):
     with open("{}/Natsunagi/{}".format(os.getcwd(), __init__), "r") as json_file:
         return json.load(json_file)[key]
 
+fileConfig('logging.ini')
 
 # enable logging
 FORMAT = "[Natsunagi] %(message)s"
