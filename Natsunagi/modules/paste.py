@@ -11,7 +11,7 @@ from asyncio import get_running_loop
 from Natsunagi import pbot as app
 from Natsunagi import pgram, aiohttpsession, eor
 from Natsunagi.utils.errors import capture_err
-from Natsunagi.utils.pastebin import paste, hpaste
+from Natsunagi.utils.pastebin import epaste, hpaste
 from Natsunagi.utils.keyboard import ikb
 
 __mod_name__ = "Paste"
@@ -104,7 +104,7 @@ async def paste_func(_, message):
         async with aiofiles.open(doc, mode="r") as f:
             content = await f.read()
         os.remove(doc)
-    link = await paste(content)
+    link = await epaste(content)
     preview = link + "/preview.png"
     button = InlineKeyboard(row_width=1)
     button.add(InlineKeyboardButton(text="Paste Link", url=link))
