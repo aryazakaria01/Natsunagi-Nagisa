@@ -84,7 +84,7 @@ async def paste_func(_, message: Message):
         
 @app.on_message(filters.command("paste") & ~filters.edited)
 @capture_err
-async def paste_func(_, message):
+async def epaste_func(_, message):
     if not message.reply_to_message:
         return await message.reply_text(
             "Reply To A Message With /paste"
