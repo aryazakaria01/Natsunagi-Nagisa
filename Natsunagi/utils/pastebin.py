@@ -26,7 +26,7 @@ def _netcat(host, port, content):
     s.close()
 
 
-async def paste(content):
+async def epaste(content):
     loop = get_running_loop()
     link = await loop.run_in_executor(
         None, partial(_netcat, "ezup.dev", 9999, content)
