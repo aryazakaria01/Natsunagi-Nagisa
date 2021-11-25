@@ -12,7 +12,7 @@ from telegram.ext import (
     CommandHandler,
     run_async,
 )
-from telegram import Bot, Update
+from telegram import Bot, 
 
 
 def get_muted_chats(bot: Bot, update: Update, leave: bool = False):

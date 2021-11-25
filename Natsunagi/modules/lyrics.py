@@ -8,7 +8,6 @@ from pyrogram import filters
 from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent, Message
 from tswift import Song
 from youtubesearchpython import SearchVideos
-from telegram import Message
 
 from Natsunagi.utils.pluginhelp import get_text, progress
 from Natsunagi import pgram, GENIUS_API_TOKEN, BOT_USERNAME, arq

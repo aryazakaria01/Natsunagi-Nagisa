@@ -4,7 +4,6 @@ import asyncio
 from telethon import events
 from telethon.tl.types import (
     InputMessagesFilterPhotos,
-    InputMessagesFilterVideo,
     InputMessagesFilterMusic,
     InputMessagesFilterVideo,
     InputMessagesFilterRoundVideo,
