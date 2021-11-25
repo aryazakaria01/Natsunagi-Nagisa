@@ -76,7 +76,7 @@ from telegram.ext.dispatcher import (
 )
 
 from telegram.utils.helpers import escape_markdown
-from pyrogram import Client
+from pyrogram import Client, __version__ as pyr
 from telethon import (
     Button,
     events,
@@ -886,9 +886,10 @@ def main():
                 f"@{SUPPORT_CHAT}", 
                 f"""**Natsunagi Nagisa Started!**
 
-Python: `{python_version()}`
-Telethon: `{tlh}`
-Telegram Library: v`{tgl}`""",
+» Python: `{python_version()}`
+» Telethon: `{tlh}`
+» Pyrogram: `{pyr}`
+» Telegram Library: v`{tgl}`""",
                 parse_mode=ParseMode.MARKDOWN
             )
         except BadRequest as e:
