@@ -85,6 +85,7 @@ from telethon import (
 
 from platform import python_version
 
+
 def get_readable_time(seconds: int) -> str:
     count = 0
     ping_time = ""
@@ -883,18 +884,18 @@ def main():
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
             dispatcher.bot.sendMessage(
-                f"@{SUPPORT_CHAT}", 
+                f"@{SUPPORT_CHAT}",
                 f"""**Natsunagi Nagisa Started!**
 
 » Python: `{python_version()}`
 » Telethon: `{tlh}`
 » Pyrogram: `{pyr}`
 » Telegram Library: v`{tgl}`""",
-                parse_mode=ParseMode.MARKDOWN
+                parse_mode=ParseMode.MARKDOWN,
             )
         except BadRequest as e:
             LOGGER.warning(e.message)
-    
+
     test_handler = DisableAbleCommandHandler("test", test, run_async=True)
     start_handler = DisableAbleCommandHandler("start", start, run_async=True)
 
