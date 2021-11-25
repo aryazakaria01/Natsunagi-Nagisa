@@ -1,5 +1,6 @@
 import html
 import time
+import requests
 
 from datetime import datetime
 from io import BytesIO
@@ -41,6 +42,9 @@ from Natsunagi.modules.helper_funcs.extraction import (
     extract_user_and_text,
 )
 from Natsunagi.modules.helper_funcs.misc import send_to_list
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd, natsunagimsg
+from Natsunagi.modules.helper_funcs.chat_status import dev_plus
+from spamwatch.errors import SpamWatchError, Error, UnauthorizedError, NotFoundError, Forbidden, TooManyRequests
 
 GBAN_ENFORCE_GROUP = 6
 
@@ -72,6 +76,26 @@ UNGBAN_ERRORS = {
     "User not found",
 }
 
+SPB_MODE = True
+
+@natsunagicmd(command="spb")
+@dev_plus
+def spbtoggle(update: Update, context: CallbackContext):
+    from tg_bot import SPB_MODE
+    args = update.effective_message.text.split(None, 1)
+    message = update.effective_message
+    print(SPB_MODE)
+    if len(args) > 1:
+        if args[1] in ("yes", "on"):
+            SPB_MODE = True
+            message.reply_animation("https://telegra.ph/file/a49e7bef1cc664eabcb26.mp4", caption="SpamProtection API bans are now enabled.\nAll hail @Intellivoid.")
+        elif args[1] in ("no", "off"):
+            SPB_MODE = False
+            message.reply_text("SpamProtection API bans are now disabled.")
+    elif SPB_MODE:
+        message.reply_text("SpamProtection API bans are currently enabled.")
+    else:
+        message.reply_text("SpamProtection API bans are currenty disabled.")
 
 @support_plus
 def gban(update: Update, context: CallbackContext):
@@ -91,7 +115,7 @@ def gban(update: Update, context: CallbackContext):
 
     if int(user_id) in DEV_USERS:
         message.reply_text(
-            "That user is member of the Ackerman Clan I can't act against our own.",
+            "That user is a friend of the Detective",
         )
         return
 
@@ -410,13 +434,39 @@ def gbanlist(update: Update, context: CallbackContext):
 
 def check_and_ban(update, user_id, should_message=True):
 
-    if user_id in TIGERS or user_id in WOLVES:
-        sw_ban = None
-    else:
+    from Natsunagi import SPB_MODE
+    chat = update.effective_chat  # type: Optional[Chat]
+    if SPB_MODE:
         try:
-            sw_ban = sw.get_ban(int(user_id))
-        except:
-            sw_ban = None
+            apst = requests.get(f'https://api.intellivoid.net/spamprotection/v1/lookup?query={user_id}')
+            api_status = apst.status_code
+            if api_status == 200:
+                try:
+                    status = apst.json()
+                    try:
+                        bl_check = (status.get("results").get("attributes").get("is_blacklisted"))
+                    except:
+                        bl_check = False
+
+                    if bl_check:
+                        bl_res = (status.get("results").get("attributes").get("blacklist_reason"))
+                        update.effective_chat.kick_member(user_id)
+                        if should_message:
+                            update.effective_message.reply_text(
+                            f"This person was blacklisted on @SpamProtectionBot and has been removed!\nReason: <code>{bl_res}</code>",
+                            parse_mode=ParseMode.HTML,
+                        )
+                except BaseException:
+                    log.warning("Spam Protection API is unreachable.")
+        except BaseException as e:
+            log.info(f'SpamProtection was disabled due to {e}')
+    try:
+        sw_ban = sw.get_ban(int(user_id))
+    except AttributeError:
+        sw_ban = None
+    except (SpamWatchError, Error, UnauthorizedError, NotFoundError, Forbidden, TooManyRequests) as e:
+        log.warning(f" SpamWatch Error: {e}")
+        sw_ban = None
 
     if sw_ban:
         update.effective_chat.ban_member(user_id)
@@ -446,6 +496,7 @@ def check_and_ban(update, user_id, should_message=True):
             update.effective_message.reply_text(text, parse_mode=ParseMode.HTML)
 
 
+@natsunagimsg((Filters.all & Filters.chat_type.groups), can_disable=False, group=GBAN_ENFORCE_GROUP)            
 def enforce_gban(update: Update, context: CallbackContext):
     # Not using @restrict handler to avoid spamming - just ignore if cant gban.
     bot = context.bot
@@ -482,13 +533,17 @@ def gbanstat(update: Update, context: CallbackContext):
         if args[0].lower() in ["on", "yes"]:
             sql.enable_gbans(update.effective_chat.id)
             update.effective_message.reply_text(
-                "Antispam is now enabled ✅ "
+                "Antispam is now enabled ✅\n"
+                "Spamwatch is now enabled ✅\n"
+                "Intellivoid is now enabled ✅\n"
                 "I am now protecting your group from potential remote threats!",
             )
         elif args[0].lower() in ["off", "no"]:
             sql.disable_gbans(update.effective_chat.id)
             update.effective_message.reply_text(
-                "Antispan is now disabled ❌ " "Spamwatch is now disabled ❌",
+                "Antispan is now disabled ❌\n" 
+                "Spamwatch is now disabled ❌\n", 
+                "Intellivoid is now disabled ❌\n"
             )
     else:
         update.effective_message.reply_text(
@@ -537,12 +592,19 @@ __help__ = f"""
   ➢ `/antispam <on/off/yes/no>`*:* Will toggle our antispam tech or return your current settings.
 Anti-Spam, used by bot devs to ban spammers across all groups. This helps protect \
 you and your groups by removing spam flooders as quickly as possible.
+
 *Note:* Users can appeal gbans or report spammers at @{SUPPORT_CHAT}
 This also integrates @Spamwatch API to remove Spammers as much as possible from your chatroom!
+
 *What is SpamWatch?*
 SpamWatch maintains a large constantly updated ban-list of spambots, trolls, bitcoin spammers and unsavoury characters[.](https://telegra.ph/file/f584b643c6f4be0b1de53.jpg)
 Constantly help banning spammers off from your group automatically So, you wont have to worry about spammers storming your group.
 *Note:* Users can appeal spamwatch bans at @SpamwatchSupport
+
+*What is Intellivoid?*
+We're a small group of talented people that strive to create innovating 
+software & services often from the ground up instead of following a trend or 
+copy-pasting open source projects and calling it our own.
 """
 
 GBAN_HANDLER = CommandHandler("gban", gban, run_async=True)
