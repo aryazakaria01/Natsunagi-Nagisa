@@ -24,9 +24,11 @@ from Python_ARQ import ARQ
 from aiohttp import ClientSession
 from telegram import Chat
 from telegraph import Telegraph
+from configparser import ConfigParser
 
 StartTime = time.time()
 
+fileConfig('logging.ini')
 
 def get_user_list(__init__, key):
     with open("{}/Natsunagi/{}".format(os.getcwd(), __init__), "r") as json_file:
@@ -56,6 +58,10 @@ if sys.version_info[0] < 3 or sys.version_info[1] < 6:
         "You MUST have a python version of at least 3.6! Multiple features depend on this. Bot quitting.",
     )
     sys.exit(1)
+
+parser = ConfigParser()
+parser.read("config.ini")
+natconfig = parser["natconfig"]
 
 ENV = bool(os.environ.get("ENV", False))
 
@@ -395,11 +401,24 @@ async def eor(msg: Message, **kwargs):
 
 
 from Natsunagi.modules.helper_funcs.handlers import (
-    CustomCommandHandler,
     CustomMessageHandler,
     CustomRegexHandler,
 )
 
 tg.RegexHandler = CustomRegexHandler
-tg.CommandHandler = CustomCommandHandler
 tg.MessageHandler = CustomMessageHandler
+
+# Load at end to ensure all prev variables have been set
+from Natsunagi.modules.helper_funcs.handlers import CustomCommandHandler
+
+if CUSTOM_CMD and len(CUSTOM_CMD) >= 1:
+    tg.CommandHandler = CustomCommandHandler
+
+
+def spamfilters(text, user_id, chat_id):
+    # print("{} | {} | {}".format(text, user_id, chat_id))
+    if int(user_id) not in SPAMMERS:
+        return False
+
+    print("This user is a spammer!")
+    return True
