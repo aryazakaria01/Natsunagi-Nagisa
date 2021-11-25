@@ -151,6 +151,7 @@ if ENV:
     WHITELIST_CHATS = os.environ.get("WHITELIST_CHATS", "")
     MONGO_PORT = os.environ.get("MONGO_PORT", None)
     SPB_MODE = os.environ.get("SPB_MODE", False)
+    CUSTOM_CMD = os.environ.get("CUSTOM_CMD", "?")
 
     try:
         WHITELIST_CHATS = set(
@@ -257,6 +258,7 @@ else:
     WHITELIST_CHATS = Config.WHITELIST_CHATS
     MONGO_PORT = Config.MONGO_PORT
     SPB_MODE = Config.SPB_MODE
+    CUSTOM_CMD = Config.CUSTOM_CMD
 
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
