@@ -23,7 +23,7 @@ from Natsunagi import aiohttpsession as session
 from Natsunagi.modules.arq_client import arq
 from Natsunagi import pbot as app
 from Natsunagi.utils.errors import capture_err
-from Natsunagi.utils.pastebin import paste
+from Natsunagi.utils.pastebin import epaste
 
 is_downloading = False
 
@@ -36,7 +36,7 @@ def get_file_extension_from_url(url):
 
 def download_youtube_audio(url: str):
     global is_downloading
-    with youtube_dl.YoutubeDL(
+    with yt_dlp.YoutubeDL(
         {
             "format": "bestaudio",
             "writethumbnail": True,
