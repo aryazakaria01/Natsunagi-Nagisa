@@ -20,6 +20,8 @@
 <a href="https://GitHub.com/aryazakaria01/Natsunagi-Nagisa"> <img src="https://img.shields.io/badge/Maintained-Yes-brightgreen.svg" alt="Maintenance" /> </a><br>
 <a href="https://github.com/aryazakaria01/Natsunagi-Nagisa/blob/main/LICENSE"> <img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License" /> </a>
 <a href="https://makeapullrequest.com"> <img src="https://img.shields.io/badge/PRs-Welcome-blue.svg?style=flat-round" alt="PRs" /> </a>
+<a href="https://deepsource.io/gh/aryazakaria01/Natsunagi-Nagisa/?ref=repository-badge}" target="_blank"><img alt="DeepSource" title="DeepSource" src="https://deepsource.io/gh/aryazakaria01/Natsunagi-Nagisa.svg/?label=active+issues&show_trend=true&token=RYYx_QApuuAWUMpqD_4iHZ5m"/></a>
+<a href="https://deepsource.io/gh/aryazakaria01/Natsunagi-Nagisa/?ref=repository-badge}" target="_blank"><img alt="DeepSource" title="DeepSource" src="https://deepsource.io/gh/aryazakaria01/Natsunagi-Nagisa.svg/?label=resolved+issues&show_trend=true&token=RYYx_QApuuAWUMpqD_4iHZ5m"/></a>	
 </p>
 
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html) [![DeepSource](https://static.deepsource.io/deepsource-badge-light-mini.svg)](https://deepsource.io/gh/Awesome-RJ/CutiepiiRobot/?ref=repository-badge)
