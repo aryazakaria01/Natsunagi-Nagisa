@@ -104,3 +104,4 @@ validators
 flag
 fuzzysearch
 PyYAML>5.0
+configparser
