@@ -31,7 +31,6 @@ def debug(update: Update, context: CallbackContext):
 
 @telethn.on(events.NewMessage(pattern="[/!].*"))
 async def i_do_nothing_yes(event):
-    global DEBUG_MODE
     if DEBUG_MODE:
         print(f"-{event.from_id} ({event.chat_id}) : {event.text}")
         if os.path.exists("updates.txt"):

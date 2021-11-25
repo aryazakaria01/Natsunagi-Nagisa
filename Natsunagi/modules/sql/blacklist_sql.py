@@ -59,7 +59,6 @@ def add_to_blacklist(chat_id, trigger):
 
         SESSION.merge(blacklist_filt)  # merge to avoid duplicate key issues
         SESSION.commit()
-        global CHAT_BLACKLISTS
         if CHAT_BLACKLISTS.get(str(chat_id), set()) == set():
             CHAT_BLACKLISTS[str(chat_id)] = {trigger}
         else:
@@ -121,7 +120,6 @@ def set_blacklist_strength(chat_id, blacklist_type, value):
     # 6 = tban
     # 7 = tmute
     with BLACKLIST_SETTINGS_INSERTION_LOCK:
-        global CHAT_SETTINGS_BLACKLISTS
         curr_setting = SESSION.query(BlacklistSettings).get(str(chat_id))
         if not curr_setting:
             curr_setting = BlacklistSettings(
@@ -170,7 +168,6 @@ def __load_chat_blacklists():
 
 
 def __load_chat_settings_blacklists():
-    global CHAT_SETTINGS_BLACKLISTS
     try:
         chats_settings = SESSION.query(BlacklistSettings).all()
         for x in chats_settings:  # remove tuple by ( ,)

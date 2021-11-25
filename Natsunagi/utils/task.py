@@ -25,7 +25,6 @@ async def add_task(
 ):
 
     async with TASKS_LOCK:
-        global tasks
 
         task_id = (list(tasks.keys())[-1] + 1) if tasks else 0
 
@@ -38,7 +37,6 @@ async def add_task(
 
 
 async def rm_task(task_id=None):
-    global tasks
 
     async with TASKS_LOCK:
         for key, value in list(tasks.items()):
