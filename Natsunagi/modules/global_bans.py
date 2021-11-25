@@ -533,17 +533,17 @@ def gbanstat(update: Update, context: CallbackContext):
         if args[0].lower() in ["on", "yes"]:
             sql.enable_gbans(update.effective_chat.id)
             update.effective_message.reply_text(
-                "Antispam is now enabled ✅\n"
-                "Spamwatch is now enabled ✅\n"
-                "Intellivoid is now enabled ✅\n"
+                "» Antispam is now enabled\n"
+                "» Spamwatch is now enabled\n"
+                "» Intellivoid is now enabled\n\n"
                 "I am now protecting your group from potential remote threats!",
             )
         elif args[0].lower() in ["off", "no"]:
             sql.disable_gbans(update.effective_chat.id)
             update.effective_message.reply_text(
-                "Antispan is now disabled ❌\n" 
-                "Spamwatch is now disabled ❌\n", 
-                "Intellivoid is now disabled ❌\n"
+                "» Antispan is now disabled\n" 
+                "» Spamwatch is now disabled\n"
+                "» Intellivoid is now disabled\n"
             )
     else:
         update.effective_message.reply_text(
