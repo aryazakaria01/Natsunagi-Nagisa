@@ -72,7 +72,7 @@ def does_chat_sibylban(chat_id):
 if os.getenv("ENV", "False") == "False":
     try:
         p = ConfigParser()
-        p.read("config.ini")
+        p.read("Config")
         sk = p.get("Config", "SIBYL_KEY")
     except BaseException as e:
         logging.warning("Not loading Sibyl System plugin due to {}".format(e))
