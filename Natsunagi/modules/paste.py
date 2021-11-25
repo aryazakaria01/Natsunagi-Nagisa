@@ -5,9 +5,9 @@ import re
 import aiofiles
 from pykeyboard import InlineKeyboard
 from pyrogram import filters
-from pyrogram.types import InlineKeyboardButton
-from pyrogram.types import Message
+from pyrogram.types import InlineKeyboardButton, Message
 
+from Natsunagi import pbot as app
 from Natsunagi import pgram, aiohttpsession, eor
 from Natsunagi.utils.errors import capture_err
 from Natsunagi.utils.pastebin import paste, hpaste
