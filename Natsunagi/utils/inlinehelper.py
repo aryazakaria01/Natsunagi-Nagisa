@@ -31,7 +31,7 @@ from Natsunagi.utils.Inline import InlineQueryResultCachedDocument
 from Natsunagi.modules.info import get_chat_info, get_user_info
 from Natsunagi.modules.music import download_youtube_audio
 from Natsunagi.utils.functions import test_speedtest
-from Natsunagi.utils.pastebin import paste
+from Natsunagi.utils.pastebin import epaste
 
 MESSAGE_DUMP_CHAT = LOG_GROUP_ID
 
