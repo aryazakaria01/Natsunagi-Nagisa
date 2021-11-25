@@ -891,7 +891,8 @@ Telethon: `{__version__}`
 Telegram Library: v`{__version__}`""",
                 parse_mode=ParseMode.MARKDOWN
             )
-
+        except BadRequest as e:
+            LOGGER.warning(e.message)
     
     test_handler = DisableAbleCommandHandler("test", test, run_async=True)
     start_handler = DisableAbleCommandHandler("start", start, run_async=True)
