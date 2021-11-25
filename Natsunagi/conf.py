@@ -12,24 +12,24 @@ DEFAULTS = {
     "REDIS_PORT": 6379,
     "REDIS_DB_FSM": 1,
     "MONGODB_URI": "localhost",
-    "MONGO_DB": "DaisyX",
+    "MONGO_DB": "Natsunagi",
     "API_PORT": 8080,
-    "JOIN_CONFIRM_DURATION": "30m",
+    "JOIN_CONFIRM_DURATION": "10m",
 }
 
 CONFIG_PATH = "data/bot_conf.yaml"
 if os.name == "nt":
-    log.debug("Detected Windows, changing config path...")
+    LOGGER.debug("Detected Windows, changing config path...")
     CONFIG_PATH = os.getcwd() + "\\data\\bot_conf.yaml"
 
 if os.path.isfile(CONFIG_PATH):
-    log.info(CONFIG_PATH)
+    LOGGER.info(CONFIG_PATH)
     for item in (
         data := yaml.load(open("data/bot_conf.yaml", "r"), Loader=yaml.CLoader)
     ):
         DEFAULTS[item.upper()] = data[item]
 else:
-    log.info("Using env vars")
+    LOGGER.info("Using env vars")
 
 
 def get_list_key(name, required=False):
@@ -38,10 +38,10 @@ def get_list_key(name, required=False):
     else:
         default = None
     if not (data := env.list(name, default=default)) and not required:
-        log.warn("No list key: " + name)
+        LOGGER.warn("No list key: " + name)
         return []
     elif not data:
-        log.critical("No list key: " + name)
+        LOGGER.critical("No list key: " + name)
         sys.exit(2)
     else:
         return data
@@ -53,10 +53,10 @@ def get_bool_key(name, required=False):
     else:
         default = None
     if not (data := env.bool(name, default=default)) and not required:
-        log.warn("No bool key: " + name)
+        LOGGER.warn("No bool key: " + name)
         return False
     elif not data:
-        log.critical("No bool key: " + name)
+        LOGGER.critical("No bool key: " + name)
         sys.exit(2)
     else:
         return data
