@@ -880,7 +880,7 @@ def is_chat_allowed(update, context):
 
 def main():
 
-if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
+    if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
             dispatcher.bot.sendMessage(
                 f"@{SUPPORT_CHAT}", 
