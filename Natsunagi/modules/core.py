@@ -2,13 +2,10 @@ from Natsunagi import telethn as tbot
 from Natsunagi.events import register
 import os
 import asyncio
-import os
 import time
 from datetime import datetime
 from Natsunagi import OWNER_ID, DEV_USERS
 from Natsunagi import TEMP_DOWNLOAD_DIRECTORY as path
-from Natsunagi import TEMP_DOWNLOAD_DIRECTORY
-from datetime import datetime
 
 water = "./Natsunagi/image/natsunagi.jpg"
 client = tbot
