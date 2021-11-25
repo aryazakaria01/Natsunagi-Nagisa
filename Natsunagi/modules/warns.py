@@ -70,9 +70,6 @@ def warn(
     message: Message,
     warner: User = None,
 ) -> str:
-    chat = update.effective_chat
-    user = update.effective_user
-    message = update.effective_message
     log_message = ""
     bot = context.bot
     args = context.args
