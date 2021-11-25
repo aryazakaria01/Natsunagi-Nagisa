@@ -114,7 +114,6 @@ def do(func, bot, update):
 def clear(update: Update, context: CallbackContext):
     bot = context.bot
     log_input(update)
-    global namespaces
     if update.message.chat_id in namespaces:
         del namespaces[update.message.chat_id]
     send("Cleared locals.", bot, update)
