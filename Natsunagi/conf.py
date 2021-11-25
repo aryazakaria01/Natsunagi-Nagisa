@@ -25,7 +25,7 @@ if os.name == "nt":
 if os.path.isfile(CONFIG_PATH):
     LOGGER.info(CONFIG_PATH)
     for item in (
-        data := yaml.load(open("data/bot_conf.yaml", "r"), Loader=yaml.CLoader)
+        data := yaml.safe_load(open("data/bot_conf.yaml", "r"), Loader=yaml.CLoader)
     ):
         DEFAULTS[item.upper()] = data[item]
 else:
