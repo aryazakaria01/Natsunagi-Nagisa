@@ -43,11 +43,11 @@ async def _(event):
     if event.is_group:
         if not (await is_register_admin(event.input_chat, event.message.sender_id)):
             await event.reply(
-                "Hai.. You are not admin.. You can't use this command.. But you can use in my pm"
+                "Hey, You are not admin. You can't use this command, But you can use in my pm 🙂"
             )
             return
 
-    mone = await event.reply("`⏳️ Please wait...`")
+    mone = await event.reply("⏳️ Please wait...")
     if not os.path.isdir(TEMP_DOWNLOAD_DIRECTORY):
         os.makedirs(TEMP_DOWNLOAD_DIRECTORY)
     if event.reply_to_msg_id:
@@ -125,11 +125,11 @@ async def _(event):
     if event.is_group:
         if not (await is_register_admin(event.input_chat, event.message.sender_id)):
             await event.reply(
-                " Hai.. You are not admin.. You can't use this command.. But you can use in my pm🙈"
+                "Hey, You are not admin. You can't use this command, But you can use in my pm 🙂"
             )
             return
 
-    mone = await event.reply("Processing ...")
+    mone = await event.reply("Processing...")
     if not os.path.isdir(TEMP_DOWNLOAD_DIRECTORY):
         os.makedirs(TEMP_DOWNLOAD_DIRECTORY)
     if event.reply_to_msg_id:
@@ -149,7 +149,7 @@ async def _(event):
         with zipfile.ZipFile(downloaded_file_name, "r") as zip_ref:
             zip_ref.extractall(extracted)
         filename = sorted(get_lst_of_files(extracted, []))
-        await event.reply("Unzipping now")
+        await event.reply("Unzipping now 😌")
         for single_file in filename:
             if os.path.exists(single_file):
                 caption_rts = os.path.basename(single_file)
@@ -207,7 +207,6 @@ def get_lst_of_files(input_directory, output_lst):
             return get_lst_of_files(current_file_name, output_lst)
         output_lst.append(current_file_name)
     return output_lst
-
 
 __help__ = """
  ✪ /zip: reply to a telegram file to compress it in .zip format
