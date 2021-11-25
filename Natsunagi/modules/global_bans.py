@@ -81,7 +81,7 @@ SPB_MODE = True
 @natsunagicmd(command="spb")
 @dev_plus
 def spbtoggle(update: Update, context: CallbackContext):
-    from tg_bot import SPB_MODE
+    from Natsunagi import SPB_MODE
     args = update.effective_message.text.split(None, 1)
     message = update.effective_message
     print(SPB_MODE)
