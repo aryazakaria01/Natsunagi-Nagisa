@@ -50,7 +50,7 @@ from telegram import (
     InlineKeyboardMarkup,
     ParseMode,
     Update,
-    __version__,
+    __version__ as tgl,
 )
 
 from telegram.error import (
@@ -80,7 +80,7 @@ from pyrogram import Client
 from telethon import (
     Button,
     events,
-    __version__,
+    __version__ as tlh,
 )
 
 from platform import python_version
@@ -886,9 +886,9 @@ def main():
                 f"@{SUPPORT_CHAT}", 
                 f"""**Natsunagi Nagisa Started!**
 
-Python: `{python_version}`
-Telethon: `{__version__}`
-Telegram Library: v`{__version__}`""",
+Python: `{python_version()}`
+Telethon: `{tlh}`
+Telegram Library: v`{tgl}`""",
                 parse_mode=ParseMode.MARKDOWN
             )
         except BadRequest as e:
