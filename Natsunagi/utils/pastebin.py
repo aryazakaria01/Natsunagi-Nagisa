@@ -6,13 +6,6 @@ from Natsunagi.utils.http import post
 BASE = "https://batbin.me/"
 
 
-async def hpaste(content: str):
-    resp = await post(f"{BASE}api/v2/paste", data=content)
-    if not resp["success"]:
-        return
-    return BASE + resp["message"]
-
-
 def _netcat(host, port, content):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((host, port))
@@ -24,6 +17,13 @@ def _netcat(host, port, content):
             break
         return data
     s.close()
+
+
+async def hpaste(content: str):
+    resp = await post(f"{BASE}api/v2/paste", data=content)
+    if not resp["success"]:
+        return
+    return BASE + resp["message"]
 
 
 async def epaste(content):
