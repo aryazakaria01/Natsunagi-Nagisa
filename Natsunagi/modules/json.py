@@ -1,7 +1,7 @@
 import io
 
 from telethon import types
-from telethon.tl import functions, types
+from telethon.tl import functions
 
 
 from Natsunagi.events import register
