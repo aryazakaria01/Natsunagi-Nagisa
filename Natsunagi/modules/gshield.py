@@ -75,12 +75,7 @@ async def nsfw_watch(event):
         await event.reply("`I Should Be Admin To Do This!`")
         return
     if await is_admin(event, event.message.sender_id):
-        if (
-            input_str == "on"
-            or input_str == "On"
-            or input_str == "ON"
-            or input_str == "enable"
-        ):
+        if input_str in ("on", "On", "ON", "enable"):
             if is_nsfwatch_indb(str(event.chat_id)):
                 await event.reply("`This Chat Has Already Enabled Nsfw Watch.`")
                 return
@@ -88,12 +83,7 @@ async def nsfw_watch(event):
             await event.reply(
                 f"**Added Chat {event.chat.title} With Id {event.chat_id} To Database. This Groups Nsfw Contents Will Be Deleted**"
             )
-        elif (
-            input_str == "off"
-            or input_str == "Off"
-            or input_str == "OFF"
-            or input_str == "disable"
-        ):
+        elif input_str in ("off", "Off", "OFF", "disable"):
             if not is_nsfwatch_indb(str(event.chat_id)):
                 await event.reply("This Chat Has Not Enabled Nsfw Watch.")
                 return
