@@ -4,6 +4,7 @@ import zipfile
 
 from telethon import types
 from telethon.tl import functions
+from telethon.tl.types import DocumentAttributeVideo
 
 from Natsunagi import TEMP_DOWNLOAD_DIRECTORY
 from Natsunagi import telethn as client
@@ -84,7 +85,6 @@ from datetime import datetime
 
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
-from telethon.tl.types import DocumentAttributeVideo
 
 extracted = TEMP_DOWNLOAD_DIRECTORY + "extracted/"
 thumb_image_path = TEMP_DOWNLOAD_DIRECTORY + "/thumb_image.jpg"
