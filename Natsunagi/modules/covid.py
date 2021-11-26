@@ -1,5 +1,5 @@
-## Originally by gh @zYxDevs or tg @Yoga_CIC
-## Don't remove, Respect me lol
+# Originally by gh @zYxDevs or tg @Yoga_CIC
+# Don't remove, Respect me lol
 
 import requests
 from telegram import ParseMode, Update
