@@ -13,14 +13,14 @@ from telethon.tl.types import ChatBannedRights
 from Natsunagi.conf import get_int_key, get_str_key
 from Natsunagi.utils.telethonbasics import is_admin
 from Natsunagi.events import register
-from pymongo import MongoClient
+from Natsunagi import telethn as tbot, MONGO_DB_URL, BOT_ID
 from Natsunagi.modules.sql.nsfw_watch_sql import (
     add_nsfwatch,
     get_all_nsfw_enabled_chat,
     is_nsfwatch_indb,
     rmnsfwatch,
 )
-from Natsunagi import telethn as tbot, MONGO_DB_URL, BOT_ID
+from pymongo import MongoClient
 
 translator = google_translator()
 MUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=False)
