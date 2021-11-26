@@ -133,17 +133,16 @@ async def profanity(event):
                 "Please provide some input yes or no.\n\nCurrent setting is : **off**"
             )
             return
-        if input == "on":
-            if event.is_group:
-                chats = spammers.find({})
-                for c in chats:
-                    if event.chat_id == c["id"]:
-                        await event.reply(
-                            "Profanity filter is already activated for this chat."
-                        )
-                        return
-                spammers.insert_one({"id": event.chat_id})
-                await event.reply("Profanity filter turned on for this chat.")
+        if input == "on" and event.is_group:
+            chats = spammers.find({})
+            for c in chats:
+                if event.chat_id == c["id"]:
+                    await event.reply(
+                        "Profanity filter is already activated for this chat."
+                    )
+                    return
+            spammers.insert_one({"id": event.chat_id})
+            await event.reply("Profanity filter turned on for this chat.")
         if input == "off":
             if event.is_group:
                 chats = spammers.find({})
@@ -187,17 +186,16 @@ async def profanity(event):
                 "Please provide some input yes or no.\n\nCurrent setting is : **off**"
             )
             return
-        if input == "on":
-            if event.is_group:
-                chats = globalchat.find({})
-                for c in chats:
-                    if event.chat_id == c["id"]:
-                        await event.reply(
-                            "Global mode is already activated for this chat."
-                        )
-                        return
-                globalchat.insert_one({"id": event.chat_id})
-                await event.reply("Global mode turned on for this chat.")
+        if input == "on" and event.is_group:
+            chats = globalchat.find({})
+            for c in chats:
+                if event.chat_id == c["id"]:
+                    await event.reply(
+                        "Global mode is already activated for this chat."
+                    )
+                    return
+            globalchat.insert_one({"id": event.chat_id})
+            await event.reply("Global mode turned on for this chat.")
         if input == "off":
             if event.is_group:
                 chats = globalchat.find({})
@@ -226,31 +224,32 @@ async def del_profanity(event):
         return
     chats = spammers.find({})
     for c in chats:
-        if event.text:
-            if event.chat_id == c["id"]:
-                if better_profanity.profanity.contains_profanity(msg):
-                    await event.delete()
-                    if sender.username is None:
-                        st = sender.first_name
-                        hh = sender.id
-                        final = f"[{st}](tg://user?id={hh}) **{msg}** is detected as a slang word and your message has been deleted"
-                    else:
-                        final = f"Sir **{msg}** is detected as a slang word and your message has been deleted"
-                    dev = await event.respond(final)
-                    await asyncio.sleep(10)
-                    await dev.delete()
-        if event.photo:
-            if event.chat_id == c["id"]:
-                await event.client.download_media(event.photo, "nudes.jpg")
-                if nude.is_nude("./nudes.jpg"):
-                    await event.delete()
-                    st = sender.first_name
-                    hh = sender.id
-                    final = f"**NSFW DETECTED**\n\n{st}](tg://user?id={hh}) your message contain NSFW content.. So, Natsunagi deleted the message\n\n **NSFW Sender - User / Bot :** {st}](tg://user?id={hh})  \n\n`⚔️Automatic Detections Powered By Natsunagi Nagisa` \n**#GROUP_GUARDIAN** "
-                    dev = await event.respond(final)
-                    await asyncio.sleep(10)
-                    await dev.delete()
-                    os.remove("nudes.jpg")
+        if (
+            event.text
+            and event.chat_id == c["id"]
+            and better_profanity.profanity.contains_profanity(msg)
+        ):
+            await event.delete()
+            if sender.username is None:
+                st = sender.first_name
+                hh = sender.id
+                final = f"[{st}](tg://user?id={hh}) **{msg}** is detected as a slang word and your message has been deleted"
+            else:
+                final = f"Sir **{msg}** is detected as a slang word and your message has been deleted"
+            dev = await event.respond(final)
+            await asyncio.sleep(10)
+            await dev.delete()
+        if event.photo and event.chat_id == c["id"]:
+            await event.client.download_media(event.photo, "nudes.jpg")
+            if nude.is_nude("./nudes.jpg"):
+                await event.delete()
+                st = sender.first_name
+                hh = sender.id
+                final = f"**NSFW DETECTED**\n\n{st}](tg://user?id={hh}) your message contain NSFW content.. So, Natsunagi deleted the message\n\n **NSFW Sender - User / Bot :** {st}](tg://user?id={hh})  \n\n`⚔️Automatic Detections Powered By Natsunagi Nagisa` \n**#GROUP_GUARDIAN** "
+                dev = await event.respond(final)
+                await asyncio.sleep(10)
+                await dev.delete()
+                os.remove("nudes.jpg")
 
 
 def extract_emojis(s):
@@ -268,42 +267,41 @@ async def del_profanity(event):
         return
     chats = globalchat.find({})
     for c in chats:
-        if event.text:
-            if event.chat_id == c["id"]:
-                u = msg.split()
-                emj = extract_emojis(msg)
-                msg = msg.replace(emj, "")
-                if (
-                    [(k) for k in u if k.startswith("@")]
-                    and [(k) for k in u if k.startswith("#")]
-                    and [(k) for k in u if k.startswith("/")]
-                    and re.findall(r"\[([^]]+)]\(\s*([^)]+)\s*\)", msg) != []
-                ):
-                    h = " ".join(filter(lambda x: x[0] != "@", u))
-                    km = re.sub(r"\[([^]]+)]\(\s*([^)]+)\s*\)", r"", h)
-                    tm = km.split()
-                    jm = " ".join(filter(lambda x: x[0] != "#", tm))
-                    hm = jm.split()
-                    rm = " ".join(filter(lambda x: x[0] != "/", hm))
-                elif [(k) for k in u if k.startswith("@")]:
-                    rm = " ".join(filter(lambda x: x[0] != "@", u))
-                elif [(k) for k in u if k.startswith("#")]:
-                    rm = " ".join(filter(lambda x: x[0] != "#", u))
-                elif [(k) for k in u if k.startswith("/")]:
-                    rm = " ".join(filter(lambda x: x[0] != "/", u))
-                elif re.findall(r"\[([^]]+)]\(\s*([^)]+)\s*\)", msg) != []:
-                    rm = re.sub(r"\[([^]]+)]\(\s*([^)]+)\s*\)", r"", msg)
-                else:
-                    rm = msg
-                # print (rm)
-                b = translator.detect(rm)
-                if not "en" in b and not b == "":
-                    await event.delete()
-                    st = sender.first_name
-                    hh = sender.id
-                    final = f"[{st}](tg://user?id={hh}) you should only speak in english here !"
-                    dev = await event.respond(final)
-                    await asyncio.sleep(10)
-                    await dev.delete()
+        if event.text and event.chat_id == c["id"]:
+            u = msg.split()
+            emj = extract_emojis(msg)
+            msg = msg.replace(emj, "")
+            if (
+                [(k) for k in u if k.startswith("@")]
+                and [(k) for k in u if k.startswith("#")]
+                and [(k) for k in u if k.startswith("/")]
+                and re.findall(r"\[([^]]+)]\(\s*([^)]+)\s*\)", msg) != []
+            ):
+                h = " ".join(filter(lambda x: x[0] != "@", u))
+                km = re.sub(r"\[([^]]+)]\(\s*([^)]+)\s*\)", r"", h)
+                tm = km.split()
+                jm = " ".join(filter(lambda x: x[0] != "#", tm))
+                hm = jm.split()
+                rm = " ".join(filter(lambda x: x[0] != "/", hm))
+            elif [(k) for k in u if k.startswith("@")]:
+                rm = " ".join(filter(lambda x: x[0] != "@", u))
+            elif [(k) for k in u if k.startswith("#")]:
+                rm = " ".join(filter(lambda x: x[0] != "#", u))
+            elif [(k) for k in u if k.startswith("/")]:
+                rm = " ".join(filter(lambda x: x[0] != "/", u))
+            elif re.findall(r"\[([^]]+)]\(\s*([^)]+)\s*\)", msg) != []:
+                rm = re.sub(r"\[([^]]+)]\(\s*([^)]+)\s*\)", r"", msg)
+            else:
+                rm = msg
+            # print (rm)
+            b = translator.detect(rm)
+            if not "en" in b and not b == "":
+                await event.delete()
+                st = sender.first_name
+                hh = sender.id
+                final = f"[{st}](tg://user?id={hh}) you should only speak in english here !"
+                dev = await event.respond(final)
+                await asyncio.sleep(10)
+                await dev.delete()
 
 __mod_name__ = "GShield"
