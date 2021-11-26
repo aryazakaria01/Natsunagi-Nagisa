@@ -92,7 +92,7 @@ I'm more efficient when added as group admin. By the way these commands can be u
 
 @pgram.on_message(filters.command("inline"))
 async def inline_help(_, message):
-    await pgram.send_message(message.chat.id, text=__HELP__)
+    await pgram.send_message(message.chat.id, text=__help__)
 
 
 @pgram.on_inline_query()
@@ -101,7 +101,7 @@ async def inline_query_handler(client, query):
         text = query.query.lower()
         answers = []
         if text.strip() == "":
-            answerss = await inline_help_func(__HELP__)
+            answerss = await inline_help_func(__help__)
             await client.answer_inline_query(query.id, results=answerss, cache_time=10)
             return
         if text.split()[0] == "alive":
@@ -943,13 +943,13 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
     try:
         result = (
             f" DATE AND TIME OF COUNTRY"
-            f"🌍Country :{country_name}\n"
-            f"⏳Zone Name : {country_zone}\n"
-            f"🗺Country Code: {country_code}\n"
-            f"🌞Daylight saving : {daylight_saving}\n"
-            f"🌅Day : {current_day}\n"
-            f"⌚Current Time : {current_time}\n"
-            f"📆Current Date :{current_date}"
+            f"🌍 Country :{country_name}\n"
+            f"⏳ Zone Name : {country_zone}\n"
+            f"🗺 Country Code: {country_code}\n"
+            f"🌞 Daylight saving : {daylight_saving}\n"
+            f"🌅 Day : {current_day}\n"
+            f"⌚ Current Time : {current_time}\n"
+            f"📆 Current Date :{current_date}"
         )
     except BaseException:
         result = None
