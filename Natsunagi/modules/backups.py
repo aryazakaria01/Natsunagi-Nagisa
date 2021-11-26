@@ -1,11 +1,9 @@
-import json
-import time
-import os
-
+import json, time, os
 from io import BytesIO
+
 from telegram import ParseMode, Message
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, run_async
+from telegram.ext import CommandHandler
 
 import Natsunagi.modules.sql.notes_sql as sql
 from Natsunagi import dispatcher, LOGGER, OWNER_ID, JOIN_LOGGER, SUPPORT_CHAT
@@ -13,15 +11,15 @@ from Natsunagi.__main__ import DATA_IMPORT
 from Natsunagi.modules.helper_funcs.chat_status import user_admin
 from Natsunagi.modules.helper_funcs.alternate import typing_action
 
-from Natsunagi.modules.rules import get_rules
+# from Natsunagi.modules.rules import get_rules
 import Natsunagi.modules.sql.rules_sql as rulessql
 
-from Natsunagi.modules.sql import warns_sql as warnssql
+# from Natsunagi.modules.sql import warns_sql as warnssql
 import Natsunagi.modules.sql.blacklist_sql as blacklistsql
 from Natsunagi.modules.sql import disable_sql as disabledsql
 
-from Natsunagi.modules.sql import cust_filters_sql as filtersql
-import Natsunagi.modules.sql.welcome_sql as welcsql
+# from Natsunagi.modules.sql import cust_filters_sql as filtersql
+# import Natsunagi.modules.sql.welcome_sql as welcsql
 import Natsunagi.modules.sql.locks_sql as locksql
 from Natsunagi.modules.connection import connected
 
@@ -138,28 +136,33 @@ def export_data(update, context):
             return ""
         chat = update.effective_chat
         chat_id = update.effective_chat.id
-        chat_name = update.effective_message.chat.title
+        # chat_name = update.effective_message.chat.title
 
     jam = time.time()
     new_jam = jam + 10800
     checkchat = get_chat(chat_id, chat_data)
-    if checkchat.get("status") and jam <= int(checkchat.get("value")):
-        timeformatt = time.strftime(
-            "%H:%M:%S %d/%m/%Y",
-            time.localtime(checkchat.get("value")),
-        )
-        update.effective_message.reply_text(
-            "You can only backup once a day!\nYou can backup again in about `{}`".format(
-                timeformatt,
-            ),
-            parse_mode=ParseMode.MARKDOWN,
-        )
-        return
-    if user.id != OWNER_ID:
-        put_chat(chat_id, new_jam, chat_data)
+    if checkchat.get("status"):
+        if jam <= int(checkchat.get("value")):
+            timeformatt = time.strftime(
+                "%H:%M:%S %d/%m/%Y",
+                time.localtime(checkchat.get("value")),
+            )
+            update.effective_message.reply_text(
+                "You can only backup once a day!\nYou can backup again in about `{}`".format(
+                    timeformatt,
+                ),
+                parse_mode=ParseMode.MARKDOWN,
+            )
+            return
+        if user.id != OWNER_ID:
+            put_chat(chat_id, new_jam, chat_data)
+    else:
+        if user.id != OWNER_ID:
+            put_chat(chat_id, new_jam, chat_data)
+
     note_list = sql.get_all_chat_notes(chat_id)
     backup = {}
-    button = ""
+    # button = ""
     buttonlist = []
     namacat = ""
     isicat = ""
@@ -169,11 +172,11 @@ def export_data(update, context):
     # Notes
     for note in note_list:
         count += 1
-        getnote = sql.get_note(chat_id, note.name)
+        # getnote = sql.get_note(chat_id, note.name)
         namacat += "{}<###splitter###>".format(note.name)
         if note.msgtype == 1:
             tombol = sql.get_buttons(chat_id, note.name)
-            keyb = []
+            # keyb = []
             for btn in tombol:
                 countbtn += 1
                 if btn.same_line:
@@ -235,39 +238,39 @@ def export_data(update, context):
     bl = list(blacklistsql.get_chat_blacklist(chat_id))
     # Disabled command
     disabledcmd = list(disabledsql.get_all_disabled(chat_id))
-    # Filters
+    # Filters (TODO)
     """
-     all_filters = list(filtersql.get_chat_triggers(chat_id))
-     export_filters = {}
-     for filters in all_filters:
-    	filt = filtersql.get_filter(chat_id, filters)
-    	if filt.is_sticker:
-    		typefilt = "sticker"
-    	elif filt.is_document:
-    		typefilt = "document"
-    	elif filt.is_image:
-    		typefilt = "image"
-    	elif filt.is_audio:
-    		typefilt = "audio"
-    	elif filt.is_video:
-    		typefilt = "video"
-    	elif filt.is_voice:
-    		typefilt = "voice"
-    	elif filt.has_buttons:
-    		typefilt = "buttons"
-    		buttons = filtersql.get_buttons(chat_id, filt.keyword)
-    	elif filt.has_markdown:
-    		typefilt = "text"
-    	if typefilt == "buttons":
-    		content = "{}#=#{}|btn|{}".format(typefilt, filt.reply, buttons)
-    	else:
-    		content = "{}#=#{}".format(typefilt, filt.reply)
-    		print(content)
-    		export_filters[filters] = content
-    #print(export_filters)
-              
-    """
-
+	all_filters = list(filtersql.get_chat_triggers(chat_id))
+	export_filters = {}
+	for filters in all_filters:
+		filt = filtersql.get_filter(chat_id, filters)
+		# print(vars(filt))
+		if filt.is_sticker:
+			tipefilt = "sticker"
+		elif filt.is_document:
+			tipefilt = "doc"
+		elif filt.is_image:
+			tipefilt = "img"
+		elif filt.is_audio:
+			tipefilt = "audio"
+		elif filt.is_voice:
+			tipefilt = "voice"
+		elif filt.is_video:
+			tipefilt = "video"
+		elif filt.has_buttons:
+			tipefilt = "button"
+			buttons = filtersql.get_buttons(chat.id, filt.keyword)
+			print(vars(buttons))
+		elif filt.has_markdown:
+			tipefilt = "text"
+		if tipefilt == "button":
+			content = "{}#=#{}|btn|{}".format(tipefilt, filt.reply, buttons)
+		else:
+			content = "{}#=#{}".format(tipefilt, filt.reply)
+		print(content)
+		export_filters[filters] = content
+	print(export_filters)
+	"""
     # Welcome (TODO)
     # welc = welcsql.get_welc_pref(chat_id)
     # Locked
@@ -327,7 +330,7 @@ def export_data(update, context):
         },
     }
     baccinfo = json.dumps(backup, indent=4)
-    with open("Natsunagi-Nagisa{}Backup".format(chat_id), "w") as f:
+    with open("SaitamaRobot{}.backup".format(chat_id), "w") as f:
         f.write(str(baccinfo))
     context.bot.sendChatAction(current_chat_id, "upload_document")
     tgl = time.strftime("%H:%M:%S - %d/%m/%Y", time.localtime(time.time()))
@@ -345,8 +348,8 @@ def export_data(update, context):
         pass
     context.bot.sendDocument(
         current_chat_id,
-        document=open("Natsunagi_Nagisa{}Backup".format(chat_id), "rb"),
-        caption="*Successfully Exported backup:*\nChat: `{}`\nChat ID: `{}`\nOn: `{}`\n\nNote: This `Natsunagi-Nagisa-Backup` was specially made for notes.".format(
+        document=open("SaitamaRobot{}.backup".format(chat_id), "rb"),
+        caption="*Successfully Exported backup:*\nChat: `{}`\nChat ID: `{}`\nOn: `{}`\n\nNote: This `SaitamaRobot-Backup` was specially made for notes.".format(
             chat.title,
             chat_id,
             tgl,
@@ -355,18 +358,18 @@ def export_data(update, context):
         reply_to_message_id=msg.message_id,
         parse_mode=ParseMode.MARKDOWN,
     )
-    os.remove("Natsunagi-Nagisa{}Backup".format(chat_id))  # Cleaning file
+    os.remove("SaitamaRobot{}.backup".format(chat_id))  # Cleaning file
 
 
 # Temporary data
 def put_chat(chat_id, value, chat_data):
-    print(chat_data)
+    # print(chat_data)
     status = value is not False
     chat_data[chat_id] = {"backups": {"status": status, "value": value}}
 
 
 def get_chat(chat_id, chat_data):
-    print(chat_data)
+    # print(chat_data)
     try:
         return chat_data[chat_id]["backups"]
     except KeyError:
@@ -374,13 +377,6 @@ def get_chat(chat_id, chat_data):
 
 
 __mod_name__ = "Backups"
-
-__help__ = """
-*Only for group owner:*
-   ➢ `/import`*:* Reply to the backup file for the butler / emilia group to import as much as possible, making transfers very easy! \
- Note that files / photos cannot be imported due to telegram restrictions.
-   ➢ `/export`*:* Export group data, which will be exported are: rules, notes (documents, images, music, video, audio, voice, text, text buttons) \
-"""
 
 IMPORT_HANDLER = CommandHandler("import", import_data, run_async=True)
 EXPORT_HANDLER = CommandHandler(
