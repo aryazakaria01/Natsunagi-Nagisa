@@ -1,7 +1,8 @@
 from Natsunagi.modules.disable import DisableAbleCommandHandler, DisableAbleMessageHandler
+from Natsunagi import dispatcher as n, LOGGER
 from telegram.ext import CommandHandler, MessageHandler, CallbackQueryHandler, InlineQueryHandler
 from telegram.ext.filters import BaseFilter
-from Natsunagi import dispatcher as n, LOGGER
+
 from typing import Optional, Union, List
 
 
