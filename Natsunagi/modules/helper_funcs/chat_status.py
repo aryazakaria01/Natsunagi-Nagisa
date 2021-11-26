@@ -12,7 +12,6 @@ from Natsunagi import (
     WOLVES,
     dispatcher,
 )
-from Natsunagi.modules import connection
 
 from telegram import Chat, ChatMember, ParseMode, Update, User
 from telegram.ext import CallbackContext
@@ -440,5 +439,6 @@ def connection_status(func):
 
     return connected_status
 
+from Natsunagi.modules import connection
 
 connected = connection.connected
