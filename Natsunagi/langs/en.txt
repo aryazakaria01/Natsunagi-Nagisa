@@ -9,24 +9,27 @@ set_chat_lang: "Great, {} it is from now on!"
 
 
 pm_start_text: |
-   Hi {}, my name is {}!
-   I am an Anime themed group management bot with some fun extras ;)
-   Try the buttons below to know how I work.
+   ────「 [{}](https://telegra.ph/file/2909a312d9438798d237a.png) 」────
+   *Hola! {},*
+   *I am an Anime themed advance group management bot with a lot of Sexy Features.*
+   ➖➖➖➖➖➖➖➖➖➖➖➖➖
+   • *Uptime:* `{}`
+   • `{}` *users, across* `{}` *chats.*
+   ➖➖➖➖➖➖➖➖➖➖➖➖➖
+   ➛ Try The Help Buttons Below To Know My Abilities ××
+   """
    
 grp_start_text: "I Aᴍ Aʟɪᴠᴇ 🔥"
 
 pm_help_text: |
-   Hello there! My name is *Yuii*.*.
-   I'm a modular group management bot with a few fun extras! Have a look at the following for an idea of some of
-   the things I can help you with.
-   *Main* commands available:
-    • /start: Starts me, can be used to check I'm alive or not.
-    • /help: PM's you this message.
-    • /language: Change bot language.
-    • /settings:
-      - in PM: will send you your settings for all supported modules.
-      - in a group: will redirect you to pm, with all that chat's settings.
-    Click on the buttons below to get documentation about specific modules!
+   *Main commands available*[:](https://telegra.ph/file/a8ce80707def6b27d254f.jpg)
+    ➛ /help: PM's you this message.
+    ➛ /help <module name>: PM's you info about that module.
+    ➛ /donate: information on how to donate!
+    ➛ /settings:
+       × in PM: will send you your settings for all supported modules.
+       × in a group: will redirect you to pm, with all that chat's settings.
+    """
 
 add_bot_to_group_btn: "Add Yuii"
 support_chat_link_btn: "Support"
@@ -34,65 +37,132 @@ updates_channel_link_btn: "Updates"
 src_btn: "Source code"
 
 admin_help: |
-   • `/admins`*:* list of admins in the chat
-   *Admins only:*
-   • `/pin`*:* silently pins the message replied to - add `'loud'` or `'notify'` to give notifs to users.
-   • `/unpin`*:* unpins the currently pinned message
-   • `/invitelink`*:* gets invitelink
-   • `/promote`*:* promotes the user replied to
-   • `/demote`*:* demotes the user replied to
-   • `/title <title here>`*:* sets a custom title for an admin that the bot promoted
+*User Commands*:
+  ➢ `/admins`*:* list of admins in the chat
+  ➢ `/pinned`*:* to get the current pinned message.
+  ➢ `/rules`*:* get the rules for this chat.
+*Promote & Demote Commands are Admins only*:
+  ➢ `/promote (user) (?admin's title)`*:* Promotes the user to admin.
+  ➢ `/demote (user)`*:* Demotes the user from admin.
+  ➢ `/fullpromote`*:* Promote a member with max rights
+ 
+*Cleaner & Purge Commands are Admins only*:
+  ➢ `/del`*:* deletes the message you replied to
+  ➢ `/purge`*:* deletes all messages between this and the replied to message.
+  ➢ `/purge <integer X>`*:* deletes the replied message, and X messages following it if replied to a message.
+  ➢ `/zombies`*:* counts the number of deleted account in your group
+  ➢ `/kickthefools`*:* Kick inactive members from group (one week)
+  
+*Pin & Unpin Commands are Admins only*:
+  ➢ `/pin`*:* silently pins the message replied to - add 'loud' or 'notify' to give notifs to users.
+  ➢ `/unpin`*:* unpins the currently pinned message - add 'all' to unpin all pinned messages.
+  ➢ `/permapin`*:* Pin a custom message through the bot. This message can contain markdown, buttons, and all the other cool features.
+  ➢ `/unpinall`*:* Unpins all pinned messages.
+  ➢ `/antichannelpin <yes/no/on/off>`*:* Don't let telegram auto-pin linked channels. If no arguments are given, shows current setting.
+  ➢ `/cleanlinked <yes/no/on/off>`*:* Delete messages sent by the linked channel.
+  
+*Log Channel are Admins only*:
+  ➢ `/logchannel`*:* get log channel info
+  ➢ `/setlog`*:* set the log channel.
+  ➢ `/unsetlog`*:* unset the log channel.
+*Setting the log channel is done by*:
+ ➩ adding the bot to the desired channel (as an admin!)
+ ➩ sending `/setlog` in the channel
+ ➩ forwarding the `/setlog` to the group
+ 
+*Rules*:
+  ➢ `/setrules <your rules here>`*:* set the rules for this chat.
+  ➢ `/clearrules`*:* clear the rules for this chat.
+*The Others Commands are Admins only*:
+  ➢ `/invitelink`*:* gets invitelink
+  ➢ `/title <title here>`*:* sets a custom title for an admin that the bot promoted
+  ➢ `/admincache`*:* force refresh the admins list
+  ➢ `/setgtitle <text>`*:* set group title
+  ➢ `/setgpic`*:* reply to an image to set as group photo
+  ➢ `/setdesc`*:* Set group description
+  ➢ `/setsticker`*:* Set group sticker
+"""
 
 afk_help: |
    - /afk <reason>: mark yourself as AFK(away from keyboard).
    - brb <reason>: same as the afk command - but not a command.
    When marked as AFK, any mentions will be replied to with a message to say you're not available!
 
-anilist_help: |
-    *AniList*
-    Get information about anime, manga or characters with the help of this module! All data is fetched from [AniList](anilist.co).
-    *Available commands:*
-     - `/anime <anime>`: returns information about the anime.
-     - `/character <character>`: returns information about the character.
-     - `/manga <manga>`: returns information about the manga.
-    For Getting Information from [MyAnimeList](https://myanimelist.net)
-      • `/yanime <anime>`*:* returns information about the anime.
-      • `/ycharacter <character>`*:* returns information about the character.
-      • `/ymanga <manga>`*:* returns information about the manga.
-      • `/yupcoming`*:* returns a list of new anime in the upcoming seasons.
-      • `/user <user>`*:* returns information about a MyAnimeList user.
-            
-    For Anime Quotes
-            
-      • `/quote`*:* returns a random anime quote.
+android_help: |
+Get the latest Magsik releases or TWRP for your device!
+*Android related commands:*
+× /magisk - Gets the latest magisk release for Stable/Beta/Canary.
+× /device <codename> - Gets android device basic info from its codename.
+× /twrp <codename> -  Gets latest twrp for the android device using the codename.
+× /orangefox <codename> -  Gets latest orangefox recovery for the android device using the codename.
+× /los <codename> - Gets Latest los build.
+"""
+
+anime_help: |
+Get information about anime, manga or characters from [AniList](anilist.co)
+*AniList Commands:*
+  ➢ `/anime <anime>`*:* returns information about the anime from AniList.
+  ➢ `/character <character>`*:* returns information about the character from AniList.
+  ➢ `/manga <manga>`*:* returns information about the manga from AniList.
+  ➢ `/upcoming`*:* returns a list of new anime in the upcoming seasons from AniList.
+  ➢ `/airing <anime>`*:* returns anime airing info from AniList.
+ 
+Get information about anime, manga or characters from [MAL](https://myanimelist.net/)
+*My Anime list Commands:*
+  ➢ `/manime <anime>`*:* returns information about the anime MAL.
+  ➢ `/mcharacter` <character>*:* returns information about the character from MAL.
+  ➢ `/mmanga <manga>`*:* returns information about the manga from MAL.
+  ➢ `/mupcoming`*:* returns a list of new anime in the upcoming seasons from MAL.
+  ➢ `/user <user>`*:* returns information about a MyAnimeList user.
+  ➢ `/animequotes`*:* sends random anime quotes.
+*Anime Search Commands:*
+   ➢ `/kayo`*:* search an Anime on AnimeKayo website.
+   ➢ `/kaizoku`*:* search an Anime on AnimeKaizoku website.
+   ➢ `/whatanime`*:* Please reply to a Gif or Photo or Video, then bot gives information about the anime.
+   
+*Anime Search Commands:*
+  ➢ `/meme`*:* sends Anime Memes.
+  ➢ `/hmeme`*:* sends Hentai Memes.
+  ➢ `/rmeme`*:* sends Reddit Memes.
+  
+*Anime Search Commands:*
+  ➢ `/watchorder <anime>`*:* send watch Order of anime.
+  
+You saw a good anime video, photo, gif but dont know what is that anime's name?
+This is where whatanime comes in, just reply to that media with /whatanime and it will search the anime name for you from anilist.                             
+ """
 
 antiflood_help: |
-    Antiflood allows you to take action on users that send more than x messages in a row. Exceeding the set flood
-    will result in restricting that user.
-     This will mute users if they send more than 10 messages in a row, bots are ignored.
-     • `/flood`*:* Get the current flood control setting
-    • *Admins only:*
-     • `/setflood <int/'no'/'off'>`*:* enables or disables flood control
-     *Example:* `/setflood 10`
-     • `/setfloodmode <ban/kick/mute/tban/tmute> <value>`*:* Action to perform when user have exceeded flood limit. ban/kick/mute/tmute/tban
-    • *Note:*
-     • Value must be filled for tban and tmute!!
-     It can be:
-     `5m` = 5 minutes
-     `6h` = 6 hours
-     `3d` = 3 days
-     `1w` = 1 week
+You know how sometimes, people join, send 100 messages, and ruin your chat? With antiflood, that happens no more!
+Antiflood allows you to take action on users that send more than x messages in a row. Exceeding the set flood \
+will result in restricting that user.
+ - /flood: Get the current flood control setting
+*Admin only*:
+ - /setflood <int/'no'/'off'>: enables or disables flood control
+ - /setfloodmode <ban/kick/mute/tban/tmute> <value>: Action to perform when user have exceeded flood limit. ban/kick/mute/tmute/tban
+ Note:
+ - Value must be filled for tban and tmute!
+ It can be:
+ 5m = 5 minutes
+ 6h = 6 hours
+ 3d = 3 days
+ 1w = 1 week
+ """
 
 approve_help: |
-     Sometimes, you might trust a user not to send unwanted content.
-     Maybe not enough to make them admin, but you might be ok with locks, blacklists, and antiflood not applying to them.
-     That's what approvals are for - approve of trustworthy users to allow them to send
-     *Admin commands:*
-     • `/approval`*:* Check a user's approval status in current chat.
-     • `/approve`*:* Approve of a user. Locks, blacklists, and antiflood won't apply to them anymore.
-     • `/unapprove`*:* Unapprove of a user. They will now be subject to locks, blacklists, and antiflood again.
-     • `/approved`*:* List all approved users.
-     • `/unapproveall`*:* Unapprove *ALL* users in a chat. This cannot be undone.
+Sometimes, you might trust a user not to send unwanted content.
+Maybe not enough to make them admin, but you might be ok with locks, blacklists, and antiflood not applying to them.
+That's what approvals are for - approve of trustworthy users to allow them to send.
+*User commands*:
+  ➢ `/approval`*:* Check a user's approval status in this chat.
+*Admins commands*:
+  ➢ `/approve`*:* Approve of a user. Locks, blacklists, and antiflood won't apply to them anymore.
+  ➢ `/unapprove`*:* Unapprove of a user. They will now be subject to locks, blacklists, and antiflood again.
+  ➢ `/approved`*:* List all approved users.
+  
+*Group Owner commands*:
+  ➢ `/unapproveall: Unapprove ALL users in a chat. This cannot be undone.
+"""
 
 backup_help: |
     *Admin only:*
@@ -101,22 +171,42 @@ backup_help: |
      - /export: !!! This isn't a command yet, but should be coming soon!
 
 bans_help: |
-    - /kickme: kicks the user who issued the command
-     *Admin only:*
-    - /ban <userhandle>: bans a user. (via handle, or reply)
-    - /dban <userhandle>: Bans a user and delete the message. (via handle, or reply).
-    - /tban <userhandle> x(m/h/d): bans a user for x time. (via handle, or reply). m = minutes, h = hours, d = days.
-    - /unban <userhandle>: unbans a user. (via handle, or reply)
-    - /kick <userhandle>: kick a user out of the group, (via handle, or reply)
+*User Commands*:
+  ➢ `/kickme`*:* kicks the user who issued the command
+  ➢ `/banme`*:*  Bot Will Bans you from the group.
+  ➢ `/roar`*:*  Self Unban
+*Ban Commands are Admins only*:
+  ➢ `/ban <userhandle>`*:* bans a user. (via handle, or reply)
+  ➢ `/sban <userhandle>`*:* Silently ban a user. Deletes command, Replied message and doesn't reply. (via handle, or reply)
+  ➢ `/tban <userhandle> x(m/h/d)`*:* bans a user for `x` time. (via handle, or reply). `m` = `minutes`, `h` = `hours`, `d` = `days`.
+  ➢ `/unban <userhandle>`*:* unbans a user. (via handle, or reply)
+  ➢ `/kick <userhandle>`*:* kicks a user out of the group, (via handle, or reply)
+  
+*Mute Commands are Admins only*:
+  ➢ `/mute <userhandle>`*:* silences a user. Can also be used as a reply, muting the replied to user.
+  ➢ `/tmute <userhandle> x(m/h/d)`*:* mutes a user for x time. (via handle, or reply). `m` = `minutes`, `h` = `hours`, `d` = `days`.
+  ➢ `/unmute <userhandle>`*:* unmutes a user. Can also be used as a reply, muting the replied to user.
+"""
 
 blacklist_help: |
-    Blacklists are used to stop certain triggers from being said in a group. Any time the trigger is mentioned, the message will immediately be deleted. A good combo is sometimes to pair this up with warn filters!
-    *NOTE*: Blacklists do not affect group admins.
-     • `/blacklist`*:* View the current blacklisted words.
-    Admin only:
-     • `/addblacklist <triggers>`*:* Add a trigger to the blacklist. Each line is considered one trigger, so using different lines will allow you to add multiple triggers.
-     • `/unblacklist <triggers>`*:* Remove triggers from the blacklist. Same newline logic applies here, so you can remove multiple triggers at once.
-     • `/blacklistmode <off/del/warn/ban/kick/mute/tban/tmute>`*:* Action to perform when someone sends blacklisted words.
+Blacklists are used to stop certain triggers from being said in a group. Any time the trigger is mentioned, the message will immediately be deleted. A good combo is sometimes to pair this up with warn filters!
+NOTE: Blacklists do not affect group admins.
+  ➢ `/blacklist`*:* View the current blacklisted words.
+Admins only:
+  ➢ `/addblacklist <triggers>`*:* Add a trigger to the blacklist. Each line is considered one trigger, so using different lines will allow you to add multiple triggers.
+  ➢ `/unblacklist <triggers>`*:* Remove triggers from the blacklist. Same newline logic applies here, so you can remove multiple triggers at once.
+  ➢ `/blacklistmode <off/del/warn/ban/kick/mute/tban/tmute>`*:* Action to perform when someone sends blacklisted words.
+Blacklist sticker is used to stop certain stickers. Whenever a sticker is sent, the message will be deleted immediately.
+NOTE: Blacklist stickers do not affect the group admin
+  ➢ `/blsticker`*:* See current blacklisted sticker
+Only admin:
+  ➢ `/addblsticker <sticker link>`*:* Add the sticker trigger to the black list. Can be added via reply sticker
+  ➢ `/unblsticker <sticker link>`*:* Remove triggers from blacklist. The same newline logic applies here, so you can delete multiple triggers at once
+  ➢ `/rmblsticker <sticker link>`*:* Same as above
+  ➢ `/blstickermode <delete/ban/tban/mute/tmute>`*:* sets up a default action on what to do if users use blacklisted stickers
+Note:
+  <sticker link> can be https://t.me/addstickers/<stickerpackname> or just <sticker> or reply to the sticker message
+"""
 
 blacklist_sticker_help: |
     Blacklist sticker is used to stop certain stickers. Whenever a sticker is sent, the message will be deleted immediately.
