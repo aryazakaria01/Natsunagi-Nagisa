@@ -247,8 +247,7 @@ def split_quotes(text: str) -> List:
         if not key:
             key = text[0] + text[0]
         return list(filter(None, [key, rest]))
-    else:
-        return text.split(None, 1)
+    return text.split(None, 1)
 
 
 def remove_escapes(text: str) -> str:
