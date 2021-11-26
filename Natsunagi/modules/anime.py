@@ -281,8 +281,7 @@ def anime(update, context):
             parse_mode="markdown",
         )
         return
-    else:
-        search = search[1]
+    search = search[1]
     variables = {"search": search}
     json = requests.post(
         url, json={"query": anime_query, "variables": variables}

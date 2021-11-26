@@ -287,13 +287,11 @@ def los(update, context) -> str:
             disable_web_page_preview=True,
         )
         return
-
-    else:
-        message.reply_text(
-            "`Couldn't find any results matching your query.`",
-            parse_mode=ParseMode.MARKDOWN,
-            disable_web_page_preview=True,
-        )
+    message.reply_text(
+        "`Couldn't find any results matching your query.`",
+        parse_mode=ParseMode.MARKDOWN,
+        disable_web_page_preview=True,
+    )
 
 
 @typing_action
@@ -384,7 +382,7 @@ def bootleg(update, context) -> str:
         )
         return
 
-    elif fetch.status_code == 404:
+    if fetch.status_code == 404:
         message.reply_text(
             "`Couldn't reach api`",
             parse_mode=ParseMode.MARKDOWN,

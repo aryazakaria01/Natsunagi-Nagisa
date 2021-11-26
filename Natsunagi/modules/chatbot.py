@@ -53,13 +53,12 @@ def kukirm(update: Update, context: CallbackContext) -> str:
                 f"AI_DISABLED\n"
                 f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
             )
-        else:
-            update.effective_message.edit_text(
-                "Natsunagi Nagisa Chatbot disable by {}.".format(
-                    mention_html(user.id, user.first_name)
-                ),
-                parse_mode=ParseMode.HTML,
-            )
+        update.effective_message.edit_text(
+            "Natsunagi Nagisa Chatbot disable by {}.".format(
+                mention_html(user.id, user.first_name)
+            ),
+            parse_mode=ParseMode.HTML,
+        )
 
     return ""
 
@@ -81,13 +80,12 @@ def kukiadd(update: Update, context: CallbackContext) -> str:
                 f"AI_ENABLE\n"
                 f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
             )
-        else:
-            update.effective_message.edit_text(
-                "Natsunagi Nagisa Chatbot enable by {}.".format(
-                    mention_html(user.id, user.first_name)
-                ),
-                parse_mode=ParseMode.HTML,
-            )
+        update.effective_message.edit_text(
+            "Natsunagi Nagisa Chatbot enable by {}.".format(
+                mention_html(user.id, user.first_name)
+            ),
+            parse_mode=ParseMode.HTML,
+        )
 
     return ""
 
