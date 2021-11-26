@@ -864,7 +864,7 @@ def is_chat_allowed(update, context):
                 context.bot.leave_chat(chat_id)
             finally:
                 raise DispatcherHandlerStop
-    if len(WHITELIST_CHATS) != 0 and len(BL_CHATS) != 0:
+    if 0 not in (len(WHITELIST_CHATS), len(BL_CHATS)):
         chat_id = update.effective_message.chat_id
         if chat_id in BL_CHATS:
             context.bot.send_message(
