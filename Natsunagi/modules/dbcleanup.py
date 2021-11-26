@@ -4,7 +4,7 @@ import Natsunagi.modules.sql.users_sql as user_sql
 from time import sleep
 from Natsunagi import DEV_USERS, OWNER_ID, dispatcher
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update, Bot
 from telegram.error import BadRequest, Unauthorized
 from telegram.ext import (
     CallbackContext,
@@ -12,7 +12,6 @@ from telegram.ext import (
     CommandHandler,
     run_async,
 )
-from telegram import Bot, Update
 
 
 def get_muted_chats(bot: Bot, update: Update, leave: bool = False):
