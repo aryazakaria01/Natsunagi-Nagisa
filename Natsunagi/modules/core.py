@@ -1,6 +1,5 @@
 from Natsunagi import telethn as tbot
 from Natsunagi.events import register
-import os
 import asyncio
 import os
 import time
