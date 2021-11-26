@@ -75,9 +75,11 @@ async def can_ban_users(message):
 async def get_users(show):
     if not show.is_group:
         return
-    if show.is_group:
-        if not await is_register_admin(show.input_chat, show.sender_id):
-            return
+    if (
+        show.is_group
+        and not await is_register_admin(show.input_chat, show.sender_id)
+    ):
+        return
     info = await bot.get_entity(show.chat_id)
     title = info.title if info.title else "this chat"
     mentions = "Users in {}: \n".format(title)
