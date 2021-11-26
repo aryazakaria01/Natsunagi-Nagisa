@@ -1,10 +1,8 @@
 import os
-
-from telethon.tl.types import ChatBannedRights
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from telethon import functions
+from telethon.tl.types import ChannelParticipantsAdmins, ChatAdminRights, ChatBannedRights, MessageEntityMentionName, MessageMediaPhoto
 from telethon import *
-from telethon import Button, custom, events
+from telethon.tl.functions.channels import EditAdminRequest, EditBannedRequest, EditPhotoRequest
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from Natsunagi.modules.sql.night_mode_sql import (
     add_nightmode,
@@ -41,19 +39,6 @@ openhehe = ChatBannedRights(
     invite_users=True,
     pin_messages=True,
     change_info=True,
-)
-
-from telethon.tl.types import (
-    ChannelParticipantsAdmins,
-    ChatAdminRights,
-    MessageEntityMentionName,
-    MessageMediaPhoto,
-)
-
-from telethon.tl.functions.channels import (
-    EditAdminRequest,
-    EditBannedRequest,
-    EditPhotoRequest,
 )
 
 
