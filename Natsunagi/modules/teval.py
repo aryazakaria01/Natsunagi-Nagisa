@@ -2,7 +2,6 @@ from Natsunagi import telethn as client
 import os, logging, asyncio, io, sys, traceback
 from datetime import datetime
 from os import environ, execle
-import sys
 from telethon.sync import events
 
 # telethon eval
