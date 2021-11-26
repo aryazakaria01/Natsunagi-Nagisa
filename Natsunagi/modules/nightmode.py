@@ -1,7 +1,17 @@
 import os
-from telethon.tl.types import ChannelParticipantsAdmins, ChatAdminRights, ChatBannedRights, MessageEntityMentionName, MessageMediaPhoto
+from telethon.tl.types import (
+    ChannelParticipantsAdmins, 
+    ChatAdminRights, 
+    ChatBannedRights, 
+    MessageEntityMentionName, 
+    MessageMediaPhoto,
+)    
 from telethon import *
-from telethon.tl.functions.channels import EditAdminRequest, EditBannedRequest, EditPhotoRequest
+from telethon.tl.functions.channels import (
+    EditAdminRequest, 
+    EditBannedRequest, 
+    EditPhotoRequest,
+)    
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from Natsunagi.modules.sql.night_mode_sql import (
@@ -89,18 +99,19 @@ async def profanity(event):
             return
         await event.reply("Currently NightMode is Disabled for this Chat")
         return
-    if "on" in input:
-        if event.is_group:
-            if is_nightmode_indb(str(event.chat_id)):
-                await event.reply("Night Mode is Already Turned ON for this Chat")
-                return
-            add_nightmode(str(event.chat_id))
-            await event.reply("NightMode turned on for this chat.")
+    if "on" in input and event.is_group:
+        if is_nightmode_indb(str(event.chat_id)):
+            await event.reply("Night Mode is Already Turned ON for this Chat")
+            return
+        add_nightmode(str(event.chat_id))
+        await event.reply("NightMode turned on for this chat.")
     if "off" in input:
-        if event.is_group:
-            if not is_nightmode_indb(str(event.chat_id)):
-                await event.reply("Night Mode is Already Off for this Chat")
-                return
+        if (
+            event.is_group
+            and not is_nightmode_indb(str(event.chat_id))
+        ):
+            await event.reply("Night Mode is Already Off for this Chat")
+            return
         rmnightmode(str(event.chat_id))
         await event.reply("NightMode Disabled!")
     if not "off" in input and not "on" in input:
