@@ -447,8 +447,8 @@ def reply_filter(update, context):
                         try:
                             send_message(
                                 update.effective_message,
-                                "You seem to be trying to use an unsupported url protocol. "
-                                "Telegram doesn't support buttons for some protocols, such as tg://. Please try "
+                                "You seem to be trying to use an unsupported url protocol"
+                                "Telegram doesn't support buttons for some protocols, such as tg://. Please try"
                                 "again...",
                             )
                         except BadRequest as excp:
@@ -557,7 +557,7 @@ def rmall_callback(update, context):
 # NOT ASYNC NOT A HANDLER
 def get_exception(excp, filt, chat):
     if excp.message == "Unsupported url protocol":
-        return "You seem to be trying to use the URL protocol which is not supported. Telegram does not support key for multiple protocols, such as tg: //. Please try again!"
+        return "You seem to be trying to use the URL protocol which is not supported.\nTelegram does not support key for multiple protocols, such as tg: //. Please try again!"
     elif excp.message == "Reply message not found":
         return "noreply"
     else:
