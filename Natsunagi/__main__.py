@@ -148,7 +148,7 @@ buttons = [
 
 
 HELP_STRINGS = """
-*Main commands available*[:](https://telegra.ph/file/b7430b90a96224f0a79b6.jpg)
+*Main commands available*[:](https://telegra.ph/file/a8ce80707def6b27d254f.jpg)
  ➛ /help: PM's you this message.
  ➛ /help <module name>: PM's you info about that module.
  ➛ /donate: information on how to donate!
