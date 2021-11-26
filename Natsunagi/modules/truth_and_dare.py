@@ -2,8 +2,8 @@ import html
 import random
 import Natsunagi.modules.truth_and_dare_string as truth_and_dare_string
 from Natsunagi import dispatcher
-from telegram import ParseMode, Update, Bot
 from Natsunagi.modules.disable import DisableAbleCommandHandler
+from telegram import ParseMode, Update, Bot
 from telegram.ext import CallbackContext, run_async
 
 
