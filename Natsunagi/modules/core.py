@@ -1,11 +1,16 @@
-from Natsunagi import telethn as tbot
-from Natsunagi.events import register
 import asyncio
 import os
 import time
+
 from datetime import datetime
-from Natsunagi import OWNER_ID, DEV_USERS
-from Natsunagi import TEMP_DOWNLOAD_DIRECTORY as path
+from Natsunagi import ( 
+    OWNER_ID, 
+    DEV_USERS, 
+    telethn as tbot, 
+    TEMP_DOWNLOAD_DIRECTORY as path,
+)
+
+from Natsunagi.events import register
 
 water = "./Natsunagi/image/natsunagi.jpg"
 client = tbot
@@ -13,7 +18,7 @@ client = tbot
 
 @register(pattern=r"^/send ?(.*)")
 async def Prof(event):
-    if event.sender_id == OWNER_ID or event.sender_id == DEV_USERS:
+    if event.sender_id in (OWNER_ID, DEV_USERS):
         pass
     else:
         return
