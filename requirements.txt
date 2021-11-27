@@ -91,7 +91,6 @@ search_engine_parser
 googletrans
 youtube_search_python
 httpx
-ptbcontrib
 asyncio
 quotefancy
 aiogram 
