@@ -83,7 +83,7 @@ geopy
 humanize
 heroku3
 beautifulsoup4
-git+https://github.com/AmanoTeam/pyrogram.git
+pyrogram
 python-arq
 aiohttp
 carbonnow
