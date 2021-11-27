@@ -208,55 +208,59 @@ Note:
   <sticker link> can be https://t.me/addstickers/<stickerpackname> or just <sticker> or reply to the sticker message
 """
 
-blacklist_sticker_help: |
-    Blacklist sticker is used to stop certain stickers. Whenever a sticker is sent, the message will be deleted immediately.
-    *NOTE:* Blacklist stickers do not affect the group admin.
-    • /blsticker*:* See current blacklisted sticker.
-    *Only admin:*
-    • /addblsticker <sticker link>*:* Add the sticker trigger to the black list. Can be added via reply sticker.
-    • /unblsticker <sticker link>*:* Remove triggers from blacklist. The same newline logic applies here, so you can delete multiple triggers at once.
-    • /rmblsticker <sticker link>*:* Same as above.
-    • /blstickermode <ban/tban/mute/tmute>*:* sets up a default action on what to do if users use blacklisted stickers. (`tmute seems broken right now`)
-    Note:
-    • <sticker link> can be `https://t.me/addstickers/<sticker>` or just `<sticker>` or reply to the sticker message.
-
 cleaner_help: |
-    - /cleanbluetext <on/off/yes/no> - clean commands after sending
-    - /ignorecleanbluetext <word> - prevent auto cleaning of the command
-    - /unignorecleanbluetext <word> - remove prevent auto cleaning of the command
-    - /listcleanbluetext - list currently whitelisted commands
+Blue text cleaner removed any made up commands that people send in your chat.
+  ➢ `/cleanblue <on/off/yes/no>`*:* clean commands after sending
+  ➢ `/ignoreblue <word>`*:* prevent auto cleaning of the command
+  ➢ `/unignoreblue <word>`*:* remove prevent auto cleaning of the command
+  ➢ `/listblue`*:* list currently whitelisted commands
+ *Following are Disasters only commands, admins cannot use these:*
+  ➢ `/gignoreblue <word>`*:* globally ignorea bluetext cleaning of saved word across {BOT_NAME}.
+  ➢ `/ungignoreblue <word>`*:* remove said command from global cleaning list
+"""
 
 connections_help: |
-    - /connect: connect a chat (Can be done in a group by /connect or /connect <chat id> in PM)
-    - /connection: list connected chats
-    - /disconnect: disconnect from a chat
-    - /helpconnect: list available commands that can be done remotely
-     *Admin only:*
-    - /allowconnect <yes/no>: allow a user to connect to a chat
+Sometimes, you just want to add some notes and filters to a group chat, but you don't want everyone to see; This is where connections come in...
+This allows you to connect to a chat's database, and add things to it without the commands appearing in chat! For obvious reasons, you need to be an admin to add things; but any member in the group can view your data.
+ • /connect: Connects to chat (Can be done in a group by /connect or /connect <chat id> in PM)
+ • /connection: List connected chats
+ • /disconnect: Disconnect from a chat
+ • /helpconnect: List available commands that can be used remotely
+*Admin only:*
+ • /allowconnect <yes/no>: allow an user to connect to a chat
+"""
 
 cust_filters_help: |
-    • `/filters`*:* List all active filters saved in the chat.
-     *Admin only:*
-    • `/filter <keyword> <reply message>`*:* Add a filter to this chat. The bot will now reply that message whenever 'keyword'
-      is mentioned. If you reply to a sticker with a keyword, the bot will reply with that sticker. NOTE: all filter
-      keywords are in lowercase. If you want your keyword to be a sentence, use quotes. eg: /filter "hey there" How you
-      doin?
-    • `/stop <filter keyword>`*:* Stop that filter.
-     *Chat creator only:*
-    • `/removeallfilters`*:* Remove all chat filters at once.
-      *Note*: Filters also support markdown formatters like: {first}, {last} etc.. and buttons.
-        Check `/markdownhelp` to know more!
+  ➢ `/filters`*:* List all active filters saved in the chat.
+*Admin only:*
+  ➢ `/filter <keyword> <reply message>`*:* Add a filter to this chat. The bot will now reply that message whenever 'keyword'\
+is mentioned. If you reply to a sticker with a keyword, the bot will reply with that sticker. NOTE: all filter \
+keywords are in lowercase. If you want your keyword to be a sentence, use quotes. eg: /filter "hey there" How you \
+doin?
+ Separate diff replies by `%%%` to get random replies
+ *Example:* 
+ `/filter "filtername"
+ Reply 1
+ %%%
+ Reply 2
+ %%%
+ Reply 3`
+  ➢ `/stop <filter keyword>`*:* Stop that filter.
+*Chat creator only:*
+  ➢ `/removeallfilters`*:* Remove all chat filters at once.
+*Note*: Filters also support markdown formatters like: {first}, {last} etc.. and buttons.
+Check `/markdownhelp` to know more!
+"""
 
 disable_help: |
-    Not everyone wants every feature that the bot offers. Some commands are best
-    left unused; to avoid spam and abuse.
-    This allows you to disable some commonly used commands, so noone can use them.
-    It'll also allow you to autodelete them, stopping people from bluetexting.
-     • /cmds: Check the current status of disabled commands
-     *Admin only:*
-     • /enable <cmd name>: Enable that command
-     • /disable <cmd name>: Disable that command
-     • /listcmds: List all possible disablable commands
+     ➢ `/cmds`*:* check the current status of disabled commands
+    *Admins only:*
+     ➢ `/enable <cmd name>`*:* enable that command
+     ➢ `/disable <cmd name>`*:* disable that command
+     ➢ `/enablemodule <module name>`*:* enable all commands in that module
+     ➢ `/disablemodule <module name>`*:* disable all commands in that module
+     ➢ `/listcmds`*:* list all possible toggleable commands
+    """
 
 feds_help: |
     Ah, group management. Everything is fun, until the spammer starts entering your group, and you have to block it. Then you need to start banning more, and more, and it hurts.
@@ -282,148 +286,379 @@ feds_help: |
      • /fedchats: Get all the chats that are connected in the Federation.
      • /importfbans: Reply to the Federation backup message file to import the banned list to the Federation now. (disabled for now.)
 
-fun_help: |
-     • /runs: reply a random string from an array of replies.
-     • /pat: pat a person, cool thing to have for cute ones :3
-     • /hug: hug a person, cool thing to have for cute ones :3
-     • /slap: slap a user, or get slapped if not a reply.
-     • /shrug : get shrug XD.
-     • /table : get flip/unflip :v.
-     • /decide : Randomly answers yes/no/maybe
-     • /toss : Tosses A coin
-     • /roll : Roll a dice.
-     • /rlg : Join ears,nose,mouth and create an emo ;-;
-     • /shout <keyword>: write anything you want to give loud shout.
-     • /stickerid: reply to a sticker to get its ID.
-     • /getsticker: reply to a sticker to get the raw PNG image.
-     • /steal: reply to a sticker or image to add it to your pack.
-     • /stickers: search stickers in combot sticker finder.
+forcesubscribe_help: | 
+*Force Subscribe*:
+- {BOT_NAME} can mute members who are not subscribed your channel until they subscribe
+- When enabled I will mute unsubscribed members and show them a unmute button. When they pressed the button I will unmute them
+*Setup*
+1) First of all add me in the group as admin with ban users permission and in the channel as admin.
+Note: Only creator of the group can setup me and i will not allow force subscribe again if not done so.
+ 
+*Commmands*:
+   ➢ `/forcesubscribe`*:* To get the current settings.
+   ➢ `/forcesubscribe <no/off/disable>`*:* To turn of ForceSubscribe.
+   ➢ `/forcesubscribe <channel username>`*:* To turn on and setup the channel.
+   ➢ `/forcesubscribe clear`*:* To unmute all members who muted by me.
+Note: /forcesub is an alias of /forcesubscribe
+ 
+"""
 
-antispam_help: |
-     *Admins only:*
-      • `/antispam <on/off/yes/no>`*:* Will toggle our antispam tech or return your current settings.
-     Anti-Spam, used by bot devs to ban spammers across all groups. This helps protect
-     you and your groups by removing spam flooders as quickly as possible.
-     *Note:* Users can appeal gbans or report spammers at @yuiichansupport
-     Yuii also integrates @Spamwatch and @Intellivoid's SpamProtectionBot API to remove Spammers as much as possible from your chatroom!
-     *What is SpamWatch?*
-     SpamWatch maintains a large constantly updated ban-list of spambots, trolls, bitcoin spammers and unsavoury characters.
-     Constantly help banning spammers off from your group automatically So, you wont have to worry about spammers storming your group.
-     *Note:* Users can appeal spamwatch bans at @SpamwatchSupport
-     *What is Spam protection?*
-     SpamProtection is the new AI antispam service which makes sure that your chat is free of spambots, scammers, and pedophiles.
-     Uses @Intellivoid's Coffeehouse Artificial Engine. Every ban is checked by real trusty people before being finalized.
+globalbans_help: |
+*Admins only:*
+  ➢ `/antispam <on/off/yes/no>`*:* Will toggle our antispam tech or return your current settings.
+Anti-Spam, used by bot devs to ban spammers across all groups. This helps protect \
+you and your groups by removing spam flooders as quickly as possible.
+*Note:* Users can appeal gbans or report spammers at @{SUPPORT_CHAT}
+This also integrates @Spamwatch API to remove Spammers as much as possible from your chatroom!
+*What is SpamWatch?*
+SpamWatch maintains a large constantly updated ban-list of spambots, trolls, bitcoin spammers and unsavoury characters[.](https://telegra.ph/file/f584b643c6f4be0b1de53.jpg)
+Constantly help banning spammers off from your group automatically So, you wont have to worry about spammers storming your group.
+*Note:* Users can appeal spamwatch bans at @SpamwatchSupport
+*What is Intellivoid?*
+We're a small group of talented people that strive to create innovating 
+software & services often from the ground up instead of following a trend or 
+copy-pasting open source projects and calling it our own.
+"""
 
-gtranslate_help: |
-     Use this module to translate stuff... duh!
-     *Commands:*
-     • `/tl` (or `/tr`): as a reply to a message, translates it to English.
-     • `/tl <lang>`: translates to <lang>
-     eg: `/tl ja`: translates to Japanese.
-     • `/tl <source>//<dest>`: translates from <source> to <lang>.
-     eg: `/tl ja//en`: translates from Japanese to English.
-     • `/langs`: get a list of supported languages for translation.
+google_help: |
+  ➢ `/google <text>` :- Perform a google search
+  ➢ `/img <text>` :- Search Google for images and returns them\nFor greater no. of results specify lim, For eg: `/img hello lim=10`
+  ➢ `/app <appname>` :- Searches for an app in Play Store and returns its details.
+  ➢ `/reverse` :- reply to a sticker, or an image to search it!
+  Do you know that you can search an image with a link too? /reverse picturelink <amount>.
+  ➢ `/gitinfo <github username>` :- Get info of any github profile
+  ➢ `/ytdl <youtube video link` :- download any youtube video in every possible resolution.
+  ➢ `/webss <website url>` :- get screen shot of any website you want.
+  ➢ `/makeqr <text` : make any text to a qr code format
+  ➢ `/getqr <reply to a qrcode>` : decode and get what is inside the qr code.
+"""
+
+gtranslator_help: |
+Use this module to translate stuff!
+*Commands:*
+   ➢ `/langs: List of all language code to translates!
+   ➢ `/tl` (or `/tr`): as a reply to a message, translates it to English.
+   ➢ `/tl <lang>`: translates to <lang>
+   
+eg: `/tl ja`: translates to Japanese.
+   ➢ `/tl <source>//<dest>`: translates from <source> to <lang>.
+• [List of supported languages for translation](https://telegra.ph/Lang-Codes-03-19-3)
+"""
+
+imgeditor_help: |
+Natsunagi Nagisa have some advanced image editing tools inbuilt
+Bright, Circle, RemBG, Blur, Border, Flip, Glitch, Sticker maker and more
+  ➢ `/edit [reply to image]`*:* Open the image editor
+  ➢ `/rmbg [REPLY]`*:* Revove BG of replied image/sticker.
+"""
+
+inline_help: | 
+commands can be used by anyone in a group via inline.
+Usage: @YuiiDev_bot <func> <query>"""
+
+inlinebot_help: |
+INLINE BOT SERVICE OF @YuiiDev_bot
+I'm more efficient when added as group admin. By the way these commands can be used by anyone in a group via inline.
+──「 Syntax 」──
+   @YuiiDev_bot [command] [query]
+──「 Commands Available 」──
+➩ alive - Check Bot's Stats.
+➩ yt [query] - Youtube Search.
+➩ tr [LANGUAGE_CODE] [QUERY]** - Translate Text.
+➩ modapk [name] - Give you direct link of mod apk.
+➩ ud [QUERY] - Urban Dictionary Query
+➩ google [QUERY] - Google Search.
+➩ webss [URL] - Take Screenshot Of A Website.
+➩ bitly [URL] - Shorten A Link.
+➩ wall [Query] - Find Wallpapers.
+➩ pic [Query] - Find pictures.
+➩ saavn [SONG_NAME] - Get Songs From Saavn.
+➩ deezer [SONG_NAME] - Get Songs From Deezer.
+➩ torrent [QUERY] - Torrent Search.
+➩ reddit [QUERY] - Get memes from reddit.
+➩ imdb [QUERY] - Search movies on imdb.
+➩ spaminfo [ID] - Get spam info of the user.
+➩ lyrics [QUERY] - Get lyrics of the song.
+➩ paste [TEXT] - Paste text on pastebin.
+➩ define [WORD] - Get definition from Dictionary.
+➩ synonyms [WORD] - Get synonyms from Dictionary.
+➩ antonyms [WORD] - Get antonyms from Dictionary.
+➩ country [QUERY] - Get Information about given country.
+➩ cs - Gathers Cricket info (Globally).
+➩ covid [COUNTRY] - Get covid updates of given country.
+➩ fakegen - Gathers fake information.
+➩ weather [QUERY] - Get weather information.
+➩ datetime [QUERY] - Get Date & time information of given country/region.
+➩ app [QUERY] - Search for apps in playstore.
+➩ gh [QUERY] - Search github.
+➩ so [QUERY] - Search stack overflow.
+➩ wiki [QUERY] - Search wikipedia.
+➩ ping - Check ping rate.
+➩ pokedex [TEXT]: Pokemon Search
+"""
+
+lewd_help: |
+Module credits`*:*[Dank-del](https://github.com/Dank-del/Chizuru/) ,
+Also thanks to [EverythingSuckz](https://t.me/EverythingSuckz) for NSFW filter.
+    
+*ENABLE AND DISABLE* :
+    
+/addnsfw `*:*Enable NSFW mode
+/rmnsfw `*:*Disable NSFW mode
+ 
+*Commands* `*:*  
+   ➢ `/neko`*:*Sends Random SFW Neko source Images.
+   ➢ `/feet`*:*Sends Random Anime Feet Images.
+   ➢ `/yuri`*:*Sends Random Yuri source Images.
+   ➢ `/trap`*:*Sends Random Trap source Images.
+   ➢ `/futanari`*:*Sends Random Futanari source Images.
+   ➢ `/hololewd`*:*Sends Random Holo Lewds.
+   ➢ `/lewdkemo`*:*Sends Random Kemo Lewds.
+   ➢ `/sologif`*:*Sends Random Solo GIFs.
+   ➢ `/cumgif`*:*Sends Random Cum GIFs.
+   ➢ `/erokemo`*:*Sends Random Ero-Kemo Images.
+   ➢ `/lesbian`*:*Sends Random Les Source Images.
+   ➢ `/lewdk`*:*Sends Random Kitsune Lewds.
+   ➢ `/ngif`*:*Sends Random Neko GIFs.
+   ➢ `/tickle`*:*Sends Random Tickle GIFs.
+   ➢ `/lewd`*:*Sends Random Lewds.
+   ➢ `/feed`*:*Sends Random Feeding GIFs.
+   ➢ `/eroyuri`*:*Sends Random Ero-Yuri source Images.
+   ➢ `/eron`*:*Sends Random Ero-Neko source Images.
+   ➢ `/cum`*:*Sends Random Cum Images.
+   ➢ `/bjgif`*:*Sends Random Blow Job GIFs.
+   ➢ `/bj`*:*Sends Random Blow Job source Images.
+   ➢ `/nekonsfw`*:*Sends Random NSFW Neko source Images.
+   ➢ `/solo`*:*Sends Random NSFW Neko GIFs.
+   ➢ `/kemonomimi`*:*Sends Random KemonoMimi source Images.
+   ➢ `/avatarlewd`*:*Sends Random Avater Lewd Stickers.
+   ➢ `/gasm`*:*Sends Random Orgasm Stickers.
+   ➢ `/poke`*:*Sends Random Poke GIFs.
+   ➢ `/anal`*:*Sends Random Anal GIFs.
+   ➢ `/hentai`*:*Sends Random Hentai source Images.
+   ➢ `/avatar`*:*Sends Random Avatar Stickers.
+   ➢ `/erofeet`*:*Sends Random Ero-Feet source Images.
+   ➢ `/holo`*:*Sends Random Holo source Images.
+   ➢ `/tits`*:*Sends Random Tits source Images.
+   ➢ `/pussygif`*:*Sends Random Pussy GIFs.
+   ➢ `/holoero`*:* Sends Random Ero-Holo source Images.
+   ➢ `/pussy`*:* Sends Random Pussy source Images.
+   ➢ `/hentaigif`*:* Sends Random Hentai GIFs.
+   ➢ `/classic`*:* Sends Random Classic Hentai GIFs.
+   ➢ `/kuni`*:* Sends Random Pussy Lick GIFs.
+   ➢ `/waifu`*:* Sends Random Waifu Stickers.
+   ➢ `/kiss`*:* Sends Random Kissing GIFs.
+   ➢ `/femdom`*:* Sends Random Femdom source Images.
+   ➢ `/cuddle`*:* Sends Random Cuddle GIFs.
+   ➢ `/erok`*:* Sends Random Ero-Kitsune source Images.
+   ➢ `/foxgirl`*:* Sends Random FoxGirl source Images.
+   ➢ `/titsgif`*:* Sends Random Tits GIFs.
+   ➢ `/ero`*:* Sends Random Ero source Images.
+   ➢ `/smug`*:* Sends Random Smug GIFs.
+   ➢ `/baka`*:* Sends Random Baka Shout GIFs.
+   ➢ `/dva`*:* Sends Random D.VA source Images.
+"""
 
 locks_help: |
-     Do stickers annoy you? or want to avoid people sharing links? or pictures?
-     You're in the right place!
-     The locks module allows you to lock away some common items in the
-     telegram world; the bot will automatically delete them!
-      • `/locktypes`*:* Lists all possible locktypes
-     *Admins only:*
-      • `/lock <type>`*:* Lock items of a certain type (not available in private)
-      • `/unlock <type>`*:* Unlock items of a certain type (not available in private)
-      • `/locks`*:* The current list of locks in this chat.
-     Locks can be used to restrict a group's users.
-     eg:
-     Locking urls will auto-delete all messages with urls, locking stickers will restrict all
-     non-admin users from sending stickers, etc.
-     Locking bots will stop non-admins from adding bots to the chat.
-     *Note:*
-      • Unlocking permission *info* will allow members (non-admins) to change the group information, such as the description or the group name
-      • Unlocking permission *pin* will allow members (non-admins) to pinned a message in a group
-
-log_help: |
-      *Admins only:*
-      • `/logchannel`*:* get log channel info
-      • `/setlog`*:* set the log channel.
-      • `/unsetlog`*:* unset the log channel.
-      Setting the log channel is done by:
-      • adding the bot to the desired channel (as an admin!)
-      • sending `/setlog` in the channel
-      • forwarding the `/setlog` to the group
-
-markdown_help_text: |
-      Markdown is a very powerful formatting tool supported by telegram. Yuii has some enhancements, to make sure that
-      saved messages are correctly parsed, and to allow you to create buttons.
-      - <code>_italic_</code>: wrapping text with '_' will produce italic text
-      - <code>*bold*</code>: wrapping text with '*' will produce bold text
-      - <code>`code`</code>: wrapping text with '`' will produce monospaced text, also known as 'code'
-      - <code>[sometext](someURL)</code>: this will create a link - the message will just show <code>sometext</code>,
-      and tapping on it will open the page at <code>someURL</code>.
-      EG: <code>[test](example.com)</code>
-      - <code>[buttontext](buttonurl:someURL)</code>: this is a special enhancement to allow users to have telegram
-      buttons in their markdown. <code>buttontext</code> will be what is displayed on the button, and <code>someurl</code>
-      will be the url which is opened.
-      EG: <code>[This is a button](buttonurl:example.com)</code>
-      If you want multiple buttons on the same line, use :same, as such:
-      <code>[one](buttonurl://example.com)
-      [two](buttonurl://google.com:same)</code>
-      This will create two buttons on a single line, instead of one button per line.
-      Keep in mind that your message <b>MUST</b> contain some text other than just a button!
+Do stickers annoy you? or want to avoid people sharing links? or pictures? \
+You're in the right place!
+The locks module allows you to lock away some common items in the \
+telegram world; the bot will automatically delete them!
+  ➢ `/locktypes`*:* Lists all possible locktypes
+ 
+*Admins only:*
+  ➢ `/lock <type>`*:* Lock items of a certain type (not available in private)
+  ➢ `/unlock <type>`*:* Unlock items of a certain type (not available in private)
+  ➢ `/locks`*:* The current list of locks in this chat.
+ 
+Locks can be used to restrict a group's users.
+eg:
+Locking urls will auto-delete all messages with urls, locking stickers will restrict all \
+non-admin users from sending stickers, etc.
+Locking bots will stop non-admins from adding bots to the chat.
+*Note:*
+ ➩ Unlocking permission *info* will allow members (non-admins) to change the group information, such as the description or the group name
+ ➩ Unlocking permission *pin* will allow members (non-admins) to pinned a message in a group
+"""
 
 misc_help: |
-      • /id: get the current group id. If used by replying to a message, gets that user's id.
-      • /gifid: reply to a gif to me to tell you its file ID.
-      • /info: get information about a user.
-      • /markdownhelp: quick summary of how markdown works in telegram - can only be called in private chats.
-      • /ud <word>: Type the word or expression you want to search use.
-      • /urban <word>: Same as /ud
-      • /paste - Do a paste at `nekobin.com`
-      • /react: Reacts with a random reaction
-      • /weebify <text>: returns a weebified text
-      • /tr (language code) as reply to a long message.
-      • /time <query> : Gives information about a timezone.
-      • /cash : currency converter
-        example syntax: /cash 1 USD INR
-      • /cinfo : get info about a user or a chat (uses @Pyrogram methods)
-      • /getid : get IDs of chat, user and chat message.
-      • /spbinfo : get info about a user from @Intellivoid's SpamProtection API
-      ───────────────────────────────
-      *Last.FM*
-      Share what you're what listening to with the help of this module!
-      *Available commands:*
-      • /setuser <username>: sets your last.fm username.
-      • /clearuser: removes your last.fm username from the bot's database.
-      • /lastfm: returns what you're scrobbling on last.fm.
+Available commands:
+📐 Markdown:
+  ➢ `/markdownhelp`: quick summary of how markdown works in telegram - can only be called in private chats
+💴 Currency converter:
+  ➢ `/cash`: currency converter
+ Example:
+ `/cash 1 USD INR`
+      OR
+ `/cash 1 usd inr`
+ Output: `1.0 USD = 75.505 INR`
+🗣 Translator:
+  ➢ `/tr` or `/tl` (language code) as reply to a long message
+Example:
+  `/tr en`: translates something to english
+  `/tr hi-en`: translates hindi to english.
+  ➢ `/langs` : lists all the language codes
+🕐 Timezones:
+  ➢ `/time <query>`: Gives information about a timezone.
+Available queries: Country Code/Country Name/Timezone Name
+ ➩ [Timezones list](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+🖌️ Quotly:
+  ➢ `/q` : To quote a message.
+  ➢ `/q <Number>` : To quote more than 1 messages.
+  ➢ `/q r` : to quote a message with it's reply
+🗜️ Compress And Decompress: 
+  ➢ `/zip`*:* reply to a telegram file to compress it in .zip format
+  ➢ `/unzip`*:* reply to a telegram file to decompress it from the .zip format
+  
+👤 Fake Info:
+  ➢ `/fakegen`*:* Generates Fake Information
+  ➢ `/picgen  ➢ `/ generate a fake pic
+🎛️ Encryprion:
+  ➢ `/encrypt`*:* Encrypts The Given Text
+  ➢ `/decrypt`*:* Decrypts Previously Ecrypted Text
+📙 English:
+  ➢ `/define <text>`*:* Type the word or expression you want to search\nFor example /define kill
+  ➢ `/spell`*:* while replying to a message, will reply with a grammar corrected version
+  ➢ `/synonyms <word>`*:* Find the synonyms of a word
+  ➢ `/antonyms <word>`*:* Find the antonyms of a word
+  
+📙 Encryprion:
+  ➢ `/antonyms <Word>`*:* Get antonyms from Dictionary.
+  ➢ `/synonyms <Word>`*:* Get synonyms from Dictionary.
+  ➢ `/define <Word>`*:* Get definition from Dictionary.
+  ➢ `/spell <Word>`*:* Get definition from Dictionary.
+  
+💳 CC Checker:
+  ➢ `/au [cc]`*:* Stripe Auth given CC
+  ➢ `/pp [cc]`*:* Paypal 1$ Guest Charge
+  ➢ `/ss [cc]`*:* Speedy Stripe Auth
+  ➢ `/ch [cc]`*:* Check If CC is Live
+  ➢ `/bin [bin]`*:* Gather's Info About the bin
+  ➢ `/gen [bin]`*:* Generates CC with given bin
+  ➢ `/key [sk]`*:* Checks if Stripe key is Live
+🗳  Other Commands:
+Paste:
+  ➢ `/paste`*:* Saves replied content to nekobin.com and replies with a url
+React:
+  ➢ `/react`*:* Reacts with a random reaction
+Urban Dictonary:
+  ➢ `/ud <word>`*:* Type the word or expression you want to search use
+Wikipedia:
+  ➢ `/wiki <query>`*:* wikipedia your query
+Wallpapers:
+  ➢ `/wall <query>`*:* get a wallpaper from alphacoders
+Text To Speech:
+  ➢ `/texttospeech <text>`*:* Converts a text message to a voice message.
+Books:
+  ➢ `/book <book name>`*:* Gets Instant Download Link Of Given Book.
+Cricket Score:
+  ➢ `/cs`*:* get a Cricket Score.
+Phone Info
+  ➢ `/phone [phone no]`*:* Gathers no info.
+Bass Boosting
+  ➢ `/bassboost`*:* Reply To Music Bass Boost.
+"""
 
-muting_help: |
-      *Admins only:*
-       • `/mute <userhandle>`*:* silences a user. Can also be used as a reply, muting the replied to user.
-       • `/tmute <userhandle> x(m/h/d)`*:* mutes a user for x time. (via handle, or reply). `m` = `minutes`, `h` = `hours`, `d` = `days`.
-       • `/unmute <userhandle>`*:* unmutes a user. Can also be used as a reply, muting the replied to user.
+nekos_help: |
+*Nekos:*
+/nekos <name> : To find nekos from nekos.life
+*Available commands:*
+-feet
+- yuri
+- rap
+- futanari
+- hololewd
+- lewdkemo
+- solog
+- feetg
+- cum
+- erokemo
+- les
+- wallpaper
+- lewdk
+- ngif
+- tickle
+- lewd
+- feed
+- gecg
+- eroyuri
+- eron
+- cum_/jpg
+- bj
+- nsfw_/neko_/gif
+- solo
+- nsfw_/avatar
+- gasm
+- poke
+- anal
+- slap
+- hentai
+- avatar
+- erofeet
+- holo
+- keta
+- blowjob
+- pussy
+- tits
+- holoero
+- lizard
+- pussy_/jpg
+- pwankg
+- classic
+- kuni
+- waifu
+- pat
+- 8ball
+- kiss
+- femdom
+- neko
+- spank
+- cuddle
+- erok
+- fox_/girl
+- boobs
+- random_/hentai_/gif
+- smallboobs
+- hug
+- ero
+- goose
+- baka
+- woof
+- kemonomimi
+- smug
+"""
+
+nightmode_help: |
+  ➢ `/nightmode`*:* on/off
+ 
+**Note:** Night Mode chats get Automatically closed at 12 PM (IST)
+and Automatically openned at 6 AM (IST) To Prevent Night Spams.
+"""
 
 notes_help: |
-       • `/get <notename>`*:* get the note with this notename
-       • `#<notename>`*:* same as /get
-       • `/notes` or `/saved`*:* list all saved notes in this chat
-       • `/number` *:* Will pull the note of that number in the list.
-        If you would like to retrieve the contents of a note without any formatting, use `/get <notename> noformat`. This can
-        be useful when updating a current note.
-        *Admins only:*
-       • `/save <notename> <notedata>`*:* saves notedata as a note with name notename
-        A button can be added to a note by using standard markdown link syntax - the link should just be prepended with a
-         `buttonurl:` section, as such: `[somelink](buttonurl:example.com)`. Check `/markdownhelp` for more info.
-       • `/save <notename>`*:* save the replied message as a note with name notename
-       • `/clear <notename>`*:* clear note with this name
-       • `/removeallnotes`*:* removes all notes from the group
-       *Note:* Note names are case-insensitive, and they are automatically converted to lowercase before getting saved.
-
-purge_help: |
-       *Admin only:*
-        • /del: deletes the message you replied to
-        • /purge: deletes all messages between this and the replied to message.
-        • /purge <integer X>: deletes the replied message, and X messages following it if replied to a message.
+  ➢ `/get <notename>`*:* get the note with this notename
+ ❍ `#<notename>`*:* same as /get
+  ➢ `/notes` or `/saved`*:* list all saved notes in this chat
+  ➢ `/number` *:* Will pull the note of that number in the list
+If you would like to retrieve the contents of a note without any formatting, use `/get <notename> noformat`. This can \
+be useful when updating a current note
+*Admins only:*
+  ➢ `/save <notename> <notedata>`*:* saves notedata as a note with name notename
+A button can be added to a note by using standard markdown link syntax - the link should just be prepended with a \
+`buttonurl:` section, as such: `[somelink](buttonurl:example.com)`. Check `/markdownhelp` for more info
+  ➢ `/save <notename>`*:* save the replied message as a note with name notename
+ Separate diff replies by `%%%` to get random notes
+ *Example:*
+ `/save notename
+ Reply 1
+ %%%
+ Reply 2
+ %%%
+ Reply 3`
+  ➢ `/clear <notename>`*:* clear note with this name
+  ➢ `/removeallnotes`*:* removes all notes from the group
+ *Note:* Note names are case-insensitive, and they are automatically converted to lowercase before getting saved.
+"""
 
 reports_help: |
         • `/report <reason>`*:* reply to a message to report it to admins.
