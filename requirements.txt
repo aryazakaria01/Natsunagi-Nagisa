@@ -91,7 +91,7 @@ search_engine_parser
 googletrans
 youtube_search_python
 httpx
-git+https://github.com/python-telegram-bot/ptbcontrib.git
+ptbcontrib
 asyncio
 quotefancy
 aiogram 
