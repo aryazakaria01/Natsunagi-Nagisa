@@ -18,7 +18,6 @@ from motor import motor_asyncio
 from odmantic import AIOEngine
 from pymongo import MongoClient
 from pymongo.errors import ServerSelectionTimeoutError
-from ptbcontrib.postgres_persistence import PostgresPersistence
 from redis import StrictRedis
 from Python_ARQ import ARQ
 from aiohttp import ClientSession
@@ -44,7 +43,6 @@ logging.basicConfig(
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 LOGGER = logging.getLogger('[Natsunagi]')
-logging.getLogger('ptbcontrib.postgres_persistence.postgrespersistence').setLevel(logging.WARNING)
 LOGGER.info("Natsunagi is starting. | An CyberNetwork Project Parts. | Licensed under GPLv3.")
 LOGGER.info("Not affiliated to Tantei Wa Mou or Villain in any way whatsoever.")
 LOGGER.info("Project maintained by: github.com/aryazakaria01 (t.me/Badboyanim)")
@@ -315,7 +313,6 @@ updater = tg.Updater(
     workers=min(32, os.cpu_count() + 4),
     request_kwargs={"read_timeout": 10, "connect_timeout": 10},
     use_context=True,
-    persistence=PostgresPersistence(session=SESSION),
 )
 # Telethon
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
