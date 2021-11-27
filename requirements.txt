@@ -85,7 +85,6 @@ humanize
 heroku3
 beautifulsoup4
 git+https://github.com/AmanoTeam/pyrogram.git
-git+https://github.com/yt-dlp/yt-dlp@master
 python-arq
 aiohttp
 carbonnow
