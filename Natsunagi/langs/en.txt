@@ -37,51 +37,54 @@ updates_channel_link_btn: "Updates"
 src_btn: "Source code"
 
 admin_help: |
-*User Commands*:
-  ➢ `/admins`*:* list of admins in the chat
-  ➢ `/pinned`*:* to get the current pinned message.
-  ➢ `/rules`*:* get the rules for this chat.
-*Promote & Demote Commands are Admins only*:
-  ➢ `/promote (user) (?admin's title)`*:* Promotes the user to admin.
-  ➢ `/demote (user)`*:* Demotes the user from admin.
-  ➢ `/fullpromote`*:* Promote a member with max rights
+   *User Commands*:
+    ➢ `/admins`*:* list of admins in the chat
+    ➢ `/pinned`*:* to get the current pinned message.
+    ➢ `/rules`*:* get the rules for this chat.
+   
+   *Promote & Demote Commands are Admins only*:
+    ➢ `/promote (user) (?admin's title)`*:* Promotes the user to admin.
+    ➢ `/demote (user)`*:* Demotes the user from admin.
+    ➢ `/fullpromote`*:* Promote a member with max rights
  
-*Cleaner & Purge Commands are Admins only*:
-  ➢ `/del`*:* deletes the message you replied to
-  ➢ `/purge`*:* deletes all messages between this and the replied to message.
-  ➢ `/purge <integer X>`*:* deletes the replied message, and X messages following it if replied to a message.
-  ➢ `/zombies`*:* counts the number of deleted account in your group
-  ➢ `/kickthefools`*:* Kick inactive members from group (one week)
+   *Cleaner & Purge Commands are Admins only*:
+    ➢ `/del`*:* deletes the message you replied to
+    ➢ `/purge`*:* deletes all messages between this and the replied to message.
+    ➢ `/purge <integer X>`*:* deletes the replied message, and X messages following it if replied to a message.
+    ➢ `/zombies`*:* counts the number of deleted account in your group
+    ➢ `/kickthefools`*:* Kick inactive members from group (one week)
   
-*Pin & Unpin Commands are Admins only*:
-  ➢ `/pin`*:* silently pins the message replied to - add 'loud' or 'notify' to give notifs to users.
-  ➢ `/unpin`*:* unpins the currently pinned message - add 'all' to unpin all pinned messages.
-  ➢ `/permapin`*:* Pin a custom message through the bot. This message can contain markdown, buttons, and all the other cool features.
-  ➢ `/unpinall`*:* Unpins all pinned messages.
-  ➢ `/antichannelpin <yes/no/on/off>`*:* Don't let telegram auto-pin linked channels. If no arguments are given, shows current setting.
-  ➢ `/cleanlinked <yes/no/on/off>`*:* Delete messages sent by the linked channel.
+   *Pin & Unpin Commands are Admins only*:
+    ➢ `/pin`*:* silently pins the message replied to - add 'loud' or 'notify' to give notifs to users.
+    ➢ `/unpin`*:* unpins the currently pinned message - add 'all' to unpin all pinned messages.
+    ➢ `/permapin`*:* Pin a custom message through the bot. This message can contain markdown, buttons, and all the other cool features.
+    ➢ `/unpinall`*:* Unpins all pinned messages.
+    ➢ `/antichannelpin <yes/no/on/off>`*:* Don't let telegram auto-pin linked channels. If no arguments are given, shows current setting.
+    ➢ `/cleanlinked <yes/no/on/of>`*:* Delete messages sent by the linked channel.
   
-*Log Channel are Admins only*:
-  ➢ `/logchannel`*:* get log channel info
-  ➢ `/setlog`*:* set the log channel.
-  ➢ `/unsetlog`*:* unset the log channel.
-*Setting the log channel is done by*:
- ➩ adding the bot to the desired channel (as an admin!)
- ➩ sending `/setlog` in the channel
- ➩ forwarding the `/setlog` to the group
+   *Log Channel are Admins only*:
+    ➢ `/logchannel`*:* get log channel info
+    ➢ `/setlog`*:* set the log channel.
+    ➢ `/unsetlog`*:* unset the log channel.
+     
+   *Setting the log channel is done by*:
+    ➩ adding the bot to the desired channel (as an admin!)
+    ➩ sending `/setlog` in the channel
+    ➩ forwarding the `/setlog` to the group
  
-*Rules*:
-  ➢ `/setrules <your rules here>`*:* set the rules for this chat.
-  ➢ `/clearrules`*:* clear the rules for this chat.
-*The Others Commands are Admins only*:
-  ➢ `/invitelink`*:* gets invitelink
-  ➢ `/title <title here>`*:* sets a custom title for an admin that the bot promoted
-  ➢ `/admincache`*:* force refresh the admins list
-  ➢ `/setgtitle <text>`*:* set group title
-  ➢ `/setgpic`*:* reply to an image to set as group photo
-  ➢ `/setdesc`*:* Set group description
-  ➢ `/setsticker`*:* Set group sticker
-"""
+   *Rules*:
+    ➢ `/setrules <your rules here>`*:* set the rules for this chat.
+    ➢ `/clearrules`*:* clear the rules for this chat.
+     
+   *The Others Commands are Admins only*:
+    ➢ `/invitelink`*:* gets invitelink
+    ➢ `/title <title here>`*:* sets a custom title for an admin that the bot promoted
+    ➢ `/admincache`*:* force refresh the admins list
+    ➢ `/setgtitle <text>`*:* set group title
+    ➢ `/setgpic`*:* reply to an image to set as group photo
+    ➢ `/setdesc`*:* Set group description
+    ➢ `/setsticker`*:* Set group sticker
+     """
 
 afk_help: |
    - /afk <reason>: mark yourself as AFK(away from keyboard).
@@ -286,23 +289,6 @@ feds_help: |
      • /fedchats: Get all the chats that are connected in the Federation.
      • /importfbans: Reply to the Federation backup message file to import the banned list to the Federation now. (disabled for now.)
 
-forcesubscribe_help: | 
-*Force Subscribe*:
-- {BOT_NAME} can mute members who are not subscribed your channel until they subscribe
-- When enabled I will mute unsubscribed members and show them a unmute button. When they pressed the button I will unmute them
-*Setup*
-1) First of all add me in the group as admin with ban users permission and in the channel as admin.
-Note: Only creator of the group can setup me and i will not allow force subscribe again if not done so.
- 
-*Commmands*:
-   ➢ `/forcesubscribe`*:* To get the current settings.
-   ➢ `/forcesubscribe <no/off/disable>`*:* To turn of ForceSubscribe.
-   ➢ `/forcesubscribe <channel username>`*:* To turn on and setup the channel.
-   ➢ `/forcesubscribe clear`*:* To unmute all members who muted by me.
-Note: /forcesub is an alias of /forcesubscribe
- 
-"""
-
 globalbans_help: |
 *Admins only:*
   ➢ `/antispam <on/off/yes/no>`*:* Will toggle our antispam tech or return your current settings.
@@ -343,120 +329,6 @@ Use this module to translate stuff!
 eg: `/tl ja`: translates to Japanese.
    ➢ `/tl <source>//<dest>`: translates from <source> to <lang>.
 • [List of supported languages for translation](https://telegra.ph/Lang-Codes-03-19-3)
-"""
-
-imgeditor_help: |
-Natsunagi Nagisa have some advanced image editing tools inbuilt
-Bright, Circle, RemBG, Blur, Border, Flip, Glitch, Sticker maker and more
-  ➢ `/edit [reply to image]`*:* Open the image editor
-  ➢ `/rmbg [REPLY]`*:* Revove BG of replied image/sticker.
-"""
-
-inline_help: | 
-commands can be used by anyone in a group via inline.
-Usage: @YuiiDev_bot <func> <query>"""
-
-inlinebot_help: |
-INLINE BOT SERVICE OF @YuiiDev_bot
-I'm more efficient when added as group admin. By the way these commands can be used by anyone in a group via inline.
-──「 Syntax 」──
-   @YuiiDev_bot [command] [query]
-──「 Commands Available 」──
-➩ alive - Check Bot's Stats.
-➩ yt [query] - Youtube Search.
-➩ tr [LANGUAGE_CODE] [QUERY]** - Translate Text.
-➩ modapk [name] - Give you direct link of mod apk.
-➩ ud [QUERY] - Urban Dictionary Query
-➩ google [QUERY] - Google Search.
-➩ webss [URL] - Take Screenshot Of A Website.
-➩ bitly [URL] - Shorten A Link.
-➩ wall [Query] - Find Wallpapers.
-➩ pic [Query] - Find pictures.
-➩ saavn [SONG_NAME] - Get Songs From Saavn.
-➩ deezer [SONG_NAME] - Get Songs From Deezer.
-➩ torrent [QUERY] - Torrent Search.
-➩ reddit [QUERY] - Get memes from reddit.
-➩ imdb [QUERY] - Search movies on imdb.
-➩ spaminfo [ID] - Get spam info of the user.
-➩ lyrics [QUERY] - Get lyrics of the song.
-➩ paste [TEXT] - Paste text on pastebin.
-➩ define [WORD] - Get definition from Dictionary.
-➩ synonyms [WORD] - Get synonyms from Dictionary.
-➩ antonyms [WORD] - Get antonyms from Dictionary.
-➩ country [QUERY] - Get Information about given country.
-➩ cs - Gathers Cricket info (Globally).
-➩ covid [COUNTRY] - Get covid updates of given country.
-➩ fakegen - Gathers fake information.
-➩ weather [QUERY] - Get weather information.
-➩ datetime [QUERY] - Get Date & time information of given country/region.
-➩ app [QUERY] - Search for apps in playstore.
-➩ gh [QUERY] - Search github.
-➩ so [QUERY] - Search stack overflow.
-➩ wiki [QUERY] - Search wikipedia.
-➩ ping - Check ping rate.
-➩ pokedex [TEXT]: Pokemon Search
-"""
-
-lewd_help: |
-Module credits`*:*[Dank-del](https://github.com/Dank-del/Chizuru/) ,
-Also thanks to [EverythingSuckz](https://t.me/EverythingSuckz) for NSFW filter.
-    
-*ENABLE AND DISABLE* :
-    
-/addnsfw `*:*Enable NSFW mode
-/rmnsfw `*:*Disable NSFW mode
- 
-*Commands* `*:*  
-   ➢ `/neko`*:*Sends Random SFW Neko source Images.
-   ➢ `/feet`*:*Sends Random Anime Feet Images.
-   ➢ `/yuri`*:*Sends Random Yuri source Images.
-   ➢ `/trap`*:*Sends Random Trap source Images.
-   ➢ `/futanari`*:*Sends Random Futanari source Images.
-   ➢ `/hololewd`*:*Sends Random Holo Lewds.
-   ➢ `/lewdkemo`*:*Sends Random Kemo Lewds.
-   ➢ `/sologif`*:*Sends Random Solo GIFs.
-   ➢ `/cumgif`*:*Sends Random Cum GIFs.
-   ➢ `/erokemo`*:*Sends Random Ero-Kemo Images.
-   ➢ `/lesbian`*:*Sends Random Les Source Images.
-   ➢ `/lewdk`*:*Sends Random Kitsune Lewds.
-   ➢ `/ngif`*:*Sends Random Neko GIFs.
-   ➢ `/tickle`*:*Sends Random Tickle GIFs.
-   ➢ `/lewd`*:*Sends Random Lewds.
-   ➢ `/feed`*:*Sends Random Feeding GIFs.
-   ➢ `/eroyuri`*:*Sends Random Ero-Yuri source Images.
-   ➢ `/eron`*:*Sends Random Ero-Neko source Images.
-   ➢ `/cum`*:*Sends Random Cum Images.
-   ➢ `/bjgif`*:*Sends Random Blow Job GIFs.
-   ➢ `/bj`*:*Sends Random Blow Job source Images.
-   ➢ `/nekonsfw`*:*Sends Random NSFW Neko source Images.
-   ➢ `/solo`*:*Sends Random NSFW Neko GIFs.
-   ➢ `/kemonomimi`*:*Sends Random KemonoMimi source Images.
-   ➢ `/avatarlewd`*:*Sends Random Avater Lewd Stickers.
-   ➢ `/gasm`*:*Sends Random Orgasm Stickers.
-   ➢ `/poke`*:*Sends Random Poke GIFs.
-   ➢ `/anal`*:*Sends Random Anal GIFs.
-   ➢ `/hentai`*:*Sends Random Hentai source Images.
-   ➢ `/avatar`*:*Sends Random Avatar Stickers.
-   ➢ `/erofeet`*:*Sends Random Ero-Feet source Images.
-   ➢ `/holo`*:*Sends Random Holo source Images.
-   ➢ `/tits`*:*Sends Random Tits source Images.
-   ➢ `/pussygif`*:*Sends Random Pussy GIFs.
-   ➢ `/holoero`*:* Sends Random Ero-Holo source Images.
-   ➢ `/pussy`*:* Sends Random Pussy source Images.
-   ➢ `/hentaigif`*:* Sends Random Hentai GIFs.
-   ➢ `/classic`*:* Sends Random Classic Hentai GIFs.
-   ➢ `/kuni`*:* Sends Random Pussy Lick GIFs.
-   ➢ `/waifu`*:* Sends Random Waifu Stickers.
-   ➢ `/kiss`*:* Sends Random Kissing GIFs.
-   ➢ `/femdom`*:* Sends Random Femdom source Images.
-   ➢ `/cuddle`*:* Sends Random Cuddle GIFs.
-   ➢ `/erok`*:* Sends Random Ero-Kitsune source Images.
-   ➢ `/foxgirl`*:* Sends Random FoxGirl source Images.
-   ➢ `/titsgif`*:* Sends Random Tits GIFs.
-   ➢ `/ero`*:* Sends Random Ero source Images.
-   ➢ `/smug`*:* Sends Random Smug GIFs.
-   ➢ `/baka`*:* Sends Random Baka Shout GIFs.
-   ➢ `/dva`*:* Sends Random D.VA source Images.
 """
 
 locks_help: |
@@ -557,75 +429,6 @@ Phone Info
   ➢ `/phone [phone no]`*:* Gathers no info.
 Bass Boosting
   ➢ `/bassboost`*:* Reply To Music Bass Boost.
-"""
-
-nekos_help: |
-*Nekos:*
-/nekos <name> : To find nekos from nekos.life
-*Available commands:*
--feet
-- yuri
-- rap
-- futanari
-- hololewd
-- lewdkemo
-- solog
-- feetg
-- cum
-- erokemo
-- les
-- wallpaper
-- lewdk
-- ngif
-- tickle
-- lewd
-- feed
-- gecg
-- eroyuri
-- eron
-- cum_/jpg
-- bj
-- nsfw_/neko_/gif
-- solo
-- nsfw_/avatar
-- gasm
-- poke
-- anal
-- slap
-- hentai
-- avatar
-- erofeet
-- holo
-- keta
-- blowjob
-- pussy
-- tits
-- holoero
-- lizard
-- pussy_/jpg
-- pwankg
-- classic
-- kuni
-- waifu
-- pat
-- 8ball
-- kiss
-- femdom
-- neko
-- spank
-- cuddle
-- erok
-- fox_/girl
-- boobs
-- random_/hentai_/gif
-- smallboobs
-- hug
-- ero
-- goose
-- baka
-- woof
-- kemonomimi
-- smug
 """
 
 nightmode_help: |
