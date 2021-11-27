@@ -267,11 +267,8 @@ def start(update: Update, context: CallbackContext):
             first_name = update.effective_user.first_name
             update.effective_message.reply_text(
                 PM_START_TEXT.format(
-                    escape_markdown(context.bot.first_name),
                     escape_markdown(first_name),
-                    escape_markdown(uptime),
-                    sql.num_users(),
-                    sql.num_chats(),
+                    escape_markdown(context.bot.first_name),
                 ),
                 reply_markup=InlineKeyboardMarkup(buttons),
                 parse_mode=ParseMode.MARKDOWN,
@@ -457,11 +454,8 @@ def natsunagi_about_callback(update, context):
     elif query.data == "natsunagi_back":
         query.message.edit_text(
             PM_START_TEXT.format(
-                escape_markdown(context.bot.first_name),
                 escape_markdown(update.effective_user.first_name),
-                escape_markdown(get_readable_time((time.time() - StartTime))),
-                sql.num_users(),
-                sql.num_chats(),
+                escape_markdown(context.bot.first_name),
             ),
             reply_markup=InlineKeyboardMarkup(buttons),
             parse_mode=ParseMode.MARKDOWN,
