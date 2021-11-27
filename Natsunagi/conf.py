@@ -33,7 +33,7 @@ else:
 
 
 def get_list_key(name, required=False):
-    default = DEFAULTS.get(name, None)
+    default = DEFAULTS.get(name)
     if not (data := env.list(name, default=default)) and not required:
         LOGGER.warn("No list key: " + name)
         return []
@@ -45,7 +45,7 @@ def get_list_key(name, required=False):
 
 
 def get_bool_key(name, required=False):
-    default = DEFAULTS.get(name, None)
+    default = DEFAULTS.get(name)
     if not (data := env.bool(name, default=default)) and not required:
         LOGGER.warn("No bool key: " + name)
         return False
@@ -57,7 +57,7 @@ def get_bool_key(name, required=False):
 
 
 def get_str_key(name, required=False):
-    default = DEFAULTS.get(name, None)
+    default = DEFAULTS.get(name)
     if not (data := env.str(name, default=default)) and not required:
         LOGGER.warn("No str key: " + name)
         return None
@@ -69,7 +69,7 @@ def get_str_key(name, required=False):
 
 
 def get_int_key(name, required=False):
-    default = DEFAULTS.get(name, None)
+    default = DEFAULTS.get(name)
     if not (data := env.int(name, default=default)) and not required:
         LOGGER.warn("No int key: " + name)
         return None
