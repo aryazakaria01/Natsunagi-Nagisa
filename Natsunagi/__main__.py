@@ -45,6 +45,7 @@ from Natsunagi.modules.helper_funcs.chat_status import is_user_admin
 from Natsunagi.modules.helper_funcs.alternate import typing_action
 from Natsunagi.modules.helper_funcs.misc import paginate_modules
 from Natsunagi.modules.disable import DisableAbleCommandHandler
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd, natsunagimsg, natsunagicallback
 from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
@@ -219,6 +220,7 @@ def send_help(chat_id, text, keyboard=None):
     )
 
 
+@natsunagicmd(command="test")
 def test(update: Update, context: CallbackContext):
     # pprint(eval(str(update)))
     # update.effective_message.reply_text("Hola tester! _I_ *have* `markdown`", parse_mode=ParseMode.MARKDOWN)
@@ -226,6 +228,7 @@ def test(update: Update, context: CallbackContext):
     print(update.effective_message)
 
 
+@natsunagicmd(command="start", pass_args=True)
 def start(update: Update, context: CallbackContext):
     args = context.args
     uptime = get_readable_time((time.time() - StartTime))
@@ -353,6 +356,7 @@ def error_callback(update, context):
         # handle all other telegram related errors
 
 
+@natsunagicallback(pattern=r"help_")
 def help_button(update, context):
     query = update.callback_query
     mod_match = re.match(r"help_module\((.+?)\)", query.data)
@@ -421,6 +425,7 @@ def help_button(update, context):
         pass
 
 
+@natsunagicallback(pattern=r"natsunagi_")
 def natsunagi_about_callback(update, context):
     query = update.callback_query
     if query.data == "natsunagi_":
@@ -567,6 +572,7 @@ def natsunagi_about_callback(update, context):
 
 
 @typing_action
+@natsunagicmd(command="help")
 def get_help(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
     args = update.effective_message.text.split(None, 1)
@@ -668,6 +674,7 @@ def send_settings(chat_id, user_id, user=False):
         )
 
 
+@natsunagicallback(pattern=r"stngs_")
 def settings_button(update: Update, context: CallbackContext):
     query = update.callback_query
     user = update.effective_user
@@ -751,6 +758,7 @@ def settings_button(update: Update, context: CallbackContext):
             LOGGER.exception("Exception in settings buttons. %s", str(query.data))
 
 
+@natsunagicmd(command="settings")
 def get_settings(update: Update, context: CallbackContext):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
@@ -781,6 +789,7 @@ def get_settings(update: Update, context: CallbackContext):
         text = "Click here to check your settings."
 
 
+@natsunagicmd(command="donate")
 def donate(update: Update, context: CallbackContext):
     user = update.effective_message.from_user
     chat = update.effective_chat  # type: Optional[Chat]
@@ -815,6 +824,7 @@ def donate(update: Update, context: CallbackContext):
             )
 
 
+@natsunagimsg((Filters.status_update.migrate))
 def migrate_chats(update: Update, context: CallbackContext):
     msg = update.effective_message  # type: Optional[Message]
     if msg.migrate_to_chat_id:
@@ -836,42 +846,6 @@ def migrate_chats(update: Update, context: CallbackContext):
     LOGGER.info("Successfully migrated!")
     raise DispatcherHandlerStop
 
-
-def is_chat_allowed(update, context):
-    if len(WHITELIST_CHATS) != 0:
-        chat_id = update.effective_message.chat_id
-        if chat_id not in WHITELIST_CHATS:
-            context.bot.send_message(
-                chat_id=update.message.chat_id, text="Unallowed chat! Leaving..."
-            )
-            try:
-                context.bot.leave_chat(chat_id)
-            finally:
-                raise DispatcherHandlerStop
-    if len(BL_CHATS) != 0:
-        chat_id = update.effective_message.chat_id
-        if chat_id in BL_CHATS:
-            context.bot.send_message(
-                chat_id=update.message.chat_id, text="Unallowed chat! Leaving..."
-            )
-            try:
-                context.bot.leave_chat(chat_id)
-            finally:
-                raise DispatcherHandlerStop
-    if 0 not in (len(WHITELIST_CHATS), len(BL_CHATS)):
-        chat_id = update.effective_message.chat_id
-        if chat_id in BL_CHATS:
-            context.bot.send_message(
-                chat_id=update.message.chat_id, text="Unallowed chat, leaving"
-            )
-            try:
-                context.bot.leave_chat(chat_id)
-            finally:
-                raise DispatcherHandlerStop
-    else:
-        pass
-
-
 def main():
 
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
@@ -888,45 +862,11 @@ def main():
             )
         except BadRequest as e:
             LOGGER.warning(e.message)
-    
-    test_handler = DisableAbleCommandHandler("test", test, run_async=True)
-    start_handler = DisableAbleCommandHandler("start", start, run_async=True)
 
-    help_handler = DisableAbleCommandHandler("help", get_help, run_async=True)
-    help_callback_handler = CallbackQueryHandler(
-        help_button, pattern=r"help_.*", run_async=True
-    )
-
-    settings_handler = DisableAbleCommandHandler("settings", get_settings)
-    settings_callback_handler = CallbackQueryHandler(
-        settings_button, pattern=r"stngs_", run_async=True
-    )
-
-    about_callback_handler = CallbackQueryHandler(
-        natsunagi_about_callback, pattern=r"natsunagi_", run_async=True
-    )
-    donate_handler = DisableAbleCommandHandler("donate", donate, run_async=True)
-    migrate_handler = MessageHandler(
-        Filters.status_update.migrate, migrate_chats, run_async=True
-    )
-    is_chat_allowed_handler = MessageHandler(
-        Filters.chat_type.groups, is_chat_allowed, run_async=True
-    )
-
-    # dispatcher.add_handler(test_handler)
-    dispatcher.add_handler(start_handler)
-    dispatcher.add_handler(help_handler)
-    dispatcher.add_handler(about_callback_handler)
-    dispatcher.add_handler(settings_handler)
-    dispatcher.add_handler(help_callback_handler)
-    dispatcher.add_handler(settings_callback_handler)
-    dispatcher.add_handler(migrate_handler)
-    dispatcher.add_handler(donate_handler)
-    dispatcher.add_handler(is_chat_allowed_handler)
     dispatcher.add_error_handler(error_callback)
 
     if WEBHOOK:
-        LOGGER.info("Natsunagi Started, Using webhooks.")
+        LOGGER.info(f"Natsunagi started, Using webhook. | BOT: [@{dispatcher.bot.username}]")
         updater.start_webhook(listen="127.0.0.1", port=PORT, url_path=TOKEN)
 
         if CERT_PATH:
@@ -939,19 +879,16 @@ def main():
             f"Natsunagi started, Using long polling. | BOT: [@{dispatcher.bot.username}]"
         )
         updater.start_polling(
+            allowed_updates=Update.ALL_TYPES,
             timeout=15,
             read_latency=4,
             drop_pending_updates=True,
-            allowed_updates=Update.ALL_TYPES,
         )
-
     if len(argv) not in (1, 3, 4):
         telethn.disconnect()
     else:
         telethn.run_until_disconnected()
-
     updater.idle()
-
 
 try:
     ubot.start()
@@ -960,7 +897,7 @@ except BaseException:
     sys.exit(1)
 
 if __name__ == "__main__":
-    LOGGER.info("Successfully loaded modules: " + str(ALL_MODULES))
+    LOGGER.info("Natsunagi successfully loaded modules: " + str(ALL_MODULES))
     telethn.start(bot_token=TOKEN)
     pgram.start()
     main()
