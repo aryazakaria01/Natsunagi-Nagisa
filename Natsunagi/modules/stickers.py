@@ -164,8 +164,19 @@ def kang(update: Update, context: CallbackContext):
                     emojis=sticker_emoji,
                 )
                 msg.reply_text(
-                    f"Sticker successfully added to [pack](t.me/addstickers/{packname})"
-                    + f"\nEmoji is: {sticker_emoji}",
+                    "Your Sticker Pack has been created!\n\n"
+                    "You can now reply to images, stickers and animated sticker with /steal or /kang to add them to your pack\n\n"
+                    "Send /stickers to find sticker pack."
+                reply_markup=InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton(
+                                "View Pack",
+                                url=f"t.me/addstickers/{packname}",
+                            )
+                        ]
+                    ]
+                ),
                     parse_mode=ParseMode.MARKDOWN,
                 )
 
@@ -193,11 +204,22 @@ def kang(update: Update, context: CallbackContext):
                         png_sticker=open("kangsticker.png", "rb"),
                         emojis=sticker_emoji,
                     )
-                    msg.reply_text(
-                        f"Sticker successfully added to [pack](t.me/addstickers/{packname})"
-                        + f"\nEmoji is: {sticker_emoji}",
-                        parse_mode=ParseMode.MARKDOWN,
-                    )
+                msg.reply_text(
+                    "Your Sticker Pack has been created!\n\n"
+                    "You can now reply to images, stickers and animated sticker with /steal or /kang to add them to your pack\n\n"
+                    "Send /stickers to find sticker pack."
+                reply_markup=InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton(
+                                "View Pack",
+                                url=f"t.me/addstickers/{packname}",
+                            )
+                        ]
+                    ]
+                ),
+                    parse_mode=ParseMode.MARKDOWN,
+                )
                 elif e.message == "Stickers_too_much":
                     msg.reply_text("Max packsize reached. Press F to pay respecc.")
                 elif e.message == "Stickerset_invalid":
@@ -243,8 +265,19 @@ def kang(update: Update, context: CallbackContext):
                     emojis=sticker_emoji,
                 )
                 msg.reply_text(
-                    f"Sticker successfully added to [pack](t.me/addstickers/{packname})"
-                    + f"\nEmoji is: {sticker_emoji}",
+                    "Your Sticker Pack has been created!\n\n"
+                    "You can now reply to images, stickers and animated sticker with /steal or /kang to add them to your pack\n\n"
+                    "Send /stickers to find sticker pack."
+                reply_markup=InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton(
+                                "View Pack",
+                                url=f"t.me/addstickers/{packname}",
+                            )
+                        ]
+                    ]
+                ),
                     parse_mode=ParseMode.MARKDOWN,
                 )
             except TelegramError as e:
