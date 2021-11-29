@@ -310,7 +310,7 @@ def kang(update: Update, context: CallbackContext):
             msg.reply_text(
                 "Your Sticker Pack has been created\n\n"
                 "You can now reply to images, stickers and animated sticker with /steal or /kang to add them to your pack\n\n"
-                "Send /stickers to find sticker pack."
+                "Send /stickers to find sticker pack.",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
