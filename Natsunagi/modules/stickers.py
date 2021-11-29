@@ -163,21 +163,21 @@ def kang(update: Update, context: CallbackContext):
                     png_sticker=open("kangsticker.png", "rb"),
                     emojis=sticker_emoji,
                 )
+                edited_keyboard = InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton(
+                                text="View Pack", url=f"t.me/addstickers/{packname}"
+                            )
+                        ]
+                    ]
+                )        
                 msg.reply_text(
                     "Your Sticker Pack has been created!\n\n"
                     "You can now reply to images, stickers and animated sticker with /steal or /kang to add them to your pack\n\n"
                     "Send /stickers to find sticker pack.",
-                reply_markup=InlineKeyboardMarkup(
-                    [
-                        [
-                            InlineKeyboardButton(
-                                "View Pack",
-                                url=f"t.me/addstickers/{packname}",
-                            )
-                        ]
-                    ]
-                ),
-                    parse_mode=ParseMode.MARKDOWN,
+                    reply_markup=edited_keyboard,
+                    parse_mode=ParseMode.HTML,
                 )
 
             except OSError as e:
@@ -204,23 +204,22 @@ def kang(update: Update, context: CallbackContext):
                         png_sticker=open("kangsticker.png", "rb"),
                         emojis=sticker_emoji,
                     )
-                msg.reply_text(
-                    "Your Sticker Pack has been created!\n\n"
-                    "You can now reply to images, stickers and animated sticker with /steal or /kang to add them to your pack\n\n"
-                    "Send /stickers to find sticker pack.",
-                reply_markup=InlineKeyboardMarkup(
-                    [
+                    edited_keyboard = InlineKeyboardMarkup(
                         [
-                            InlineKeyboardButton(
-                                "View Pack",
-                                url=f"t.me/addstickers/{packname}",
-                            )
+                            [
+                                InlineKeyboardButton(
+                                    text="View Pack", url=f"t.me/addstickers/{packname}"
+                                )
+                            ]
                         ]
-                    ]
-                ),
-                    parse_mode=ParseMode.MARKDOWN,
-                )
-                
+                    )            
+                    msg.reply_text(
+                        "Your Sticker Pack has been created!\n\n"
+                        "You can now reply to images, stickers and animated sticker with /steal or /kang to add them to your pack\n\n"
+                        "Send /stickers to find sticker pack.",
+                        reply_markup=edited_keyboard,
+                        parse_mode=ParseMode.HTML,
+                    )   
                 elif e.message == "Stickers_too_much":
                     msg.reply_text("Max packsize reached. Press F to pay respecc.")
                 elif e.message == "Stickerset_invalid":
@@ -265,20 +264,20 @@ def kang(update: Update, context: CallbackContext):
                     tgs_sticker=open("kangsticker.tgs", "rb"),
                     emojis=sticker_emoji,
                 )
+                edited_keyboard = InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton(
+                                text="View Pack", url=f"t.me/addstickers/{packname}"
+                            )
+                        ]
+                    ]
+                )
                 msg.reply_text(
                     "Your Sticker Pack has been created!\n\n"
                     "You can now reply to images, stickers and animated sticker with /steal or /kang to add them to your pack\n\n"
                     "Send /stickers to find sticker pack.",
-                reply_markup=InlineKeyboardMarkup(
-                    [
-                        [
-                            InlineKeyboardButton(
-                                "View Pack",
-                                url=f"t.me/addstickers/{packname}",
-                            )
-                        ]
-                    ]
-                ),
+                    reply_markup=edited_keyboard,
                     parse_mode=ParseMode.MARKDOWN,
                 )
             except TelegramError as e:
