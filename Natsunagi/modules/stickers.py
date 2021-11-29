@@ -220,6 +220,7 @@ def kang(update: Update, context: CallbackContext):
                 ),
                     parse_mode=ParseMode.MARKDOWN,
                 )
+                
                 elif e.message == "Stickers_too_much":
                     msg.reply_text("Max packsize reached. Press F to pay respecc.")
                 elif e.message == "Stickerset_invalid":
@@ -356,6 +357,7 @@ def kang(update: Update, context: CallbackContext):
                 ),
                 parse_mode=ParseMode.MARKDOWN,
             )
+            
         except OSError as e:
             msg.reply_text("I can only kang images m8.")
             print(e)
