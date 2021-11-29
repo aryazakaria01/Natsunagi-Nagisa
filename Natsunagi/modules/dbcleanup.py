@@ -1,67 +1,16 @@
+from time import sleep
+
 import Natsunagi.modules.sql.global_bans_sql as gban_sql
 import Natsunagi.modules.sql.users_sql as user_sql
-
-from time import sleep
 from Natsunagi import DEV_USERS, OWNER_ID, dispatcher
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update, Bot
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.error import BadRequest, Unauthorized
 from telegram.ext import (
     CallbackContext,
     CallbackQueryHandler,
     CommandHandler,
-    run_async,
 )
-
-
-def get_muted_chats(bot: Bot, update: Update, leave: bool = False):
-    chat_id = update.effective_chat.id
-    chats = user_sql.get_all_chats()
-    muted_chats, progress = 0, 0
-    chat_list = []
-    progress_message = None
-
-    for chat in chats:
-
-        if ((100 * chats.index(chat)) / len(chats)) > progress:
-            progress_bar = f"{progress}% completed in getting muted chats."
-            if progress_message:
-                try:
-                    bot.editMessageText(
-                        progress_bar, chat_id, progress_message.message_id
-                    )
-                except:
-                    pass
-            else:
-                progress_message = bot.sendMessage(chat_id, progress_bar)
-            progress += 5
-
-        cid = chat.chat_id
-        sleep(0.1)
-
-        try:
-            bot.send_chat_action(cid, "TYPING", timeout=120)
-        except (BadRequest, Unauthorized):
-            muted_chats += +1
-            chat_list.append(cid)
-        except:
-            pass
-
-    try:
-        progress_message.delete()
-    except:
-        pass
-
-    if not leave:
-        return muted_chats
-    for muted_chat in chat_list:
-        sleep(0.1)
-        try:
-            bot.leaveChat(muted_chat, timeout=120)
-        except:
-            pass
-        user_sql.rem_chat(muted_chat)
-    return muted_chats
 
 
 def get_invalid_chats(update: Update, context: CallbackContext, remove: bool = False):
@@ -169,25 +118,25 @@ def callback_button(update: Update, context: CallbackContext):
 
     bot.answer_callback_query(query.id)
 
-    if query_type == "db_leave_chat" and query.from_user.id in admin_list:
-        bot.editMessageText("Leaving chats ...", chat_id, message.message_id)
-        chat_count = get_muted_chats(update, context, True)
-        bot.sendMessage(chat_id, f"Left {chat_count} chats.")
-    elif (
-        query_type == "db_leave_chat"
-        or query_type == "db_cleanup"
-        and query.from_user.id not in admin_list
-    ):
-        query.answer("You are not allowed to use this.")
+    if query_type == "db_leave_chat":
+        if query.from_user.id in admin_list:
+            bot.editMessageText("Leaving chats ...", chat_id, message.message_id)
+            chat_count = get_muted_chats(update, context, True)
+            bot.sendMessage(chat_id, f"Left {chat_count} chats.")
+        else:
+            query.answer("You are not allowed to use this.")
     elif query_type == "db_cleanup":
-        bot.editMessageText("Cleaning up DB ...", chat_id, message.message_id)
-        invalid_chat_count = get_invalid_chats(update, context, True)
-        invalid_gban_count = get_invalid_gban(update, context, True)
-        reply = "Cleaned up {} chats and {} gbanned users from db.".format(
-            invalid_chat_count,
-            invalid_gban_count,
-        )
-        bot.sendMessage(chat_id, reply)
+        if query.from_user.id in admin_list:
+            bot.editMessageText("Cleaning up DB ...", chat_id, message.message_id)
+            invalid_chat_count = get_invalid_chats(update, context, True)
+            invalid_gban_count = get_invalid_gban(update, context, True)
+            reply = "Cleaned up {} chats and {} gbanned users from db.".format(
+                invalid_chat_count,
+                invalid_gban_count,
+            )
+            bot.sendMessage(chat_id, reply)
+        else:
+            query.answer("You are not allowed to use this.")
 
 
 DB_CLEANUP_HANDLER = CommandHandler("dbcleanup", dbcleanup, run_async=True)
