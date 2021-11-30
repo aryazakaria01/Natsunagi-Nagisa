@@ -187,7 +187,7 @@ def unmute(update: Update, context: CallbackContext) -> str:
             reply += f"Reason: {reason}"
         bot.sendMessage(
             chat.id,
-            reply_msg,
+            reply,
             parse_mode=ParseMode.HTML,
         )
         return (
