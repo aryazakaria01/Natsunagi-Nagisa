@@ -103,18 +103,17 @@ def mute(update: Update, context: CallbackContext) -> str:
         chat_permissions = ChatPermissions(can_send_messages=False)
         bot.restrict_chat_member(chat.id, user_id, chat_permissions)
         msg = (
-            f"<code>🗣️</code><b>Mute Event</b>\n"
-            f"<code> </code><b>• Muted User:</b> {mention_html(member.user.id, member.user.first_name)}"
+            f"Yep! Muted {mention_html(member.user.id, member.user.first_name)} for talking in {chat.title}\n"
+            f"by {mention_html(user.id, html.escape(user.first_name))}"
         )
         if reason:
-            msg += f"\n<code> </code><b>• Reason:</b> \n{html.escape(reason)}"
+            msg += f"\nReason: {html.escape(reason)}"
 
         keyboard = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton(
-                        "Unmute", callback_data="unmute_({})".format(member.user.id)
-                    )
+                    InlineKeyboardButton(text="⚠️ Unmute", callback_data="unmute_({})".format(member.user.id)),
+                    InlineKeyboardButton(text="❌ Delete", callback_data="close2")
                 ]
             ]
         )
@@ -129,6 +128,9 @@ def mute(update: Update, context: CallbackContext) -> str:
 
     return ""
 
+close_keyboard = InlineKeyboardMarkup(
+    [[InlineKeyboardButton("❌ Delete", callback_data="close2")]]
+)
 
 @connection_status
 @bot_admin
@@ -249,17 +251,15 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
                 until_date=mutetime,
             )
             msg = (
-                f"<code>🗣️</code><b>Time Mute Event</b>\n"
-                f"<code> </code><b>• Muted User:</b> {mention_html(member.user.id, member.user.first_name)}\n"
-                f"<code> </code><b>• User will be Muted for:</b> {time_val}\n"
+                f"Yep! Temporary Muted {mention_html(member.user.id, member.user.first_name)} from talking for {time_val} in {chat.title}\n"
+                f"by {mention_html(user.id, html.escape(user.first_name))}\n"
             )
 
             keyboard = InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton(
-                            "Unmute", callback_data="unmute_({})".format(member.user.id)
-                        )
+                        InlineKeyboardButton(text="⚠️ Unmute", callback_data="unmute_({})".format(member.user.id)),
+                        InlineKeyboardButton(text="❌ Delete", callback_data="close2")
                     ]
                 ]
             )
@@ -287,6 +287,9 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
 
     return ""
 
+close_keyboard = InlineKeyboardMarkup(
+    [[InlineKeyboardButton("❌ Delete", callback_data="close2")]]
+)
 
 @user_admin_no_reply
 @bot_admin
@@ -313,7 +316,7 @@ def button(update: Update, context: CallbackContext) -> str:
         unmuted = bot.restrict_chat_member(chat.id, int(user_id), chat_permissions)
         if unmuted:
             update.effective_message.edit_text(
-                f"Admin {mention_html(user.id, user.first_name)} Unmuted {mention_html(member.user.id, member.user.first_name)}!",
+                f"Yep! User {mention_html(member.user.id, member.user.first_name)} can start talking again in {chat.title}!",
                 parse_mode=ParseMode.HTML,
             )
             query.answer("Unmuted!")
