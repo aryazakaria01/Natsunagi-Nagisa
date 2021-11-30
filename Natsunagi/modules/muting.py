@@ -179,14 +179,15 @@ def unmute(update: Update, context: CallbackContext) -> str:
             bot.restrict_chat_member(chat.id, int(user_id), chat_permissions)
         except BadRequest:
             pass
+        reply = (
+            f"Yep! Unmuted {mention_html(member.user.id, member.user.first_name)} "
+            f"by {mention_html(user.id, user.first_name)} in <b>{message.chat.title}</b>"
+        )
+        if reason:
+            reply += f"Reason: {reason}"
         bot.sendMessage(
             chat.id,
-            "Yep! Unmuted {} by {} in <b>{}</b>".format(
-                mention_html(member.user.id, member.user.first_name),
-                mention_html(user.id, user.first_name),
-                message.chat.title,
-                reason,
-            ),
+            reply_msg,
             parse_mode=ParseMode.HTML,
         )
         return (
