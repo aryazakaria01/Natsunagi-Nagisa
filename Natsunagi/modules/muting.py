@@ -251,7 +251,7 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
                 until_date=mutetime,
             )
             msg = (
-                f"Yep! Temporary Muted {mention_html(member.user.id, member.user.first_name)} from talking for {time_val} in {chat.title}\n"
+                f"Yep! Temporary Muted {mention_html(member.user.id, member.user.first_name)} from talking for `{time_val}` in {chat.title}\n"
                 f"by {mention_html(user.id, html.escape(user.first_name))}\n"
             )
 
