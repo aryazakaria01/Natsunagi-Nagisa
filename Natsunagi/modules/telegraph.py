@@ -43,7 +43,7 @@ async def _(event):
                 end = datetime.now()
                 ms_two = (end - start).seconds
                 os.remove(downloaded_file_name)
-                await h.edit("Uploaded to https://telegra.ph{}".format(media_urls[0], (ms + ms_two)), link_preview=False)
+                await h.edit("Uploaded to https://telegra.ph{}".format(media_urls[0], ms), link_preview=False)
         elif input_str == "gt":
             user_object = await telethn.get_entity(r_message.sender_id)
             title_of_page = user_object.first_name # + " " + user_object.last_name
