@@ -7,7 +7,7 @@ from telethon.tl import functions
 from telethon.tl import types
 
 from Natsunagi.events import register
-from Natsunagi import telethn as tbot
+from Natsunagi import telethn as tbot, OPENWEATHERMAP_ID
 
 
 async def is_register_admin(chat, user):
