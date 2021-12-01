@@ -325,6 +325,7 @@ pgram = Client(
     api_hash=API_HASH,
     bot_token=TOKEN,
 )
+# MongoDB Client
 mongodb = MongoClient(MONGO_DB_URL, 27017)[MONGO_DB]
 motor = motor_asyncio.AsyncIOMotorClient(MONGO_DB_URL)
 db = motor[MONGO_DB]
@@ -334,14 +335,6 @@ aiohttpsession = ClientSession()
 # ARQ Client
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 ubot = TelegramClient(StringSession(STRING_SESSION), APP_ID, APP_HASH)
-app = Client("Natsunagi", bot_token=TOKEN, api_id=API_ID, api_hash=API_HASH)
-pbot = Client(
-    ":memory:",
-    api_id=API_ID,
-    api_hash=API_HASH,
-    bot_token=TOKEN,
-    workers=min(32, os.cpu_count() + 4),
-)
 apps = []
 apps.append(pbot)
 loop = asyncio.get_event_loop()
