@@ -41,7 +41,7 @@ async def edit_or_reply(msg: Message, **kwargs):
     & ~filters.edited
     & filters.command("eval")
 )
-def executor(client, message):
+async def executor(client, message):
     try:
         cmd = message.text.split(" ", maxsplit=1)[1]
     except IndexError:
@@ -109,7 +109,7 @@ def executor(client, message):
 
 
 @app.on_callback_query(filters.regex(r"runtime"))
-def runtime_func_cq(_, cq):
+async def runtime_func_cq(_, cq):
     runtime = cq.data.split(None, 1)[1]
     await cq.answer(runtime, show_alert=True)
     
@@ -121,7 +121,7 @@ def runtime_func_cq(_, cq):
     & ~filters.edited
     & filters.command("sh"),
 )
-def shellrunner(client, message):
+async def shellrunner(client, message):
     if len(message.command) < 2:
         return await edit_or_reply(message, text="**Usage:**\n/sh git pull")
     text = message.text.split(None, 1)[1]
