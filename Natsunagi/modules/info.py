@@ -2,7 +2,7 @@ from pyrogram import filters
 from pyrogram.types import Message
 
 from Natsunagi import DEV_USERS
-from Natsunagi import pbot as app
+from Natsunagi import pgram as app
 from Natsunagi.utils.sections import section
 
 
@@ -109,6 +109,5 @@ async def chat_info_func(_, message: Message):
         os.remove(photo)
     except Exception as e:
         await m.edit(e)
-
 
 __mod_name__ = "SecInfo"
