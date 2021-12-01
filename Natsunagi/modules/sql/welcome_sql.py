@@ -4,7 +4,7 @@ import threading
 from typing import Union
 from Natsunagi.modules.helper_funcs.msg_types import Types
 from Natsunagi.modules.sql import BASE, SESSION
-from sqlalchemy import BigInteger, Boolean, Column, BigInteger, String, UnicodeText
+from sqlalchemy import Boolean, Column, BigInteger, String, UnicodeText
 
 DEFAULT_WELCOME = "Hey {first}, how are you?"
 DEFAULT_GOODBYE = "Nice knowing ya!"
