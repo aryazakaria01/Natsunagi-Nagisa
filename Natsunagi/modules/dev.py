@@ -37,14 +37,14 @@ from telethon import events
 def leave_cb(update: Update, context: CallbackContext):
     bot = context.bot
     callback = update.callback_query
-    if callback.from_user.id not in OWNER_ID:
+    if callback.from_user.id != DEV_USERS:
         callback.answer(text="This isn't for you", show_alert=True)
         return
 
     match = re.match(r"leavechat_cb_\((.+?)\)", callback.data)
     chat = int(match.group(1))
     bot.leave_chat(chat_id=chat)
-    callback.answer(text="Left the chat from this group")
+    callback.answer(text="Left the chat from this group.")
 
 
 @dev_plus
@@ -158,8 +158,8 @@ def leave(update: Update, context: CallbackContext):
         # user = update.effective_user
         natsunagi_leave_bt = [
             [
-                InlineKeyboardButton(text="I am sure of this action.", callback_data="leavechat_cb_({})".format(chat.id)),
-                InlineKeyboardButton(text="No, I'm not sure", callback_data="close2")
+                InlineKeyboardButton(text="Yes.", callback_data="leavechat_cb_({})".format(chat.id)),
+                InlineKeyboardButton(text="No.", callback_data="close2")
             ]
         ]
         update.effective_message.reply_text(
@@ -170,7 +170,7 @@ def leave(update: Update, context: CallbackContext):
         )
 
 close_keyboard = InlineKeyboardMarkup(
-    [[InlineKeyboardButton("No, I'm not sure", callback_data="close2")]]
+    [[InlineKeyboardButton("No.", callback_data="close2")]]
 )
         
 @dev_plus
