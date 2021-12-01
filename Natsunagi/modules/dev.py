@@ -105,7 +105,7 @@ telethn.add_event_handler(callback_queries, events.CallbackQuery())
 @telethn.on(events.NewMessage(pattern=r"/getstats", from_users=OWNER_ID))
 async def getstats(event):
     await event.reply(
-        f"Natsunagi Event Statistics\n\n"
+        f"Natsunagi Event Statistics\n"
         f"» Average messages: <code>{messages.average()}<code>/s\n"
         f"» Average Callback Queries: <code>{callback_queries.average()}<code>/s\n"
         f"» Average Inline Queries: <code>{inline_queries.average()}<code>/s",
@@ -158,8 +158,8 @@ def leave(update: Update, context: CallbackContext):
         # user = update.effective_user
         natsunagi_leave_bt = [
             [
-                InlineKeyboardButton(text="Yes.", callback_data="leavechat_cb_({})".format(chat.id)),
-                InlineKeyboardButton(text="No.", callback_data="close2")
+                InlineKeyboardButton(text="Yes", callback_data="leavechat_cb_({})".format(chat.id)),
+                InlineKeyboardButton(text="No", callback_data="close2")
             ]
         ]
         update.effective_message.reply_text(
@@ -170,7 +170,7 @@ def leave(update: Update, context: CallbackContext):
         )
 
 close_keyboard = InlineKeyboardMarkup(
-    [[InlineKeyboardButton("No.", callback_data="close2")]]
+    [[InlineKeyboardButton("No", callback_data="close2")]]
 )
         
 @dev_plus
