@@ -171,7 +171,7 @@ def kang(update: Update, context: CallbackContext):
                             )
                         ]
                     ]
-                )        
+                )
                 msg.reply_text(
                     "Your Sticker Pack has been created!\n\n"
                     "You can now reply to images, stickers and animated sticker with /steal or /kang to add them to your pack\n\n"
@@ -212,14 +212,14 @@ def kang(update: Update, context: CallbackContext):
                                 )
                             ]
                         ]
-                    )            
+                    )
                     msg.reply_text(
                         "Your Sticker Pack has been created!\n\n"
                         "You can now reply to images, stickers and animated sticker with /steal or /kang to add them to your pack\n\n"
                         "Send /stickers to find sticker pack.",
                         reply_markup=edited_keyboard,
                         parse_mode=ParseMode.HTML,
-                    )   
+                    )
                 elif e.message == "Stickers_too_much":
                     msg.reply_text("Max packsize reached. Press F to pay respecc.")
                 elif e.message == "Stickerset_invalid":
@@ -356,7 +356,7 @@ def kang(update: Update, context: CallbackContext):
                 ),
                 parse_mode=ParseMode.MARKDOWN,
             )
-            
+
         except OSError as e:
             msg.reply_text("I can only kang images m8.")
             print(e)

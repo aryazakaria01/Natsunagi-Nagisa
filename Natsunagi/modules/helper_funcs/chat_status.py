@@ -439,6 +439,7 @@ def connection_status(func):
 
     return connected_status
 
+
 from Natsunagi.modules import connection
 
 connected = connection.connected

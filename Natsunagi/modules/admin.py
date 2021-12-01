@@ -33,6 +33,7 @@ from Natsunagi.modules.log_channel import loggable
 from Natsunagi.modules.helper_funcs.alternate import send_message, typing_action
 from Natsunagi.modules.connection import connected
 
+
 async def is_register_admin(chat, user):
     if isinstance(chat, (types.InputPeerChannel, types.InputChannel)):
         return isinstance(
@@ -75,10 +76,7 @@ async def can_ban_users(message):
 async def get_users(show):
     if not show.is_group:
         return
-    if (
-        show.is_group
-        and not await is_register_admin(show.input_chat, show.sender_id)
-    ):
+    if show.is_group and not await is_register_admin(show.input_chat, show.sender_id):
         return
     info = await bot.get_entity(show.chat_id)
     title = info.title if info.title else "this chat"

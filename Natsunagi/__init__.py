@@ -28,9 +28,11 @@ from logging.config import fileConfig
 
 StartTime = time.time()
 
+
 def get_user_list(__init__, key):
     with open("{}/Natsunagi/{}".format(os.getcwd(), __init__), "r") as json_file:
         return json.load(json_file)[key]
+
 
 # enable logging
 FORMAT = "[Natsunagi] %(message)s"
@@ -42,8 +44,10 @@ logging.basicConfig(
 )
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
-LOGGER = logging.getLogger('[Natsunagi]')
-LOGGER.info("Natsunagi is starting. | An CyberNetwork Project Parts. | Licensed under GPLv3.")
+LOGGER = logging.getLogger("[Natsunagi]")
+LOGGER.info(
+    "Natsunagi is starting. | An CyberNetwork Project Parts. | Licensed under GPLv3."
+)
 LOGGER.info("Not affiliated to Tantei Wa Mou or Villain in any way whatsoever.")
 LOGGER.info("Project maintained by: github.com/aryazakaria01 (t.me/Badboyanim)")
 
@@ -153,7 +157,9 @@ if ENV:
     SIBYL_KEY = os.environ.get("SIBYL_KEY")
 
     try:
-        WHITELIST_CHATS = {int(x) for x in os.environ.get("WHITELIST_CHATS", "").split()}
+        WHITELIST_CHATS = {
+            int(x) for x in os.environ.get("WHITELIST_CHATS", "").split()
+        }
     except ValueError:
         raise Exception("Your blacklisted chats list does not contain valid integers.")
 

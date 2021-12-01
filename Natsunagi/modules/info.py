@@ -110,4 +110,5 @@ async def chat_info_func(_, message: Message):
     except Exception as e:
         await m.edit(e)
 
+
 __mod_name__ = "SecInfo"
