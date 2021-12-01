@@ -20,7 +20,7 @@ from Natsunagi import LOGGER, dispatcher, OWNER_ID, DEV_USERS, pbot as app
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus
 
 
-def aexec(code, client, message):
+async def aexec(code, client, message):
     exec(
         "async def __aexec(client, message): "
         + "".join(f"\n {a}" for a in code.split("\n"))
