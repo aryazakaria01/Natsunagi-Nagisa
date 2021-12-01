@@ -4,7 +4,7 @@ from random import randint
 from time import time
 
 import aiohttp
-from Natsunagi import ARQ_API_KEY, ARQ_API_URL, BOT_ID, OWNER_ID, aiohttpsession, pbot
+from Natsunagi import ARQ_API_KEY, ARQ_API_URL, BOT_ID, OWNER_ID, aiohttpsession, pgram
 from aiohttp import ClientSession
 
 from google_trans_new import google_translator
@@ -23,5 +23,5 @@ aiohttpsession = ClientSession()
 print("[INFO]: INITIALIZING ARQ CLIENT")
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 
-app = pbot
+app = pgram
 import socket
