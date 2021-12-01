@@ -36,7 +36,6 @@ from Natsunagi import (
     WHITELIST_CHATS,
     REPOSITORY,
     BL_CHATS,
-    pbot,
 )
 
 from Natsunagi.events import register
