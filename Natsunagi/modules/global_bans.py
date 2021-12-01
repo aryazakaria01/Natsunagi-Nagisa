@@ -88,10 +88,10 @@ def spbtoggle(update: Update, context: CallbackContext):
     if len(args) > 1:
         if args[1] in ("yes", "on"):
             SPB_MODE = True
-            message.reply_animation("https://telegra.ph/file/a49e7bef1cc664eabcb26.mp4", caption="SpamProtection API bans are now enabled.\nAll hail @Intellivoid.")
+            message.reply_animation("https://telegra.ph/file/a49e7bef1cc664eabcb26.mp4", caption="SpamProtection API bans are now enabled.\n\nAll hail @Intellivoid.")
         elif args[1] in ("no", "off"):
             SPB_MODE = False
-            message.reply_text("SpamProtection API bans are now disabled.")
+            message.reply_animation("https://telegra.ph/file/a49e7bef1cc664eabcb26.mp4", caption="SpamProtection API bans are now disabled..\n\nAll hail @Intellivoid.")
     elif SPB_MODE:
         message.reply_text("SpamProtection API bans are currently enabled.")
     else:
