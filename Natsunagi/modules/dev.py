@@ -3,17 +3,33 @@ import os
 import subprocess
 import sys
 import asyncio
+import html
 
-from Natsunagi import dispatcher, DEV_USERS, telethn, OWNER_ID
+from Natsunagi import (
+    dispatcher, 
+    DEV_USERS, 
+    telethn, 
+    OWNER_ID,
+)    
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus
 
 from contextlib import suppress
 from statistics import mean
 from time import monotonic as time
 from time import sleep
-from telegram import TelegramError, Update, InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
+from telegram import (
+    TelegramError, 
+    Update, 
+    InlineKeyboardButton, 
+    InlineKeyboardMarkup, 
+    ParseMode,
+)    
 from telegram.error import Unauthorized
-from telegram.ext import CallbackContext, CommandHandler, run_async
+from telegram.ext import (
+    CallbackContext, 
+    CommandHandler, 
+    run_async,
+)    
 from telegram.ext.callbackqueryhandler import CallbackQueryHandler
 from telethon import events
 
