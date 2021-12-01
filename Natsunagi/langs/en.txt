@@ -9,27 +9,27 @@ set_chat_lang: "Great, {} it is from now on!"
 
 
 pm_start_text: |
-   ────「 [{}](https://telegra.ph/file/2909a312d9438798d237a.png) 」────
-   *Hola! {},*
-   *I am an Anime themed advance group management bot with a lot of Sexy Features.*
-   ➖➖➖➖➖➖➖➖➖➖➖➖➖
-   • *Uptime:* `{}`
-   • `{}` *users, across* `{}` *chats.*
-   ➖➖➖➖➖➖➖➖➖➖➖➖➖
-   ➛ Try The Help Buttons Below To Know My Abilities ××
-   """
+────「 [{}](https://telegra.ph/file/2909a312d9438798d237a.png) 」────
+*Hola! {},*
+*I am an Anime themed advance group management bot with a lot of Sexy Features.*
+➖➖➖➖➖➖➖➖➖➖➖➖➖
+• *Uptime:* `{}`
+• `{}` *users, across* `{}` *chats.*
+➖➖➖➖➖➖➖➖➖➖➖➖➖
+➛ Try The Help Buttons Below To Know My Abilities ××
+"""
    
 grp_start_text: "I Aᴍ Aʟɪᴠᴇ 🔥"
 
 pm_help_text: |
-   *Main commands available*[:](https://telegra.ph/file/a8ce80707def6b27d254f.jpg)
-    ➛ /help: PM's you this message.
-    ➛ /help <module name>: PM's you info about that module.
-    ➛ /donate: information on how to donate!
-    ➛ /settings:
-       × in PM: will send you your settings for all supported modules.
-       × in a group: will redirect you to pm, with all that chat's settings.
-    """
+*Main commands available*[:](https://telegra.ph/file/a8ce80707def6b27d254f.jpg)
+ ➛ /help: PM's you this message.
+ ➛ /help <module name>: PM's you info about that module.
+ ➛ /donate: information on how to donate!
+ ➛ /settings:
+    × in PM: will send you your settings for all supported modules.
+    × in a group: will redirect you to pm, with all that chat's settings.
+ """
 
 add_bot_to_group_btn: "Add Yuii"
 support_chat_link_btn: "Support"
@@ -250,73 +250,74 @@ doin?
  Reply 3`
   ➢ `/stop <filter keyword>`*:* Stop that filter.
 *Chat creator only:*
-  ➢ `/removeallfilters`*:* Remove all chat filters at once.
+➢ `/removeallfilters`*:* Remove all chat filters at once.
+
 *Note*: Filters also support markdown formatters like: {first}, {last} etc.. and buttons.
 Check `/markdownhelp` to know more!
 """
 
 disable_help: |
-     ➢ `/cmds`*:* check the current status of disabled commands
-    *Admins only:*
-     ➢ `/enable <cmd name>`*:* enable that command
-     ➢ `/disable <cmd name>`*:* disable that command
-     ➢ `/enablemodule <module name>`*:* enable all commands in that module
-     ➢ `/disablemodule <module name>`*:* disable all commands in that module
-     ➢ `/listcmds`*:* list all possible toggleable commands
-    """
+➢ `/cmds`*:* check the current status of disabled commands
+*Admins only:*
+ ➢ `/enable <cmd name>`*:* enable that command
+ ➢ `/disable <cmd name>`*:* disable that command
+ ➢ `/enablemodule <module name>`*:* enable all commands in that module
+ ➢ `/disablemodule <module name>`*:* disable all commands in that module
+ ➢ `/listcmds`*:* list all possible toggleable commands
+"""
 
 feds_help: |
-    Ah, group management. Everything is fun, until the spammer starts entering your group, and you have to block it. Then you need to start banning more, and more, and it hurts.
-    But then you have many groups, and you don't want this spammer to be in one of your groups - how can you deal? Do you have to manually block it, in all your groups?
-    No longer! With Federation, you can make a ban in one chat overlap with all other chats.
-    You can even designate admin federations, so your trusted admin can ban all the chats you want to protect.
-    *Commands Available*:
-     • /newfed <fedname>: Create a new Federation with the name given. Users are only allowed to have one Federation. This method can also be used to rename the Federation. (max. 64 characters)
-     • /delfed: Delete your Federation, and any information related to it. Will not cancel blocked users.
-     • /fedinfo <FedID>: Information about the specified Federation.
-     • /joinfed <FedID>: Join the current chat to the Federation. Only chat owners can do this. Every chat can only be in one Federation.
-     • /leavefed <FedID>: Leave the Federation given. Only chat owners can do this.
-     • /fpromote <user>: Promote Users to give fed admin. Fed owner only.
-     • /fdemote <user>: Drops the User from the admin Federation to a normal User. Fed owner only.
-     • /fban <user>: Prohibits users from all federations where this chat takes place, and executors have control over.
-     • /unfban <user>: Cancel User from all federations where this chat takes place, and that the executor has control over.
-     • /setfrules: Arrange Federation rules.
-     • /frules: See Federation regulations.
-     • /chatfed: See the Federation in the current chat.
-     • /fedadmins: Show Federation admin.
-     • /fbanlist: Displays all users who are victimized at the Federation at this time.
-     • /fednotif <on / off>: Federation settings not in PM when there are users who are fban / unfban.
-     • /fedchats: Get all the chats that are connected in the Federation.
-     • /importfbans: Reply to the Federation backup message file to import the banned list to the Federation now. (disabled for now.)
+Ah, group management. Everything is fun, until the spammer starts entering your group, and you have to block it. Then you need to start banning more, and more, and it hurts.
+But then you have many groups, and you don't want this spammer to be in one of your groups - how can you deal? Do you have to manually block it, in all your groups?
+No longer! With Federation, you can make a ban in one chat overlap with all other chats.
+You can even designate admin federations, so your trusted admin can ban all the chats you want to protect.
+*Commands Available*:
+ • /newfed <fedname>: Create a new Federation with the name given. Users are only allowed to have one Federation. This method can also be used to rename the Federation. (max. 64 characters)
+ • /delfed: Delete your Federation, and any information related to it. Will not cancel blocked users.
+ • /fedinfo <FedID>: Information about the specified Federation.
+ • /joinfed <FedID>: Join the current chat to the Federation. Only chat owners can do this. Every chat can only be in one Federation.
+ • /leavefed <FedID>: Leave the Federation given. Only chat owners can do this.
+ • /fpromote <user>: Promote Users to give fed admin. Fed owner only.
+ • /fdemote <user>: Drops the User from the admin Federation to a normal User. Fed owner only.
+ • /fban <user>: Prohibits users from all federations where this chat takes place, and executors have control over.
+ • /unfban <user>: Cancel User from all federations where this chat takes place, and that the executor has control over.
+ • /setfrules: Arrange Federation rules.
+ • /frules: See Federation regulations.
+ • /chatfed: See the Federation in the current chat.
+ • /fedadmins: Show Federation admin.
+ • /fbanlist: Displays all users who are victimized at the Federation at this time.
+ • /fednotif <on / off>: Federation settings not in PM when there are users who are fban / unfban.
+ • /fedchats: Get all the chats that are connected in the Federation.
+ • /importfbans: Reply to the Federation backup message file to import the banned list to the Federation now. (disabled for now.)
 
 globalbans_help: |
 *Admins only:*
-  ➢ `/antispam <on/off/yes/no>`*:* Will toggle our antispam tech or return your current settings.
+➢ `/antispam <on/off/yes/no>`*:* Will toggle our antispam tech or return your current settings.
 Anti-Spam, used by bot devs to ban spammers across all groups. This helps protect \
 you and your groups by removing spam flooders as quickly as possible.
 *Note:* Users can appeal gbans or report spammers at @{SUPPORT_CHAT}
 This also integrates @Spamwatch API to remove Spammers as much as possible from your chatroom!
+
 *What is SpamWatch?*
 SpamWatch maintains a large constantly updated ban-list of spambots, trolls, bitcoin spammers and unsavoury characters[.](https://telegra.ph/file/f584b643c6f4be0b1de53.jpg)
 Constantly help banning spammers off from your group automatically So, you wont have to worry about spammers storming your group.
-*Note:* Users can appeal spamwatch bans at @SpamwatchSupport
-*What is Intellivoid?*
+*Note:* Users can appeal spamwatch bans at @SpamwatchSuppo*What is Intellivoid?*
 We're a small group of talented people that strive to create innovating 
 software & services often from the ground up instead of following a trend or 
 copy-pasting open source projects and calling it our own.
 """
 
 google_help: |
-  ➢ `/google <text>` :- Perform a google search
-  ➢ `/img <text>` :- Search Google for images and returns them\nFor greater no. of results specify lim, For eg: `/img hello lim=10`
-  ➢ `/app <appname>` :- Searches for an app in Play Store and returns its details.
-  ➢ `/reverse` :- reply to a sticker, or an image to search it!
-  Do you know that you can search an image with a link too? /reverse picturelink <amount>.
-  ➢ `/gitinfo <github username>` :- Get info of any github profile
-  ➢ `/ytdl <youtube video link` :- download any youtube video in every possible resolution.
-  ➢ `/webss <website url>` :- get screen shot of any website you want.
-  ➢ `/makeqr <text` : make any text to a qr code format
-  ➢ `/getqr <reply to a qrcode>` : decode and get what is inside the qr code.
+➢ `/google <text>` :- Perform a google search
+➢ `/img <text>` :- Search Google for images and returns them\nFor greater no. of results specify lim, For eg: `/img hello lim=10`
+➢ `/app <appname>` :- Searches for an app in Play Store and returns its details.
+➢ `/reverse` :- reply to a sticker, or an image to search it!
+Do you know that you can search an image with a link too? /reverse picturelink <amount>.
+➢ `/gitinfo <github username>` :- Get info of any github profile
+➢ `/ytdl <youtube video link` :- download any youtube video in every possible resolution.
+➢ `/webss <website url>` :- get screen shot of any website you want.
+➢ `/makeqr <text` : make any text to a qr code format
+➢ `/getqr <reply to a qrcode>` : decode and get what is inside the qr code.
 """
 
 gtranslator_help: |
@@ -356,58 +357,33 @@ Locking bots will stop non-admins from adding bots to the chat.
 misc_help: |
 Available commands:
 📐 Markdown:
-  ➢ `/markdownhelp`: quick summary of how markdown works in telegram - can only be called in private chats
+➢ `/markdownhelp`: quick summary of how markdown works in telegram - can only be called in private chats
+
 💴 Currency converter:
-  ➢ `/cash`: currency converter
- Example:
- `/cash 1 USD INR`
-      OR
- `/cash 1 usd inr`
- Output: `1.0 USD = 75.505 INR`
-🗣 Translator:
-  ➢ `/tr` or `/tl` (language code) as reply to a long message
+➢ `/cash`: currency converter
 Example:
-  `/tr en`: translates something to english
-  `/tr hi-en`: translates hindi to english.
-  ➢ `/langs` : lists all the language codes
+`/cash 1 USD INR`
+      OR
+`/cash 1 usd inr`
+Output: `1.0 USD = 75.505 INR`
+
+🗣 Translator:
+➢ `/tr` or `/tl` (language code) as reply to a long message
+Example:
+`/tr en`: translates something to english
+`/tr hi-en`: translates hindi to english.
+➢ `/langs` : lists all the language codes
+
 🕐 Timezones:
-  ➢ `/time <query>`: Gives information about a timezone.
+➢ `/time <query>`: Gives information about a timezone.
 Available queries: Country Code/Country Name/Timezone Name
- ➩ [Timezones list](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+➩ [Timezones list](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+
 🖌️ Quotly:
-  ➢ `/q` : To quote a message.
-  ➢ `/q <Number>` : To quote more than 1 messages.
-  ➢ `/q r` : to quote a message with it's reply
-🗜️ Compress And Decompress: 
-  ➢ `/zip`*:* reply to a telegram file to compress it in .zip format
-  ➢ `/unzip`*:* reply to a telegram file to decompress it from the .zip format
-  
-👤 Fake Info:
-  ➢ `/fakegen`*:* Generates Fake Information
-  ➢ `/picgen  ➢ `/ generate a fake pic
-🎛️ Encryprion:
-  ➢ `/encrypt`*:* Encrypts The Given Text
-  ➢ `/decrypt`*:* Decrypts Previously Ecrypted Text
-📙 English:
-  ➢ `/define <text>`*:* Type the word or expression you want to search\nFor example /define kill
-  ➢ `/spell`*:* while replying to a message, will reply with a grammar corrected version
-  ➢ `/synonyms <word>`*:* Find the synonyms of a word
-  ➢ `/antonyms <word>`*:* Find the antonyms of a word
-  
-📙 Encryprion:
-  ➢ `/antonyms <Word>`*:* Get antonyms from Dictionary.
-  ➢ `/synonyms <Word>`*:* Get synonyms from Dictionary.
-  ➢ `/define <Word>`*:* Get definition from Dictionary.
-  ➢ `/spell <Word>`*:* Get definition from Dictionary.
-  
-💳 CC Checker:
-  ➢ `/au [cc]`*:* Stripe Auth given CC
-  ➢ `/pp [cc]`*:* Paypal 1$ Guest Charge
-  ➢ `/ss [cc]`*:* Speedy Stripe Auth
-  ➢ `/ch [cc]`*:* Check If CC is Live
-  ➢ `/bin [bin]`*:* Gather's Info About the bin
-  ➢ `/gen [bin]`*:* Generates CC with given bin
-  ➢ `/key [sk]`*:* Checks if Stripe key is Live
+➢ `/q` : To quote a message.
+➢ `/q <Number>` : To quote more than 1 messages.
+➢ `/q r` : to quote a message with it's reply
+
 🗳  Other Commands:
 Paste:
   ➢ `/paste`*:* Saves replied content to nekobin.com and replies with a url
@@ -432,102 +408,102 @@ Bass Boosting
 """
 
 nightmode_help: |
-  ➢ `/nightmode`*:* on/off
+➢ `/nightmode`*:* on/off
  
 **Note:** Night Mode chats get Automatically closed at 12 PM (IST)
 and Automatically openned at 6 AM (IST) To Prevent Night Spams.
 """
 
 notes_help: |
-  ➢ `/get <notename>`*:* get the note with this notename
- ❍ `#<notename>`*:* same as /get
-  ➢ `/notes` or `/saved`*:* list all saved notes in this chat
-  ➢ `/number` *:* Will pull the note of that number in the list
+➢ `/get <notename>`*:* get the note with this notename
+❍ `#<notename>`*:* same as /get
+➢ `/notes` or `/saved`*:* list all saved notes in this chat
+➢ `/number` *:* Will pull the note of that number in the list
 If you would like to retrieve the contents of a note without any formatting, use `/get <notename> noformat`. This can \
 be useful when updating a current note
 *Admins only:*
-  ➢ `/save <notename> <notedata>`*:* saves notedata as a note with name notename
+➢ `/save <notename> <notedata>`*:* saves notedata as a note with name notename
 A button can be added to a note by using standard markdown link syntax - the link should just be prepended with a \
 `buttonurl:` section, as such: `[somelink](buttonurl:example.com)`. Check `/markdownhelp` for more info
-  ➢ `/save <notename>`*:* save the replied message as a note with name notename
- Separate diff replies by `%%%` to get random notes
- *Example:*
- `/save notename
- Reply 1
- %%%
- Reply 2
- %%%
- Reply 3`
-  ➢ `/clear <notename>`*:* clear note with this name
-  ➢ `/removeallnotes`*:* removes all notes from the group
- *Note:* Note names are case-insensitive, and they are automatically converted to lowercase before getting saved.
+➢ `/save <notename>`*:* save the replied message as a note with name notename
+Separate diff replies by `%%%` to get random notes
+*Example:*
+`/save notename
+Reply 1
+%%%
+Reply 2
+%%%
+Reply 3`
+➢ `/clear <notename>`*:* clear note with this name
+➢ `/removeallnotes`*:* removes all notes from the group
+*Note:* Note names are case-insensitive, and they are automatically converted to lowercase before getting saved.
 """
 
 reports_help: |
-        • `/report <reason>`*:* reply to a message to report it to admins.
-        • `@admin`*:* reply to a message to report it to admins.
-         *NOTE:* Neither of these will get triggered if used by admins.
-         *Admins only:*
-          • `/reports <on/off>`*:* change report setting, or view current status.
-          • If done in pm, toggles your status.
-          • If in group, toggles that groups's status.
+• `/report <reason>`*:* reply to a message to report it to admins.
+• `@admin`*:* reply to a message to report it to admins.
+*NOTE:* Neither of these will get triggered if used by admins.
+*Admins only:*
+ • `/reports <on/off>`*:* change report setting, or view current status.
+ • If done in pm, toggles your status.
+ • If in group, toggles that groups's status.
 
 rules_help: |
-      • `/rules`*:* get the rules for this chat.
-       *Admins only:*
-      • `/setrules <your rules here>`*:* set the rules for this chat.
-      • `/clearrules`*:* clear the rules for this chat.
+• `/rules`*:* get the rules for this chat.
+*Admins only:*
+• `/setrules <your rules here>`*:* set the rules for this chat.
+• `/clearrules`*:* clear the rules for this chat.
 
 userinfo_help: |
-      - /setbio <text>: while replying, will save another user's bio
-      - /bio: will get your or another user's bio. This cannot be set by yourself.
-      - /setme <text>: will set your info
-      - /me: will get your or another user's info
+- /setbio <text>: while replying, will save another user's bio
+- /bio: will get your or another user's bio. This cannot be set by yourself.
+- /setme <text>: will set your info
+- /me: will get your or another user's info
 
 warns_help: |
-      • `/warns <userhandle>`*:* get a user's number, and reason, of warns.
-      • `/warnlist`*:* list of all current warning filters
-      *Admins only:*
-      • `/warn <userhandle>`*:* warn a user. After 3 warns, the user will be banned from the group. Can also be used as a reply.
-      • `/resetwarn <userhandle>`*:* reset the warns for a user. Can also be used as a reply.
-      • `/addwarn <keyword> <reply message>`*:* set a warning filter on a certain keyword. If you want your keyword to
-      be a sentence, encompass it with quotes, as such: `/addwarn "very angry" This is an angry user`.
-      • `/nowarn <keyword>`*:* stop a warning filter
-      • `/warnlimit <num>`*:* set the warning limit
-      • `/strongwarn <on/yes/off/no>`*:* If set to on, exceeding the warn limit will result in a ban. Else, will just kick.
+• `/warns <userhandle>`*:* get a user's number, and reason, of warns.
+• `/warnlist`*:* list of all current warning filters
+*Admins only:*
+• `/warn <userhandle>`*:* warn a user. After 3 warns, the user will be banned from the group. Can also be used as a reply.
+• `/resetwarn <userhandle>`*:* reset the warns for a user. Can also be used as a reply.
+• `/addwarn <keyword> <reply message>`*:* set a warning filter on a certain keyword. If you want your keyword to
+be a sentence, encompass it with quotes, as such: `/addwarn "very angry" This is an angry user`.
+• `/nowarn <keyword>`*:* stop a warning filter
+• `/warnlimit <num>`*:* set the warning limit
+• `/strongwarn <on/yes/off/no>`*:* If set to on, exceeding the warn limit will result in a ban. Else, will just kick.
 
 greetings_help: |
-      *Admins only:*
-       • `/welcome <on/off>`*:* enable/disable welcome messages.
-       • `/welcome`*:* shows current welcome settings.
-       • `/welcome noformat`*:* shows current welcome settings, without the formatting - useful to recycle your welcome messages!
-       • `/goodbye`*:* same usage and args as `/welcome`.
-       • `/setwelcome <sometext>`*:* set a custom welcome message. If used replying to media, uses that media.
-       • `/setgoodbye <sometext>`*:* set a custom goodbye message. If used replying to media, uses that media.
-       • `/resetwelcome`*:* reset to the default welcome message.
-       • `/resetgoodbye`*:* reset to the default goodbye message.
-       • `/cleanwelcome <on/off>`*:* On new member, try to delete the previous welcome message to avoid spamming the chat.
-       • `/welcomemutehelp`*:* gives information about welcome mutes.
-       • `/cleanservice <on/off`*:* deletes telegrams welcome/left service messages.
-       *Example:*
-      user joined chat, user left chat.
-      *Welcome markdown:*
-       • `/welcomehelp`*:* view more formatting information for custom welcome/goodbye messages.
+*Admins only:*
+ • `/welcome <on/off>`*:* enable/disable welcome messages.
+ • `/welcome`*:* shows current welcome settings.
+ • `/welcome noformat`*:* shows current welcome settings, without the formatting - useful to recycle your welcome messages!
+ • `/goodbye`*:* same usage and args as `/welcome`.
+ • `/setwelcome <sometext>`*:* set a custom welcome message. If used replying to media, uses that media.
+ • `/setgoodbye <sometext>`*:* set a custom goodbye message. If used replying to media, uses that media.
+ • `/resetwelcome`*:* reset to the default welcome message.
+ • `/resetgoodbye`*:* reset to the default goodbye message.
+ • `/cleanwelcome <on/off>`*:* On new member, try to delete the previous welcome message to avoid spamming the chat.
+ • `/welcomemutehelp`*:* gives information about welcome mutes.
+ • `/cleanservice <on/off`*:* deletes telegrams welcome/left service messages.
+ *Example:*
+user joined chat, user left chat.
+*Welcome markdown:*
+ • `/welcomehelp`*:* view more formatting information for custom welcome/goodbye messages.
 
 nation_help: |
-      - /devlist - Lists all Yuii Dev Club members.
-      - /sudolist - Lists all SUDO Users.
-      - /supportlist - Lists all SUPPORT Users.
-      - /tigerlist - Lists all TIGERs Users.
-      - /whitelistlist - Lists all WHITELIST Users.
-      Note: These commands list users with special bot priveleges and can only be used by them.
-      You can visit @YuiiSupport to query more about these.
+- /devlist - Lists all Yuii Dev Club members.
+- /sudolist - Lists all SUDO Users.
+- /supportlist - Lists all SUPPORT Users.
+- /tigerlist - Lists all TIGERs Users.
+- /whitelistlist - Lists all WHITELIST Users.
+Note: These commands list users with special bot priveleges and can only be used by them.
+You can visit @YuiiSupport to query more about these.
 
 nlp_help: |
-      *Chatroom Spam Prediction*
-       This feature uses @Intellivoid's Coffeehouse AI to
-       process chat messages and detect spam.
-       This comes under Coffehouse' NLP. Learn more about
-       it [here](https://docs.intellivoid.net/coffeehouse/v1/nlp/spam_prediction/chatroom)
-       *Command:*
-        • `/nlpstat <on/off/yes/no>`*:* toggle NLP in your chat.
+*Chatroom Spam Prediction* 
+This feature uses @Intellivoid's Coffeehouse AI to
+process chat messages and detect spam.
+This comes under Coffehouse' NLP. Learn more about
+it [here](https://docs.intellivoid.net/coffeehouse/v1/nlp/spam_prediction/chatroom)
+*Command:*
+ • `/nlpstat <on/off/yes/no>`*:* toggle NLP in your chat.
