@@ -31,14 +31,13 @@ from telegram.ext import CommandHandler, Filters
 from telegram.utils.helpers import escape_markdown, mention_html
 
 from Natsunagi import (
-    pbot as app, 
+    pgram as app, 
     pgram, 
     aiohttpsession, 
     eor,
     dispatcher,
     OWNER_ID,
     DEV_USERS,
-    spamwatch,
 )
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.utils.errors import capture_err
