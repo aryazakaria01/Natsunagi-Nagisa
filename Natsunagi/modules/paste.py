@@ -38,7 +38,7 @@ from Natsunagi import (
     dispatcher,
     OWNER_ID,
     DEV_USERS,
-    spamwtc,
+    spamwatch,
 )
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.utils.errors import capture_err
