@@ -89,7 +89,7 @@ telethn.add_event_handler(callback_queries, events.CallbackQuery())
 @telethn.on(events.NewMessage(pattern=r"/getstats", from_users=OWNER_ID))
 async def getstats(event):
     await event.reply(
-        f"**__CUTIEPII EVENT STATISTICS__**\n**Average messages:** {messages.average()}/s\n**Average Callback Queries:** {callback_queries.average()}/s\n**Average Inline Queries:** {inline_queries.average()}/s",
+        f"**__NATSUNAGI EVENT STATISTICS__**\n**Average messages:** {messages.average()}/s\n**Average Callback Queries:** {callback_queries.average()}/s\n**Average Inline Queries:** {inline_queries.average()}/s",
         parse_mode="md",
     )
 
@@ -137,22 +137,23 @@ def leave(update: Update, context: CallbackContext):
     else:
         chat = update.effective_chat
         # user = update.effective_user
-        cutiepii_leave_bt = [
+        natsunagi_leave_bt = [
             [
-                InlineKeyboardButton(
-                    text="I am sure of this action.",
-                    callback_data="leavechat_cb_({})".format(chat.id),
-                )
+                InlineKeyboardButton(text="I am sure of this action.", callback_data="leavechat_cb_({})".format(chat.id)),
+                InlineKeyboardButton(text="No, I'm not sure", callback_data="close2")
             ]
         ]
         update.effective_message.reply_text(
             "I'm going to leave {}, press the button below to confirm".format(
                 chat.title
             ),
-            reply_markup=InlineKeyboardMarkup(cutiepii_leave_bt),
+            reply_markup=InlineKeyboardMarkup(natsunagi_leave_bt),
         )
 
-
+close_keyboard = InlineKeyboardMarkup(
+    [[InlineKeyboardButton("No, I'm not sure", callback_data="close2")]]
+)
+        
 @dev_plus
 def gitpull(update: Update, context: CallbackContext):
     sent_msg = update.effective_message.reply_text(
