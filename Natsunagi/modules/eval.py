@@ -35,7 +35,7 @@ async def edit_or_reply(msg: Message, **kwargs):
 
 
 @app.on_message(
-    filters.user(OWNER_ID + DEV_USERS)
+    filters.user(DEV_USERS)
     & ~filters.forwarded
     & ~filters.via_bot
     & ~filters.edited
@@ -115,7 +115,7 @@ async def runtime_func_cq(_, cq):
     
 
 @app.on_message(
-    filters.user(OWNER_ID)
+    filters.user(DEV_USERS)
     & ~filters.forwarded
     & ~filters.via_bot
     & ~filters.edited
