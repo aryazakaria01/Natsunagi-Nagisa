@@ -21,14 +21,14 @@ from telethon import events
 def leave_cb(update: Update, context: CallbackContext):
     bot = context.bot
     callback = update.callback_query
-    if callback.from_user.id not in DEV_USERS:
+    if callback.from_user.id not in OWNER_ID:
         callback.answer(text="This isn't for you", show_alert=True)
         return
 
     match = re.match(r"leavechat_cb_\((.+?)\)", callback.data)
     chat = int(match.group(1))
     bot.leave_chat(chat_id=chat)
-    callback.answer(text="Left chat")
+    callback.answer(text="Left the chat from this group")
 
 
 @dev_plus
@@ -89,8 +89,11 @@ telethn.add_event_handler(callback_queries, events.CallbackQuery())
 @telethn.on(events.NewMessage(pattern=r"/getstats", from_users=OWNER_ID))
 async def getstats(event):
     await event.reply(
-        f"**__NATSUNAGI EVENT STATISTICS__**\n**Average messages:** {messages.average()}/s\n**Average Callback Queries:** {callback_queries.average()}/s\n**Average Inline Queries:** {inline_queries.average()}/s",
-        parse_mode="md",
+        f"Natsunagi Event Statistics\n\n
+        » Average messages: <code>{messages.average()}<code>/s\n
+        » Average Callback Queries: <code>{callback_queries.average()}<code>/s\n
+        » Average Inline Queries: <code>{inline_queries.average()}<code>/s",
+        parse_mode=ParseMode.HTML,
     )
 
 
