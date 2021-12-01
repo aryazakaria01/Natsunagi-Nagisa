@@ -20,7 +20,7 @@ from Natsunagi import LOGGER, dispatcher, OWNER_ID, DEV_USERS, pbot as app
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus
 
 
-async def aexec(code, client, message):
+def aexec(code, client, message):
     exec(
         "async def __aexec(client, message): "
         + "".join(f"\n {a}" for a in code.split("\n"))
@@ -28,7 +28,7 @@ async def aexec(code, client, message):
     return await locals()["__aexec"](client, message)
 
 
-async def edit_or_reply(msg: Message, **kwargs):
+def edit_or_reply(msg: Message, **kwargs):
     func = msg.edit_text if msg.from_user.is_self else msg.reply
     spec = getfullargspec(func.__wrapped__).args
     await func(**{k: v for k, v in kwargs.items() if k in spec})
@@ -41,7 +41,7 @@ async def edit_or_reply(msg: Message, **kwargs):
     & ~filters.edited
     & filters.command("eval")
 )
-async def executor(client, message):
+def executor(client, message):
     try:
         cmd = message.text.split(" ", maxsplit=1)[1]
     except IndexError:
@@ -109,7 +109,7 @@ async def executor(client, message):
 
 
 @app.on_callback_query(filters.regex(r"runtime"))
-async def runtime_func_cq(_, cq):
+def runtime_func_cq(_, cq):
     runtime = cq.data.split(None, 1)[1]
     await cq.answer(runtime, show_alert=True)
     
@@ -121,7 +121,7 @@ async def runtime_func_cq(_, cq):
     & ~filters.edited
     & filters.command("sh"),
 )
-async def shellrunner(client, message):
+def shellrunner(client, message):
     if len(message.command) < 2:
         return await edit_or_reply(message, text="**Usage:**\n/sh git pull")
     text = message.text.split(None, 1)[1]
