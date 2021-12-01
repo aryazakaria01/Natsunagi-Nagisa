@@ -11,7 +11,7 @@ from contextlib import suppress
 from statistics import mean
 from time import monotonic as time
 from time import sleep
-from telegram import TelegramError, Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import TelegramError, Update, InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 from telegram.error import Unauthorized
 from telegram.ext import CallbackContext, CommandHandler, run_async
 from telegram.ext.callbackqueryhandler import CallbackQueryHandler
