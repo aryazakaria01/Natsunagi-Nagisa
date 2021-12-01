@@ -1,7 +1,7 @@
 import sys
 import traceback
 from functools import wraps
-from Natsunagi import pbot, SUPPORT_CHAT
+from Natsunagi import pgram, SUPPORT_CHAT
 
 
 def split_limits(text):
@@ -44,7 +44,7 @@ def capture_err(func):
                 ),
             )
             for x in error_feedback:
-                await pbot.send_message(SUPPORT_CHAT, x)
+                await pgram.send_message(SUPPORT_CHAT, x)
             raise err
 
     return capture
