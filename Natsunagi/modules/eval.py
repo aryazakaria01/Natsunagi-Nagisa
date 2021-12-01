@@ -2,7 +2,6 @@ import ast
 import io
 import os
 import textwrap
-import traceback
 import re
 import subprocess
 import sys
@@ -16,7 +15,7 @@ from telegram import ParseMode, Update
 from telegram.ext import CallbackContext, CommandHandler, run_async
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-from Natsunagi import LOGGER, dispatcher, OWNER_ID, DEV_USERS, pbot as app
+from Natsunagi import LOGGER, dispatcher, OWNER_ID, DEV_USERS, pgram as app
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus
 
 
@@ -39,7 +38,7 @@ async def edit_or_reply(msg: Message, **kwargs):
     & ~filters.forwarded
     & ~filters.via_bot
     & ~filters.edited
-    & filters.command("eval")
+    & filters.command(["eval", "e"])
 )
 async def executor(client, message):
     try:
@@ -105,14 +104,16 @@ async def executor(client, message):
                 ]
             ]
         )
-        await edit_or_reply(message, text=final_output, reply_markup=keyboard)
+        await edit_or_reply(
+            message, text=final_output, reply_markup=keyboard
+        )
 
 
 @app.on_callback_query(filters.regex(r"runtime"))
 async def runtime_func_cq(_, cq):
     runtime = cq.data.split(None, 1)[1]
     await cq.answer(runtime, show_alert=True)
-    
+
 
 @app.on_message(
     filters.user(DEV_USERS)
