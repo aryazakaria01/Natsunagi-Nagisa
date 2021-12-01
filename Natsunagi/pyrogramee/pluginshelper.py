@@ -12,8 +12,7 @@ from pyrogram import Client
 from pyrogram.errors import FloodWait, MessageNotModified
 from pyrogram.types import Chat, Message, User
 
-from Natsunagi import OWNER_ID, SUPPORT_CHAT
-from Natsunagi import pbot
+from Natsunagi import OWNER_ID, SUPPORT_CHAT, pgram
 
 
 def get_user(message: Message, text: str) -> [int, str, None]:
@@ -321,7 +320,7 @@ def capture_err(func):
                 ),
             )
             for x in error_feedback:
-                await pbot.send_message(SUPPORT_CHAT, x)
+                await pgram.send_message(SUPPORT_CHAT, x)
             raise err
 
     return capture
