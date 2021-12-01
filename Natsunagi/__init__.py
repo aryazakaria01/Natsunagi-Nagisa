@@ -335,8 +335,6 @@ aiohttpsession = ClientSession()
 # ARQ Client
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 ubot = TelegramClient(StringSession(STRING_SESSION), APP_ID, APP_HASH)
-apps = []
-apps.append(pbot)
 loop = asyncio.get_event_loop()
 
 
