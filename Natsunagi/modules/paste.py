@@ -1,18 +1,52 @@
-import asyncio
+import codecs
+import html
 import os
 import re
-
+import random
 import aiofiles
+import requests
+import wikipedia
+
+from io import BytesIO
+from random import randint
+from typing import Optional
 from pykeyboard import InlineKeyboard
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, Message
 from asyncio import get_running_loop
 
-from Natsunagi import pbot as app
-from Natsunagi import pgram, aiohttpsession, eor
+from requests import get
+from telegram import (
+    Message,
+    Chat,
+    MessageEntity,
+    InlineKeyboardMarkup,
+    InlineKeyboardButton,
+    ParseMode,
+    ChatAction,
+    TelegramError,
+)
+from telegram.error import BadRequest
+from telegram.ext import CommandHandler, Filters
+from telegram.utils.helpers import escape_markdown, mention_html
+
+from Natsunagi import (
+    pbot as app, 
+    pgram, 
+    aiohttpsession, 
+    eor,
+    dispatcher,
+    OWNER_ID,
+    DEV_USERS,
+    spamwtc,
+)
+from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.utils.errors import capture_err
 from Natsunagi.utils.pastebin import epaste, hpaste
 from Natsunagi.utils.keyboard import ikb
+from Natsunagi.modules.helper_funcs.alternate import typing_action, send_action
+from Natsunagi.modules.helper_funcs.extraction import extract_user
+from Natsunagi.modules.helper_funcs.filters import CustomFilters
 
 __mod_name__ = "Paste"
 
@@ -34,7 +68,7 @@ async def isPreviewUp(preview: str) -> bool:
     return False
 
 
-@pgram.on_message(filters.command("hpaste") & ~filters.edited)
+@pgram.on_message(filters.command("bpaste") & ~filters.edited)
 @capture_err
 async def paste_func(_, message: Message):
     if not message.reply_to_message:
@@ -118,3 +152,144 @@ async def epaste_func(_, message: Message):
         except Exception:
             pass
     return await m.edit(link)
+
+
+def paste(update, context):
+    msg = update.effective_message
+
+    if msg.reply_to_message and msg.reply_to_message.document:
+        file = context.bot.get_file(msg.reply_to_message.document)
+        file.download("file.txt")
+        text = codecs.open("file.txt", "r+", encoding="utf-8")
+        paste_text = text.read()
+        url = "https://www.toptal.com/developers/hastebin/documents"
+        key = requests.post(url, data=paste_text.encode("UTF-8")).json().get("key")
+        text = "**Pasted to Hastebin!!!**"
+        buttons = [
+            [
+                InlineKeyboardButton(
+                    text="View Link",
+                    url=f"https://www.toptal.com/developers/hastebin/{key}",
+                ),
+                InlineKeyboardButton(
+                    text="View Raw",
+                    url=f"https://www.toptal.com/developers/hastebin/raw/{key}",
+                ),
+            ]
+        ]
+        msg.reply_text(
+            text,
+            reply_markup=InlineKeyboardMarkup(buttons),
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
+        )
+        os.remove("file.txt")
+    else:
+        msg.reply_text("Give me a text file to paste on hastebin")
+        return
+    
+
+@typing_action
+def nekopaste(update, context):
+    msg = update.effective_message
+
+    if msg.reply_to_message and msg.reply_to_message.document:
+        file = context.bot.get_file(msg.reply_to_message.document)
+        file.download("file.txt")
+        text = codecs.open("file.txt", "r+", encoding="utf-8")
+        paste_text = text.read()
+        link = (
+            requests.post(
+                "https://nekobin.com/api/documents",
+                json={"content": paste_text},
+            )
+            .json()
+            .get("result")
+            .get("key")
+        )
+        text = "**Nekofied to Nekobin!!!**"
+        buttons = [
+            [
+                InlineKeyboardButton(
+                    text="View Link", url=f"https://nekobin.com/{link}"
+                ),
+                InlineKeyboardButton(
+                    text="View Raw",
+                    url=f"https://nekobin.com/raw/{link}",
+                ),
+            ]
+        ]
+        msg.reply_text(
+            text,
+            reply_markup=InlineKeyboardMarkup(buttons),
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
+        )
+        os.remove("file.txt")
+    else:
+        msg.reply_text("Give me a text file to paste on nekobin")
+        return
+
+
+@typing_action
+def spacepaste(update, context):
+    message = update.effective_message
+    bot, args = context.bot, context.args
+    
+    if not message.reply_to_message.text:
+        file = bot.getFile(message.reply_to_message.document)
+        file.download("file.txt")
+        text = codecs.open("file.txt", "r+", encoding="utf-8")
+        paste_text = text.read()
+        print(paste_text)
+        os.remove("file.txt")
+        
+    elif message.reply_to_message.text:
+        paste_text = message.reply_to_message.text
+    elif len(args) >= 1:
+        paste_text = message.text.split(None, 1)[1]
+        
+    else:
+        message.reply_text(
+            "reply to any message or just do /paste <what you want to paste>"
+        )
+        return
+
+    extension = "txt"
+    url = "https://spaceb.in/api/v1/documents/"
+    try:
+        response = requests.post(
+            url, data={"content": paste_text, "extension": extension}
+        )
+    except Exception as e:
+        return {"error": str(e)}
+
+    response = response.json()
+    text = (
+        f"**Pasted to [Space.bin]('https://spaceb.in/{response['payload']['id']}')!!!**"
+    )
+    buttons = [
+        [
+            InlineKeyboardButton(
+                text="View Link", url=f"https://spaceb.in/{response['payload']['id']}"
+            ),
+            InlineKeyboardButton(
+                text="View Raw",
+                url=f"https://spaceb.in/api/v1/documents/{response['payload']['id']}/raw",
+            ),
+        ]
+    ]
+    message.reply_text(
+        text,
+        reply_markup=InlineKeyboardMarkup(buttons),
+        parse_mode=ParseMode.MARKDOWN,
+        disable_web_page_preview=True,
+    )    
+
+PASTE_HANDLER = DisableAbleCommandHandler("hpaste", paste, run_async=True)
+NEKO_HANDLER = DisableAbleCommandHandler("npaste", nekopaste, run_async=True)
+SPASE_HANDLER = DisableAbleCommandHandler("spaste", spacepaste, run_async=True)
+
+dispatcher.add_handler(PASTE_HANDLER)
+dispatcher.add_handler(NEKO_HANDLER)
+dispatcher.add_handler(SPASE_HANDLER)
