@@ -26,7 +26,7 @@ class FloodControl(BASE):
 class FloodSettings(BASE):
     __tablename__ = "antiflood_settings"
     chat_id = Column(String(14), primary_key=True)
-    flood_type = Column(Integer, default=1)
+    flood_type = Column(BigInteger, default=1)
     value = Column(UnicodeText, default="0")
 
     def __init__(self, chat_id, flood_type=1, value="0"):
