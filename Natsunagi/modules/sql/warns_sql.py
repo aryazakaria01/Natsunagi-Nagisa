@@ -1,7 +1,7 @@
 import threading
 
 from Natsunagi.modules.sql import BASE, SESSION
-from sqlalchemy import Boolean, Column, BigInteger, String, UnicodeText, distinct, func
+from sqlalchemy import Boolean, Column, BigInteger, String, UnicodeText, distinct, func, Integer
 from sqlalchemy.dialects import postgresql
 
 
@@ -53,7 +53,7 @@ class WarnFilters(BASE):
 class WarnSettings(BASE):
     __tablename__ = "warn_settings"
     chat_id = Column(String(14), primary_key=True)
-    warn_limit = Column(BigInteger, default=3)
+    warn_limit = Column(Integer, default=3)
     soft_warn = Column(Boolean, default=False)
 
     def __init__(self, chat_id, warn_limit=3, soft_warn=False):
