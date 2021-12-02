@@ -3,7 +3,7 @@ import threading
 
 from Natsunagi import dispatcher
 from Natsunagi.modules.sql import BASE, SESSION
-from sqlalchemy import Boolean, Column, BigInteger, String, UnicodeText
+from sqlalchemy import Boolean, Column, BigInteger, String, UnicodeText, Integer
 from telegram.error import BadRequest, Unauthorized
 
 
@@ -45,7 +45,7 @@ class BansF(BASE):
     last_name = Column(UnicodeText)
     user_name = Column(UnicodeText)
     reason = Column(UnicodeText, default="")
-    time = Column(BigInteger, default=0)
+    time = Column(Integer, default=0)
 
     def __init__(self, fed_id, user_id, first_name, last_name, user_name, reason, time):
         self.fed_id = fed_id
