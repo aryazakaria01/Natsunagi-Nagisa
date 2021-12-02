@@ -266,10 +266,7 @@ else:
 
 DRAGONS.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
-DEV_USERS.add(870471128)
-DEV_USERS.add(645739169)
-DEV_USERS.add(1416529201)
-DEV_USERS.add(1192108540)
+
 
 REDIS = StrictRedis.from_url(REDIS_URL, decode_responses=True)
 
@@ -300,7 +297,7 @@ else:
         sw = spamwatch.Client(SPAMWATCH_API)
     except:
         sw = None
-        LOGGER.warning("[Natsunagi Error]: Can't connect to SpamWatch!")
+        LOGGER.warning("Can't connect to SpamWatch!")
 
 from Natsunagi.modules.sql import SESSION
 
