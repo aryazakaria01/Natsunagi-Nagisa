@@ -82,23 +82,23 @@ def ban(update: Update, context: CallbackContext) -> str:
 
     if is_user_ban_protected(chat, user_id, member) and user not in DEV_USERS:
         if user_id == OWNER_ID:
-            message.reply_text("Trying to put me against a Master huh?")
+            message.reply_text("Fighting with my Master will put user lives at risk")
         elif user_id in DEV_USERS:
             message.reply_text("I can't act against our own.")
         elif user_id in DRAGONS:
             message.reply_text(
-                "Fighting this Bersekser here will put user lives at risk."
+                "Fighting this Shadow Slayer here will put user lives at risk."
             )
         elif user_id in DEMONS:
             message.reply_text(
-                "Bring an order from Master Servant to fight a Assasin servant."
+                "Bring an order from Master Servant to fight a Guardian"
             )
         elif user_id in TIGERS:
             message.reply_text(
-                "Bring an order from Master Servant to fight a Lancer servant."
+                "Bring an order from Master Servant to fight a Light Shooters"
             )
         elif user_id in WOLVES:
-            message.reply_text("Rider abilities make them ban immune!")
+            message.reply_text("Villain abilities make them ban immune!")
         else:
             message.reply_text("This user has immunity and cannot be banned.")
         return log_message
@@ -134,7 +134,7 @@ def ban(update: Update, context: CallbackContext) -> str:
         reply = f"Yep! Banned {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\nBy {mention_html(user.id, html.escape(user.first_name))}"
 
         if reason:
-            reply += f"\n<code> </code><b>Reason:</b> \n{html.escape(reason)}"
+            reply += f"\nReason: {html.escape(reason)}"
 
         bot.sendMessage(
             chat.id,
@@ -238,7 +238,7 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
         reply_msg = f"Yep! Temporary Banned {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\nBy {mention_html(user.id, html.escape(user.first_name))}"
 
         if reason:
-            reply_msg += f"\n<code> </code><b>Reason:</b> {html.escape(reason)}"
+            reply_msg += f"\nReason: {html.escape(reason)}"
 
         bot.sendMessage(
             chat.id,
@@ -445,7 +445,8 @@ def unban(update: Update, context: CallbackContext) -> str:
 
     chat.unban_member(user_id)
     message.reply_text(
-        f"Yep! Unbanned {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\nUnbanned By: {mention_html(user.id, html.escape(user.first_name))}!"
+        f"Yep! Unbanned {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\n"
+        f"Unbanned By: {mention_html(user.id, html.escape(user.first_name))}!"
     )
 
     log = (
@@ -493,7 +494,8 @@ def selfunban(update: Update, context: CallbackContext) -> str:
 
     chat.unban_member(user.id)
     message.reply_text(
-        f"Yep! I Have Unbanned You {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\nUnbanned By: {mention_html(user.id, html.escape(user.first_name))}."
+        f"Yep! I Have Unbanned You {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\n"
+        f"Unbanned By: {mention_html(user.id, html.escape(user.first_name))}."
     )
 
     log = (
