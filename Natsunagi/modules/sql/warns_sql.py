@@ -1,7 +1,9 @@
 import threading
 
 from Natsunagi.modules.sql import BASE, SESSION
-from sqlalchemy import Boolean, Column, BigInteger, String, UnicodeText, distinct, func, Integer
+
+from sqlalchemy import Boolean, Column, String, UnicodeText, distinct, func, Integer
+from sqlalchemy.sql.sqltypes import BigInteger
 from sqlalchemy.dialects import postgresql
 
 
