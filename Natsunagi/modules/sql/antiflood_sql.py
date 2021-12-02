@@ -1,7 +1,7 @@
 import threading
 
-from sqlalchemy import String, Column, BigInteger, UnicodeText, Integer
-
+from sqlalchemy import String, Column, UnicodeText, Integer
+from sqlalchemy.sql.sqltypes import BigInteger
 from Natsunagi.modules.sql import SESSION, BASE
 
 DEF_COUNT = 1
