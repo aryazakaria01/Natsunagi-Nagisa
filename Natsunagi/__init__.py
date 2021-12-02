@@ -89,6 +89,7 @@ if ENV:
         raise Exception("Your scout users list does not contain valid integers.")
 
     INFOPIC = bool(os.environ.get("INFOPIC", False))
+    DEBUG = bool(os.environ.get("DEBUG", False))
     EVENT_LOGS = os.environ.get("EVENT_LOGS")
     ERROR_LOGS = os.environ.get("ERROR_LOGS")
     WEBHOOK = bool(os.environ.get("WEBHOOK", False))
@@ -257,7 +258,8 @@ else:
     SPB_MODE = Config.SPB_MODE
     CUSTOM_CMD = Config.CUSTOM_CMD
     SIBYL_KEY = Config.SIBYL_KEY
-
+    DEBUG = Config.DEBUG
+    
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
     except ValueError:
