@@ -1,8 +1,10 @@
 import threading
-
 from typing import Union
+
 from Natsunagi.modules.sql import BASE, SESSION
-from sqlalchemy import Boolean, Column, BigInteger, String
+
+from sqlalchemy import Boolean, Column, String
+from sqlalchemy.sql.sqltypes import BigInteger
 
 
 class ReportingUserSettings(BASE):
