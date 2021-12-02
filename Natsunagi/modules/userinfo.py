@@ -312,22 +312,22 @@ def info(update: Update, context: CallbackContext):
     disaster_level_present = False
 
     if user.id == OWNER_ID:
-        text += "\n\nThe Disaster level of this person is The Detective."
+        text += "\n\nThe level for my master is Heroine"
         disaster_level_present = True
     elif user.id in DEV_USERS:
-        text += "\n\nThis user is member of Assistant Of The Detective."
+        text += "\n\nThe level for this user is Destroyers"
         disaster_level_present = True
     elif user.id in DRAGONS:
-        text += "\n\nThe Disaster level of this person is Friend Of Detective."
+        text += "\n\nThe level for this user is Shadow Slayer"
         disaster_level_present = True
     elif user.id in DEMONS:
-        text += "\n\nThe Disaster level of this person is Supporter Of Defender."
+        text += "\n\nThe level for this user is Guardian"
         disaster_level_present = True
     elif user.id in TIGERS:
-        text += "\n\nThe Disaster level of this person is Defender Of The Detective ."
+        text += "\n\nThe level for this user is Light Shooters"
         disaster_level_present = True
     elif user.id in WOLVES:
-        text += "\n\nThe Disaster level of this person is Second Defender Of The Detective ."
+        text += "\n\nThe level for this user is Villain"
         disaster_level_present = True
     elif user.id == 1482952149:
         text += "\n\nCo-Owner Of A Bot. Queen Of @Badboyanim. Bot Name Inspired From Tantei Wa Mou, Shindeiru."
