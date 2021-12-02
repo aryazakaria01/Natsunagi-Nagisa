@@ -3,7 +3,10 @@ import threading
 
 from Natsunagi import dispatcher
 from Natsunagi.modules.sql import BASE, SESSION
-from sqlalchemy import Boolean, Column, BigInteger, String, UnicodeText, Integer
+
+from sqlalchemy import Boolean, Column, String, UnicodeText, Integer
+from sqlalchemy.sql.sqltypes import BigInteger
+
 from telegram.error import BadRequest, Unauthorized
 
 
