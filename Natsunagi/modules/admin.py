@@ -311,7 +311,7 @@ def promote(update, context):
             ]
         ]
     )
-    await message.reply_text(
+    message.reply_text(
         f"♔ {chat.title} Event!\n"
         f"• A new admin has been appointed!\n"
         f"• Let's all welcome {mention_html(user_member.user.id, user_member.user.first_name)}",
@@ -408,7 +408,7 @@ def fullpromote(update, context):
             ]
         ]
     )
-    await message.reply_text(
+    message.reply_text(
         f"♔ {chat.title} Event!\n"
         f"• A new admin has been appointed as Fully Promoted!\n"
         f"• Let's all welcome {mention_html(user_member.user.id, user_member.user.first_name)}",
