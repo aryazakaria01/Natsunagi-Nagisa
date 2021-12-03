@@ -303,9 +303,21 @@ def promote(update, context):
                 "I can't set custom title for admins that I didn't promote!"
             )
 
+        keyboard = InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(text="⏬ Demote", callback_data="demote_({})".format(user_member.user.id)),
+                    InlineKeyboardButton(text="🔄 Cache", callback_data="close2")
+                ]
+            ]
+        )
+    )
+    
     message.reply_text(
-        f"Promoted <b>{user_member.user.first_name or user_id}</b>"
-        + f" with title <code>{title[:16]}</code>!",
+        f"♔ {chat.title} Event!\n"
+        f"• A new admin has been appointed!\n"
+        f"• Let's all welcome {mention_html(member.user.id, member.user.first_name)}",
+        reply_markup=keyboard,
         parse_mode=ParseMode.HTML,
     )
     # refresh admin cache
@@ -324,6 +336,9 @@ def promote(update, context):
         )
     )
 
+close_keyboard = InlineKeyboardMarkup(
+    [[InlineKeyboardButton("🔄 Cache", callback_data="close2")]]
+)
 
 @bot_admin
 @can_promote
@@ -387,22 +402,34 @@ def fullpromote(update, context):
                 "I can't set custom title for admins that I didn't promote!"
             )
 
+        keyboard = InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(text="⏬ Demote", callback_data="demote_({})".format(user_member.user.id)),
+                    InlineKeyboardButton(text="🔄 Cache", callback_data="close2")
+                ]
+            ]
+        )
+    )            
+
     message.reply_text(
-        f"Fully Promoted <b>{user_member.user.first_name or user_id}</b>"
-        + f" with title <code>{title[:16]}</code>!",
+        f"♔ {chat.title} Event!\n"
+        f"• A new admin has been appointed as Fully Promoted!\n"
+        f"• Let's all welcome {mention_html(member.user.id, member.user.first_name)}",
+        reply_markup=keyboard,
         parse_mode=ParseMode.HTML,
     )
-    return (
-        "<b>{}:</b>"
-        "\n#FULLPROMOTED"
-        "\n<b>Admin:</b> {}"
-        "\n<b>User:</b> {}".format(
-            html.escape(chat.title),
-            mention_html(user.id, user.first_name),
-            mention_html(user_member.user.id, user_member.user.first_name),
-        )
+    
+    log_message = (
+        f"<b>{html.escape(chat.title)}:</b>\n"
+        f"#FULLPROMOTED\n"
+        f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+        f"<b>User:</b> {mention_html(user_member.user.id, user_member.user.first_name)}"
     )
 
+close_keyboard = InlineKeyboardMarkup(
+    [[InlineKeyboardButton("🔄 Cache", callback_data="close2")]]
+)
 
 @bot_admin
 @can_promote
@@ -835,6 +862,65 @@ def adminlist(update, context):
     except BadRequest:  # if original message is deleted
         return
 
+
+@bot_admin
+@can_promote
+@user_admin
+@loggable
+def button(update: Update, context: CallbackContext) -> str:
+    query: Optional[CallbackQuery] = update.callback_query
+    user: Optional[User] = update.effective_user
+    bot: Optional[Bot] = context.bot
+    match = re.match(r"demote_\((.+?)\)", query.data)
+    if match:
+        user_id = match.group(1)
+        chat: Optional[Chat] = update.effective_chat
+        member = chat.get_member(user_id)
+        bot_member = chat.get_member(bot.id)
+        bot_permissions = promoteChatMember(
+            chat.id,
+            user_id,
+            can_change_info=bot_member.can_change_info,
+            can_post_messages=bot_member.can_post_messages,
+            can_edit_messages=bot_member.can_edit_messages,
+            can_delete_messages=bot_member.can_delete_messages,
+            can_invite_users=bot_member.can_invite_users,
+            can_promote_members=bot_member.can_promote_members,
+            can_restrict_members=bot_member.can_restrict_members,
+            can_pin_messages=bot_member.can_pin_messages,
+            can_manage_voice_chats=bot_member.can_manage_voice_chats,
+        )
+        demoted = bot.promoteChatMember(
+            chat.id,
+            user_id,
+            can_change_info=False,
+            can_post_messages=False,
+            can_edit_messages=False,
+            can_delete_messages=False,
+            can_invite_users=False,
+            can_restrict_members=False,
+            can_pin_messages=False,
+            can_promote_members=False,
+            can_manage_voice_chats=False,
+        )
+        if demoted:
+            update.effective_message.edit_text(
+                f"Yep! {mention_html(member.user.id, member.user.first_name)} has been demoted in {chat.title}!"
+                f"By {mention_html(user.id, user.first_name)}",
+                parse_mode=ParseMode.HTML,
+            )
+            query.answer("Demoted!")
+            return (
+                f"<b>{html.escape(chat.title)}:</b>\n"
+                f"#DEMOTE\n"
+                f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+                f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}"
+            )
+    else:
+        update.effective_message.edit_text(
+            "This user is not promoted or has left the group!"
+        )
+        return ""
 
 __help__ = """
 *User Commands*:
