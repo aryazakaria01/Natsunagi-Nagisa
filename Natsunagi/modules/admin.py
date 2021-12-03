@@ -314,7 +314,7 @@ def promote(update, context):
     message.reply_text(
         f"♔ {chat.title} Event!\n"
         f"• A new admin has been appointed!\n"
-        f"• Let's all welcome {mention_html(member.user.id, member.user.first_name)}",
+        f"• Let's all welcome {mention_html(user_member.user.id, user_member.user.first_name)}",
         reply_markup=keyboard,
         parse_mode=ParseMode.HTML,
     )
@@ -411,7 +411,7 @@ def fullpromote(update, context):
     message.reply_text(
         f"♔ {chat.title} Event!\n"
         f"• A new admin has been appointed as Fully Promoted!\n"
-        f"• Let's all welcome {mention_html(member.user.id, member.user.first_name)}",
+        f"• Let's all welcome {mention_html(user_member.user.id, user_member.user.first_name)}",
         reply_markup=keyboard,
         parse_mode=ParseMode.HTML,
     )
@@ -901,7 +901,7 @@ def button(update: Update, context: CallbackContext) -> str:
         )
         if demoted:
             update.effective_message.edit_text(
-                f"Yep! {mention_html(member.user.id, member.user.first_name)} has been demoted in {chat.title}!"
+                f"Yep! {mention_html(user_member.user.id, user_member.user.first_name)} has been demoted in {chat.title}!"
                 f"By {mention_html(user.id, user.first_name)}",
                 parse_mode=ParseMode.HTML,
             )
