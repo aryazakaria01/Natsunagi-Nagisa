@@ -303,15 +303,15 @@ def promote(update, context):
                 "I can't set custom title for admins that I didn't promote!"
             )
 
-        keyboard = InlineKeyboardMarkup(
+    keyboard = InlineKeyboardMarkup(
+        [
             [
-                [
-                    InlineKeyboardButton(text="⏬ Demote", callback_data="demote_({})".format(user_member.user.id)),
-                    InlineKeyboardButton(text="🔄 Cache", callback_data="close2")
-                ]
+                InlineKeyboardButton(text="⏬ Demote", callback_data="demote_({})".format(user_member.user.id)),
+                InlineKeyboardButton(text="🔄 Cache", callback_data="close2")
             ]
-        )
-    message.reply_text(
+        ]
+    )
+    await message.reply_text(
         f"♔ {chat.title} Event!\n"
         f"• A new admin has been appointed!\n"
         f"• Let's all welcome {mention_html(user_member.user.id, user_member.user.first_name)}",
@@ -400,15 +400,15 @@ def fullpromote(update, context):
                 "I can't set custom title for admins that I didn't promote!"
             )
 
-        keyboard = InlineKeyboardMarkup(
+    keyboard = InlineKeyboardMarkup(
+        [
             [
-                [
-                    InlineKeyboardButton(text="⏬ Demote", callback_data="demote_({})".format(user_member.user.id)),
-                    InlineKeyboardButton(text="🔄 Cache", callback_data="close2")
-                ]
+                InlineKeyboardButton(text="⏬ Demote", callback_data="demote_({})".format(user_member.user.id)),
+                InlineKeyboardButton(text="🔄 Cache", callback_data="close2")
             ]
-        )
-    message.reply_text(
+        ]
+    )
+    await message.reply_text(
         f"♔ {chat.title} Event!\n"
         f"• A new admin has been appointed as Fully Promoted!\n"
         f"• Let's all welcome {mention_html(user_member.user.id, user_member.user.first_name)}",
