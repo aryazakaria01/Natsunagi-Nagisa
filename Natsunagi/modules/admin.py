@@ -311,7 +311,6 @@ def promote(update, context):
                 ]
             ]
         )
-    )
     
     message.reply_text(
         f"♔ {chat.title} Event!\n"
