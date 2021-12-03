@@ -310,8 +310,7 @@ def promote(update, context):
                     InlineKeyboardButton(text="🔄 Cache", callback_data="close2")
                 ]
             ]
-        ),
-    )
+        )
     message.reply_text(
         f"♔ {chat.title} Event!\n"
         f"• A new admin has been appointed!\n"
@@ -408,9 +407,7 @@ def fullpromote(update, context):
                     InlineKeyboardButton(text="🔄 Cache", callback_data="close2")
                 ]
             ]
-        ),
-    )            
-
+        )
     message.reply_text(
         f"♔ {chat.title} Event!\n"
         f"• A new admin has been appointed as Fully Promoted!\n"
