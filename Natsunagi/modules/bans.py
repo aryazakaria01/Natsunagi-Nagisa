@@ -450,7 +450,8 @@ def unban(update: Update, context: CallbackContext) -> str:
     chat.unban_member(user_id)
     message.reply_text(
         f"Yep! Unbanned {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\n"
-        f"Unbanned By: {mention_html(user.id, html.escape(user.first_name))}!"
+        f"Unbanned By: {mention_html(user.id, html.escape(user.first_name))}!",
+        parse_mode=ParseMode.HTML,
     )
 
     log = (
@@ -499,7 +500,8 @@ def selfunban(update: Update, context: CallbackContext) -> str:
     chat.unban_member(user.id)
     message.reply_text(
         f"Yep! I Have Unbanned You {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\n"
-        f"Unbanned By: {mention_html(user.id, html.escape(user.first_name))}."
+        f"Unbanned By: {mention_html(user.id, html.escape(user.first_name))}.",
+        parse_mode=ParseMode.HTML,
     )
 
     log = (
