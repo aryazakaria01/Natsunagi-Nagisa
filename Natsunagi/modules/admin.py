@@ -619,10 +619,7 @@ def pin(update: Update, context: CallbackContext) -> str:
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
-                            InlineKeyboardButton(
-                                "📝 View Messages",
-                                url=f"{message_link}",
-                            ),
+                            InlineKeyboardButton(text="📝 View Messages", url=f"{message_link}"),
                             InlineKeyboardButton(text="❌ Delete", callback_data="close2")
                         ]
                     ]
