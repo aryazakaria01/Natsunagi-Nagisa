@@ -5,8 +5,7 @@ import requests
 from asyncio import get_running_loop
 from functools import partial
 from Natsunagi.utils.http import post
-from Natsunagi import LOGGER
-from ..Config import Config
+from Natsunagi import LOGGER, BOTLOG_CHATID
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36",
@@ -67,7 +66,7 @@ async def p_paste(message, extension=None):
             from Natsunagi import pgram
 
             await pgram.send_message(
-                Config.BOTLOG_CHATID,
+                BOTLOG_CHATID,
                 f"**You have created a new paste in pasty bin.** Link to pasty is [here]({purl}). You can delete that paste by using this token `{response['deletionToken']}`",
             )
         except Exception as e:
