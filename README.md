@@ -27,6 +27,8 @@
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html) [![DeepSource](https://static.deepsource.io/deepsource-badge-light-mini.svg)](https://deepsource.io/gh/Awesome-RJ/CutiepiiRobot/?ref=repository-badge)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/41ee9ac813a34042925a6b6fa92cf84e)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AmaanAhmed/Lynda&amp;utm_campaign=Badge_Grade) [![Join Support!](https://img.shields.io/badge/Join%20Channel-!-red)](https://t.me/BlackKnightsUnion_DevChat) [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.png?v=103)](https://github.com/ellerbrock/open-source-badges/) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity) [![GitHub contributors](https://img.shields.io/github/contributors/Naereen/StrapDown.js.svg)](https://GitHub.com/aryazakaria01/Natsunagi-Nagisa/graphs/contributors/)
 
+![Alt](https://repobeats.axiom.co/api/embed/d129487e232e94fd759e9e280c263b3c67e6c46c.svg "Repobeats analytics image")
+
 A modular telegram Python bot running on python3 with an sqlalchemy, Redis, mongodb database.
 
 ###  ╒═══「 Status 」
