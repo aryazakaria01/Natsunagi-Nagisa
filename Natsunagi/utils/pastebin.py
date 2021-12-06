@@ -5,7 +5,7 @@ import request
 from asyncio import get_running_loop
 from functools import partial
 from Natsunagi.utils.http import post
-from Natsunagi import Config
+from Natsunagi import Config, LOGGER
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36",
@@ -44,7 +44,7 @@ async def epaste(content):
     return link
 
 
-"""
+
 async def p_paste(message, extension=None):
     """
     To Paste the given message/text/code to paste.pelkum.dev
@@ -70,7 +70,7 @@ async def p_paste(message, extension=None):
                 f"**You have created a new paste in pasty bin.** Link to pasty is [here]({purl}). You can delete that paste by using this token `{response['deletionToken']}`",
             )
         except Exception as e:
-            LOGS.info(str(e))
+            LOGGER.info(str(e))
         return {
             "url": purl,
             "raw": f"https://pasty.lus.pm/{response['id']}/raw",
@@ -116,4 +116,3 @@ async def pastetext(text_to_print, pastetype=None, extension=None):
     if "error" in response:
         response = await d_paste(text_to_print, extension)
     return response
-"""
