@@ -1,6 +1,6 @@
 import socket
 import json
-import request
+import requests
 
 from asyncio import get_running_loop
 from functools import partial
