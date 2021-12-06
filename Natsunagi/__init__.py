@@ -152,6 +152,7 @@ if ENV:
     SPB_MODE = os.environ.get("SPB_MODE", False)
     CUSTOM_CMD = os.environ.get("CUSTOM_CMD", "?")
     SIBYL_KEY = os.environ.get("SIBYL_KEY")
+    BOTLOG_CHATID = os.environ.get("BOTLOG_CHATID")
 
     try:
         WHITELIST_CHATS = {int(x) for x in os.environ.get("WHITELIST_CHATS", "").split()}
@@ -259,7 +260,8 @@ else:
     CUSTOM_CMD = Config.CUSTOM_CMD
     SIBYL_KEY = Config.SIBYL_KEY
     DEBUG = Config.DEBUG
-    
+    BOTLOG_CHATID = Config.BOTLOG_CHATID
+
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
     except ValueError:
