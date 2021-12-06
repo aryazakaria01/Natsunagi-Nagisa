@@ -116,3 +116,6 @@ Start with ```python3 -m Natsunagi```
  </b>
 </p>
 </details>
+
+
+![Alt](https://repobeats.axiom.co/api/embed/d2897eb81239aab92e1394b6d833b19c8dbac24c.svg "Repobeats analytics image")
