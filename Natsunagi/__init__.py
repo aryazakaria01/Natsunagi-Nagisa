@@ -40,7 +40,7 @@ logging.basicConfig(
     format=FORMAT,
     datefmt="[%X]",
 )
-logging.getLogger("pyrogram").setLevel(logging.WARNING)
+logging.getLogger("pyrogram").setLevel(logging.INFO)
 
 LOGGER = logging.getLogger('[Natsunagi]')
 LOGGER.info("Natsunagi is starting. | An CyberNetwork Project Parts. | Licensed under GPLv3.")
