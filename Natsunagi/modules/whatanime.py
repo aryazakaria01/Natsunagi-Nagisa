@@ -1,4 +1,3 @@
-
 import os
 import time
 import html
@@ -23,7 +22,7 @@ def format_bytes(size):
     # 2**10 = 1024
     power = 1024
     n = 0
-    power_labels = {0: '', 1: 'K', 2: 'M', 3: 'G', 4: 'T'}
+    power_labels = {0: "", 1: "K", 2: "M", 3: "G", 4: "T"}
     while size > power:
         size /= power
         n += 1
@@ -32,19 +31,19 @@ def format_bytes(size):
 
 def return_progress_string(current, total):
     filled_length = int(30 * current // total)
-    return '[' + '=' * filled_length + ' ' * (30 - filled_length) + ']'
+    return "[" + "=" * filled_length + " " * (30 - filled_length) + "]"
 
 
 def calculate_eta(current, total, start_time):
     if not current:
-        return '00:00:00'
+        return "00:00:00"
     end_time = time.time()
     elapsed_time = end_time - start_time
     seconds = (elapsed_time * (total / current)) - elapsed_time
-    thing = ''.join(str(timedelta(seconds=seconds)
-                        ).split('.')[:-1]).split(', ')
+    thing = "".join(str(timedelta(seconds=seconds)
+                        ).split(".")[:-1]).split(", ")
     thing[-1] = thing[-1].rjust(8, '0')
-    return ', '.join(thing)
+    return ", ".join(thing)
 
 
 @pgram.on_message(filters.command("whatanime", prefixes=(["!", "/"])))
@@ -52,19 +51,19 @@ async def whatanime(c: Client, m: Message):
     media = m.photo or m.animation or m.video or m.document
     if not media:
         reply = m.reply_to_message
-        if not getattr(reply, 'empty', True):
+        if not getattr(reply, "empty", True):
             media = reply.photo or reply.animation or reply.video or reply.document
     if not media:
-        await m.reply_text('Please reply it to a Photo or Gif or Video to work')
+        await m.reply_text("Please reply it to a Photo or Gif or Video to work")
         return
     with tempfile.TemporaryDirectory() as tempdir:
         reply = await m.reply_text("Downloading media...")
-        path = await c.download_media(media, file_name=os.path.join(tempdir, '0'), progress=progress_callback, progress_args=(reply,))
-        new_path = os.path.join(tempdir, '1.png')
-        proc = await asyncio.create_subprocess_exec('ffmpeg', '-i', path, '-frames:v', '1', new_path)
+        path = await c.download_media(media, file_name=os.path.join(tempdir, "0"), progress=progress_callback, progress_args=(reply,))
+        new_path = os.path.join(tempdir, "1.png")
+        proc = await asyncio.create_subprocess_exec("ffmpeg", "-i", path, "-frames:v", "1", new_path)
         await proc.communicate()
         await reply.edit_text("Uploading media to Trace.moe and finding results...")
-        with open(new_path, 'rb') as file:
+        with open(new_path, "rb") as file:
             async with session.post('https://api.trace.moe/search?anilistInfo', data={"image": file}) as resp:
                 json = await resp.json()
     if isinstance(json, str):
@@ -85,9 +84,9 @@ async def whatanime(c: Client, m: Message):
             synonyms = match["anilist"]["synonyms"]
             is_adult = match["anilist"]["isAdult"]
             from_time = str(datetime.timedelta(seconds=match["from"])).split(
-                '.', 1)[0].rjust(8, '0')
+                ".", 1)[0].rjust(8, '0')
             to_time = str(datetime.timedelta(seconds=match["to"])).split(
-                '.', 1)[0].rjust(8, '0')
+                ".", 1)[0].rjust(8, '0')
             text = f"<b>Anime Name:</b> {title_english}"
             if title_native:
                 text += f" ({title_native}) \n "
@@ -98,7 +97,7 @@ async def whatanime(c: Client, m: Message):
 
             if is_adult:
                 text += "\n<b>NSFW:</b> True"
-            text += f'\n<b>Similarity:</b> {(Decimal(similarity) * 100).quantize(Decimal(".01"))}%\n'
+            text += f"\n<b>Similarity:</b> {(Decimal(similarity) * 100).quantize(Decimal(".01"))}%\n"
             if episode:
                 text += f"<b>Episode:</b> {episode}"
             text += f"\n<b>Scene Timestamp:</b> from {from_time} to {to_time}\n"
@@ -121,7 +120,7 @@ async def whatanime(c: Client, m: Message):
                         await m.reply_video(file.name, caption=text, reply_markup=keyboard)
                         await reply.delete()
                     except Exception:
-                        await reply.reply_text('Cannot send preview :/')
+                        await reply.reply_text("Cannot send preview")
             await _send_preview()
 
 
@@ -139,13 +138,13 @@ async def progress_callback(current, total, reply):
             download_speed = format_bytes(
                 (total - current) / (time.time() - start_time))
         else:
-            download_speed = '0 B'
-        text = f'''Downloading...
+            download_speed = "0 B"
+        text = f"""Downloading...
 <code>{return_progress_string(current, total)}</code>
 <b>Total Size:</b> {format_bytes(total)}
 <b>Downladed Size:</b> {format_bytes(current)}
 <b>Download Speed:</b> {download_speed}/s
-<b>ETA:</b> {calculate_eta(current, total, start_time)}'''
+<b>ETA:</b> {calculate_eta(current, total, start_time)}"""
         if prevtext != text:
             await reply.edit_text(text)
             prevtext = text
