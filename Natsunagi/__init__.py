@@ -14,9 +14,6 @@ from pyrogram.types import Message
 from telethon import TelegramClient
 from telethon.sessions import MemorySession
 from telethon.sessions import StringSession
-from motor import motor_asyncio
-from odmantic import AIOEngine
-from pymongo import MongoClient
 from pymongo.errors import ServerSelectionTimeoutError
 from redis import StrictRedis
 from Python_ARQ import ARQ
@@ -131,6 +128,7 @@ if ENV:
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
     BOT_NAME = os.environ.get("BOT_NAME", True)
     MONGO_DB = os.environ.get("MONGO_DB", "Natsunagi")
+    MONGO_URI = os.environ.get("MONGO_DB")
     ARQ_API_URL = os.environ.get("ARQ_API_URL")
     GOOGLE_CHROME_BIN = "/usr/bin/google-chrome"
     CHROME_DRIVER = "/usr/bin/chromedriver"
@@ -218,7 +216,6 @@ else:
     CASH_API_KEY = Config.CASH_API_KEY
     TIME_API_KEY = Config.TIME_API_KEY
     WALL_API = Config.WALL_API
-    MONGO_DB_URL = Config.MONGO_DB_URL
     REDIS_URL = Config.REDIS_URL
     SUPPORT_CHAT = Config.SUPPORT_CHAT
     SPAMWATCH_SUPPORT_CHAT = Config.SPAMWATCH_SUPPORT_CHAT
@@ -242,6 +239,7 @@ else:
     BOT_API_URL = Config.BOT_API_URL
     MONGO_DB_URL = Config.MONGO_DB_URL
     MONGO_DB = Config.MONGO_DB
+    MONGO_URI = Config.MONG_URI
     HELP_IMG = Config.HELP_IMG
     START_IMG = Config.START_IMG
     NAGISA_PHOTO = Config.NAGISA_PHOTO
@@ -273,23 +271,15 @@ DEV_USERS.add(OWNER_ID)
 
 
 REDIS = StrictRedis.from_url(REDIS_URL, decode_responses=True)
-
 try:
-
     REDIS.ping()
-
     LOGGER.info("Connecting To Redis Database")
-
 except BaseException:
-
     raise Exception(
         "[Natsunagi Error]: Your Redis Database Is Not Alive, Please Check Again."
     )
-
 finally:
-
     REDIS.ping()
-
     LOGGER.info("Connection To The Redis Database Established Successfully!")
 
 
@@ -326,11 +316,6 @@ pgram = Client(
     api_hash=API_HASH,
     bot_token=TOKEN,
 )
-# MongoDB Client
-mongodb = MongoClient(MONGO_DB_URL, 27017)[MONGO_DB]
-motor = motor_asyncio.AsyncIOMotorClient(MONGO_DB_URL)
-db = motor[MONGO_DB]
-engine = AIOEngine(motor, MONGO_DB)
 # AioHttp Session
 aiohttpsession = ClientSession()
 # ARQ Client
