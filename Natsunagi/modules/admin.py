@@ -2,11 +2,11 @@ import os
 import html
 
 from telegram import (
-    ParseMode, 
-    Update, 
-    InlineKeyboardButton, 
-    InlineKeyboardMarkup, 
-    Message, 
+    ParseMode,
+    Update,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Message,
     User,
 )
 from telegram.error import BadRequest
@@ -39,6 +39,7 @@ from Natsunagi.modules.helper_funcs.extraction import (
 from Natsunagi.modules.log_channel import loggable
 from Natsunagi.modules.helper_funcs.alternate import send_message, typing_action
 from Natsunagi.modules.connection import connected
+
 
 async def is_register_admin(chat, user):
     if isinstance(chat, (types.InputPeerChannel, types.InputChannel)):
@@ -82,10 +83,7 @@ async def can_ban_users(message):
 async def get_users(show):
     if not show.is_group:
         return
-    if (
-        show.is_group
-        and not await is_register_admin(show.input_chat, show.sender_id)
-    ):
+    if show.is_group and not await is_register_admin(show.input_chat, show.sender_id):
         return
     info = await bot.get_entity(show.chat_id)
     title = info.title if info.title else "this chat"
@@ -306,8 +304,11 @@ def promote(update, context):
     keyboard = InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton(text="⏬ Demote", callback_data="demote_({})".format(user_member.user.id)),
-                InlineKeyboardButton(text="🔄 Cache", callback_data="close2")
+                InlineKeyboardButton(
+                    text="⏬ Demote",
+                    callback_data="demote_({})".format(user_member.user.id),
+                ),
+                InlineKeyboardButton(text="🔄 Cache", callback_data="close2"),
             ]
         ]
     )
@@ -334,9 +335,11 @@ def promote(update, context):
         )
     )
 
+
 close_keyboard = InlineKeyboardMarkup(
     [[InlineKeyboardButton("🔄 Cache", callback_data="close2")]]
 )
+
 
 @bot_admin
 @can_promote
@@ -403,8 +406,11 @@ def fullpromote(update, context):
     keyboard = InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton(text="⏬ Demote", callback_data="demote_({})".format(user_member.user.id)),
-                InlineKeyboardButton(text="🔄 Cache", callback_data="close2")
+                InlineKeyboardButton(
+                    text="⏬ Demote",
+                    callback_data="demote_({})".format(user_member.user.id),
+                ),
+                InlineKeyboardButton(text="🔄 Cache", callback_data="close2"),
             ]
         ]
     )
@@ -415,7 +421,7 @@ def fullpromote(update, context):
         reply_markup=keyboard,
         parse_mode=ParseMode.HTML,
     )
-    
+
     log_message = (
         f"<b>{html.escape(chat.title)}:</b>\n"
         f"#FULLPROMOTED\n"
@@ -423,9 +429,11 @@ def fullpromote(update, context):
         f"<b>User:</b> {mention_html(user_member.user.id, user_member.user.first_name)}"
     )
 
+
 close_keyboard = InlineKeyboardMarkup(
     [[InlineKeyboardButton("🔄 Cache", callback_data="close2")]]
 )
+
 
 @bot_admin
 @can_promote
@@ -619,8 +627,12 @@ def pin(update: Update, context: CallbackContext) -> str:
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
-                            InlineKeyboardButton(text="📝 View Messages", url=f"{message_link}"),
-                            InlineKeyboardButton(text="❌ Delete", callback_data="close2")
+                            InlineKeyboardButton(
+                                text="📝 View Messages", url=f"{message_link}"
+                            ),
+                            InlineKeyboardButton(
+                                text="❌ Delete", callback_data="close2"
+                            ),
                         ]
                     ]
                 ),
@@ -639,9 +651,11 @@ def pin(update: Update, context: CallbackContext) -> str:
 
         return log_message
 
+
 close_keyboard = InlineKeyboardMarkup(
     [[InlineKeyboardButton("❌ Delete", callback_data="close2")]]
 )
+
 
 @bot_admin
 @can_pin
@@ -914,6 +928,7 @@ def button(update: Update, context: CallbackContext) -> str:
             "This user is not promoted or has left the group!"
         )
         return ""
+
 
 __help__ = """
 *User Commands*:

@@ -90,9 +90,7 @@ def ban(update: Update, context: CallbackContext) -> str:
                 "Fighting this Shadow Slayer here will put user lives at risk."
             )
         elif user_id in DEMONS:
-            message.reply_text(
-                "Bring an order from Master Servant to fight a Guardian"
-            )
+            message.reply_text("Bring an order from Master Servant to fight a Guardian")
         elif user_id in TIGERS:
             message.reply_text(
                 "Bring an order from Master Servant to fight a Light Shooters"
