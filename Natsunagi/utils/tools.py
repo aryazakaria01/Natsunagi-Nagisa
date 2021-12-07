@@ -1,33 +1,6 @@
-"""
-MIT License
-
-Copyright (C) 2017-2019, Paul Larsen
-Copyright (C) 2021 Awesome-RJ
-Copyright (c) 2021, Yūki • Black Knights Union, <https://github.com/Awesome-RJ/CutiepiiRobot>
-
-This file is part of @Cutiepii_Robot (Telegram Bot)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-
-furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
 import hashlib
 import re
+from html_telegraph_poster import TelegraphPoster
 
 
 async def md5(fname: str) -> str:
@@ -79,3 +52,36 @@ def human_to_bytes(size: str) -> int:
         size = re.sub(r"([KMGT])", r" \1", size)
     number, unit = [string.strip() for string in size.split()]
     return int(float(number) * units[unit])
+
+
+def media_type(message):
+    if message and message.photo:
+        return "Photo"
+    if message and message.audio:
+        return "Audio"
+    if message and message.voice:
+        return "Voice"
+    if message and message.video_note:
+        return "Round Video"
+    if message and message.gif:
+        return "Gif"
+    if message and message.sticker:
+        return "Sticker"
+    if message and message.video:
+        return "Video"
+    if message and message.document:
+        return "Document"
+    return None
+
+
+async def post_to_telegraph(page_title, html_format_content):
+    post_client = TelegraphPoster(use_api=True)
+    auth_name = "CatUserbot"
+    post_client.create_api_token(auth_name)
+    post_page = post_client.post(
+        title=page_title,
+        author=auth_name,
+        author_url="https://t.me/catuserbot17",
+        text=html_format_content,
+    )
+    return post_page["url"]
