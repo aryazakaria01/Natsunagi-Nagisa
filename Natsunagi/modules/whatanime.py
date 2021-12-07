@@ -97,7 +97,7 @@ async def whatanime(c: Client, m: Message):
 
             if is_adult:
                 text += "\n<b>NSFW:</b> True"
-            text += f"\n<b>Similarity:</b> {(Decimal(similarity) * 100).quantize(Decimal(".01"))}%\n"
+            text += f'\n<b>Similarity:</b> {(Decimal(similarity) * 100).quantize(Decimal(".01"))}%\n'
             if episode:
                 text += f"<b>Episode:</b> {episode}"
             text += f"\n<b>Scene Timestamp:</b> from {from_time} to {to_time}\n"
