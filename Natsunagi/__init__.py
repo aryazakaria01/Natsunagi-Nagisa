@@ -128,7 +128,7 @@ if ENV:
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
     BOT_NAME = os.environ.get("BOT_NAME", True)
     MONGO_DB = os.environ.get("MONGO_DB", "Natsunagi")
-    MONGO_URI = os.environ.get("MONGO_DB")
+    MONGO_URI = os.environ.get("MONGO_URI")
     ARQ_API_URL = os.environ.get("ARQ_API_URL")
     GOOGLE_CHROME_BIN = "/usr/bin/google-chrome"
     CHROME_DRIVER = "/usr/bin/chromedriver"
