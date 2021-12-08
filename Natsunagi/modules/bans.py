@@ -62,10 +62,28 @@ def ban(update: Update, context: CallbackContext) -> str:
     user = update.effective_user
     message = update.effective_message
     log_message = ""
+    reason = ""
     bot = context.bot
     args = context.args
     user_id, reason = extract_user_and_text(message, args)
+    if message.reply_to_message and message.reply_to_message.sender_chat:
+        r = bot._request.post(bot.base_url + '/banChatSenderChat', {
+            'sender_chat_id': message.reply_to_message.sender_chat.id,
+            'chat_id': chat.id
+        },
+                              )
+        if r:
+            message.reply_text("Channel {} was banned successfully from {}".format(
+                html.escape(message.reply_to_message.sender_chat.title),
+                html.escape(chat.title)
+            ),
+                parse_mode="html"
+            )
+        else:
+            message.reply_text("Failed to ban channel")
+        return
 
+    user_id, reason = extract_user_and_text(message, args)
     if not user_id:
         message.reply_text("Dude at least refer some user to ban!")
         return log_message
