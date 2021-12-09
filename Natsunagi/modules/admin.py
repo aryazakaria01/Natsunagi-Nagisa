@@ -1,5 +1,6 @@
 import os
 import html
+from typing import Optional
 
 from telegram import (
     ParseMode, 
@@ -248,7 +249,7 @@ def setchat_title(update: Update, context: CallbackContext):
 @user_admin(AdminPerms.CAN_PROMOTE_MEMBERS)
 @loggable
 @typing_action
-def promote(update, context):
+def promote(update: Update, context: CallbackContext) -> Optional[str]:
     chat_id = update.effective_chat.id
     message = update.effective_message
     chat = update.effective_chat
@@ -433,7 +434,7 @@ close_keyboard = InlineKeyboardMarkup(
 @user_admin(AdminPerms.CAN_PROMOTE_MEMBERS)
 @loggable
 @typing_action
-def demote(update, context):
+def demote(update: Update, context: CallbackContext) -> Optional[str]:
     chat = update.effective_chat
     message = update.effective_message
     user = update.effective_user
@@ -499,6 +500,7 @@ def demote(update, context):
         return ""
 
 
+
 @u_admin
 def refresh_admin(update, _):
     try:
@@ -507,6 +509,7 @@ def refresh_admin(update, _):
         pass
 
     update.effective_message.reply_text("Admins cache refreshed!")
+
 
 
 @connection_status
@@ -575,6 +578,7 @@ def set_title(update: Update, context: CallbackContext):
     )
 
 
+
 @bot_admin
 @can_pin
 @user_admin(AdminPerms.CAN_PIN_MESSAGES)
@@ -605,9 +609,9 @@ def pin(update: Update, context: CallbackContext) -> str:
     is_silent = True
     if len(args) >= 1:
         is_silent = (
-            args[0].lower() != "notify"
-            or args[0].lower() == "loud"
-            or args[0].lower() == "violent"
+                args[0].lower() != "notify"
+                or args[0].lower() == "loud"
+                or args[0].lower() == "violent"
         )
 
     if prev_message and is_group:
@@ -643,6 +647,7 @@ def pin(update: Update, context: CallbackContext) -> str:
 close_keyboard = InlineKeyboardMarkup(
     [[InlineKeyboardButton("❌ Delete", callback_data="close2")]]
 )
+
 
 @bot_admin
 @can_pin
@@ -710,6 +715,7 @@ def pinned(update: Update, context: CallbackContext) -> str:
         msg.reply_text(f"There is no pinned message in {html.escape(chat.title)}!")
 
 
+
 @bot_admin
 @user_admin(AdminPerms.CAN_INVITE_USERS)
 @typing_action
@@ -743,7 +749,6 @@ def invite(update, context):
         msg.reply_text(
             "I can only give you invite links for supergroups and channels, sorry!"
         )
-
 
 @connection_status
 def adminlist(update, context):
