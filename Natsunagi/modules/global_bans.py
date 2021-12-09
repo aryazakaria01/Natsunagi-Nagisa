@@ -76,26 +76,6 @@ UNGBAN_ERRORS = {
     "User not found",
 }
 
-SPB_MODE = True
-
-@natsunagicmd(command="spb")
-@dev_plus
-def spbtoggle(update: Update, context: CallbackContext):
-    from Natsunagi import SPB_MODE
-    args = update.effective_message.text.split(None, 1)
-    message = update.effective_message
-    print(SPB_MODE)
-    if len(args) > 1:
-        if args[1] in ("yes", "on"):
-            SPB_MODE = True
-            message.reply_animation("https://telegra.ph/file/a49e7bef1cc664eabcb26.mp4", caption="SpamProtection API bans are now enabled.\n\nAll hail @Intellivoid.")
-        elif args[1] in ("no", "off"):
-            SPB_MODE = False
-            message.reply_animation("https://telegra.ph/file/a49e7bef1cc664eabcb26.mp4", caption="SpamProtection API bans are now disabled..\n\nAll hail @Intellivoid.")
-    elif SPB_MODE:
-        message.reply_text("SpamProtection API bans are currently enabled.")
-    else:
-        message.reply_text("SpamProtection API bans are currenty disabled.")
 
 @support_plus
 def gban(update: Update, context: CallbackContext):
@@ -434,39 +414,13 @@ def gbanlist(update: Update, context: CallbackContext):
 
 def check_and_ban(update, user_id, should_message=True):
 
-    from Natsunagi import SPB_MODE
-    chat = update.effective_chat  # type: Optional[Chat]
-    if SPB_MODE:
+    if user_id in TIGERS or user_id in WOLVES:
+        sw_ban = None
+    else:
         try:
-            apst = requests.get(f'https://api.intellivoid.net/spamprotection/v1/lookup?query={user_id}')
-            api_status = apst.status_code
-            if api_status == 200:
-                try:
-                    status = apst.json()
-                    try:
-                        bl_check = (status.get("results").get("attributes").get("is_blacklisted"))
-                    except:
-                        bl_check = False
-
-                    if bl_check:
-                        bl_res = (status.get("results").get("attributes").get("blacklist_reason"))
-                        update.effective_chat.kick_member(user_id)
-                        if should_message:
-                            update.effective_message.reply_text(
-                            f"This person was blacklisted on @SpamProtectionBot and has been removed!\nReason: <code>{bl_res}</code>",
-                            parse_mode=ParseMode.HTML,
-                        )
-                except BaseException:
-                    log.warning("Spam Protection API is unreachable.")
-        except BaseException as e:
-            log.info(f'SpamProtection was disabled due to {e}')
-    try:
-        sw_ban = sw.get_ban(int(user_id))
-    except AttributeError:
-        sw_ban = None
-    except (SpamWatchError, Error, UnauthorizedError, NotFoundError, Forbidden, TooManyRequests) as e:
-        log.warning(f" SpamWatch Error: {e}")
-        sw_ban = None
+            sw_ban = sw.get_ban(int(user_id))
+        except:
+            sw_ban = None
 
     if sw_ban:
         update.effective_chat.ban_member(user_id)
@@ -534,8 +488,7 @@ def gbanstat(update: Update, context: CallbackContext):
             sql.enable_gbans(update.effective_chat.id)
             update.effective_message.reply_text(
                 "» Antispam is now enabled\n"
-                "» Spamwatch is now enabled\n"
-                "» Intellivoid is now enabled\n\n"
+                "» Spamwatch is now enabled\n\n"
                 "I am now protecting your group from potential remote threats!",
             )
         elif args[0].lower() in ["off", "no"]:
@@ -543,7 +496,6 @@ def gbanstat(update: Update, context: CallbackContext):
             update.effective_message.reply_text(
                 "» Antispan is now disabled\n" 
                 "» Spamwatch is now disabled\n"
-                "» Intellivoid is now disabled\n"
             )
     else:
         update.effective_message.reply_text(
@@ -600,11 +552,6 @@ This also integrates @Spamwatch API to remove Spammers as much as possible from 
 SpamWatch maintains a large constantly updated ban-list of spambots, trolls, bitcoin spammers and unsavoury characters[.](https://telegra.ph/file/f584b643c6f4be0b1de53.jpg)
 Constantly help banning spammers off from your group automatically So, you wont have to worry about spammers storming your group.
 *Note:* Users can appeal spamwatch bans at @SpamwatchSupport
-
-*What is Intellivoid?*
-We're a small group of talented people that strive to create innovating 
-software & services often from the ground up instead of following a trend or 
-copy-pasting open source projects and calling it our own.
 """
 
 GBAN_HANDLER = CommandHandler("gban", gban, run_async=True)
