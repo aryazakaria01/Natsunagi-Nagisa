@@ -33,7 +33,6 @@ from Natsunagi import (
     updater,
     pgram,
     WHITELIST_CHATS,
-    REPOSITORY,
     BL_CHATS,
 )
 
