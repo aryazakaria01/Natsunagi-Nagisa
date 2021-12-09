@@ -48,7 +48,8 @@ from Natsunagi.modules.redis.afk_redis import is_user_afk, afk_reason
 from Natsunagi.modules.sql.users_sql import get_user_num_chats
 from Natsunagi.modules.helper_funcs.chat_status import sudo_plus
 from Natsunagi.modules.helper_funcs.extraction import extract_user
-from Natsunagi import telethn
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
+from Natsunagi import telethn as Natsunagi
 
 
 def no_by_per(totalhp, percentage):
@@ -145,6 +146,7 @@ def make_bar(per):
     return "⬢" * done + "⬡" * (10 - done)
 
 
+@natsunagicmd(command="id")
 def get_id(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -187,7 +189,7 @@ def get_id(update: Update, context: CallbackContext):
         )
 
 
-@telethn.on(
+@Natsunagi.on(
     events.NewMessage(
         pattern="/ginfo ",
         from_users=(TIGERS or []) + (DRAGONS or []) + (DEMONS or []),
@@ -227,6 +229,7 @@ async def group_info(event) -> None:
     await event.reply(msg)
 
 
+@natsunagicmd(command="gifid")
 def gifid(update: Update, context: CallbackContext):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.animation:
@@ -238,6 +241,7 @@ def gifid(update: Update, context: CallbackContext):
         update.effective_message.reply_text("Please reply to a gif to get its ID.")
 
 
+@natsunagicmd(command=["info", "book"])
 def info(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -268,7 +272,7 @@ def info(update: Update, context: CallbackContext):
     rep = message.reply_text("<code>Appraising...</code>", parse_mode=ParseMode.HTML)
 
     text = (
-        f"╒═══「<b> Appraisal Results:</b> 」\n"
+        f"╔━⊰✦✪「 <b> Appraisal Results:</b> 」✪✦⊱━╗\n"
         f"❂ ID: <code>{user.id}</code>\n"
         f"❂ First Name: {html.escape(user.first_name)}"
     )
@@ -298,7 +302,7 @@ def info(update: Update, context: CallbackContext):
                     text += _stext.format("Admin")
     if user_id not in [bot.id, 777000, 1087968824]:
         userhp = hpmanager(user)
-        text += f"\n\n<b>Health:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n[<i>{make_bar(int(userhp['percentage']))} </i>{userhp['percentage']}%][<a href='https://t.me/CyberMusicProject/45'>Info</a>]"
+        text += f"\n\n<b>Health:</b> <code>{userhp['earnedhp']}/{userhp['totalhp']}</code>\n[<i>{make_bar(int(userhp['percentage']))} </i>{userhp['percentage']}%]"
 
     try:
         spamwtc = sw.get_ban(int(user.id))
@@ -406,6 +410,7 @@ def info(update: Update, context: CallbackContext):
     rep.delete()
 
 
+@natsunagicmd(command="me")
 def about_me(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -429,6 +434,7 @@ def about_me(update: Update, context: CallbackContext):
         update.effective_message.reply_text("There isnt one, use /setme to set one.")
 
 
+@natsunagicmd(command="setme")
 def set_about_me(update: Update, context: CallbackContext):
     message = update.effective_message
     user_id = message.from_user.id
@@ -462,52 +468,14 @@ def set_about_me(update: Update, context: CallbackContext):
 
 
 @sudo_plus
-def stats(update, context):
-    uptime = datetime.datetime.fromtimestamp(boot_time()).strftime("%Y-%m-%d %H:%M:%S")
-    botuptime = get_readable_time((time.time() - StartTime))
-    status = "*╒═══「 System Statistics 」*\n\n"
-    status += "*➢ System Start time:* " + str(uptime) + "\n"
-    uname = platform.uname()
-    status += "*➢ System:* " + str(uname.system) + "\n"
-    status += "*➢ Node name:* " + escape_markdown(str(uname.node)) + "\n"
-    status += "*➢ Release:* " + escape_markdown(str(uname.release)) + "\n"
-    status += "*➢ Machine:* " + escape_markdown(str(uname.machine)) + "\n"
-    mem = virtual_memory()
-    cpu = cpu_percent()
-    disk = disk_usage("/")
-    status += "*➢ CPU:* " + str(cpu) + " %\n"
-    status += "*➢ RAM:* " + str(mem[2]) + " %\n"
-    status += "*➢ Storage:* " + str(disk[3]) + " %\n\n"
-    status += "*➢ Python Version:* " + python_version() + "\n"
-    status += "*➢ python-Telegram-Bot:* " + str(ptbver) + "\n"
-    status += "*➢ Uptime:* " + str(botuptime) + "\n"
-    try:
-        update.effective_message.reply_text(
-            status
-            + "\n*Bot Statistics*:\n"
-            + "\n".join([mod.__stats__() for mod in STATS])
-            + f"\n\n✦ [Support](https://t.me/{SUPPORT_CHAT}) | ✦ [Updates](https://t.me/CyberMusicProject)\n\n"
-            + "╘══「 By [Arya](https://github.com/aryazakaria01) 」\n",
-            parse_mode=ParseMode.MARKDOWN,
-            disable_web_page_preview=True,
-        )
-    except BaseException:
-        update.effective_message.reply_text(
-            (
-                (
-                    (
-                        "\n*Bot statistics*:\n"
-                        + "\n".join(mod.__stats__() for mod in STATS)
-                    )
-                    + f"\n\n✦ [Support](https://t.me/{SUPPORT_CHAT}) | ✦ [Updates](https://t.me/CyberMusicProject)\n\n"
-                )
-                + "╘══「 By [Arya](https://github.com/aryazakaria01) 」\n"
-            ),
-            parse_mode=ParseMode.MARKDOWN,
-            disable_web_page_preview=True,
-        )
+@natsunagicmd(command=["stats", "statistics"])
+def stats(update: Update, context: CallbackContext):
+    stats = "╔━⊰✦✪「 <b>Current stats:</b> 」✪✦⊱━╗\n" + "\n".join([mod.__stats__() for mod in STATS])
+    result = re.sub(r"(\d+)", r"<code>\1</code>", stats)
+    update.effective_message.reply_text(result, parse_mode=ParseMode.HTML)
 
 
+@natsunagicmd(command="bio")
 def about_bio(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     message = update.effective_message
@@ -533,6 +501,7 @@ def about_bio(update: Update, context: CallbackContext):
         )
 
 
+@natsunagicmd(command="setbio")
 def set_about_bio(update: Update, context: CallbackContext):
     message = update.effective_message
     sender_id = update.effective_user.id
@@ -594,77 +563,36 @@ def __user_info__(user_id):
 
 
 __help__ = """
+*AFK:*
+» /afk <reason>: mark yourself as AFK (away from keyboard).
+» `brb <reason>`*:*same as the afk command - but not a command.
+When marked as AFK, any mentions will be replied to with a message to say you're not available!
+
 *ID:*
- • `/id`*:* get the current group id. If used by replying to a message, gets that user's id.
- • `/gifid`*:* reply to a gif to me to tell you its file ID.
- 
-*Self addded information:* 
- • `/setme <text>`*:* will set your info
- • `/me`*:* will get your or another user's info.
-Examples:
- `/setme I am a wolf.`
- `/me @username(defaults to yours if no user specified)`
- 
-*Information others add on you:* 
- • `/bio`*:* will get your or another user's bio. This cannot be set by yourself.
-• `/setbio <text>`*:* while replying, will save another user's bio 
-Examples:
- `/bio @username(defaults to yours if not specified).`
- `/setbio This user is a wolf` (reply to the user)
- 
+» /id: get the current group id. If used by replying to a message, gets that user's id.
+» /gifid: reply to a gif to me to tell you its file ID.
+
+*Self added information:*
+» /setme <text>: will set your info
+» /me: will get your or another user's info.
+
+*Examples:*
+`/setme I am a wolf.`
+`/me @username(defaults to yours if no user specified)`
+
+*Information others add on you:*
+» /bio: will get your or another user's bio. This cannot be set by yourself.
+» /setbio <text>: while replying, will save another user's bio.
+
+*Examples:*
+`/bio @username(defaults to yours if not specified).`
+`/setbio This user is a wolf` (reply to the user)
+
 *Overall Information about you:*
- • `/info`*:* get information about a user. 
- 
-*◢ Intellivoid SpamProtection:*
- • `/spwinfo`*:* SpamProtection Info
- 
-*json Detailed info:*
- • `/json`*:* Get Detailed info about any message.
- 
-*Covid info:*
- • `/covid`*:* Get Detailed info about Covid.
- 
-*ARQ Statistics:*
- /arq : ARQ API Stats.
- 
-*AFk:*
-When marked as AFK, any mentions will be replied to with a message stating that you're not available!
- • `/afk <reason>`*:* Mark yourself as AFK.
-  - brb <reason>: Same as the afk command, but not a command.\n 
-  
+» /info: get information about a user.
+
 *What is that health thingy?*
- Come and see [HP System explained](https://t.me/Black_Knights_Union/33)
+Come and see [HP System explained](https://t.me/OnePunchUpdates/192)
 """
 
-SET_BIO_HANDLER = DisableAbleCommandHandler("setbio", set_about_bio, run_async=True)
-GET_BIO_HANDLER = DisableAbleCommandHandler("bio", about_bio, run_async=True)
-
-STATS_HANDLER = DisableAbleCommandHandler(["stats", "statistics"], stats, run_async=True)
-ID_HANDLER = DisableAbleCommandHandler("id", get_id, run_async=True)
-GIFID_HANDLER = DisableAbleCommandHandler("gifid", gifid, run_async=True)
-INFO_HANDLER = DisableAbleCommandHandler("info", info, run_async=True)
-
-SET_ABOUT_HANDLER = DisableAbleCommandHandler("setme", set_about_me, run_async=True)
-GET_ABOUT_HANDLER = DisableAbleCommandHandler("me", about_me, run_async=True)
-
-dispatcher.add_handler(STATS_HANDLER)
-dispatcher.add_handler(ID_HANDLER)
-dispatcher.add_handler(GIFID_HANDLER)
-dispatcher.add_handler(INFO_HANDLER)
-dispatcher.add_handler(SET_BIO_HANDLER)
-dispatcher.add_handler(GET_BIO_HANDLER)
-dispatcher.add_handler(SET_ABOUT_HANDLER)
-dispatcher.add_handler(GET_ABOUT_HANDLER)
-
 __mod_name__ = "Info & AFK"
-__command_list__ = ["setbio", "bio", "setme", "me", "info"]
-__handlers__ = [
-    ID_HANDLER,
-    GIFID_HANDLER,
-    INFO_HANDLER,
-    SET_BIO_HANDLER,
-    GET_BIO_HANDLER,
-    SET_ABOUT_HANDLER,
-    GET_ABOUT_HANDLER,
-    STATS_HANDLER,
-]
