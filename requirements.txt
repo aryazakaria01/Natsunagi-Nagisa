@@ -14,7 +14,6 @@ feedparser
 pyrate-limiter
 lxml
 lottie
-nltk
 pillow
 pretty-errors
 psutil
@@ -24,16 +23,13 @@ regex
 requests
 spamwatch
 speedtest-cli
-spongemock
 SQLAlchemy==1.4.27
 telethon==1.24.0
 ujson
 wikipedia
-zalgo-text
 fontTools
 nekos.py
 telegraph
-tgcrypto
 youtube_search
 pytube
 pymongo
@@ -43,7 +39,6 @@ redis
 gtts
 cloudscraper
 wget
-tswift
 lyricsgenius
 envparse
 cryptg
@@ -98,7 +93,6 @@ futures
 future
 psycopg2-binary
 psycopg2
-geopy
 humanize
 heroku3
 beautifulsoup4
