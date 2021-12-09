@@ -17,6 +17,7 @@ from telegram.utils.helpers import mention_html, escape_markdown
 
 from Natsunagi import dispatcher, DRAGONS
 from Natsunagi.modules.helper_funcs.string_handling import extract_time
+from Natsunagi.modules.helper_funcs.chat_status import is_user_admin
 from Natsunagi.modules.log_channel import loggable
 from Natsunagi.modules.sql import antiflood_sql as sql
 from Natsunagi.modules.connection import connected
