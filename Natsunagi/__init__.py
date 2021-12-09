@@ -13,7 +13,6 @@ from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInv
 from pyrogram.types import Message
 from telethon import TelegramClient
 from telethon.sessions import MemorySession
-from telethon.sessions import StringSession
 from motor import motor_asyncio
 from odmantic import AIOEngine
 from pymongo import MongoClient
@@ -23,8 +22,6 @@ from Python_ARQ import ARQ
 from aiohttp import ClientSession
 from telegram import Chat
 from telegraph import Telegraph
-from configparser import ConfigParser
-from logging.config import fileConfig
 
 StartTime = time.time()
 
@@ -335,7 +332,6 @@ engine = AIOEngine(motor, MONGO_DB)
 aiohttpsession = ClientSession()
 # ARQ Client
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
-ubot = TelegramClient(StringSession(STRING_SESSION), APP_ID, APP_HASH)
 loop = asyncio.get_event_loop()
 
 
@@ -392,7 +388,6 @@ from Natsunagi.modules.helper_funcs.handlers import (
 tg.RegexHandler = CustomRegexHandler
 tg.MessageHandler = CustomMessageHandler
 
-# Load at end to ensure all prev variables have been set
 from Natsunagi.modules.helper_funcs.handlers import CustomCommandHandler
 
 if CUSTOM_CMD and len(CUSTOM_CMD) >= 1:
@@ -400,7 +395,6 @@ if CUSTOM_CMD and len(CUSTOM_CMD) >= 1:
 
 
 def spamfilters(text, user_id, chat_id):
-    # print("{} | {} | {}".format(text, user_id, chat_id))
     if int(user_id) not in SPAMMERS:
         return False
 
