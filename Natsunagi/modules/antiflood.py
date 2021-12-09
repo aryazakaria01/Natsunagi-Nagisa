@@ -15,7 +15,7 @@ from telegram.error import BadRequest
 from telegram.ext import Filters, MessageHandler, CommandHandler, run_async, CallbackContext
 from telegram.utils.helpers import mention_html, escape_markdown
 
-from Natsunagi import dispatcher, DRAGONS
+from Natsunagi import dispatcher, DRAGONS, DEV_USERS, SUDO_USERS
 from Natsunagi.modules.helper_funcs.string_handling import extract_time
 from Natsunagi.modules.helper_funcs.chat_status import is_user_admin
 from Natsunagi.modules.log_channel import loggable
@@ -29,8 +29,10 @@ from Natsunagi.modules.helper_funcs.decorators import natsunagicmd, natsunagimsg
 FLOOD_GROUP = 3
 
 
+
 @loggable
-def check_flood(update, context) -> str:
+def check_flood(update, context) -> Optional[str]:
+    global execstrings
     user = update.effective_user  # type: Optional[User]
     chat = update.effective_chat  # type: Optional[Chat]
     msg = update.effective_message  # type: Optional[Message]
@@ -43,9 +45,10 @@ def check_flood(update, context) -> str:
         return ""
 
     # ignore admins
-    if is_user_admin(chat, user.id):
-        sql.update_flood(chat.id, None)
-        return ""
+    if (
+            is_user_admin(update, user.id)
+            or user.id in DEV_USERS
+            or user.id in SUDO_USERS
 
     should_ban = sql.update_flood(chat.id, user.id)
     if not should_ban:
@@ -109,6 +112,7 @@ def check_flood(update, context) -> str:
                 chat.title
             )
         )
+
 
 
 @user_admin(AdminPerms.CAN_CHANGE_INFO)
@@ -247,6 +251,7 @@ def flood(update, context):
             )
         )
     send_message(update.effective_message, text, parse_mode="markdown")
+
 
 
 @user_admin(AdminPerms.CAN_CHANGE_INFO)
