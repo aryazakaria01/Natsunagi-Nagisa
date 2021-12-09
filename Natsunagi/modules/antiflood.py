@@ -1,20 +1,29 @@
 import html
+import re
+from typing import Optional
 
 from typing import Optional, List
-from telegram import Message, Chat, User, ParseMode, ChatPermissions
+from telegram import (
+    Message,
+    Chat,
+    Update,
+    Bot,
+    User,
+    ChatPermissions,
+)
 from telegram.error import BadRequest
-from telegram.ext import Filters, MessageHandler, CommandHandler, run_async
-from telegram.utils.helpers import mention_html
+from telegram.ext import Filters, MessageHandler, CommandHandler, run_async, CallbackContext
+from telegram.utils.helpers import mention_html, escape_markdown
 
 from Natsunagi import dispatcher, DRAGONS
-from Natsunagi.modules.helper_funcs.chat_status import is_user_admin, user_admin
 from Natsunagi.modules.helper_funcs.string_handling import extract_time
 from Natsunagi.modules.log_channel import loggable
 from Natsunagi.modules.sql import antiflood_sql as sql
 from Natsunagi.modules.connection import connected
 from Natsunagi.modules.redis.approvals_redis import is_approved
-
+from ..modules.helper_funcs.anonymous import user_admin, AdminPerms
 from Natsunagi.modules.helper_funcs.alternate import send_message, typing_action
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd, natsunagimsg, natsunagicallback
 
 FLOOD_GROUP = 3
 
@@ -101,7 +110,7 @@ def check_flood(update, context) -> str:
         )
 
 
-@user_admin
+@user_admin(AdminPerms.CAN_CHANGE_INFO)
 @loggable
 @typing_action
 def set_flood(update, context) -> str:
@@ -239,7 +248,7 @@ def flood(update, context):
     send_message(update.effective_message, text, parse_mode="markdown")
 
 
-@user_admin
+@user_admin(AdminPerms.CAN_CHANGE_INFO)
 @loggable
 @typing_action
 def set_flood_mode(update, context):
