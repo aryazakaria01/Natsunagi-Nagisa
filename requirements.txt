@@ -136,3 +136,4 @@ sqlalchemy-json
 urlextract
 vcsi
 wand
+git+https://github.com/Sorrybabe/downloader
