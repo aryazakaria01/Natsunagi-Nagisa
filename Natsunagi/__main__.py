@@ -32,7 +32,6 @@ from Natsunagi import (
     telethn,
     updater,
     pgram,
-    ubot,
     WHITELIST_CHATS,
     REPOSITORY,
     BL_CHATS,
@@ -889,11 +888,6 @@ def main():
         telethn.run_until_disconnected()
     updater.idle()
 
-try:
-    ubot.start()
-except BaseException:
-    print("Userbot Error! Have you added a STRING_SESSION in deploying??")
-    sys.exit(1)
 
 if __name__ == "__main__":
     LOGGER.info("Natsunagi successfully loaded modules: " + str(ALL_MODULES))
