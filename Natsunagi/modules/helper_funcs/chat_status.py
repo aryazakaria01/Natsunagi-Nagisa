@@ -16,7 +16,6 @@ from Natsunagi import (
 from telegram import Chat, ChatMember, ParseMode, Update, User
 from telegram.ext import CallbackContext
 
-# stores admemes in memory for 10 min.
 ADMIN_CACHE = TTLCache(maxsize=512, ttl=60 * 10, timer=perf_counter)
 THREAD_LOCK = RLock()
 
@@ -56,7 +55,7 @@ def is_user_admin(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
         or user_id in DEV_USERS
         or chat.all_members_are_administrators
         or user_id in {777000, 1087968824}
-    ):  # Count telegram and Group Anonymous as admin
+    ):
         return True
     if member:
         return member.status in ("administrator", "creator")
@@ -90,7 +89,9 @@ def can_delete(chat: Chat, bot_id: int) -> bool:
     return chat.get_member(bot_id).can_delete_messages
 
 
-def is_user_ban_protected(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
+def is_user_ban_protected(update: Update, user_id: int, member: ChatMember = None) -> bool:
+    chat = update.effective_chat
+    msg = update.effective_message
     if (
         chat.type == "private"
         or user_id in DRAGONS
@@ -98,8 +99,8 @@ def is_user_ban_protected(chat: Chat, user_id: int, member: ChatMember = None) -
         or user_id in WOLVES
         or user_id in TIGERS
         or chat.all_members_are_administrators
-        or user_id in {777000, 1087968824}
-    ):  # Count telegram and Group Anonymous as admin
+        or (msg.sender_chat is not None and msg.sender_chat.type != "channel")
+    ):
         return True
 
     if not member:
