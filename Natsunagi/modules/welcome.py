@@ -337,7 +337,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
 
         # User exceptions from welcomemutes
         if (
-            is_user_ban_protected(chat, new_mem.id, chat.get_member(new_mem.id))
+            is_user_ban_protected(update, new_mem.id, chat.get_member(new_mem.id))
             or human_checks
         ):
             should_mute = False
