@@ -24,11 +24,6 @@
 <a href="https://deepsource.io/gh/aryazakaria01/Natsunagi-Nagisa/?ref=repository-badge}" target="_blank"><img alt="DeepSource" title="DeepSource" src="https://deepsource.io/gh/aryazakaria01/Natsunagi-Nagisa.svg/?label=resolved+issues&show_trend=true&token=RYYx_QApuuAWUMpqD_4iHZ5m"/></a>	
 </p>
 
-[![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html) [![DeepSource](https://static.deepsource.io/deepsource-badge-light-mini.svg)](https://deepsource.io/gh/Awesome-RJ/CutiepiiRobot/?ref=repository-badge)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/41ee9ac813a34042925a6b6fa92cf84e)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AmaanAhmed/Lynda&amp;utm_campaign=Badge_Grade) [![Join Support!](https://img.shields.io/badge/Join%20Channel-!-red)](https://t.me/BlackKnightsUnion_DevChat) [![Open Source Love](https://badges.frapsoft.com/os/v2/open-source.png?v=103)](https://github.com/ellerbrock/open-source-badges/) [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity) [![GitHub contributors](https://img.shields.io/github/contributors/Naereen/StrapDown.js.svg)](https://GitHub.com/aryazakaria01/Natsunagi-Nagisa/graphs/contributors/)
-
-![Alt](https://repobeats.axiom.co/api/embed/d129487e232e94fd759e9e280c263b3c67e6c46c.svg "Repobeats analytics image")
-
 A modular telegram Python bot running on python3 with an sqlalchemy, Redis, mongodb database.
 
 ###  ╒═══「 Status 」
@@ -36,7 +31,7 @@ A modular telegram Python bot running on python3 with an sqlalchemy, Redis, mong
 + [x] Maintained
 + [x] Support Group Included
 + [x] Free
-+ [x] OpenSourced
++ [x] Close Sourced
 + [x] Working Instance Available
 + [x] Clean Code
 + [x] Heroku Deploy
