@@ -25,7 +25,7 @@ from Natsunagi.modules.helper_funcs.chat_status import (
     can_pin,
     can_promote,
     connection_status,
-    user_admin,
+    user_admin as u_admin,
     user_can_changeinfo,
     user_can_pin,
     user_can_promote,
@@ -39,6 +39,7 @@ from Natsunagi.modules.helper_funcs.extraction import (
 from Natsunagi.modules.log_channel import loggable
 from Natsunagi.modules.helper_funcs.alternate import send_message, typing_action
 from Natsunagi.modules.connection import connected
+from ..modules.helper_funcs.anonymous import user_admin, AdminPerms
 
 async def is_register_admin(chat, user):
     if isinstance(chat, (types.InputPeerChannel, types.InputChannel)):
@@ -244,7 +245,7 @@ def setchat_title(update: Update, context: CallbackContext):
 
 @bot_admin
 @can_promote
-@user_admin
+@user_admin(AdminPerms.CAN_PROMOTE_MEMBERS)
 @loggable
 @typing_action
 def promote(update, context):
@@ -429,7 +430,7 @@ close_keyboard = InlineKeyboardMarkup(
 
 @bot_admin
 @can_promote
-@user_admin
+@user_admin(AdminPerms.CAN_PROMOTE_MEMBERS)
 @loggable
 @typing_action
 def demote(update, context):
@@ -498,7 +499,7 @@ def demote(update, context):
         return ""
 
 
-@user_admin
+@u_admin
 def refresh_admin(update, _):
     try:
         ADMIN_CACHE.pop(update.effective_chat.id)
@@ -511,7 +512,7 @@ def refresh_admin(update, _):
 @connection_status
 @bot_admin
 @can_promote
-@user_admin
+@user_admin(AdminPerms.CAN_PROMOTE_MEMBERS)
 def set_title(update: Update, context: CallbackContext):
     bot = context.bot
     args = context.args
@@ -576,7 +577,7 @@ def set_title(update: Update, context: CallbackContext):
 
 @bot_admin
 @can_pin
-@user_admin
+@user_admin(AdminPerms.CAN_PIN_MESSAGES)
 @loggable
 def pin(update: Update, context: CallbackContext) -> str:
     bot, args = context.bot, context.args
@@ -645,7 +646,7 @@ close_keyboard = InlineKeyboardMarkup(
 
 @bot_admin
 @can_pin
-@user_admin
+@user_admin(AdminPerms.CAN_PIN_MESSAGES)
 @loggable
 @typing_action
 def unpin(update, context):
@@ -710,7 +711,7 @@ def pinned(update: Update, context: CallbackContext) -> str:
 
 
 @bot_admin
-@user_admin
+@user_admin(AdminPerms.CAN_INVITE_USERS)
 @typing_action
 def invite(update, context):
     bot = context.bot
