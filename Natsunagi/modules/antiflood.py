@@ -45,10 +45,9 @@ def check_flood(update, context) -> Optional[str]:
         return ""
 
     # ignore admins
-    if (
-            is_user_admin(update, user.id)
-            or user.id in DEV_USERS
-            or user.id in SUDO_USERS
+    if is_user_admin(chat, user.id):
+        sql.update_flood(chat.id, None)
+        return ""
 
     should_ban = sql.update_flood(chat.id, user.id)
     if not should_ban:
