@@ -23,12 +23,11 @@ regex
 requests
 spamwatch
 speedtest-cli
-SQLAlchemy==1.4.27
+SQLAlchemy==1.4.28
 telethon==1.24.0
 ujson
 wikipedia
 fontTools
-nekos.py
 telegraph
 youtube_search
 pytube
@@ -132,3 +131,4 @@ vcsi
 wand
 git+https://github.com/Sorrybabe/downloader
 git+https://github.com/python-telegram-bot/ptbcontrib.git
+tswift
