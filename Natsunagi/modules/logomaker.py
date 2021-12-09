@@ -4,7 +4,7 @@ import glob
 from PIL import Image, ImageDraw, ImageFont
 from telethon.tl.types import InputMessagesFilterPhotos
 from Natsunagi.events import register
-from Natsunagi import telethn as tbot, ubot
+from Natsunagi import telethn as tbot, pgram
 
 
 @register(pattern="^/logo ?(.*)")
@@ -27,7 +27,7 @@ async def logo_gen(event):
                 bg_ = await temp.download_media()
     else:
         pics = []
-        async for i in ubot.iter_messages(
+        async for i in pgram.iter_messages(
             "@NatsunagiLogos", filter=InputMessagesFilterPhotos
         ):
             pics.append(i)
