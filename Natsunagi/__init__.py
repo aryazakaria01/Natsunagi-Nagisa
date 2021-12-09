@@ -141,7 +141,8 @@ if ENV:
     WHITELIST_CHATS = os.environ.get("WHITELIST_CHATS", "")
     MONGO_PORT = os.environ.get("MONGO_PORT")
     CUSTOM_CMD = os.environ.get("CUSTOM_CMD", "?")
-
+    BOTLOG_CHATID = os.environ.get("BOTLOG_CHATID")
+    
     try:
         WHITELIST_CHATS = {int(x) for x in os.environ.get("WHITELIST_CHATS", "").split()}
     except ValueError:
@@ -238,6 +239,8 @@ else:
     WHITELIST_CHATS = Config.WHITELIST_CHATS
     MONGO_PORT = Config.MONGO_PORT
     CUSTOM_CMD = Config.CUSTOM_CMD
+    BOTLOG_CHATID = Config.BOTLOG_CHATID
+    
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
     except ValueError:
