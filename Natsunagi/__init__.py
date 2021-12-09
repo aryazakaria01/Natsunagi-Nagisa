@@ -22,6 +22,7 @@ from Python_ARQ import ARQ
 from aiohttp import ClientSession
 from telegram import Chat
 from telegraph import Telegraph
+from ptbcontrib.postgres_persistence import PostgresPersistence
 
 StartTime = time.time()
 
@@ -38,16 +39,17 @@ logging.basicConfig(
     datefmt="[%X]",
 )
 logging.getLogger("pyrogram").setLevel(logging.INFO)
+logging.getLogger('ptbcontrib.postgres_persistence.postgrespersistence').setLevel(logging.WARNING)
 
 LOGGER = logging.getLogger('[Natsunagi]')
 LOGGER.info("Natsunagi is starting. | An CyberNetwork Project Parts. | Licensed under GPLv3.")
 LOGGER.info("Not affiliated to Tantei Wa Mou or Villain in any way whatsoever.")
 LOGGER.info("Project maintained by: github.com/aryazakaria01 (t.me/Badboyanim)")
 
-# if version < 3.6, stop bot.
-if sys.version_info[0] < 3 or sys.version_info[1] < 6:
+# if version < 3.9, stop bot.
+if sys.version_info[0] < 3 or sys.version_info[1] < 9:
     LOGGER.error(
-        "You MUST have a python version of at least 3.6! Multiple features depend on this. Bot quitting.",
+        "You MUST have a python version of at least 3.9! Multiple features depend on this. Bot quitting.",
     )
     sys.exit(1)
 
@@ -119,7 +121,6 @@ if ENV:
     SPAMWATCH_SUPPORT_CHAT = os.environ.get("SPAMWATCH_SUPPORT_CHAT")
     SPAMWATCH_API = os.environ.get("SPAMWATCH_API")
     BOT_USERNAME = os.environ.get("BOT_USERNAME", "")
-    STRING_SESSION = os.environ.get("STRING_SESSION")
     APP_ID = os.environ.get("APP_ID")
     APP_HASH = os.environ.get("APP_HASH")
     HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", True)
@@ -129,8 +130,6 @@ if ENV:
     BOT_NAME = os.environ.get("BOT_NAME", True)
     MONGO_DB = os.environ.get("MONGO_DB", "Natsunagi")
     ARQ_API_URL = os.environ.get("ARQ_API_URL")
-    GOOGLE_CHROME_BIN = "/usr/bin/google-chrome"
-    CHROME_DRIVER = "/usr/bin/chromedriver"
     BOT_API_URL = os.environ.get("BOT_API_URL", "https://api.telegram.org/bot")
     LOG_GROUP_ID = os.environ.get("LOG_GROUP_ID")
     HELP_IMG = os.environ.get("HELP_IMG", True)
@@ -138,18 +137,10 @@ if ENV:
     NAGISA_PHOTO = os.environ.get("NAGISA_PHOTO", True)
     OPENWEATHERMAP_ID = os.environ.get("OPENWEATHERMAP_ID", "")
     ARQ_API_KEY = os.environ.get("ARQ_API_KEY")
-    IBM_WATSON_CRED_URL = os.environ.get("IBM_WATSON_CRED_URL")
-    IBM_WATSON_CRED_PASSWORD = os.environ.get("IBM_WATSON_CRED_PASSWORD")
     DEL_CMDS = bool(os.environ.get("DEL_CMDS", False))
-    STRICT_GBAN = bool(os.environ.get("STRICT_GBAN", False))
-    WORKERS = int(os.environ.get("WORKERS", 8))
-    REPOSITORY = os.environ.get("REPOSITORY", "")
     WHITELIST_CHATS = os.environ.get("WHITELIST_CHATS", "")
     MONGO_PORT = os.environ.get("MONGO_PORT")
-    SPB_MODE = os.environ.get("SPB_MODE", False)
     CUSTOM_CMD = os.environ.get("CUSTOM_CMD", "?")
-    SIBYL_KEY = os.environ.get("SIBYL_KEY")
-    BOTLOG_CHATID = os.environ.get("BOTLOG_CHATID")
 
     try:
         WHITELIST_CHATS = {int(x) for x in os.environ.get("WHITELIST_CHATS", "").split()}
@@ -232,8 +223,6 @@ else:
     ALLOW_EXCL = Config.ALLOW_EXCL
     TEMP_DOWNLOAD_DIRECTORY = Config.TEMP_DOWNLOAD_DIRECTORY
     ARQ_API_URL = Config.ARQ_API_URL
-    GOOGLE_CHROME_BIN = Config.GOOGLE_CHROME_BIN
-    CHROME_DRIVER = Config.CHROME_DRIVER
     BOT_NAME = Config.BOT_NAME
     DEL_CMDS = Config.DEL_CMDS
     BOT_API_URL = Config.BOT_API_URL
@@ -245,20 +234,10 @@ else:
     LOG_GROUP_ID = Config.LOG_GROUP_ID
     OPENWEATHERMAP_ID = Config.OPENWEATHERMAP_ID
     ARQ_API_KEY = Config.ARQ_API_KEY
-    IBM_WATSON_CRED_URL = Config.IBM_WATSON_CRED_URL
-    IBM_WATSON_CRED_PASSWORD = Config.IBM_WATSON_CRED_PASSWORD
-    WORKERS = Config.WORKERS
-    STRICT_GBAN = Config.STRICT_GBAN
     DEL_CMDS = Config.DEL_CMDS
-    REPOSITORY = Config.REPOSITORY
     WHITELIST_CHATS = Config.WHITELIST_CHATS
     MONGO_PORT = Config.MONGO_PORT
-    SPB_MODE = Config.SPB_MODE
     CUSTOM_CMD = Config.CUSTOM_CMD
-    SIBYL_KEY = Config.SIBYL_KEY
-    DEBUG = Config.DEBUG
-    BOTLOG_CHATID = Config.BOTLOG_CHATID
-
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
     except ValueError:
@@ -311,6 +290,7 @@ updater = tg.Updater(
     workers=min(32, os.cpu_count() + 4),
     request_kwargs={"read_timeout": 10, "connect_timeout": 10},
     use_context=True,
+    persistence=PostgresPersistence(session=SESSION),
 )
 # Telethon
 telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
