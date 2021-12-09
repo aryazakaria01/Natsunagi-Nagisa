@@ -142,6 +142,7 @@ if ENV:
     MONGO_PORT = os.environ.get("MONGO_PORT")
     CUSTOM_CMD = os.environ.get("CUSTOM_CMD", "?")
     BOTLOG_CHATID = os.environ.get("BOTLOG_CHATID")
+    SUDO_USERS = os.environ.get("SUDO_USERS")
     
     try:
         WHITELIST_CHATS = {int(x) for x in os.environ.get("WHITELIST_CHATS", "").split()}
@@ -169,7 +170,6 @@ else:
     try:
         DRAGONS = {int(x) for x in Config.DRAGONS or []}
         DEV_USERS = {int(x) for x in Config.DEV_USERS or []}
-        SUDO_USERS = {int(x) for x in Config.SUDO_USERS or []}
     except ValueError:
         raise Exception("Your sudo or dev users list does not contain valid integers.")
 
@@ -241,6 +241,7 @@ else:
     MONGO_PORT = Config.MONGO_PORT
     CUSTOM_CMD = Config.CUSTOM_CMD
     BOTLOG_CHATID = Config.BOTLOG_CHATID
+    SUDO_USERS = Config.SUDO_USERS
     
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
