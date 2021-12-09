@@ -354,7 +354,7 @@ def del_blacklist(update, context):
                     message.delete()
                     warn(
                         update.effective_user,
-                        chat,
+                        update,
                         ("Using blacklisted trigger: {}".format(trigger)),
                         message,
                         update.effective_user,
