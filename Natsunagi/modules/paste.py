@@ -44,6 +44,7 @@ from Natsunagi.utils.keyboard import ikb
 from Natsunagi.modules.helper_funcs.alternate import typing_action, send_action
 from Natsunagi.modules.helper_funcs.extraction import extract_user
 from Natsunagi.modules.helper_funcs.filters import CustomFilters
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
 
 __mod_name__ = "Paste"
 
@@ -65,7 +66,7 @@ async def isPreviewUp(preview: str) -> bool:
     return False
 
 
-@pgram.on_message(filters.command("bpaste") & ~filters.edited)
+@app.on_message(filters.command("bpaste") & ~filters.edited)
 @capture_err
 async def paste_func(_, message: Message):
     if not message.reply_to_message:
@@ -151,6 +152,7 @@ async def epaste_func(_, message: Message):
     return await m.edit(link)
 
 
+@natsunagicmd(command='hpaste')
 def paste(update, context):
     msg = update.effective_message
 
@@ -187,6 +189,7 @@ def paste(update, context):
     
 
 @typing_action
+@natsunagicmd(command='npaste')
 def nekopaste(update, context):
     msg = update.effective_message
 
@@ -229,10 +232,11 @@ def nekopaste(update, context):
 
 
 @typing_action
+@natsunagicmd(command='spaste')
 def spacepaste(update, context):
     message = update.effective_message
     bot, args = context.bot, context.args
-    
+
     if not message.reply_to_message.text:
         file = bot.getFile(message.reply_to_message.document)
         file.download("file.txt")
@@ -281,12 +285,4 @@ def spacepaste(update, context):
         reply_markup=InlineKeyboardMarkup(buttons),
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
-    )    
-
-PASTE_HANDLER = DisableAbleCommandHandler("hpaste", paste, run_async=True)
-NEKO_HANDLER = DisableAbleCommandHandler("npaste", nekopaste, run_async=True)
-SPASE_HANDLER = DisableAbleCommandHandler("spaste", spacepaste, run_async=True)
-
-dispatcher.add_handler(PASTE_HANDLER)
-dispatcher.add_handler(NEKO_HANDLER)
-dispatcher.add_handler(SPASE_HANDLER)
+    )
