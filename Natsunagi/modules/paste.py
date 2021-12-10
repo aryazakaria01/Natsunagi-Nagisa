@@ -33,7 +33,6 @@ from telegram.utils.helpers import escape_markdown, mention_html
 
 from Natsunagi import (
     pgram as app, 
-    pgram, 
     aiohttpsession, 
     eor,
     dispatcher,
