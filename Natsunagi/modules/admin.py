@@ -27,7 +27,7 @@ from Natsunagi.modules.helper_funcs.chat_status import (
     can_pin,
     can_promote,
     connection_status,
-    user_admin as u_admin,
+    user_admin,
     user_can_changeinfo,
     user_can_pin,
     user_can_promote,
@@ -41,7 +41,6 @@ from Natsunagi.modules.helper_funcs.extraction import (
 from Natsunagi.modules.log_channel import loggable
 from Natsunagi.modules.helper_funcs.alternate import send_message, typing_action
 from Natsunagi.modules.connection import connected
-from ..modules.helper_funcs.anonymous import user_admin, AdminPerms
 from Natsunagi.modules.sql import acm_sql
 
 async def is_register_admin(chat, user):
@@ -248,7 +247,7 @@ def setchat_title(update: Update, context: CallbackContext):
 
 @bot_admin
 @can_promote
-@user_admin(AdminPerms.CAN_PROMOTE_MEMBERS)
+@user_admin
 @loggable
 @typing_action
 def promote(update: Update, context: CallbackContext) -> Optional[str]:
@@ -433,7 +432,7 @@ close_keyboard = InlineKeyboardMarkup(
 
 @bot_admin
 @can_promote
-@user_admin(AdminPerms.CAN_PROMOTE_MEMBERS)
+@user_admin
 @loggable
 @typing_action
 def demote(update: Update, context: CallbackContext) -> Optional[str]:
@@ -503,7 +502,7 @@ def demote(update: Update, context: CallbackContext) -> Optional[str]:
 
 
 
-@u_admin
+@user_admin
 def refresh_admin(update, _):
     try:
         ADMIN_CACHE.pop(update.effective_chat.id)
@@ -517,7 +516,7 @@ def refresh_admin(update, _):
 @connection_status
 @bot_admin
 @can_promote
-@user_admin(AdminPerms.CAN_PROMOTE_MEMBERS)
+@user_admin
 def set_title(update: Update, context: CallbackContext):
     bot = context.bot
     args = context.args
@@ -583,7 +582,7 @@ def set_title(update: Update, context: CallbackContext):
 
 @bot_admin
 @can_pin
-@user_admin(AdminPerms.CAN_PIN_MESSAGES)
+@user_admin
 @loggable
 def pin(update: Update, context: CallbackContext) -> str:
     bot, args = context.bot, context.args
@@ -653,7 +652,7 @@ close_keyboard = InlineKeyboardMarkup(
 
 @bot_admin
 @can_pin
-@user_admin(AdminPerms.CAN_PIN_MESSAGES)
+@user_admin
 @loggable
 @typing_action
 def unpin(update, context):
@@ -719,7 +718,7 @@ def pinned(update: Update, context: CallbackContext) -> str:
 
 
 @bot_admin
-@user_admin(AdminPerms.CAN_INVITE_USERS)
+@user_admin
 @typing_action
 def invite(update, context):
     bot = context.bot
@@ -980,7 +979,7 @@ def sfachat(update: Update, context: CallbackContext):
                 ''', parse_mode=ParseMode.HTML)
             else:
                 update.message.reply_text(f'''
-There was an error occured during auto ban and delete message. please report this to @Shinobu_Support.
+There was an error occured during auto ban and delete message. please report this to @BlackKnightsUnion_DevChat.
 • Error: `{respond}`
                 ''')
             msg.delete()
