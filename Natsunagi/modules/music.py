@@ -11,7 +11,7 @@ import ffmpeg
 
 from pyrogram import filters
 from pyrogram.types import Message
-from .. import BOT_USERNAME, aiohttpsession as session, pgram as app
+from Natsunagi import BOT_USERNAME, aiohttpsession as session, pgram as app
 from Natsunagi.utils.pluginhelp import get_text, progress
 from Natsunagi.modules.arq_client import arq
 from Natsunagi.utils.errors import capture_err
@@ -68,7 +68,7 @@ def time_to_seconds(time):
     return sum(int(x) * 60 ** i for i, x in enumerate(reversed(stringt.split(":"))))
 
 
-@pgram.on_message(filters.command(["vsong", "video"]))
+@app.on_message(filters.command(["vsong", "video"]))
 async def ytmusic(client, message: Message):
     urlissed = get_text(message)
     pablo = await client.send_message(
@@ -131,7 +131,7 @@ async def ytmusic(client, message: Message):
             os.remove(files)
 
 
-@pgram.on_message(filters.command(["song", f"song@{BOT_USERNAME}"]))
+@app.on_message(filters.command(["song", f"song@{BOT_USERNAME}"]))
 def song(client, message):
 
     user_id = message.from_user.id
