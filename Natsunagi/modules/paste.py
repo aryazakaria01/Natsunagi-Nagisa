@@ -18,7 +18,6 @@ from asyncio import get_running_loop
 
 from requests import get
 from telegram import (
-    Message,
     Chat,
     MessageEntity,
     InlineKeyboardMarkup,
