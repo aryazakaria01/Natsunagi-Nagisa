@@ -12,4 +12,4 @@ def start() -> scoped_session:
 
 
 BASE = declarative_base()
-SESSION = start()
+SESSION: scoped_session = start()
