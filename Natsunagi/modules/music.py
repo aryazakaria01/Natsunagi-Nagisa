@@ -11,7 +11,7 @@ import ffmpeg
 
 from pyrogram import filters
 from pyrogram.types import Message
-from .. import BOT_USERNAME, aiohttpsession as session, pgram as app, pgram
+from .. import BOT_USERNAME, aiohttpsession as session, pgram as app
 from Natsunagi.utils.pluginhelp import get_text, progress
 from Natsunagi.modules.arq_client import arq
 from Natsunagi.utils.errors import capture_err
