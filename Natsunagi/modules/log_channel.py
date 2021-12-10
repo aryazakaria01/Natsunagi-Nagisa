@@ -4,18 +4,21 @@ from functools import wraps
 from telegram.ext import CallbackContext
 
 from Natsunagi.modules.helper_funcs.misc import is_module_loaded
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd, natsunagicallback
+from ..modules.helper_funcs.anonymous import user_admin, AdminPerms
 
 FILENAME = __name__.rsplit(".", 1)[-1]
 
 if is_module_loaded(FILENAME):
-    from telegram import ParseMode, Update
+    from telegram import ParseMode, Update, InlineKeyboardMarkup, InlineKeyboardButton
     from telegram.error import BadRequest, Unauthorized
     from telegram.ext import CommandHandler, JobQueue, run_async
     from telegram.utils.helpers import escape_markdown
 
     from Natsunagi import EVENT_LOGS, LOGGER, dispatcher
-    from Natsunagi.modules.helper_funcs.chat_status import user_admin
+    from Natsunagi.modules.helper_funcs.chat_status import user_admin as u_admin, is_user_admin
     from Natsunagi.modules.sql import log_channel_sql as sql
+
 
     def loggable(func):
         @wraps(func)
@@ -48,6 +51,7 @@ if is_module_loaded(FILENAME):
 
         return log_action
 
+
     def gloggable(func):
         @wraps(func)
         def glog_action(update: Update, context: CallbackContext, *args, **kwargs):
@@ -71,11 +75,9 @@ if is_module_loaded(FILENAME):
 
         return glog_action
 
+
     def send_log(
-        context: CallbackContext,
-        log_chat_id: str,
-        orig_chat_id: str,
-        result: str,
+            context: CallbackContext, log_chat_id: str, orig_chat_id: str, result: str
     ):
         bot = context.bot
         try:
@@ -103,7 +105,8 @@ if is_module_loaded(FILENAME):
                     + "\n\nFormatting has been disabled due to an unexpected error.",
                 )
 
-    @user_admin
+    @natsunagicmd(command='logchannel')
+    @u_admin
     def logging(update: Update, context: CallbackContext):
         bot = context.bot
         message = update.effective_message
@@ -121,7 +124,8 @@ if is_module_loaded(FILENAME):
         else:
             message.reply_text("No log channel has been set for this group!")
 
-    @user_admin
+    @natsunagicmd(command='logchannel')
+    @user_admin(AdminPerms.CAN_CHANGE_INFO)
     def setlog(update: Update, context: CallbackContext):
         bot = context.bot
         message = update.effective_message
@@ -162,7 +166,8 @@ if is_module_loaded(FILENAME):
                 " - forward the /setlog to the group\n",
             )
 
-    @user_admin
+    @natsunagicmd(command='unsetlog')
+    @user_admin(AdminPerms.CAN_CHANGE_INFO)
     def unsetlog(update: Update, context: CallbackContext):
         bot = context.bot
         message = update.effective_message
@@ -179,11 +184,14 @@ if is_module_loaded(FILENAME):
         else:
             message.reply_text("No log channel has been set yet!")
 
+
     def __stats__():
         return f"• {sql.num_logchannels()} log channels set."
 
+
     def __migrate__(old_chat_id, new_chat_id):
         sql.migrate_chat(old_chat_id, new_chat_id)
+
 
     def __chat_settings__(chat_id, user_id):
         log_channel = sql.get_chat_log_channel(chat_id)
@@ -192,18 +200,92 @@ if is_module_loaded(FILENAME):
             return f"This group has all it's logs sent to: {escape_markdown(log_channel_info.title)} (`{log_channel}`)"
         return "No log channel is set for this group!"
 
-    LOG_HANDLER = CommandHandler("logchannel", logging, run_async=True)
-    SET_LOG_HANDLER = CommandHandler("setlog", setlog, run_async=True)
-    UNSET_LOG_HANDLER = CommandHandler("unsetlog", unsetlog, run_async=True)
 
-    dispatcher.add_handler(LOG_HANDLER)
-    dispatcher.add_handler(SET_LOG_HANDLER)
-    dispatcher.add_handler(UNSET_LOG_HANDLER)
+    __help__ = """
+*Admins only:*
+• `/logchannel`*:* get log channel info
+• `/setlog`*:* set the log channel.
+• `/unsetlog`*:* unset the log channel.
+
+Setting the log channel is done by:
+• adding the bot to the desired channel (as an admin!)
+• sending `/setlog` in the channel
+• forwarding the `/setlog` to the group
+"""
+    __mod_name__ = "Logger"
 
 else:
     # run anyway if module not loaded
     def loggable(func):
         return func
 
+
     def gloggable(func):
         return func
+
+    
+@natsunagicmd("logsettings")
+@user_admin(AdminPerms.CAN_CHANGE_INFO)
+def log_settings(update: Update, _: CallbackContext):
+    chat = update.effective_chat
+    chat_set = sql.get_chat_setting(chat_id=chat.id)
+    if not chat_set:
+        sql.set_chat_setting(setting=sql.LogChannelSettings(chat.id, True, True, True, True, True))
+    btn = InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(text="Warn", callback_data="log_tog_warn"),
+                InlineKeyboardButton(text="Action", callback_data="log_tog_act")
+            ],
+            [
+                InlineKeyboardButton(text="Join", callback_data="log_tog_join"),
+                InlineKeyboardButton(text="Leave", callback_data="log_tog_leave")
+            ],
+            [
+                InlineKeyboardButton(text="Report", callback_data="log_tog_rep")
+            ]
+        ]
+    )
+    msg = update.effective_message
+    msg.reply_text("Toggle channel log settings", reply_markup=btn)
+
+
+from Natsunagi.modules.sql import log_channel_sql as sql
+
+
+@natsunagicallback(pattern=r"log_tog_.*")
+def log_setting_callback(update: Update, context: CallbackContext):
+    cb = update.callback_query
+    user = cb.from_user
+    chat = cb.message.chat
+    if not is_user_admin(update, user.id):
+        cb.answer("You aren't admin", show_alert=True)
+        return
+    setting = cb.data.replace("log_tog_", "")
+    chat_set = sql.get_chat_setting(chat_id=chat.id)
+    if not chat_set:
+        sql.set_chat_setting(setting=sql.LogChannelSettings(chat.id, True, True, True, True, True))
+
+    t = sql.get_chat_setting(chat.id)
+    if setting == "warn":
+        r = t.toggle_warn()
+        cb.answer("Warning log set to {}".format(r))
+        return
+    if setting == "act":
+        r = t.toggle_action()
+        cb.answer("Action log set to {}".format(r))
+        return
+    if setting == "join":
+        r = t.toggle_joins()
+        cb.answer("Join log set to {}".format(r))
+        return
+    if setting == "leave":
+        r = t.toggle_leave()
+        cb.answer("Leave log set to {}".format(r))
+        return
+    if setting == "rep":
+        r = t.toggle_report()
+        cb.answer("Report log set to {}".format(r))
+        return
+
+    cb.answer("Now, What i need to do")
