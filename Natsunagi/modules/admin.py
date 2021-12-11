@@ -620,7 +620,7 @@ def pin(update: Update, context: CallbackContext) -> str:
                 chat.id, prev_message.message_id, disable_notification=is_silent
             )
             msg.reply_text(
-                f"I have pinned a message.",
+                "I have pinned a message.",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
