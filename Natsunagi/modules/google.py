@@ -19,8 +19,6 @@ from urllib.parse import urlencode
 from urllib.error import URLError, HTTPError
 from telethon.tl import functions, types
 from telethon import *
-from telethon.tl.types import *
-
 
 from Natsunagi import telethn, BOT_NAME
 from Natsunagi.events import register
