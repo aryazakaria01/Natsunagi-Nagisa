@@ -28,10 +28,8 @@ from Natsunagi.modules.helper_funcs.decorators import natsunagicmd, natsunagimsg
 FLOOD_GROUP = 3
 
 
-
 @loggable
 def check_flood(update, context) -> Optional[str]:
-    global execstrings
     user = update.effective_user  # type: Optional[User]
     chat = update.effective_chat  # type: Optional[Chat]
     msg = update.effective_message  # type: Optional[Message]
@@ -110,7 +108,6 @@ def check_flood(update, context) -> Optional[str]:
                 chat.title
             )
         )
-
 
 
 @user_admin(AdminPerms.CAN_CHANGE_INFO)
