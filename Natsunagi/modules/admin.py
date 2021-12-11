@@ -928,7 +928,7 @@ def antichannelmode(update: Update, context: CallbackContext):
     chat = update.effective_chat
     msg = update.effective_message
     if args:
-        if len(args)!= 1:
+        if len(args) != 1:
             msg.reply_text("Invalid arguments!")
             return
         param = args[0]
