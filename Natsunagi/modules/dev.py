@@ -126,7 +126,6 @@ def pip_install(update: Update, context: CallbackContext):
             cmd.split(" "),
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            shell=True,
         )
         stdout, stderr = process.communicate()
         reply = ""
@@ -178,7 +177,7 @@ def gitpull(update: Update, context: CallbackContext):
     sent_msg = update.effective_message.reply_text(
         "Pulling all changes from remote and then attempting to restart."
     )
-    subprocess.Popen("git pull", stdout=subprocess.PIPE, shell=True)
+    subprocess.Popen("git pull", stdout=subprocess.PIPE)
 
     sent_msg_text = sent_msg.text + "\n\nChanges pulled...I guess.. Restarting in "
 
@@ -198,7 +197,7 @@ def restart(update: Update, context: CallbackContext):
         "Exiting all Processes and starting a new Instance!"
     )
     process = subprocess.run(
-        "pkill python3 && python3 -m Natsunagi", shell=True, check=True
+        "pkill python3 && python3 -m Natsunagi", check=True
     )
     process.communicate()
 
