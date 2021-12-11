@@ -94,7 +94,6 @@ class DownloadJob:
         """
         Downloads the file from the given url to a file in the given path.
         """
-
         async with self._session.get(self.file_url) as resp:
             # Checkning the response code
             if 200 <= resp.status < 300:
@@ -151,7 +150,6 @@ class Handler:
         :param files_url: list of urls where the files are located
         :param save_path: path to be used for saving the files. Defaults to the current dir
         """
-
         job = self._job_factory(url, save_path=save_path)
 
         task = asyncio.ensure_future(job.download())
