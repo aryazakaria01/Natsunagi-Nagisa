@@ -2,7 +2,6 @@ from typing import Optional
 
 import Natsunagi.modules.sql.rules_sql as sql
 from Natsunagi import dispatcher
-from Natsunagi.modules.helper_funcs.chat_status import user_admin
 from Natsunagi.modules.helper_funcs.string_handling import markdown_parser
 from telegram import (
     InlineKeyboardButton,
@@ -15,9 +14,11 @@ from telegram import (
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
 from telegram.utils.helpers import escape_markdown
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
+from Natsunagi.modules.helper_funcs.anonymous import user_admin, AdminPerms
 
-
-def get_rules(update: Update, context: CallbackContext):
+@natsunagicmd(command='rules', filters=Filters.chat_type.groups)
+def get_rules(update: Update, _: CallbackContext):
     chat_id = update.effective_chat.id
     send_rules(update, chat_id)
 
@@ -26,6 +27,7 @@ def get_rules(update: Update, context: CallbackContext):
 def send_rules(update, chat_id, from_pm=False):
     bot = dispatcher.bot
     user = update.effective_user  # type: Optional[User]
+    message = update.effective_message
     reply_msg = update.message.reply_to_message
     try:
         chat = bot.get_chat(chat_id)
@@ -71,9 +73,7 @@ def send_rules(update, chat_id, from_pm=False):
             ),
         )
     elif rules:
-        update.effective_message.reply_text(
-            "Please click the button below to see the rules.",
-            reply_markup=InlineKeyboardMarkup(
+        btn = InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
@@ -85,6 +85,12 @@ def send_rules(update, chat_id, from_pm=False):
                 ]
             ),
         )
+        txt = "Please click the button below to see the rules."
+        if not message.reply_to_message:
+            message.reply_text(txt, reply_markup=btn)
+
+        if message.reply_to_message:
+            message.reply_to_message.reply_text(txt, reply_markup=btn)
     else:
         update.effective_message.reply_text(
             "The group admins haven't set any rules for this chat yet. "
@@ -97,7 +103,8 @@ close_keyboard = InlineKeyboardMarkup(
 )
 
 
-@user_admin
+@natsunagicmd(command='setrules', filters=Filters.chat_type.groups)
+@user_admin(AdminPerms.CAN_CHANGE_INFO)
 def set_rules(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     msg = update.effective_message  # type: Optional[Message]
@@ -116,7 +123,8 @@ def set_rules(update: Update, context: CallbackContext):
         update.effective_message.reply_text("Successfully set rules for this group.")
 
 
-@user_admin
+@natsunagicmd(command='clearrules', filters=Filters.chat_type.groups)
+@user_admin(AdminPerms.CAN_CHANGE_INFO)
 def clear_rules(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
     sql.set_rules(chat_id, "")
@@ -142,17 +150,3 @@ def __chat_settings__(chat_id, user_id):
 
 
 __mod_name__ = "Rules"
-
-GET_RULES_HANDLER = CommandHandler(
-    "rules", get_rules, filters=Filters.chat_type.groups, run_async=True
-)
-SET_RULES_HANDLER = CommandHandler(
-    "setrules", set_rules, filters=Filters.chat_type.groups, run_async=True
-)
-RESET_RULES_HANDLER = CommandHandler(
-    "clearrules", clear_rules, filters=Filters.chat_type.groups, run_async=True
-)
-
-dispatcher.add_handler(GET_RULES_HANDLER)
-dispatcher.add_handler(SET_RULES_HANDLER)
-dispatcher.add_handler(RESET_RULES_HANDLER)
