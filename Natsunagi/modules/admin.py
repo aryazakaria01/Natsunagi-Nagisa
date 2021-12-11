@@ -16,7 +16,6 @@ from telegram.ext import CallbackContext, CommandHandler, Filters, run_async, Me
 from telegram.utils.helpers import mention_html
 from telethon import events
 from telethon.tl import functions, types
-from telethon.errors import *
 from telethon.tl import *
 from telethon import *
 
