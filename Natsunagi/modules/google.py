@@ -78,12 +78,12 @@ async def _(event):
     gsearch = GoogleSearch()
     gresults = await gsearch.async_search(*search_args)
     msg = ""
-    for i in range(len(gresults["links"])):
+    for i in enumerate(gresults['links']):
         try:
             title = gresults["titles"][i]
             link = gresults["links"][i]
             desc = gresults["descriptions"][i]
-            msg += f"❍[{title}]({link})\n**{desc}**\n\n"
+            msg += f"×[{title}]({link})\n**{desc}**\n\n"
         except IndexError:
             break
     await webevent.edit(
