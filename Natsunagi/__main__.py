@@ -9,7 +9,7 @@ import traceback
 import Natsunagi.modules.sql.users_sql as sql
 
 from sys import argv
-from typing import Optional
+from typing import Optional, List
 from Natsunagi import (
     ALLOW_EXCL,
     CERT_PATH,
@@ -48,6 +48,10 @@ from telegram import (
     InlineKeyboardMarkup,
     ParseMode,
     Update,
+    Message,
+    Chat,
+    Bot,
+    User,
     __version__ as tgl,
 )
 
@@ -71,6 +75,7 @@ from telegram.ext import (
 from telegram.ext.dispatcher import (
     DispatcherHandlerStop,
     run_async,
+    Dispatcher,
 )
 
 from telegram.utils.helpers import escape_markdown
