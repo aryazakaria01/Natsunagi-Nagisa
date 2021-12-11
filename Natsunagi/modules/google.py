@@ -121,7 +121,6 @@ opener.addheaders = [("User-agent", useragent)]
 
 async def ParseSauce(googleurl):
     """Parse/Scrape the HTML code for the info we want."""
-
     source = opener.open(googleurl).read()
     soup = BeautifulSoup(source, "html.parser")
 
