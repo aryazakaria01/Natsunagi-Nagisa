@@ -19,7 +19,6 @@ def shell(update: Update, context: CallbackContext):
         cmd,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        shell=True,
     )
     stdout, stderr = process.communicate()
     reply = ""
