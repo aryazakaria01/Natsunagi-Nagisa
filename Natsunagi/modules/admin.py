@@ -932,11 +932,11 @@ def antichannelmode(update: Update, context: CallbackContext):
             msg.reply_text("Invalid arguments!")
             return
         param = args[0]
-        if param == "on" or param == "true" or param == "yes" or param == "On" or param == "Yes" or param == "True":
+        if param in ("on", "true", "yes", "On", "Yes", "True"):
             acm_sql.setCleanLinked(chat.id, True)
             msg.reply_text(f"*Enabled* Anti channel in {chat.title}. Messages sent by channel will be deleted.", parse_mode=ParseMode.MARKDOWN)
             return
-        elif param == "off" or param == "false" or param == "no" or param == "No" or param == "Off" or param == "False":
+        elif param in ("off", "false", "no", "No", "Off", "False"):
             acm_sql.setCleanLinked(chat.id, False)
             msg.reply_text(f"*Disabled* Anti channel in {chat.title}.", parse_mode=ParseMode.MARKDOWN)
             return
