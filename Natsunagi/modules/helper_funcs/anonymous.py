@@ -52,9 +52,8 @@ def user_admin(permission: AdminPerms):
                 mem = context.bot.get_chat_member(chat_id=chat_id, user_id=user_id)
                 if getattr(mem, permission.value) is True or mem.status == "creator" or user_id in SUDO_USERS:
                     return func(update, context, *args, **kwargs)
-                else:
-                    return message.reply_text(f"You lack the permission: `{permission.name}`",
-                                              parse_mode=ParseMode.MARKDOWN)
+                return message.reply_text(f"You lack the permission: `{permission.name}`",
+                                          parse_mode=ParseMode.MARKDOWN)
 
         return awrapper
 

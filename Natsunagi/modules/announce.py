@@ -33,7 +33,7 @@ def announcestat(update: Update, context: CallbackContext) -> str:
                 f"<b>Admin:</b> {mention_html(user.id, user.first_name) if not message.sender_chat else message.sender_chat.title}\n "
             )
             return logmsg
-        elif args[0].lower() in ["off", "no", "false"]:
+        if args[0].lower() in ["off", "no", "false"]:
             sql.disable_chat_log(update.effective_chat.id)
             update.effective_message.reply_text(
                 "I've disabled announcemets in this group. Now admin actions in your group will not be announced."
