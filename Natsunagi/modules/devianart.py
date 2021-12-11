@@ -16,11 +16,10 @@ async def download_file(link, name):
     if not aiohttp:
         urllib.request.urlretrieve(link, name)
         return name
-    async with aiohttp.ClientSession() as ses:
-        async with ses.get(link) as re_ses:
-            file = await aiofiles.open(name, "wb")
-            await file.write(await re_ses.read())
-            await file.close()
+    async with aiohttp.ClientSession() as ses, ses.get(link) as re_ses:
+        file = await aiofiles.open(name, "wb")
+        await file.write(await re_ses.read())
+        await file.close()
     return name
 
 
