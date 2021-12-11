@@ -24,6 +24,8 @@
 <a href="https://deepsource.io/gh/aryazakaria01/Natsunagi-Nagisa/?ref=repository-badge}" target="_blank"><img alt="DeepSource" title="DeepSource" src="https://deepsource.io/gh/aryazakaria01/Natsunagi-Nagisa.svg/?label=resolved+issues&show_trend=true&token=RYYx_QApuuAWUMpqD_4iHZ5m"/></a>	
 </p>
 
+![Repository Size](https://img.shields.io/github/repo-size/aryazakaria01/Natsunagi-Nagisa?style=for-the-badge&logo=appveyor)</br>
+
 A modular telegram Python bot running on python3 with an sqlalchemy, Redis, mongodb database.
 
 ###  ╒═══「 Status 」
@@ -61,6 +63,7 @@ This repo was just reamped to suit an Anime-centric community. All original cred
 ╘══「 Any other authorship/credits can be seen through the commits. 」
 
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
+[![ForTheBadge built-with-love](http://ForTheBadge.com/images/badges/built-with-love.svg)](https://gitHub.com/aryazakaria01/)</br>
 
 The Support group can be reached out to at [Yūki • Black Knights Union • Dev Chat](https://t.me/BlackKnightsUnion_DevChat), where you can ask for help about [Natsunagi Nagisa](https://t.me/YuiiDev_bot), discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
 
@@ -113,3 +116,5 @@ Start with ```python3 -m Natsunagi```
  </b>
 </p>
 </details>
+
+<a href="http://u.fsf.org/16e"><img src="https://static.fsf.org/nosvn/images/badges/fsfs_icons_red-bg.png" alt="Free Software, Free Society"></a>
