@@ -51,7 +51,6 @@ async def is_administrator(user_id: int, message):
 @telethn.on(events.NewMessage(pattern="^[!/]zombies ?(.*)"))
 async def zombies(event):
     """For .zombies command, list all the zombies in a chat."""
-
     con = event.pattern_match.group(1).lower()
     del_u = 0
     del_status = "No Deleted Accounts Found, Group Is Clean."
