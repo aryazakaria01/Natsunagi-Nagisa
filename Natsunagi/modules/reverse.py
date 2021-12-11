@@ -156,7 +156,6 @@ def reverse(update: Update, context: CallbackContext):
 
 def ParseSauce(googleurl):
     """Parse/Scrape the HTML code for the info we want."""
-
     source = opener.open(googleurl).read()
     soup = BeautifulSoup(source, "html.parser")
 
@@ -183,7 +182,6 @@ def ParseSauce(googleurl):
 
 def scam(imgspage, lim):
     """Parse/Scrape the HTML code for the info we want."""
-
     single = opener.open(imgspage).read()
     decoded = single.decode("utf-8")
     if int(lim) > 10:
