@@ -1,6 +1,7 @@
 """MongoDB Database."""
 
 from motor.motor_asyncio import AsyncIOMotorClient
+from motor import motor_asyncio
 from odmantic import AIOEngine
 from pymongo import MongoClient, collection
 
