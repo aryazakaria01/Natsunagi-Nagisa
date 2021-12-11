@@ -338,7 +338,6 @@ def error_callback(update, context):
         update  -
         context -
     """
-
     try:
         raise context.error
     except (Unauthorized, BadRequest):
