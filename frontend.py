@@ -16,10 +16,10 @@ with window("About"):
     add_text(f"Python version: {python_version()}.", bullet=True)
     add_text("Support:")
     add_text("Group: t.me/BlackKnightsUnion_DevChat", bullet=True)
-    add_text("Chann: t.me/CyberMusicProject", bullet=True)
+    add_text("Channel: t.me/CyberMusicProject", bullet=True)
 
 with window("stats"):
-    add_text("\n*Bot statistics*:\n"+ "\n".join([mod.__stats__() for mod in STATS]))
+    add_text("\n*Bot statistics*:\n" + "\n".join([mod.__stats__() for mod in STATS]))
 
 
 
