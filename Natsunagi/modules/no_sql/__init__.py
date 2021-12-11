@@ -4,7 +4,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from odmantic import AIOEngine
 from pymongo import MongoClient, collection
 
-from Natsunagi import MONGO_URI, MONGO_DB, MONGO_PORT
+from Natsunagi import MONGO_URI, MONGO_DB, MONGO_PORT, MONGO_DB_URL
 
 # MongoDB Client
 mongodb = MongoClient(MONGO_DB_URL, 27017)[MONGO_DB]
