@@ -89,7 +89,9 @@ def can_delete(chat: Chat, bot_id: int) -> bool:
     return chat.get_member(bot_id).can_delete_messages
 
 
-def is_user_ban_protected(update: Update, user_id: int, member: ChatMember = None) -> bool:
+def is_user_ban_protected(
+    update: Update, user_id: int, member: ChatMember = None
+) -> bool:
     chat = update.effective_chat
     msg = update.effective_message
     if (
@@ -439,6 +441,7 @@ def connection_status(func):
         return func(update, context, *args, **kwargs)
 
     return connected_status
+
 
 from Natsunagi.modules import connection
 

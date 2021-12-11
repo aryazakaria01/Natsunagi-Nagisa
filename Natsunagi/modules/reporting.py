@@ -79,7 +79,7 @@ def report(update: Update, context: CallbackContext) -> str:
             if admin.user.is_bot:  # AI didnt take over yet
                 continue
             try:
-                reported += f"<a href=\"tg://user?id={admin.user.id}\">\u2063</a>"
+                reported += f'<a href="tg://user?id={admin.user.id}">\u2063</a>'
             except BadRequest:
                 log.exception("Exception while reporting user")
         message.reply_text(reported, parse_mode=ParseMode.HTML)

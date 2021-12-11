@@ -3,10 +3,10 @@ import os
 import time
 
 from datetime import datetime
-from Natsunagi import ( 
-    OWNER_ID, 
-    DEV_USERS, 
-    telethn as tbot, 
+from Natsunagi import (
+    OWNER_ID,
+    DEV_USERS,
+    telethn as tbot,
     TEMP_DOWNLOAD_DIRECTORY as path,
 )
 

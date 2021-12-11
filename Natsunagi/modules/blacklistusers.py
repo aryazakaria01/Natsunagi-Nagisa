@@ -48,10 +48,10 @@ def bl_user(update: Update, context: CallbackContext) -> str:
     try:
         target_user = bot.get_chat(user_id)
     except BadRequest as excp:
-        if excp.message != 'User not found':
+        if excp.message != "User not found":
             raise
         message.reply_text("I can't seem to find this user.")
-        return ''
+        return ""
     sql.blacklist_user(user_id, reason)
     message.reply_text("I shall ignore the existence of this user!")
     log_message = (

@@ -42,7 +42,11 @@ from Natsunagi.modules.helper_funcs.chat_status import is_user_admin
 from Natsunagi.modules.helper_funcs.alternate import typing_action
 from Natsunagi.modules.helper_funcs.misc import paginate_modules
 from Natsunagi.modules.disable import DisableAbleCommandHandler
-from Natsunagi.modules.helper_funcs.decorators import natsunagicmd, natsunagimsg, natsunagicallback
+from Natsunagi.modules.helper_funcs.decorators import (
+    natsunagicmd,
+    natsunagimsg,
+    natsunagicallback,
+)
 from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
@@ -87,6 +91,7 @@ from telethon import (
 )
 
 from platform import python_version
+
 
 def get_readable_time(seconds: int) -> str:
     count = 0
@@ -847,19 +852,20 @@ def migrate_chats(update: Update, context: CallbackContext):
     LOGGER.info("Successfully migrated!")
     raise DispatcherHandlerStop
 
+
 def main():
 
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
             dispatcher.bot.sendMessage(
-                f"@{SUPPORT_CHAT}", 
+                f"@{SUPPORT_CHAT}",
                 f"""**Natsunagi Nagisa Started!**
 
 » Python: `{python_version()}`
 » Telethon: `{tlh}`
 » Pyrogram: `{pyr}`
 » Telegram Library: v`{tgl}`""",
-                parse_mode=ParseMode.MARKDOWN
+                parse_mode=ParseMode.MARKDOWN,
             )
         except BadRequest as e:
             LOGGER.warning(e.message)
@@ -867,7 +873,9 @@ def main():
     dispatcher.add_error_handler(error_callback)
 
     if WEBHOOK:
-        LOGGER.info(f"Natsunagi started, Using webhook. | BOT: [@{dispatcher.bot.username}]")
+        LOGGER.info(
+            f"Natsunagi started, Using webhook. | BOT: [@{dispatcher.bot.username}]"
+        )
         updater.start_webhook(listen="127.0.0.1", port=PORT, url_path=TOKEN)
 
         if CERT_PATH:

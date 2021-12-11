@@ -44,7 +44,14 @@ from Natsunagi.modules.helper_funcs.extraction import (
 from Natsunagi.modules.helper_funcs.misc import send_to_list
 from Natsunagi.modules.helper_funcs.decorators import natsunagicmd, natsunagimsg
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus
-from spamwatch.errors import SpamWatchError, Error, UnauthorizedError, NotFoundError, Forbidden, TooManyRequests
+from spamwatch.errors import (
+    SpamWatchError,
+    Error,
+    UnauthorizedError,
+    NotFoundError,
+    Forbidden,
+    TooManyRequests,
+)
 
 GBAN_ENFORCE_GROUP = 6
 
@@ -95,7 +102,7 @@ def gban(update: Update, context: CallbackContext):
 
     if int(user_id) in DEV_USERS:
         message.reply_text(
-                "That user is a Destroyers",
+            "That user is a Destroyers",
         )
         return
 
@@ -450,7 +457,11 @@ def check_and_ban(update, user_id, should_message=True):
             update.effective_message.reply_text(text, parse_mode=ParseMode.HTML)
 
 
-@natsunagimsg((Filters.all & Filters.chat_type.groups), can_disable=False, group=GBAN_ENFORCE_GROUP)            
+@natsunagimsg(
+    (Filters.all & Filters.chat_type.groups),
+    can_disable=False,
+    group=GBAN_ENFORCE_GROUP,
+)
 def enforce_gban(update: Update, context: CallbackContext):
     # Not using @restrict handler to avoid spamming - just ignore if cant gban.
     bot = context.bot
@@ -494,8 +505,7 @@ def gbanstat(update: Update, context: CallbackContext):
         elif args[0].lower() in ["off", "no"]:
             sql.disable_gbans(update.effective_chat.id)
             update.effective_message.reply_text(
-                "» Antispan is now disabled\n" 
-                "» Spamwatch is now disabled\n"
+                "» Antispan is now disabled\n" "» Spamwatch is now disabled\n"
             )
     else:
         update.effective_message.reply_text(

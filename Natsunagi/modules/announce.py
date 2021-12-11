@@ -51,9 +51,10 @@ def announcestat(update: Update, context: CallbackContext) -> str:
             "Your current setting is: {}\n"
             "When True, any admin actions in your group will be announced."
             "When False, admin actions in your group will not be announced.".format(
-                sql.does_chat_log(update.effective_chat.id))
+                sql.does_chat_log(update.effective_chat.id)
+            )
         )
-        return ''
+        return ""
 
 
 def __migrate__(old_chat_id, new_chat_id):
