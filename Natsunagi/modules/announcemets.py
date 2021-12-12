@@ -10,7 +10,7 @@ import Natsunagi.modules.sql.log_channel_sql as logsql
 from Natsunagi import dispatcher
 from Natsunagi.modules.log_channel import loggable
 
-import tg_bot.modules.sql.logger_sql as sql
+import Natsunagi.modules.sql.logger_sql as sql
 
 
 # Module to extract and log (optional: send to chat) status changes in chat members using ChatMemberUpdated
