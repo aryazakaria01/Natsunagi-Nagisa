@@ -71,7 +71,9 @@ def warn(
     warner: User = None,
 ) -> str:
     log_message = ""
+    reason = ""
     args = context.args
+    bot = context.bot
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
