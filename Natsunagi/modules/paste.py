@@ -21,6 +21,7 @@ from telegram import (
     Chat,
     MessageEntity,
     InlineKeyboardMarkup,
+    InlineKeyboardButton,
     ParseMode,
     ChatAction,
     TelegramError,
