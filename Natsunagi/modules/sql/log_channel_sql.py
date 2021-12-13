@@ -1,8 +1,9 @@
 import threading
 import typing
 
-from Natsunagi.modules.sql import BASE, SESSION
 from sqlalchemy import Column, String, func, distinct, BigInteger, Boolean, select
+
+from Natsunagi.modules.sql import BASE, SESSION
 
 
 class GroupLogs(BASE):
@@ -64,7 +65,7 @@ GroupLogs.__table__.create(checkfirst=True)
 LogChannelSettings.__table__.create(checkfirst=True)
 
 LOGS_INSERTION_LOCK = threading.RLock()
-
+LOG_SETTING_LOCK = threading.RLock()
 CHANNELS = {}
 
 
