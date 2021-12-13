@@ -436,7 +436,7 @@ def check_and_ban(update, user_id, should_message=True):
             )
         return
 
-    if gban_sql.is_user_gbanned(user_id):
+    if gban_db.is_user_gbanned(user_id):
         update.effective_chat.ban_member(user_id)
         if should_message:
             text = (
