@@ -129,7 +129,7 @@ def unrestr_members(
 
 def locktypes(update, context):
     update.effective_message.reply_text(
-        "\n ❍ ".join(
+        "\n × ".join(
             ["Locks available: "]
             + sorted(list(LOCK_TYPES) + list(LOCK_CHAT_RESTRICTION))
         )
@@ -470,10 +470,10 @@ def build_lock_message(chat_id):
         locklist.sort()
         # Building lock list string
         for x in locklist:
-            res += "\n ❍ {}".format(x)
+            res += "\n × {}".format(x)
     res += "\n\n*" + "These are the current chat permissions:" + "*"
     for x in permslist:
-        res += "\n ❍ {}".format(x)
+        res += "\n × {}".format(x)
     return res
 
 
