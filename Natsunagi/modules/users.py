@@ -158,7 +158,7 @@ def __user_info__(user_id):
         return """╘══「 Groups count: <code>???</code> 」"""
     if user_id == dispatcher.bot.id:
         return """╘══「 Groups count: <code>???</code> 」"""
-    num_chats = sql.get_user_num_chats(user_id)
+    num_chats = user_db.get_user_num_chats(user_id)
     return f"""╘══「 Groups count: <code>{num_chats}</code> 」"""
 
 
