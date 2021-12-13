@@ -5,13 +5,14 @@ from telegram.ext.filters import BaseFilter
 
 from typing import Optional, Union, List
 
-
 class NatsunagiTelegramHandler:
     def __init__(self, n):
         self._dispatcher = n
 
     def command(
-        self, command: str, filters: Optional[BaseFilter] = None, admin_ok: bool = False, pass_args: bool = False, pass_chat_data: bool = False, run_async: bool = True, can_disable: bool = True, group: Optional[Union[int]] = 40
+            self, command: str, filters: Optional[BaseFilter] = None, admin_ok: bool = False, pass_args: bool = False,
+            pass_chat_data: bool = False, run_async: bool = True, can_disable: bool = True,
+            group: Optional[int] = 40
     ):
 
 
@@ -19,7 +20,8 @@ class NatsunagiTelegramHandler:
             try:
                 if can_disable:
                     self._dispatcher.add_handler(
-                        DisableAbleCommandHandler(command, func, filters=filters, run_async=run_async, pass_args=pass_args, admin_ok=admin_ok), group
+                        DisableAbleCommandHandler(command, func, filters=filters, run_async=run_async,
+                                                  pass_args=pass_args, admin_ok=admin_ok), group
                     )
                 else:
                     self._dispatcher.add_handler(
@@ -29,11 +31,13 @@ class NatsunagiTelegramHandler:
             except TypeError:
                 if can_disable:
                     self._dispatcher.add_handler(
-                        DisableAbleCommandHandler(command, func, filters=filters, run_async=run_async, pass_args=pass_args, admin_ok=admin_ok, pass_chat_data=pass_chat_data)
+                        DisableAbleCommandHandler(command, func, filters=filters, run_async=run_async,
+                                                  pass_args=pass_args, admin_ok=admin_ok, pass_chat_data=pass_chat_data)
                     )
                 else:
                     self._dispatcher.add_handler(
-                        CommandHandler(command, func, filters=filters, run_async=run_async, pass_args=pass_args, pass_chat_data=pass_chat_data)
+                        CommandHandler(command, func, filters=filters, run_async=run_async, pass_args=pass_args,
+                                       pass_chat_data=pass_chat_data)
                     )
                 LOGGER.debug(f"[NATSUNAGICMD] Loaded handler {command} for function {func.__name__}")
 
@@ -41,7 +45,8 @@ class NatsunagiTelegramHandler:
 
         return _command
 
-    def message(self, pattern: Optional[str] = None, can_disable: bool = True, run_async: bool = True, group: Optional[Union[int]] = 60, friendly = None):
+    def message(self, pattern: Optional[BaseFilter] = None, can_disable: bool = True, run_async: bool = True,
+                group: Optional[int] = 60, friendly=None):
         def _message(func):
             try:
                 if can_disable:
@@ -65,6 +70,7 @@ class NatsunagiTelegramHandler:
                 LOGGER.debug(f"[NATSUNAGIMSG] Loaded filter pattern {pattern} for function {func.__name__}")
 
             return func
+
         return _message
 
     def callbackquery(self, pattern: str = None, run_async: bool = True):
@@ -74,12 +80,19 @@ class NatsunagiTelegramHandler:
             return func
         return _callbackquery
 
-    def inlinequery(self, pattern: Optional[str] = None, run_async: bool = True, pass_user_data: bool = True, pass_chat_data: bool = True, chat_types: List[str] = None):
+    def inlinequery(self, pattern: Optional[str] = None, run_async: bool = True, pass_user_data: bool = True,
+                    pass_chat_data: bool = True, chat_types: List[str] = None):
         def _inlinequery(func):
-            self._dispatcher.add_handler(InlineQueryHandler(pattern=pattern, callback=func, run_async=run_async, pass_user_data=pass_user_data, pass_chat_data=pass_chat_data, chat_types=chat_types))
-            LOGGER.debug(f'[NATSUNAGIINLINE] Loaded inlinequery handler with pattern {pattern} for function {func.__name__} | PASSES USER DATA: {pass_user_data} | PASSES CHAT DATA: {pass_chat_data} | CHAT TYPES: {chat_types}')
+            self._dispatcher.add_handler(
+                InlineQueryHandler(pattern=pattern, callback=func, run_async=run_async, pass_user_data=pass_user_data,
+                                   pass_chat_data=pass_chat_data, chat_types=chat_types))
+            LOGGER.debug(
+                f'[NATSUNAGIINLINE] Loaded inlinequery handler with pattern {pattern} for function {func.__name__} | PASSES '
+                f'USER DATA: {pass_user_data} | PASSES CHAT DATA: {pass_chat_data} | CHAT TYPES: {chat_types}')
             return func
+
         return _inlinequery
+
 
 natsunagicmd = NatsunagiTelegramHandler(n).command
 natsunagimsg = NatsunagiTelegramHandler(n).message
