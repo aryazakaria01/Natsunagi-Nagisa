@@ -1,9 +1,13 @@
 import html
 
+import Natsunagi.modules.sql.log_channel_sql as logsql
 from Natsunagi import LOGGER, DRAGONS, TIGERS, WOLVES, dispatcher
-from Natsunagi.modules.helper_funcs.chat_status import user_admin, user_not_admin
+from Natsunagi.modules.helper_funcs.chat_status import user_not_admin
 from Natsunagi.modules.log_channel import loggable
 from Natsunagi.modules.sql import reporting_sql as sql
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd, natsunagimsg, natsunagicallback
+from ..modules.helper_funcs.anonymous import user_admin, AdminPerms
+
 from telegram import Chat, InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
 from telegram.error import BadRequest, Unauthorized
 from telegram.ext import (
@@ -20,7 +24,8 @@ REPORT_GROUP = 12
 REPORT_IMMUNE_USERS = DRAGONS + TIGERS + WOLVES
 
 
-@user_admin
+@natsunagicmd(command='reports')
+@user_admin(AdminPerms.CAN_CHANGE_INFO)
 def report_setting(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     chat = update.effective_chat
@@ -63,9 +68,13 @@ def report_setting(update: Update, context: CallbackContext):
         )
 
 
+@natsunagicmd(command='report', filters=Filters.chat_type.groups, group=REPORT_GROUP)
+@natsunagimsg((Filters.regex(r"(?i)@admin(s)?")), group=REPORT_GROUP)
 @user_not_admin
 @loggable
 def report(update: Update, context: CallbackContext) -> str:
+    # sourcery no-metrics
+    global reply_markup
     bot = context.bot
     args = context.args
     message = update.effective_message
@@ -112,10 +121,10 @@ def report(update: Update, context: CallbackContext) -> str:
 
             msg = (
                 f"<b>⚠️ Report: </b>{html.escape(chat.title)}\n"
-                f"<b> ❍ Report by:</b> {mention_html(user.id, user.first_name)}(<code>{user.id}</code>)\n"
-                f"<b> ❍ Reported user:</b> {mention_html(reported_user.id, reported_user.first_name)} (<code>{reported_user.id}</code>)\n"
+                f"<b> • Report by:</b> {mention_html(user.id, user.first_name)}(<code>{user.id}</code>)\n"
+                f"<b> • Reported user:</b> {mention_html(reported_user.id, reported_user.first_name)} (<code>{reported_user.id}</code>)\n"
             )
-            link = f'<b> ❍ Reported message:</b> <a href="https://t.me/{chat.username}/{message.reply_to_message.message_id}">click here</a>'
+            link = f'<b> • Reported message:</b> <a href="https://t.me/{chat.username}/{message.reply_to_message.message_id}">click here</a>'
             should_forward = False
             keyboard = [
                 [
@@ -169,7 +178,7 @@ def report(update: Update, context: CallbackContext) -> str:
                             message.reply_to_message.forward(admin.user.id)
 
                             if (
-                                len(message.text.split()) > 1
+                                    len(message.text.split()) > 1
                             ):  # If user is giving a reason, send his message too
                                 message.forward(admin.user.id)
                     if not chat.username:
@@ -183,7 +192,7 @@ def report(update: Update, context: CallbackContext) -> str:
                             message.reply_to_message.forward(admin.user.id)
 
                             if (
-                                len(message.text.split()) > 1
+                                    len(message.text.split()) > 1
                             ):  # If user is giving a reason, send his message too
                                 message.forward(admin.user.id)
 
@@ -199,19 +208,21 @@ def report(update: Update, context: CallbackContext) -> str:
                             message.reply_to_message.forward(admin.user.id)
 
                             if (
-                                len(message.text.split()) > 1
+                                    len(message.text.split()) > 1
                             ):  # If user is giving a reason, send his message too
                                 message.forward(admin.user.id)
 
                 except Unauthorized:
                     pass
                 except BadRequest as excp:  # TODO: cleanup exceptions
-                    LOGGER.exception("Exception while reporting user")
+                    LOGGER.exception("Exception while reporting user\n{}".format(excp))
 
         message.reply_to_message.reply_text(
             f"{mention_html(user.id, user.first_name)} reported the message to the admins.",
             parse_mode=ParseMode.HTML,
         )
+        if not logsql.get_chat_setting(chat.id).log_report:
+            return ""
         return msg
 
     return ""
@@ -233,6 +244,7 @@ def __user_settings__(user_id):
     )
 
 
+@natsunagicallback(pattern=r"report_")
 def buttons(update: Update, context: CallbackContext):
     bot = context.bot
     query = update.callback_query
@@ -277,32 +289,15 @@ def buttons(update: Update, context: CallbackContext):
 
 
 __help__ = """
-  ➢ `/report <reason>`*:* reply to a message to report it to admins.
- ➩ `@admins`*:* reply to a message to report it to admins.
+➢ `/report <reason>`*:* reply to a message to report it to admins.
+➩ `@admins`*:* reply to a message to report it to admins.
+
 *NOTE:* Neither of these will get triggered if used by admins.
+
 *Admins only:*
-  ➢ `/reports <on/off>`*:* change report setting, or view current status.
-   ➩ If done in pm, toggles your status.
-   ➩ If in group, toggles that groups's status.
+➢ `/reports <on/off>`*:* change report setting, or view current status.
+➩ If done in pm, toggles your status.
+➩ If in group, toggles that groups's status.
 """
 
-SETTING_HANDLER = CommandHandler("reports", report_setting, run_async=True)
-REPORT_HANDLER = CommandHandler(
-    "report", report, filters=Filters.chat_type.groups, run_async=True
-)
-ADMIN_REPORT_HANDLER = MessageHandler(
-    Filters.regex(r"(?i)@admins(s)?"), report, run_async=True
-)
-REPORT_BUTTON_USER_HANDLER = CallbackQueryHandler(buttons, pattern=r"report_")
-
-dispatcher.add_handler(REPORT_BUTTON_USER_HANDLER)
-dispatcher.add_handler(SETTING_HANDLER)
-dispatcher.add_handler(REPORT_HANDLER, REPORT_GROUP)
-dispatcher.add_handler(ADMIN_REPORT_HANDLER, REPORT_GROUP)
-
 __mod_name__ = "Reporting"
-__handlers__ = [
-    (REPORT_HANDLER, REPORT_GROUP),
-    (ADMIN_REPORT_HANDLER, REPORT_GROUP),
-    (SETTING_HANDLER),
-]
