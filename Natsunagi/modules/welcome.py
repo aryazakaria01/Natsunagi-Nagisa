@@ -32,7 +32,7 @@ from Natsunagi.modules.helper_funcs.string_handling import (
     markdown_parser,
 )
 from Natsunagi.modules.log_channel import loggable
-from Natsunagi.modules.sql.global_bans_sql import is_user_gbanned
+from Natsunagi.modules.no_sql.global_bans_db import is_user_gbanned
 
 from telegram import (
     ChatPermissions,
