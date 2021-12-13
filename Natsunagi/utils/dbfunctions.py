@@ -2,7 +2,7 @@ import codecs
 import pickle
 from typing import Dict, List, Union
 
-from Natsunagi import db
+from Natsunagi.modules.no_sql import db
 
 notesdb = db.notes
 filtersdb = db.filters
