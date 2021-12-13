@@ -284,6 +284,18 @@ def spacepaste(update, context):
         disable_web_page_preview=True,
     )
 
+__mod_name__ = "Paste"
+
+__help__ = """
+`/spaste`*:* Paste to spacebin
+`/npaste`*:* Paste to nekobin
+`/paste`*:* Paste to ezup
+`/bpaste`*:* Paste to batbin
+`/kpaste`*:* Paste to katbin
+`/ppaste`*:* Paste to pastylus
+`/cpaste`*:* Paste to catbin
+`/dpaste`*:* Paste to dogbin 
+
 PASTE_HANDLER = DisableAbleCommandHandler("hpaste", paste, run_async=True)
 NEKO_HANDLER = DisableAbleCommandHandler("npaste", nekopaste, run_async=True)
 SPASE_HANDLER = DisableAbleCommandHandler("spaste", spacepaste, run_async=True)
