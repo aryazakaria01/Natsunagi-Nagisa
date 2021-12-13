@@ -43,9 +43,9 @@ from Natsunagi.__main__ import STATS, TOKEN, USER_INFO
 from Natsunagi.modules.sql import SESSION
 import Natsunagi.modules.sql.userinfo_sql as sql
 from Natsunagi.modules.disable import DisableAbleCommandHandler
-from Natsunagi.modules.sql.global_bans_sql import is_user_gbanned
+from Natsunagi.modules.no_sql.global_bans_db import is_user_gbanned
 from Natsunagi.modules.redis.afk_redis import is_user_afk, afk_reason
-from Natsunagi.modules.sql.users_sql import get_user_num_chats
+from Natsunagi.modules.no_sql.users_db import get_user_num_chats
 from Natsunagi.modules.helper_funcs.chat_status import sudo_plus
 from Natsunagi.modules.helper_funcs.extraction import extract_user
 from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
