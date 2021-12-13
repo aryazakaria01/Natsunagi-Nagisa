@@ -513,7 +513,7 @@ def __stats__():
 
 
 def __user_info__(user_id):
-    is_gbanned = gban_sql.is_user_gbanned(user_id)
+    is_gbanned = gban_db.is_user_gbanned(user_id)
     text = "Gbanned: <b>{}</b>"
     if user_id in [777000, 1087968824]:
         return ""
