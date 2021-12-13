@@ -16,8 +16,8 @@ from telegram.ext import (
 )
 from telegram.utils.helpers import mention_html
 
-import Natsunagi.modules.sql.global_bans_sql as sql
-from Natsunagi.modules.sql.users_sql import get_user_com_chats
+import Natsunagi.modules.no_sql.global_bans_db as gban_sql
+from Natsunagi.modules.no_sql.users_db import get_user_com_chats
 from Natsunagi import (
     DEV_USERS,
     EVENT_LOGS,
@@ -75,6 +75,7 @@ UNGBAN_ERRORS = {
     "Peer_id_invalid",
     "User not found",
 }
+
 
 
 @support_plus
@@ -139,7 +140,7 @@ def gban(update: Update, context: CallbackContext):
         message.reply_text("That's not a user!")
         return
 
-    if sql.is_user_gbanned(user_id):
+    if gban_db.is_user_gbanned(user_id):
 
         if not reason:
             message.reply_text(
@@ -147,7 +148,7 @@ def gban(update: Update, context: CallbackContext):
             )
             return
 
-        old_reason = sql.update_gban_reason(
+        old_reason = gban_db.update_gban_reason(
             user_id,
             user_chat.username or user_chat.first_name,
             reason,
@@ -208,16 +209,16 @@ def gban(update: Update, context: CallbackContext):
     else:
         send_to_list(bot, DRAGONS + DEMONS, log_message, html=True)
 
-    sql.gban_user(user_id, user_chat.username or user_chat.first_name, reason)
+    gban_db.gban_user(user_id, user_chat.username or user_chat.first_name, reason)
 
     chats = get_user_com_chats(user_id)
     gbanned_chats = 0
 
     for chat in chats:
-        chat_id = int(chat)
+        chat_id = chat["chat_id"]
 
         # Check if this group has disabled gbans
-        if not sql.does_chat_gban(chat_id):
+        if not gban_db.does_chat_gban(chat_id):
             continue
 
         try:
@@ -239,7 +240,7 @@ def gban(update: Update, context: CallbackContext):
                         DRAGONS + DEMONS,
                         f"Could not gban due to: {excp.message}",
                     )
-                sql.ungban_user(user_id)
+                gban_db.ungban_user(user_id)
                 return
         except TelegramError:
             pass
@@ -297,7 +298,7 @@ def ungban(update: Update, context: CallbackContext):
         message.reply_text("That's not a user!")
         return
 
-    if not sql.is_user_gbanned(user_id):
+    if not gban_db.is_user_gbanned(user_id):
         message.reply_text("This user is not gbanned!")
         return
 
@@ -337,10 +338,10 @@ def ungban(update: Update, context: CallbackContext):
     ungbanned_chats = 0
 
     for chat in chats:
-        chat_id = int(chat)
+        chat_id = chat["chat_id"]
 
         # Check if this group has disabled gbans
-        if not sql.does_chat_gban(chat_id):
+        if not gban_db.does_chat_gban(chat_id):
             continue
 
         try:
@@ -367,7 +368,7 @@ def ungban(update: Update, context: CallbackContext):
         except TelegramError:
             pass
 
-    sql.ungban_user(user_id)
+    gban_db.ungban_user(user_id)
 
     if EVENT_LOGS:
         log.edit_text(
@@ -389,7 +390,7 @@ def ungban(update: Update, context: CallbackContext):
 
 @support_plus
 def gbanlist(update: Update, context: CallbackContext):
-    banned_users = sql.get_gban_list()
+    banned_users = gban_sql.get_gban_list()
 
     if not banned_users:
         update.effective_message.reply_text(
@@ -435,7 +436,7 @@ def check_and_ban(update, user_id, should_message=True):
             )
         return
 
-    if sql.is_user_gbanned(user_id):
+    if gban_sql.is_user_gbanned(user_id):
         update.effective_chat.ban_member(user_id)
         if should_message:
             text = (
@@ -444,9 +445,9 @@ def check_and_ban(update, user_id, should_message=True):
                 f"<b>Appeal chat</b>: @{SUPPORT_CHAT}\n"
                 f"<b>User ID</b>: <code>{user_id}</code>"
             )
-            user = sql.get_gbanned_user(user_id)
+            user = gban_db.get_gbanned_user(user_id)
             if user.reason:
-                text += f"\n<b>Ban Reason:</b> <code>{html.escape(user.reason)}</code>"
+                text += f"\n<b>Ban Reason:</b> <code>{html.escape(user['reason'])}</code>"
             update.effective_message.reply_text(text, parse_mode=ParseMode.HTML)
 
 
@@ -460,7 +461,7 @@ def enforce_gban(update: Update, context: CallbackContext):
         ).can_restrict_members
     except Unauthorized:
         return
-    if sql.does_chat_gban(update.effective_chat.id) and restrict_permission:
+    if gban_db.does_chat_gban(update.effective_chat.id) and restrict_permission:
         user = update.effective_user
         chat = update.effective_chat
         msg = update.effective_message
@@ -485,7 +486,7 @@ def gbanstat(update: Update, context: CallbackContext):
     args = context.args
     if len(args) > 0:
         if args[0].lower() in ["on", "yes"]:
-            sql.enable_gbans(update.effective_chat.id)
+            gban_db.enable_gbans(update.effective_chat.id)
             update.effective_message.reply_text(
                 "» Antispam is now enabled\n"
                 "» Spamwatch is now enabled\n\n"
@@ -503,16 +504,16 @@ def gbanstat(update: Update, context: CallbackContext):
             "Your current setting is: {}\n"
             "When True, any gbans that happen will also happen in your group. "
             "When False, they won't, leaving you at the possible mercy of "
-            "spammers.".format(sql.does_chat_gban(update.effective_chat.id)),
+            "spammers.".format(gban_db.does_chat_gban(update.effective_chat.id)),
         )
 
 
 def __stats__():
-    return f"• {sql.num_gbanned_users()} gbanned users."
+    return f"× {gban_db.num_gbanned_users()} gbanned users."
 
 
 def __user_info__(user_id):
-    is_gbanned = sql.is_user_gbanned(user_id)
+    is_gbanned = gban_sql.is_user_gbanned(user_id)
     text = "Gbanned: <b>{}</b>"
     if user_id in [777000, 1087968824]:
         return ""
@@ -522,7 +523,7 @@ def __user_info__(user_id):
         return ""
     if is_gbanned:
         text = text.format("Yes")
-        user = sql.get_gbanned_user(user_id)
+        user = gban_sql.get_gbanned_user(user_id)
         if user.reason:
             text += f"\n<b>Reason:</b> <code>{html.escape(user.reason)}</code>"
         text += f"\n<b>Appeal Chat:</b> @{SUPPORT_CHAT}"
@@ -532,11 +533,11 @@ def __user_info__(user_id):
 
 
 def __migrate__(old_chat_id, new_chat_id):
-    sql.migrate_chat(old_chat_id, new_chat_id)
+    gban_db.migrate_chat(old_chat_id, new_chat_id)
 
 
 def __chat_settings__(chat_id, user_id):
-    return f"This chat is enforcing *gbans*: `{sql.does_chat_gban(chat_id)}`."
+    return f"This chat is enforcing *gbans*: `{gban_db.does_chat_gban(chat_id)}`."
 
 
 __help__ = f"""
