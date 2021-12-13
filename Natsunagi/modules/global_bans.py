@@ -16,7 +16,7 @@ from telegram.ext import (
 )
 from telegram.utils.helpers import mention_html
 
-import Natsunagi.modules.no_sql.global_bans_db as gban_sql
+import Natsunagi.modules.no_sql.global_bans_db as gban_db
 from Natsunagi.modules.no_sql.users_db import get_user_com_chats
 from Natsunagi import (
     DEV_USERS,
