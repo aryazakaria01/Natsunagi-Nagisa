@@ -388,7 +388,7 @@ def punch(update: Update, context: CallbackContext) -> str:
         message.reply_text("Yeahhh I'm not gonna do that.")
         return log_message
 
-    if is_user_ban_protected(chat, user_id):
+    if is_user_ban_protected(update, user_id):
         message.reply_text("I really wish I could punch this user....")
         return log_message
 
