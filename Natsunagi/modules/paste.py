@@ -295,6 +295,7 @@ __help__ = """
 `/ppaste`*:* Paste to pastylus
 `/cpaste`*:* Paste to catbin
 `/dpaste`*:* Paste to dogbin 
+"""
 
 PASTE_HANDLER = DisableAbleCommandHandler("hpaste", paste, run_async=True)
 NEKO_HANDLER = DisableAbleCommandHandler("npaste", nekopaste, run_async=True)
