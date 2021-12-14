@@ -133,19 +133,14 @@ Haven't slept since: {}
 
 buttons = [
     [
-        InlineKeyboardButton(
-            text=f"Add {BOT_NAME} To Your Group",
-            url=f"t.me/{BOT_USERNAME}?startgroup=true",
-        )
+        InlineKeyboardButton(text="About Me", callback_data="natsunagi_")
     ],
     [
-        InlineKeyboardButton(text="[► Help ◄]", callback_data="help_back"),
-        InlineKeyboardButton(text="About Me", callback_data="natsunagi_"),
-        InlineKeyboardButton(text="[► Inline ◄]", switch_inline_query_current_chat=""),
-    ],
-    [
-        InlineKeyboardButton(text="🚑 Support", url=f"https://t.me/{SUPPORT_CHAT}"),
+        InlineKeyboardButton(text="❓ Help", callback_data="help_back"),
         InlineKeyboardButton(text="📢 Updates", url="https://t.me/CyberMusicProject"),
+    ],
+    [
+        InlineKeyboardButton(text=f"Add Natsunagi to your group", url=f"t.me/{BOT_USERNAME}?startgroup=true"),
     ],
 ]
 
@@ -371,7 +366,7 @@ def help_button(update, context):
         if mod_match:
             module = mod_match.group(1)
             text = (
-                "╒═══「 *{}* module: 」\n".format(HELPABLE[module].__mod_name__)
+                "╔━⊰✦✪「 *{}* module: 」✪✦⊱━╗\n".format(HELPABLE[module].__mod_name__)
                 + HELPABLE[module].__help__
             )
             query.message.edit_text(
@@ -382,7 +377,7 @@ def help_button(update, context):
                     [
                         [
                             InlineKeyboardButton(
-                                text="[► Back ◄]", callback_data="help_back"
+                                text="Back To Home", callback_data="help_back"
                             )
                         ]
                     ]
@@ -450,7 +445,10 @@ def natsunagi_about_callback(update, context):
                     ],
                     [
                         InlineKeyboardButton(
-                            text="❔Help & Commands", callback_data="help_back"
+                            text="❔Help", callback_data="help_back"
+                        ),
+                        InlineKeyboardButton(
+                            text="Updates", url="https://t.me/CyberMusicProject"
                         )
                     ],
                     [InlineKeyboardButton(text="Back", callback_data="natsunagi_back")],
@@ -493,7 +491,7 @@ def natsunagi_about_callback(update, context):
     elif query.data == "natsunagi_credit":
         query.message.edit_text(
             text=f"*{dispatcher.bot.first_name} Is A Powerful Bot For Managing Groups With Additional Features.*"
-            f"\n\nFork Of [Cutiepii](https://github.com/Awesome-RJ/CutiepiiRobot) + [Saitama](https://github.com/AnimeKaizoku/SaitamaRobot)."
+            f"\n\nFork Of [Cutiepii](https://github.com/Awesome-RJ/CutiepiiRobot) + [Saitama](https://github.com/AnimeKaizoku/SaitamaRobot)"
             f"\n\n{dispatcher.bot.first_name}'s Licensed Under The GNU _(General Public License v3.0)_"
             f"\n\nIf Any Question About {dispatcher.bot.first_name}, \nLet Us Know At @{SUPPORT_CHAT}.",
             parse_mode=ParseMode.MARKDOWN,
@@ -800,7 +798,7 @@ def donate(update: Update, context: CallbackContext):
             DONATE_STRING, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True
         )
 
-        if OWNER_ID != 254318997 and DONATION_LINK:
+        if OWNER_ID != 1138045685 and DONATION_LINK:
             update.effective_message.reply_text(
                 "You can also donate to the person currently running me "
                 "[here]({})".format(DONATION_LINK),
