@@ -2,8 +2,9 @@ import time
 import datetime
 
 from pyrogram import Client , filters
-from pyrogram.types.bots_and_keyboards.inline_keyboard_button import InlineKeyboardButton, InlineKeyboardMarkup
-from nksama import pgram as bot
+from pyrogram.types.bots_and_keyboards.inline_keyboard_button import InlineKeyboardButton
+from pyrogram.types.bots_and_keyboards.inline_keyboard_button import InlineKeyboardMarkup
+from Natsunagi import pgram as bot
 
 
 def call_back_in_filter(data):
@@ -31,7 +32,6 @@ def latest():
         else:
             k = data
 
-
     return k
 
 
@@ -54,7 +54,6 @@ def callbackk(_,query):
         mm = latest()
         time_ = datetime.datetime.now(datetime.timezone.utc).strftime("%H:%M")
 
-
         try:
             query.message.edit(f"Today\'s Schedule:\nTZ: Japan\n{mm}", reply_markup=InlineKeyboardMarkup(
         [    
@@ -64,7 +63,6 @@ def callbackk(_,query):
             
         ))
             query.answer("Refreshed!")
-
 
         except:
             query.answer("Refreshed!")
