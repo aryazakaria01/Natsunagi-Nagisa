@@ -2,8 +2,7 @@ import time
 import datetime
 
 from pyrogram import Client , filters
-from pyrogram.types.bots_and_keyboards.inline_keyboard_button import InlineKeyboardButton
-from pyrogram.types.bots_and_keyboards.inline_keyboard_button import InlineKeyboardMarkup
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from Natsunagi import pgram as bot
 
 
