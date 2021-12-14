@@ -761,8 +761,8 @@ async def staff(update: Update, client: Client, message: Message):
     creator = []
     co_founder = []
     admin = []
-    message = update.effective_message
     admin_check = await client.get_chat_members(message.chat.id, filter="administrators")
+    message = update.effective_message
     for x in admin_check:
         # Ini buat nyari co-founder
         if x.status == "administrator" and x.can_promote_members and x.title:
