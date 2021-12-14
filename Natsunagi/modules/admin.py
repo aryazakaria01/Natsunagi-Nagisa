@@ -757,10 +757,11 @@ def invite(update, context):
 
 @user_admin
 @register(pattern="^/admins ?(.*)")
-async def staff(client: Client, message: Message):
+async def staff(update: Update, client: Client, message: Message):
     creator = []
     co_founder = []
     admin = []
+    message = update.effective_message
     admin_check = await client.get_chat_members(message.chat.id, filter="administrators")
     for x in admin_check:
         # Ini buat nyari co-founder
