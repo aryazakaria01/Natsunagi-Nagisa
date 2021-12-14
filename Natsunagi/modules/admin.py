@@ -45,6 +45,7 @@ from Natsunagi.modules.log_channel import loggable
 from Natsunagi.modules.helper_funcs.alternate import send_message, typing_action
 from Natsunagi.modules.connection import connected
 from Natsunagi.modules.sql import acm_sql
+from Natsunagi.events import register
 
 async def is_register_admin(chat, user):
     if isinstance(chat, (types.InputPeerChannel, types.InputChannel)):
