@@ -1,6 +1,7 @@
 import requests
 import os
 import html
+from html import escape
 from typing import Optional
 
 from telegram import (
@@ -18,6 +19,9 @@ from telethon import events
 from telethon.tl import functions, types
 from telethon.tl import *
 from telethon import *
+
+from pyrogram import Client
+from pyrogram.types import Message
 
 from Natsunagi import DRAGONS, TOKEN, dispatcher, telethn as bot
 from Natsunagi.modules.disable import DisableAbleCommandHandler
@@ -41,6 +45,7 @@ from Natsunagi.modules.log_channel import loggable
 from Natsunagi.modules.helper_funcs.alternate import send_message, typing_action
 from Natsunagi.modules.connection import connected
 from Natsunagi.modules.sql import acm_sql
+from Natsunagi.events import register
 
 async def is_register_admin(chat, user):
     if isinstance(chat, (types.InputPeerChannel, types.InputChannel)):
@@ -750,116 +755,67 @@ def invite(update, context):
             "I can only give you invite links for supergroups and channels, sorry!"
         )
 
-@connection_status
-def adminlist(update, context):
-    chat = update.effective_chat  # type: Optional[Chat] -> unused variable
-    user = update.effective_user  # type: Optional[User]
-    args = context.args  # -> unused variable
-    bot = context.bot
+@register("admins", group_only=True, admins_only=False)
+async def staff(client: Client, message: Message):
+    creator = []
+    co_founder = []
+    admin = []
+    admin_check = await client.get_chat_members(message.chat.id, filter="administrators")
+    for x in admin_check:
+        # Ini buat nyari co-founder
+        if x.status == "administrator" and x.can_promote_members and x.title:
+            title = escape(x.title)
+            co_founder.append(
+                f" <b>├</b> <a href='tg://user?id={x.user.id}'>{x.user.first_name}</a> <i>- {title}</i>")
+        elif x.status == "administrator" and x.can_promote_members and not x.title:
+            co_founder.append(f" <b>├</b> <a href='tg://user?id={x.user.id}'>{x.user.first_name}</a>")
+        # ini buat nyari admin
+        elif x.status == "administrator" and not x.can_promote_members and x.title:
+            title = escape(x.title)
+            admin.append(f" <b>├</b> <a href='tg://user?id={x.user.id}'>{x.user.first_name}</a> <i>- {title}</i>")
+        elif x.status == "administrator" and not x.can_promote_members and not x.title:
+            admin.append(f" <b>├</b> <a href='tg://user?id={x.user.id}'>{x.user.first_name}</a>")
+        # ini buat nyari creator
+        elif x.status == "creator" and x.title:
+            title = escape(x.title)
+            creator.append(f" <b>└</b> <a href='tg://user?id={x.user.id}'>{x.user.first_name}</a> <i>- {title}</i>")
+        elif x.status == "creator" and not x.title:
+            creator.append(f" <b>└</b> <a href='tg://user?id={x.user.id}'>{x.user.first_name}</a>")
 
-    if update.effective_message.chat.type == "private":
-        send_message(update.effective_message, "This command only works in Groups.")
-        return
+    if len(co_founder) == 0 and len(admin) == 0:
+        result = "🤴 <b><i>Founder</i></b>\n" + "\n".join(creator)
 
-    chat = update.effective_chat
-    chat_id = update.effective_chat.id
-    chat_name = update.effective_message.chat.title  # -> unused variable
-
-    try:
-        msg = update.effective_message.reply_text(
-            "Fetching group admins...",
-            parse_mode=ParseMode.HTML,
+    elif len(co_founder) == 0 and len(admin) > 0:
+        res_admin = admin[-1].replace("├", "└")
+        admin.pop(-1)
+        admin.append(res_admin)
+        result = (
+            "🤴 <b><i>Founder</i></b>\n" + "\n".join(creator) + "\n\n"
+            "👮‍♂ <b><i>Admin</i></b>\n" + "\n".join(admin)
         )
-    except BadRequest:
-        msg = update.effective_message.reply_text(
-            "Fetching group admins...",
-            quote=False,
-            parse_mode=ParseMode.HTML,
+
+    elif len(co_founder) > 0 and len(admin) == 0:
+        resco_founder = co_founder[-1].replace("├", "└")
+        co_founder.pop(-1)
+        co_founder.append(resco_founder)
+        result = (
+            "🤴 <b><i>Founder</i></b>\n" + "\n".join(creator) + "\n\n"
+            "👨‍✈️ <b><i>Co-Founder</i></b>\n" + "\n".join(co_founder)
         )
 
-    administrators = bot.getChatAdministrators(chat_id)
-    text = "Admins in <b>{}</b>:".format(html.escape(update.effective_chat.title))
-
-    for admin in administrators:
-        user = admin.user
-        status = admin.status
-        custom_title = admin.custom_title
-
-        if user.first_name == "":
-            name = "☠ Deleted Account"
-        else:
-            name = "{}".format(
-                mention_html(
-                    user.id,
-                    html.escape(user.first_name + " " + (user.last_name or "")),
-                ),
-            )
-
-        if user.is_bot:
-            administrators.remove(admin)
-            continue
-
-        # if user.username:
-        #    name = escape_markdown("@" + user.username)
-        if status == "creator":
-            text += "\n 👑 Creator:"
-            text += "\n<code> • </code>{}\n".format(name)
-
-            if custom_title:
-                text += f"<code> ┗━ {html.escape(custom_title)}</code>\n"
-
-    text += "\n🔱 Admins:"
-
-    custom_admin_list = {}
-    normal_admin_list = []
-
-    for admin in administrators:
-        user = admin.user
-        status = admin.status
-        custom_title = admin.custom_title
-
-        if user.first_name == "":
-            name = "☠ Deleted Account"
-        else:
-            name = "{}".format(
-                mention_html(
-                    user.id,
-                    html.escape(user.first_name + " " + (user.last_name or "")),
-                ),
-            )
-        # if user.username:
-        #    name = escape_markdown("@" + user.username)
-        if status == "administrator":
-            if custom_title:
-                try:
-                    custom_admin_list[custom_title].append(name)
-                except KeyError:
-                    custom_admin_list.update({custom_title: [name]})
-            else:
-                normal_admin_list.append(name)
-
-    for admin in normal_admin_list:
-        text += "\n<code> • </code>{}".format(admin)
-
-    for admin_group in custom_admin_list.copy():
-        if len(custom_admin_list[admin_group]) == 1:
-            text += "\n<code> • </code>{} | <code>{}</code>".format(
-                custom_admin_list[admin_group][0],
-                html.escape(admin_group),
-            )
-            custom_admin_list.pop(admin_group)
-
-    text += "\n"
-    for admin_group, value in custom_admin_list.items():
-        text += "\n🚨 <code>{}</code>".format(admin_group)
-        for admin in value:
-            text += "\n<code> • </code>{}".format(admin)
-        text += "\n"
-
-    try:
-        msg.edit_text(text, parse_mode=ParseMode.HTML)
-    except BadRequest:  # if original message is deleted
-        return
+    else:
+        resco_founder = co_founder[-1].replace("├", "└")
+        res_admin = admin[-1].replace("├", "└")
+        co_founder.pop(-1)
+        admin.pop(-1)
+        co_founder.append(resco_founder)
+        admin.append(res_admin)
+        result = (
+            "🤴 <b><i>Founder</i></b>\n" + "\n".join(creator) + "\n\n"
+            "👨‍✈️ <b><i>Co-Founder</i></b>\n" + "\n".join(co_founder) + "\n\n"
+            "👮‍♂ <b><i>Admin</i></b>\n" + "\n".join(admin)
+        )
+    await message.reply(result)
 
 
 @bot_admin
@@ -1048,10 +1004,6 @@ RMCHATPIC_HANDLER = CommandHandler(
 )
 SETCHAT_TITLE_HANDLER = CommandHandler(
     "setgtitle", setchat_title, filters=Filters.chat_type.groups, run_async=True
-)
-
-ADMINLIST_HANDLER = DisableAbleCommandHandler(
-    ["admins", "adminlist"], adminlist, run_async=True
 )
 
 PIN_HANDLER = CommandHandler(
