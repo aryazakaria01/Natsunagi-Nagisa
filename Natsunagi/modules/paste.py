@@ -31,8 +31,8 @@ from telegram.ext import CommandHandler, Filters
 from telegram.utils.helpers import escape_markdown, mention_html
 
 from Natsunagi import (
-    pgram as app, 
-    aiohttpsession, 
+    pgram as app,
+    aiohttpsession,
     eor,
     dispatcher,
     OWNER_ID,
@@ -113,23 +113,19 @@ async def paste_func(_, message: Message):
     except Exception:
         await m.edit("Here's your paste", reply_markup=kb)
 
-        
+
 @app.on_message(filters.command("paste") & ~filters.edited)
 @capture_err
 async def epaste_func(_, message: Message):
     if not message.reply_to_message:
-        return await message.reply_text(
-            "Reply To A Message With /paste"
-        )
+        return await message.reply_text("Reply To A Message With /paste")
     m = await message.reply_text("Pasting...")
     if message.reply_to_message.text:
         content = str(message.reply_to_message.text)
     elif message.reply_to_message.document:
         document = message.reply_to_message.document
         if document.file_size > 1048576:
-            return await m.edit(
-                "You can only paste files smaller than 1MB."
-            )
+            return await m.edit("You can only paste files smaller than 1MB.")
         if not pattern.search(document.mime_type):
             return await m.edit("Only text files can be pasted.")
         doc = await message.reply_to_message.download()
@@ -143,9 +139,7 @@ async def epaste_func(_, message: Message):
 
     if await isPreviewUp(preview):
         try:
-            await message.reply_photo(
-                photo=preview, quote=False, reply_markup=button
-            )
+            await message.reply_photo(photo=preview, quote=False, reply_markup=button)
             return await m.delete()
         except Exception:
             pass
@@ -185,7 +179,7 @@ def paste(update, context):
     else:
         msg.reply_text("Give me a text file to paste on hastebin")
         return
-    
+
 
 @typing_action
 def nekopaste(update, context):
@@ -241,12 +235,12 @@ def spacepaste(update, context):
         paste_text = text.read()
         print(paste_text)
         os.remove("file.txt")
-        
+
     elif message.reply_to_message.text:
         paste_text = message.reply_to_message.text
     elif len(args) >= 1:
         paste_text = message.text.split(None, 1)[1]
-        
+
     else:
         message.reply_text(
             "reply to any message or just do /paste <what you want to paste>"
@@ -283,6 +277,7 @@ def spacepaste(update, context):
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
     )
+
 
 __mod_name__ = "Paste"
 

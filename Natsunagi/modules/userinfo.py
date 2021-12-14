@@ -374,36 +374,41 @@ def info(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                "Health", url="https://t.me/CyberMusicProject/45"),
+                                "Health", url="https://t.me/CyberMusicProject/45"
+                            ),
                             InlineKeyboardButton(
-                                "Disaster", url="https://t.me/CyberMusicProject/70")
+                                "Disaster", url="https://t.me/CyberMusicProject/70"
+                            ),
                         ],
                     ]
                 ),
                 parse_mode=ParseMode.HTML,
             )
-            
+
         # Incase user don't have profile pic, send normal text
         except IndexError:
             message.reply_text(
-                text, 
+                text,
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
                             InlineKeyboardButton(
-                                "Health", url="https://t.me/CyberMusicProject/45"),
+                                "Health", url="https://t.me/CyberMusicProject/45"
+                            ),
                             InlineKeyboardButton(
-                                "Levelling", url="https://t.me/CyberMusicProject/70")
+                                "Levelling", url="https://t.me/CyberMusicProject/70"
+                            ),
                         ],
                     ]
                 ),
                 parse_mode=ParseMode.HTML,
-                disable_web_page_preview=True
+                disable_web_page_preview=True,
             )
 
     else:
         message.reply_text(
-            text, parse_mode=ParseMode.HTML,
+            text,
+            parse_mode=ParseMode.HTML,
         )
 
     rep.delete()
@@ -469,7 +474,9 @@ def set_about_me(update: Update, context: CallbackContext):
 @sudo_plus
 @natsunagicmd(command=["stats", "statistics"])
 def stats(update: Update, context: CallbackContext):
-    stats = "╔━⊰✦✪「 <b>Current stats:</b> 」✪✦⊱━╗\n" + "\n".join([mod.__stats__() for mod in STATS])
+    stats = "╔━⊰✦✪「 <b>Current stats:</b> 」✪✦⊱━╗\n" + "\n".join(
+        [mod.__stats__() for mod in STATS]
+    )
     result = re.sub(r"(\d+)", r"<code>\1</code>", stats)
     update.effective_message.reply_text(result, parse_mode=ParseMode.HTML)
 
@@ -510,9 +517,9 @@ def about_bio(update: Update, context: CallbackContext):
         sender_id = update.effective_user.id
 
         if (
-                user_id == bot.id
-                and sender_id not in SUDO_USERS
-                and sender_id not in DEV_USERS
+            user_id == bot.id
+            and sender_id not in SUDO_USERS
+            and sender_id not in DEV_USERS
         ):
             message.reply_text(
                 "Erm... yeah, I only trust sudo users or developers to set my bio."

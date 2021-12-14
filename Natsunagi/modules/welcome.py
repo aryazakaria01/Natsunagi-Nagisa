@@ -79,7 +79,6 @@ VERIFIED_USER_WAITLIST = {}
 CAPTCHA_ANS_DICT = {}
 
 
-
 # do not async
 def send(update, message, keyboard, backup_message):
     chat = update.effective_chat
@@ -104,8 +103,8 @@ def send(update, message, keyboard, backup_message):
             msg = update.effective_message.reply_text(
                 markdown_parser(
                     (
-                            backup_message
-                            + '\nNote: the current message has an invalid url in one of its buttons. Please update.'
+                        backup_message
+                        + "\nNote: the current message has an invalid url in one of its buttons. Please update."
                     )
                 ),
                 parse_mode=ParseMode.MARKDOWN,
@@ -126,9 +125,9 @@ def send(update, message, keyboard, backup_message):
             msg = update.effective_message.reply_text(
                 markdown_parser(
                     (
-                            backup_message
-                            + '\nNote: the current message has buttons which use url protocols that are unsupported by '
-                              'telegram. Please update. '
+                        backup_message
+                        + "\nNote: the current message has buttons which use url protocols that are unsupported by "
+                        "telegram. Please update. "
                     )
                 ),
                 parse_mode=ParseMode.MARKDOWN,
@@ -139,8 +138,8 @@ def send(update, message, keyboard, backup_message):
             msg = update.effective_message.reply_text(
                 markdown_parser(
                     (
-                            backup_message
-                            + '\nNote: the current message has some bad urls. Please update.'
+                        backup_message
+                        + "\nNote: the current message has some bad urls. Please update."
                     )
                 ),
                 parse_mode=ParseMode.MARKDOWN,
@@ -154,8 +153,8 @@ def send(update, message, keyboard, backup_message):
             msg = update.effective_message.reply_text(
                 markdown_parser(
                     (
-                            backup_message
-                            + '\nNote: An error occured when sending the custom message. Please update.'
+                        backup_message
+                        + "\nNote: An error occured when sending the custom message. Please update."
                     )
                 ),
                 parse_mode=ParseMode.MARKDOWN,
@@ -278,7 +277,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                 media_wel = True
 
             first_name = (
-                        new_mem.first_name or "PersonWithNoName"
+                new_mem.first_name or "PersonWithNoName"
             )  # edge case of empty name - occurs for some bugs.
 
             if MessageHandlerChecker.check_user(update.effective_user.id):
@@ -341,8 +340,8 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
 
         # User exceptions from welcomemutes
         if (
-                is_user_ban_protected(update, new_mem.id, chat.get_member(new_mem.id))
-                or human_checks
+            is_user_ban_protected(update, new_mem.id, chat.get_member(new_mem.id))
+            or human_checks
         ):
             should_mute = False
         # Join welcome: soft mute
@@ -492,21 +491,26 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                 to_append = []
                 # print(nums)
                 for a in nums:
-                    to_append.append(InlineKeyboardButton(text=str(a),
-                                                          callback_data=f"user_captchajoin_({chat.id},{new_mem.id})_({a})"))
+                    to_append.append(
+                        InlineKeyboardButton(
+                            text=str(a),
+                            callback_data=f"user_captchajoin_({chat.id},{new_mem.id})_({a})",
+                        )
+                    )
                     if len(to_append) > 2:
                         btn.append(to_append)
                         to_append = []
                 if to_append:
                     btn.append(to_append)
 
-                message = msg.reply_photo(fileobj,
-                                          caption=f'Welcome [{escape_markdown(new_mem.first_name)}](tg://user?id={user.id}). Click the correct button to get unmuted!\n'
-                                                  f'You got 120 seconds for this.',
-                                          reply_markup=InlineKeyboardMarkup(btn),
-                                          parse_mode=ParseMode.MARKDOWN,
-                                          reply_to_message_id=reply,
-                                          )
+                message = msg.reply_photo(
+                    fileobj,
+                    caption=f"Welcome [{escape_markdown(new_mem.first_name)}](tg://user?id={user.id}). Click the correct button to get unmuted!\n"
+                    f"You got 120 seconds for this.",
+                    reply_markup=InlineKeyboardMarkup(btn),
+                    parse_mode=ParseMode.MARKDOWN,
+                    reply_to_message_id=reply,
+                )
                 bot.restrict_chat_member(
                     chat.id,
                     new_mem.id,
@@ -526,7 +530,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                     120,
                     name="welcomemute",
                 )
-                
+
         if welcome_bool:
             if media_wel:
                 if ENUM_FUNC_MAP[welc_type] == dispatcher.bot.send_sticker:
@@ -584,7 +588,9 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
         return welcome_log
 
 
-def check_not_bot(member: User, chat_id: int, message_id: int, context: CallbackContext):
+def check_not_bot(
+    member: User, chat_id: int, message_id: int, context: CallbackContext
+):
     bot = context.bot
     member_dict = VERIFIED_USER_WAITLIST.pop((chat_id, member.id))
     member_status = member_dict.get("status")
@@ -602,9 +608,13 @@ def check_not_bot(member: User, chat_id: int, message_id: int, context: Callback
             )
         except TelegramError:
             bot.delete_message(chat_id=chat_id, message_id=message_id)
-            bot.send_message("{} was kicked as they failed to verify themselves".format(mention_html(member.id,
-                                                                                                     member.first_name)),
-                             chat_id=chat_id, parse_mode=ParseMode.HTML)
+            bot.send_message(
+                "{} was kicked as they failed to verify themselves".format(
+                    mention_html(member.id, member.first_name)
+                ),
+                chat_id=chat_id,
+                parse_mode=ParseMode.HTML,
+            )
 
 
 def left_member(update: Update, context: CallbackContext):  # sourcery no-metrics
@@ -665,7 +675,7 @@ def left_member(update: Update, context: CallbackContext):  # sourcery no-metric
                 return
 
             first_name = (
-                    left_mem.first_name or "PersonWithNoName"
+                left_mem.first_name or "PersonWithNoName"
             )  # edge case of empty name - occurs for some bugs.
             if cust_goodbye:
                 if cust_goodbye == sql.DEFAULT_GOODBYE:
