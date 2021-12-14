@@ -244,7 +244,7 @@ def start(update: Update, context: CallbackContext):
                         [
                             [
                                 InlineKeyboardButton(
-                                    text="[► Back ◄]", callback_data="help_back"
+                                    text="Back To Home", callback_data="help_back"
                                 )
                             ]
                         ]
@@ -377,7 +377,7 @@ def help_button(update, context):
                     [
                         [
                             InlineKeyboardButton(
-                                text="Back To Home", callback_data="help_back"
+                                text="Back", callback_data="help_back"
                             )
                         ]
                     ]
