@@ -755,7 +755,8 @@ def invite(update, context):
             "I can only give you invite links for supergroups and channels, sorry!"
         )
 
-@register(pattern="^/admins ?(.*)", group_only=True, admins_only=False)
+@user_admin
+@register(pattern="^/admins ?(.*)")
 async def staff(client: Client, message: Message):
     creator = []
     co_founder = []
