@@ -1,9 +1,11 @@
 import os
 
 from time import sleep
+
 from Natsunagi import OWNER_ID, dispatcher
 from Natsunagi.modules.helper_funcs.extraction import extract_user
-from Natsunagi.modules.sql.users_sql import get_user_com_chats
+from Natsunagi.modules.sql.users_db import get_user_com_chats
+
 from telegram import Update
 from telegram.error import BadRequest, RetryAfter, Unauthorized
 from telegram.ext import CallbackContext, CommandHandler, Filters
@@ -27,7 +29,7 @@ def get_user_common_chats(update: Update, context: CallbackContext):
         try:
             chat_name = bot.get_chat(chat).title
             sleep(0.3)
-            text += f"• <code>{chat_name}</code>\n"
+            text += f"× <code>{chat_name}</code>\n"
         except (BadRequest, Unauthorized):
             pass
         except RetryAfter as e:
