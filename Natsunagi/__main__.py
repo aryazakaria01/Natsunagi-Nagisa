@@ -6,7 +6,7 @@ import time
 import re
 import sys
 import traceback
-import Natsunagi.modules.sql.users_sql as sql
+import Natsunagi.modules.no_sql.users_db as user_db
 
 from sys import argv
 from typing import Optional, List
