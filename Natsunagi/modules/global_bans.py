@@ -390,7 +390,7 @@ def ungban(update: Update, context: CallbackContext):
 
 @support_plus
 def gbanlist(update: Update, context: CallbackContext):
-    banned_users = gban_sql.get_gban_list()
+    banned_users = gban_db.get_gban_list()
 
     if not banned_users:
         update.effective_message.reply_text(
