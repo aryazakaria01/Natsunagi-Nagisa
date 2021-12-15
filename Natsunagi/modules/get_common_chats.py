@@ -4,7 +4,7 @@ from time import sleep
 
 from Natsunagi import OWNER_ID, dispatcher
 from Natsunagi.modules.helper_funcs.extraction import extract_user
-from Natsunagi.modules.sql.users_db import get_user_com_chats
+from Natsunagi.modules.no_sql.users_db import get_user_com_chats
 
 from telegram import Update
 from telegram.error import BadRequest, RetryAfter, Unauthorized
