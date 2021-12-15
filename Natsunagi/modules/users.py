@@ -14,7 +14,7 @@ import Natsunagi.modules.no_sql.users_db as user_db
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi import DEV_USERS, LOGGER, OWNER_ID, dispatcher
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus, sudo_plus
-from Natsunagi.modules.sql.users_db import get_all_users
+from Natsunagi.modules.no_sql.users_db import get_all_users
 
 
 USERS_GROUP = 4
