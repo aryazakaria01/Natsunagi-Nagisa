@@ -1,9 +1,11 @@
 from time import sleep
 
-import Natsunagi.modules.sql.global_bans_db as gban_db
-import Natsunagi.modules.sql.users_db as user_db
+import Natsunagi.modules.no_sql.global_bans_db as gban_db
+import Natsunagi.modules.no_sql.users_db as user_db
+
 from Natsunagi import DEV_USERS, OWNER_ID, dispatcher
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus
+
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.error import BadRequest, Unauthorized
 from telegram.ext import (
