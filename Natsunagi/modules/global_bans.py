@@ -525,7 +525,7 @@ def __user_info__(user_id):
         text = text.format("Yes")
         user = gban_sql.get_gbanned_user(user_id)
         if user.reason:
-            text += f"\n<b>Reason:</b> <code>{html.escape(user.reason)}</code>"
+            text += f"\n<b>Reason:</b> <code>{html.escape(user['reason'])}</code>"
         text += f"\n<b>Appeal Chat:</b> @{SUPPORT_CHAT}"
     else:
         text = text.format("???")
