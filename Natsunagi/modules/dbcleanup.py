@@ -1,7 +1,7 @@
 from time import sleep
 
-import Natsunagi.modules.sql.global_bans_sql as gban_sql
-import Natsunagi.modules.sql.users_sql as user_sql
+import Natsunagi.modules.sql.global_bans_db as gban_db
+import Natsunagi.modules.sql.users_db as user_db
 from Natsunagi import DEV_USERS, OWNER_ID, dispatcher
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
@@ -17,7 +17,7 @@ from telegram.ext import (
 def get_invalid_chats(update: Update, context: CallbackContext, remove: bool = False):
     bot = context.bot
     chat_id = update.effective_chat.id
-    chats = user_sql.get_all_chats()
+    chats = user_db.get_all_chats()
     kicked_chats, progress = 0, 0
     chat_list = []
     progress_message = None
@@ -58,13 +58,13 @@ def get_invalid_chats(update: Update, context: CallbackContext, remove: bool = F
         return kicked_chats
     for muted_chat in chat_list:
         sleep(0.1)
-        user_sql.rem_chat(muted_chat)
+        user_db.rem_chat(muted_chat)
     return kicked_chats
 
 
 def get_invalid_gban(update: Update, context: CallbackContext, remove: bool = False):
     bot = context.bot
-    banned = gban_sql.get_gban_list()
+    banned = gban_db.get_gban_list()
     ungbanned_users = 0
     ungban_list = []
 
@@ -83,7 +83,7 @@ def get_invalid_gban(update: Update, context: CallbackContext, remove: bool = Fa
         return ungbanned_users
     for user_id in ungban_list:
         sleep(0.1)
-        gban_sql.ungban_user(user_id)
+        gban_db.ungban_user(user_id)
     return ungbanned_users
 
 
