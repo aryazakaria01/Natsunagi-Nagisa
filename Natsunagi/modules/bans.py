@@ -20,7 +20,7 @@ from telegram.utils.helpers import mention_html
 from typing import Optional, List
 from telegram import TelegramError
 
-import Natsunagi.modules.sql.users_sql as sql
+import Natsunagi.modules.no_sql.users_db as user_db
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.filters import CustomFilters
 from Natsunagi import (
