@@ -36,7 +36,7 @@ def get_user_id(username):
         return None
 
     if len(users) == 1:
-        return users[0].user_id
+        return users[0]["_id"]
 
     for user_obj in users:
         try:
