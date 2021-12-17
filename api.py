@@ -1,4 +1,4 @@
-import Natsunagi.modules.sql.global_bans_sql as sql1
+import Natsunagi.modules.no_sql.global_bans_db as sql1
 import Natsunagi.modules.sql.blacklistusers_sql as sql2
 
 from fastapi import FastAPI
@@ -17,7 +17,7 @@ def read_item(user_id: int):
         a = sql1.is_user_gbanned(user_id)
         if a:
             user = sql1.get_gbanned_user(user_id)
-            areason = user.reason
+            areason = user['reason']
         else:
             areason = None
 
