@@ -60,6 +60,7 @@ RUN apt update && apt upgrade -y && \
     && rm -rf /var/lib/apt/lists /var/cache/apt/archives /tmp
 
 RUN apt-get install -y ffmpeg python3-pip curl
+WORKDIR /Natsunagi
 RUN pip3 install --upgrade pip setuptools
 
 ENV PATH="/home/bot/bin:$PATH"
