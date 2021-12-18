@@ -602,7 +602,7 @@ __help__ = """
   ➢ `/tban <userhandle> x(m/h/d)`*:* bans a user for `x` time. (via handle, or reply). `m` = `minutes`, `h` = `hours`, `d` = `days`.
   ➢ `/unban <userhandle>`*:* unbans a user. (via handle, or reply)
   ➢ `/kick <userhandle>`*:* kicks a user out of the group, (via handle, or reply)
-  
+
 *Mute Commands are Admins only*:
   ➢ `/mute <userhandle>`*:* silences a user. Can also be used as a reply, muting the replied to user.
   ➢ `/tmute <userhandle> x(m/h/d)`*:* mutes a user for x time. (via handle, or reply). `m` = `minutes`, `h` = `hours`, `d` = `days`.

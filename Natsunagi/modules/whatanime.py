@@ -101,7 +101,7 @@ async def whatanime(c: Client, m: Message):
             if episode:
                 text += f"<b>Episode:</b> {episode}"
             text += f"\n<b>Scene Timestamp:</b> from {from_time} to {to_time}\n"
-           
+
             keyboard = InlineKeyboardMarkup([[
                 InlineKeyboardButton(
                     "More Info", url="https://anilist.co/anime/{}".format(anilist_id))         

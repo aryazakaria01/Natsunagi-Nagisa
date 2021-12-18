@@ -999,14 +999,14 @@ __help__ = """
   ➢ `/promote (user) (?admin's title)`*:* Promotes the user to admin.
   ➢ `/demote (user)`*:* Demotes the user from admin.
   ➢ `/fullpromote`*:* Promote a member with max rights
- 
+
 *Cleaner & Purge Commands are Admins only*:
   ➢ `/del`*:* deletes the message you replied to
   ➢ `/purge`*:* deletes all messages between this and the replied to message.
   ➢ `/purge <integer X>`*:* deletes the replied message, and X messages following it if replied to a message.
   ➢ `/zombies`*:* counts the number of deleted account in your group
   ➢ `/kickthefools`*:* Kick inactive members from group (one week)
-  
+
 *Pin & Unpin Commands are Admins only*:
   ➢ `/pin`*:* silently pins the message replied to - add 'loud' or 'notify' to give notifs to users.
   ➢ `/unpin`*:* unpins the currently pinned message - add 'all' to unpin all pinned messages.
@@ -1014,7 +1014,7 @@ __help__ = """
   ➢ `/unpinall`*:* Unpins all pinned messages.
   ➢ `/antichannelpin <yes/no/on/off>`*:* Don't let telegram auto-pin linked channels. If no arguments are given, shows current setting.
   ➢ `/cleanlinked <yes/no/on/off>`*:* Delete messages sent by the linked channel.
-  
+
 *Log Channel are Admins only*:
   ➢ `/logchannel`*:* get log channel info
   ➢ `/setlog`*:* set the log channel.
@@ -1024,7 +1024,7 @@ __help__ = """
  ➩ adding the bot to the desired channel (as an admin!)
  ➩ sending `/setlog` in the channel
  ➩ forwarding the `/setlog` to the group
- 
+
 *Rules*:
   ➢ `/setrules <your rules here>`*:* set the rules for this chat.
   ➢ `/clearrules`*:* clear the rules for this chat.
