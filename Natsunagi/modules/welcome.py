@@ -79,7 +79,6 @@ VERIFIED_USER_WAITLIST = {}
 CAPTCHA_ANS_DICT = {}
 
 
-
 # do not async
 def send(update, message, keyboard, backup_message):
     chat = update.effective_chat
@@ -207,7 +206,8 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
             # Give the owner a special welcome
             if new_mem.id == OWNER_ID:
                 update.effective_message.reply_text(
-                    f"Welcome to {html.escape(chat.title)} my darling.", reply_to_message_id=reply
+                    f"Welcome to {html.escape(chat.title)} my darling.",
+                    reply_to_message_id=reply,
                 )
                 welcome_log = (
                     f"{html.escape(chat.title)}\n"
@@ -529,7 +529,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                     120,
                     name="welcomemute",
                 )
-                
+
         if welcome_bool:
             if media_wel:
                 if ENUM_FUNC_MAP[welc_type] == dispatcher.bot.send_sticker:
@@ -587,7 +587,9 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
         return welcome_log
 
 
-def check_not_bot(member: User, chat_id: int, message_id: int, context: CallbackContext):
+def check_not_bot(
+    member: User, chat_id: int, message_id: int, context: CallbackContext
+):
     bot = context.bot
     member_dict = VERIFIED_USER_WAITLIST.pop((chat_id, member.id))
     member_status = member_dict.get("status")
@@ -605,9 +607,13 @@ def check_not_bot(member: User, chat_id: int, message_id: int, context: Callback
             )
         except TelegramError:
             bot.delete_message(chat_id=chat_id, message_id=message_id)
-            bot.send_message("{} was kicked as they failed to verify themselves".format(mention_html(member.id,
-                                                                                                     member.first_name)),
-                             chat_id=chat_id, parse_mode=ParseMode.HTML)
+            bot.send_message(
+                "{} was kicked as they failed to verify themselves".format(
+                    mention_html(member.id, member.first_name)
+                ),
+                chat_id=chat_id,
+                parse_mode=ParseMode.HTML,
+            )
 
 
 def left_member(update: Update, context: CallbackContext):  # sourcery no-metrics
@@ -742,7 +748,12 @@ def welcome(update: Update, context: CallbackContext):
                 keyb = build_keyboard(buttons)
                 keyboard = InlineKeyboardMarkup(keyb)
 
-                send(update, welcome_m, keyboard, random.choice(sql.DEFAULT_WELCOME_MESSAGES))
+                send(
+                    update,
+                    welcome_m,
+                    keyboard,
+                    random.choice(sql.DEFAULT_WELCOME_MESSAGES),
+                )
         else:
             buttons = sql.get_welc_buttons(chat.id)
             if noformat:
@@ -804,7 +815,12 @@ def goodbye(update: Update, context: CallbackContext):
                 keyb = build_keyboard(buttons)
                 keyboard = InlineKeyboardMarkup(keyb)
 
-                send(update, goodbye_m, keyboard, random.choice(sql.DEFAULT_GOODBYE_MESSAGES))
+                send(
+                    update,
+                    goodbye_m,
+                    keyboard,
+                    random.choice(sql.DEFAULT_GOODBYE_MESSAGES),
+                )
 
         elif noformat:
             ENUM_FUNC_MAP[goodbye_type](chat.id, goodbye_m)
@@ -860,7 +876,9 @@ def reset_welcome(update: Update, context: CallbackContext) -> str:
     chat = update.effective_chat
     user = update.effective_user
 
-    sql.set_custom_welcome(chat.id, None, random.choice(sql.DEFAULT_WELCOME_MESSAGES), sql.Types.TEXT)
+    sql.set_custom_welcome(
+        chat.id, None, random.choice(sql.DEFAULT_WELCOME_MESSAGES), sql.Types.TEXT
+    )
     update.effective_message.reply_text(
         "Successfully reset welcome message to default!"
     )
@@ -901,7 +919,9 @@ def reset_goodbye(update: Update, context: CallbackContext) -> str:
     chat = update.effective_chat
     user = update.effective_user
 
-    sql.set_custom_gdbye(chat.id, random.choice(sql.DEFAULT_GOODBYE_MESSAGES), sql.Types.TEXT)
+    sql.set_custom_gdbye(
+        chat.id, random.choice(sql.DEFAULT_GOODBYE_MESSAGES), sql.Types.TEXT
+    )
     update.effective_message.reply_text(
         "Successfully reset goodbye message to default!"
     )

@@ -11,7 +11,13 @@ from telegram import (
     ChatPermissions,
 )
 from telegram.error import BadRequest
-from telegram.ext import Filters, MessageHandler, CommandHandler, run_async, CallbackContext
+from telegram.ext import (
+    Filters,
+    MessageHandler,
+    CommandHandler,
+    run_async,
+    CallbackContext,
+)
 from telegram.utils.helpers import mention_html, escape_markdown
 
 from Natsunagi import dispatcher, DRAGONS, DEV_USERS, SUDO_USERS
@@ -23,7 +29,11 @@ from Natsunagi.modules.connection import connected
 from Natsunagi.modules.redis.approvals_redis import is_approved
 from ..modules.helper_funcs.anonymous import user_admin, AdminPerms
 from Natsunagi.modules.helper_funcs.alternate import send_message, typing_action
-from Natsunagi.modules.helper_funcs.decorators import natsunagicmd, natsunagimsg, natsunagicallback
+from Natsunagi.modules.helper_funcs.decorators import (
+    natsunagicmd,
+    natsunagimsg,
+    natsunagicallback,
+)
 
 FLOOD_GROUP = 3
 
@@ -246,7 +256,6 @@ def flood(update, context):
             )
         )
     send_message(update.effective_message, text, parse_mode="markdown")
-
 
 
 @user_admin(AdminPerms.CAN_CHANGE_INFO)

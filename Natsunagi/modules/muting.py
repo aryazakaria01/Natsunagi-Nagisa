@@ -112,8 +112,11 @@ def mute(update: Update, context: CallbackContext) -> str:
         keyboard = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton(text="⚠️ Unmute", callback_data="unmute_({})".format(member.user.id)),
-                    InlineKeyboardButton(text="❌ Delete", callback_data="close2")
+                    InlineKeyboardButton(
+                        text="⚠️ Unmute",
+                        callback_data="unmute_({})".format(member.user.id),
+                    ),
+                    InlineKeyboardButton(text="❌ Delete", callback_data="close2"),
                 ]
             ]
         )
@@ -128,9 +131,11 @@ def mute(update: Update, context: CallbackContext) -> str:
 
     return ""
 
+
 close_keyboard = InlineKeyboardMarkup(
     [[InlineKeyboardButton("❌ Delete", callback_data="close2")]]
 )
+
 
 @connection_status
 @bot_admin
@@ -259,8 +264,11 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
             keyboard = InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton(text="⚠️ Unmute", callback_data="unmute_({})".format(member.user.id)),
-                        InlineKeyboardButton(text="❌ Delete", callback_data="close2")
+                        InlineKeyboardButton(
+                            text="⚠️ Unmute",
+                            callback_data="unmute_({})".format(member.user.id),
+                        ),
+                        InlineKeyboardButton(text="❌ Delete", callback_data="close2"),
                     ]
                 ]
             )
@@ -288,9 +296,11 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
 
     return ""
 
+
 close_keyboard = InlineKeyboardMarkup(
     [[InlineKeyboardButton("❌ Delete", callback_data="close2")]]
 )
+
 
 @user_admin_no_reply
 @bot_admin

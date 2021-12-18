@@ -39,7 +39,7 @@ def log_input(update):
     chat = update.effective_chat.id
     LOGGER.info(f"IN: {update.effective_message.text} (user={user}, chat={chat})")
 
-    
+
 def send(msg, bot, update):
     if len(str(msg)) > 2000:
         with io.BytesIO(str.encode(msg)) as out_file:
@@ -73,7 +73,7 @@ def execute(update: Update, context: CallbackContext):
     bot = context.bot
     send(do(exec, bot, update), bot, update)
 
-    
+
 def cleanup_code(code):
     if code.startswith("```") and code.endswith("```"):
         return "\n".join(code.split("\n")[1:-1])
@@ -192,9 +192,7 @@ async def executor(client, message):
                 ]
             ]
         )
-        await edit_or_reply(
-            message, text=final_output, reply_markup=keyboard
-        )
+        await edit_or_reply(message, text=final_output, reply_markup=keyboard)
 
 
 @app.on_callback_query(filters.regex(r"runtime"))
