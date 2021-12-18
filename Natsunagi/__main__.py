@@ -409,7 +409,7 @@ def natsunagi_about_callback(update, context):
     query = update.callback_query
     if query.data == "natsunagi_":
         query.message.edit_text(
-            text="❂ I'm *Natsunagi Nagisa*, a powerful group management bot built to help you manage your group easily.\n\n"
+            text="❂ I'm *Natsunagi Nagisa*, a powerful group management bot built to help you manage your group easily.\n"
             "\n× I can restrict users."
             "\n× I can greet users with customizable welcome messages and even set a group's rules."
             "\n× I have an advanced anti-flood system."
@@ -456,7 +456,7 @@ def natsunagi_about_callback(update, context):
 
     elif query.data == "natsunagi_admin":
         query.message.edit_text(
-            text=f"*❂ Let's make your group bit effective now*"
+            text=f"*❂ Let's make your group bit effective now*\n"
             "\nCongragulations, Natsunagi Nagisa now ready to manage your group."
             "\n\n*Admin Tools*"
             "\nBasic Admin tools help you to protect and powerup your group."
