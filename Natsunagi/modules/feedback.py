@@ -9,14 +9,22 @@ async def feedback(e):
     user_id = e.sender.id
     user_name = e.sender.first_name
     mention = "["+user_name+"](tg://user?id="+str(user_id)+")" 
-    OWO = (
-      "https://telegra.ph/file/5a03a79acba8d3c407056.jpg",
-      "https://telegra.ph//file/15ab1c01c8ed09a7ffc95.jpg",
-      "https://telegra.ph/file/b4af1ee5c4179e8833d6d.jpg",
-      "https://telegra.ph/file/15f2fb8f2ff8c0bf2bd06.jpg",
-      "https://telegra.ph//file/5a3ec69041389b4fbcc2a.jpg",
+    Natsunagi = (
+      "https://telegra.ph/file/753bfe51f0e0314f1f3ff.jpg",
+      "https://telegra.ph/file/20bab4a499d6dccd823f1.jpg",
+      "https://telegra.ph/file/2ef1c255ac51d9febb3f4.jpg",
+      "https://telegra.ph/file/bc3a10df7c66e6333bba6.jpg",
+      "https://telegra.ph/file/bf283996f928a6ab5b625.jpg",
+      "https://telegra.ph/file/bf283996f928a6ab5b625.jpg",
+      "https://telegra.ph/file/43b4f5a5645ab1cd1dd7c.jpg",
+      "https://telegra.ph/file/0f5240ad4d50d5dac57fe.jpg",
+      "https://telegra.ph/file/f6128a7a197cf088ba5e0.jpg",
+      "https://telegra.ph/file/53d0320dcaa0d21da19c0.jpg",
+      "https://telegra.ph/file/fc988e9441acfb5fe71a7.jpg",
+      "https://telegra.ph/file/731387573fd96e3cfc2f5.jpg",
+      "https://telegra.ph/file/41a2c085e2f6b60358779.jpg",
 )
-    BUTTON = [[Button.url("Click", f"https://t.me/{SUPPORT_CHAT}")]]
+    BUTTON = [[Button.url("Go To Support Group", f"https://t.me/{SUPPORT_CHAT}")]]
     TEXT = "Thanks For Your Feedback, I Hope You Happy With Our Service"
     logger_text = f"""
 New Feedback Assigment
@@ -26,5 +34,5 @@ Username: @{e.sender.username}
 User ID: {e.sender.id}
 Feedback: {e.text}
 """
-    await tbot.send_message(SUPPORT_CHAT, f"{logger_text}", file=random.choice(OWO), link_preview=False)
-    await e.reply(TEXT, file=random.choice(OWO), buttons=BUTTON)
+    await tbot.send_message(SUPPORT_CHAT, f"{logger_text}", file=random.choice(Natsunagi), link_preview=False)
+    await e.reply(TEXT, file=random.choice(Natsunagi), buttons=BUTTON)
