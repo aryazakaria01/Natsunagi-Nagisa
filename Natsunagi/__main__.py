@@ -405,7 +405,7 @@ def help_button(update, context):
 
 
 @natsunagicallback(pattern=r"natsunagi_")
-def emiko_about_callback(update, context):
+def natsunagi_about_callback(update, context):
     query = update.callback_query
     if query.data == "natsunagi_":
         query.message.edit_text(
