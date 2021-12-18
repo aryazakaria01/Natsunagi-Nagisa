@@ -1,4 +1,3 @@
-
 """Users Database."""
 
 from Natsunagi import dispatcher
