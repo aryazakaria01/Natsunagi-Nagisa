@@ -161,7 +161,7 @@ def button(update: Update, context: CallbackContext) -> str:
         if res:
             user_member = chat.get_member(user_id)
             update.effective_message.edit_text(
-                f"Yep! User {mention_html(user_member.user.id, user_member.user.first_name)} with extraction database [<code>{user_member.user.id}</code>] the Warn has been removed.",
+                f"Yep! User {mention_html(user_member.user.id, user_member.user.first_name)} with extraction database [<code>{user_member.user.id}</code>] the warn has been removed.",
                 parse_mode=ParseMode.HTML,
             )
             user_member = chat.get_member(user_id)
