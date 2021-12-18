@@ -171,7 +171,7 @@ def leave(update: Update, context: CallbackContext):
 close_keyboard = InlineKeyboardMarkup(
     [[InlineKeyboardButton("No", callback_data="close2")]]
 )
-        
+
 @dev_plus
 def gitpull(update: Update, context: CallbackContext):
     sent_msg = update.effective_message.reply_text(

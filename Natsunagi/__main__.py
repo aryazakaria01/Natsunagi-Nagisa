@@ -495,7 +495,7 @@ def natsunagi_about_callback(update, context):
                  ],
                  [
                     InlineKeyboardButton(text="Go Back", callback_data="natsunagi_"),
-                 
+        
                  ]
                 ]
             ),
