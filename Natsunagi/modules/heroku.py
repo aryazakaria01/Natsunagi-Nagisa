@@ -39,9 +39,10 @@ async def variable(var):
                 return await k.edit(
                     "**ConfigVars**:" f"\n\n`{variable} = {heroku_var[variable]}`\n"
                 )
-            return await k.edit(
-                "**ConfigVars**:" f"\n\n`Error:\n-> {variable} don't exists`"
-            )
+            else:
+                return await k.edit(
+                    "**ConfigVars**:" f"\n\n`Error:\n-> {variable} don't exists`"
+                )
         except IndexError:
             configs = prettyjson(heroku_var.to_dict(), indent=2)
             with open("configs.json", "w") as fp:
@@ -85,7 +86,7 @@ async def variable(var):
             )
         heroku_var[variable] = value
     elif exe == "del":
-        m = await var.edit("`Getting information to deleting variable...`")
+        m = await var.reply("`Getting information to deleting variable...`")
         try:
             variable = var.pattern_match.group(2).split()[0]
         except IndexError:
@@ -153,14 +154,14 @@ async def dyno_usage(dyno):
 
     return await die.edit(
         "❂ **Dyno Usage **:\n\n"
-        f" » `Dyno usage for`  **{HEROKU_APP_NAME}**:\n"
-        f"      ×  `{AppHours}`**h**  `{AppMinutes}`**m**  "
+        f" » Dyno usage for **{HEROKU_APP_NAME}**:\n"
+        f"      •  `{AppHours}`**h**  `{AppMinutes}`**m**  "
         f"**|**  [`{AppPercentage}`**%**]"
         "\n\n"
-        "  » `Dyno hours quota remaining this month`:\n"
-        f"      ×  `{hours}`**h**  `{minutes}`**m**  "
+        "  » Dyno hours quota remaining this month:\n"
+        f"      •  `{hours}`**h**  `{minutes}`**m**  "
         f"**|**  [`{percentage}`**%**]"
-        f"\n\n  » `Dynos heroku {day} days left`"
+        f"\n\n  » Dynos heroku {day} days left"
     )
 
 
@@ -198,6 +199,7 @@ async def _(dyno):
 def prettyjson(obj, indent=2, maxlinelength=80):
     """Renders JSON content with indentation and line splits/concatenations to fit maxlinelength.
     Only dicts, lists and basic types are supported"""
+
     items, _ = getsubitems(
         obj,
         itemkey="",
