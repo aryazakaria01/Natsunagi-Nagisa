@@ -1,8 +1,8 @@
 import threading
 
-from sqlalchemy import func, distinct, Column, String, UnicodeText, Integer
+from sqlalchemy import Column, Integer, String, UnicodeText, distinct, func
 
-from Natsunagi.modules.sql import SESSION, BASE
+from Natsunagi.modules.sql import BASE, SESSION
 
 
 class BlackListFilters(BASE):

@@ -1,15 +1,13 @@
 import os
-
 from time import sleep
-
-from Natsunagi import OWNER_ID, dispatcher
-from Natsunagi.modules.helper_funcs.extraction import extract_user
-from Natsunagi.modules.no_sql.users_db import get_user_com_chats
 
 from telegram import Update
 from telegram.error import BadRequest, RetryAfter, Unauthorized
 from telegram.ext import CallbackContext, CommandHandler, Filters
-from telegram.ext.dispatcher import run_async
+
+from Natsunagi import OWNER_ID, dispatcher
+from Natsunagi.modules.helper_funcs.extraction import extract_user
+from Natsunagi.modules.no_sql.users_db import get_user_com_chats
 
 
 def get_user_common_chats(update: Update, context: CallbackContext):

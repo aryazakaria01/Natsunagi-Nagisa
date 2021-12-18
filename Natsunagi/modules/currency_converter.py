@@ -1,8 +1,8 @@
 import requests
+from telegram import ParseMode, Update
+from telegram.ext import CallbackContext, CommandHandler
 
 from Natsunagi import CASH_API_KEY, dispatcher
-from telegram import Update, ParseMode
-from telegram.ext import CallbackContext, CommandHandler, run_async
 
 
 def convert(update: Update, context: CallbackContext):

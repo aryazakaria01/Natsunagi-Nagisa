@@ -1,11 +1,6 @@
 from asyncio import Lock, create_task
 from time import time
 
-from pyrogram import filters
-from pyrogram.types import Message
-
-from Natsunagi import BOT_ID, BOT_USERNAME
-from Natsunagi import DEV_USERS
 from Natsunagi.utils.sections import bold, section, w
 
 tasks = {}

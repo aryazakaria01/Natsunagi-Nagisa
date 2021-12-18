@@ -1,60 +1,24 @@
 import html
-import os
-import json
 import importlib
-import time
+import json
 import re
-import sys
+import time
 import traceback
-import Natsunagi.modules.no_sql.users_db as user_db
-
+from platform import python_version
 from sys import argv
-from typing import Optional, List
-from Natsunagi import (
-    ALLOW_EXCL,
-    CERT_PATH,
-    DONATION_LINK,
-    LOGGER,
-    OWNER_ID,
-    PORT,
-    TOKEN,
-    URL,
-    WEBHOOK,
-    SUPPORT_CHAT,
-    BOT_USERNAME,
-    BOT_NAME,
-    EVENT_LOGS,
-    HELP_IMG,
-    GROUP_START_IMG,
-    NAGISA_PHOTO,
-    dispatcher,
-    StartTime,
-    telethn,
-    updater,
-    pgram,
-    WHITELIST_CHATS,
-    BL_CHATS,
-)
+from typing import Optional
 
-from Natsunagi.events import register
-from Natsunagi.modules import ALL_MODULES
-from Natsunagi.modules.helper_funcs.chat_status import is_user_admin
-from Natsunagi.modules.helper_funcs.alternate import typing_action
-from Natsunagi.modules.helper_funcs.misc import paginate_modules
-from Natsunagi.modules.disable import DisableAbleCommandHandler
-from Natsunagi.modules.helper_funcs.decorators import natsunagicmd, natsunagimsg, natsunagicallback
+from pyrogram import __version__ as pyr
 from telegram import (
+    Chat,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
+    Message,
     ParseMode,
     Update,
-    Message,
-    Chat,
-    Bot,
     User,
-    __version__ as tgl,
 )
-
+from telegram import __version__ as tgl
 from telegram.error import (
     BadRequest,
     ChatMigrated,
@@ -63,30 +27,40 @@ from telegram.error import (
     TimedOut,
     Unauthorized,
 )
-
-from telegram.ext import (
-    CallbackContext,
-    CallbackQueryHandler,
-    CommandHandler,
-    Filters,
-    MessageHandler,
-)
-
-from telegram.ext.dispatcher import (
-    DispatcherHandlerStop,
-    run_async,
-    Dispatcher,
-)
-
+from telegram.ext import CallbackContext, Filters
+from telegram.ext.dispatcher import DispatcherHandlerStop
 from telegram.utils.helpers import escape_markdown
-from pyrogram import Client, __version__ as pyr
-from telethon import (
-    Button,
-    events,
-    __version__ as tlh,
-)
+from telethon import __version__ as tlh
 
-from platform import python_version
+import Natsunagi.modules.no_sql.users_db as user_db
+from Natsunagi import (
+    BOT_USERNAME,
+    CERT_PATH,
+    DONATION_LINK,
+    HELP_IMG,
+    LOGGER,
+    OWNER_ID,
+    PORT,
+    SUPPORT_CHAT,
+    TOKEN,
+    URL,
+    WEBHOOK,
+    StartTime,
+    dispatcher,
+    pgram,
+    telethn,
+    updater,
+)
+from Natsunagi.modules import ALL_MODULES
+from Natsunagi.modules.helper_funcs.alternate import typing_action
+from Natsunagi.modules.helper_funcs.chat_status import is_user_admin
+from Natsunagi.modules.helper_funcs.decorators import (
+    natsunagicallback,
+    natsunagicmd,
+    natsunagimsg,
+)
+from Natsunagi.modules.helper_funcs.misc import paginate_modules
+
 
 def get_readable_time(seconds: int) -> str:
     count = 0
@@ -132,15 +106,16 @@ Haven't slept since: {}
 """
 
 buttons = [
-    [
-        InlineKeyboardButton(text="About Me", callback_data="natsunagi_")
-    ],
+    [InlineKeyboardButton(text="About Me", callback_data="natsunagi_")],
     [
         InlineKeyboardButton(text="❓ Help", callback_data="help_back"),
         InlineKeyboardButton(text="📢 Updates", url="https://t.me/CyberMusicProject"),
     ],
     [
-        InlineKeyboardButton(text=f"Add Natsunagi to your group", url=f"t.me/{BOT_USERNAME}?startgroup=true"),
+        InlineKeyboardButton(
+            text=f"Add Natsunagi to your group",
+            url=f"t.me/{BOT_USERNAME}?startgroup=true",
+        ),
     ],
 ]
 
@@ -277,8 +252,8 @@ def start(update: Update, context: CallbackContext):
     else:
         update.effective_message.reply_text(
             f"<b>Hi I'm Natsunagi Nagisa!</b>\n<b>Started working since:</b> <code>{uptime}</code>",
-            parse_mode=ParseMode.HTML
-       )
+            parse_mode=ParseMode.HTML,
+        )
 
 
 def error_handler(update, context):
@@ -327,7 +302,7 @@ def error_callback(update, context):
     except NetworkError:
         pass
         # handle other connection problems
-    except ChatMigrated as e:
+    except ChatMigrated:
         pass
         # the chat_id of a group has changed, use e.new_chat_id instead
     except TelegramError:
@@ -357,13 +332,7 @@ def help_button(update, context):
                 parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(
-                    [
-                        [
-                            InlineKeyboardButton(
-                                text="Back", callback_data="help_back"
-                            )
-                        ]
-                    ]
+                    [[InlineKeyboardButton(text="Back", callback_data="help_back")]]
                 ),
             )
 
@@ -422,20 +391,32 @@ def natsunagi_about_callback(update, context):
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
                 [
-                 [
-                    InlineKeyboardButton(text="Admins", callback_data="natsunagi_admin"),
-                    InlineKeyboardButton(text="Notes", callback_data="natsunagi_notes"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="Support", callback_data="natsunagi_support"),
-                    InlineKeyboardButton(text="Credits", callback_data="natsunagi_credit"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="Valkyrie Family", url="https://t.me/valkyriefamily"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="Go Back", callback_data="natsunagi_back"),
-                 ]
+                    [
+                        InlineKeyboardButton(
+                            text="Admins", callback_data="natsunagi_admin"
+                        ),
+                        InlineKeyboardButton(
+                            text="Notes", callback_data="natsunagi_notes"
+                        ),
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text="Support", callback_data="natsunagi_support"
+                        ),
+                        InlineKeyboardButton(
+                            text="Credits", callback_data="natsunagi_credit"
+                        ),
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text="Valkyrie Family", url="https://t.me/valkyriefamily"
+                        ),
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text="Go Back", callback_data="natsunagi_back"
+                        ),
+                    ],
                 ]
             ),
         )
@@ -443,15 +424,16 @@ def natsunagi_about_callback(update, context):
         first_name = update.effective_user.first_name
         uptime = get_readable_time((time.time() - StartTime))
         query.message.edit_text(
-                PM_START_TEXT.format(
-                    escape_markdown(first_name),
-                    escape_markdown(uptime),
-                    user_db.num_users(),
-                    user_db.num_chats()),
-                reply_markup=InlineKeyboardMarkup(buttons),
-                parse_mode=ParseMode.MARKDOWN,
-                timeout=60,
-                disable_web_page_preview=False,
+            PM_START_TEXT.format(
+                escape_markdown(first_name),
+                escape_markdown(uptime),
+                user_db.num_users(),
+                user_db.num_chats(),
+            ),
+            reply_markup=InlineKeyboardMarkup(buttons),
+            parse_mode=ParseMode.MARKDOWN,
+            timeout=60,
+            disable_web_page_preview=False,
         )
 
     elif query.data == "natsunagi_admin":
@@ -489,18 +471,22 @@ def natsunagi_about_callback(update, context):
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=InlineKeyboardMarkup(
                 [
-                 [
-                    InlineKeyboardButton(text="Support", url="t.me/NatsunagiCorporationGroup"),
-                    InlineKeyboardButton(text="Updates", url="https://t.me/CyberMusicProject"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="Go Back", callback_data="natsunagi_"),
-        
-                 ]
+                    [
+                        InlineKeyboardButton(
+                            text="Support", url="t.me/NatsunagiCorporationGroup"
+                        ),
+                        InlineKeyboardButton(
+                            text="Updates", url="https://t.me/CyberMusicProject"
+                        ),
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text="Go Back", callback_data="natsunagi_"
+                        ),
+                    ],
                 ]
             ),
         )
-
 
     elif query.data == "natsunagi_credit":
         query.message.edit_text(
@@ -509,44 +495,79 @@ def natsunagi_about_callback(update, context):
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=InlineKeyboardMarkup(
                 [
-                 [
-                    InlineKeyboardButton(text="sena-ex", url="https://github.com/kennedy-ex"),
-                    InlineKeyboardButton(text="TheHamkerCat", url="https://github.com/TheHamkerCat"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="Feri", url="https://github.com/FeriEXP"),
-                    InlineKeyboardButton(text="riz-ex", url="https://github.com/riz-ex"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="Anime Kaizoku", url="https://github.com/animekaizoku"),
-                    InlineKeyboardButton(text="TheGhost Hunter", url="https://github.com/HuntingBots"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="Inuka Asith", url="https://github.com/inukaasith"),
-                    InlineKeyboardButton(text="Noob-Kittu", url="https://github.com/noob-kittu"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="Queen Arzoo", url="https://github.com/QueenArzoo"),
-                    InlineKeyboardButton(text="Paul Larsen", url="https://github.com/PaulSonOfLars"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="Ryomen-Sukuna", url="https://github.com/Ryomen-Sukuna"),
-                    InlineKeyboardButton(text="UserLazy", url="https://github.com/UserLazy"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="zYxDevs", url="https://github.com/zYxDevs"),
-                    InlineKeyboardButton(text="idzero23", url="https://github.com/idzero23"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="Tonic990", url="https://github.com/Tonic990"),
-                    InlineKeyboardButton(text="aryazakaria01", url="https://github.com/aryazakaria01"),
-                 ],
-                 [
-                    InlineKeyboardButton(text="Go Back", callback_data="natsunagi_"),
-                 ]
+                    [
+                        InlineKeyboardButton(
+                            text="sena-ex", url="https://github.com/kennedy-ex"
+                        ),
+                        InlineKeyboardButton(
+                            text="TheHamkerCat", url="https://github.com/TheHamkerCat"
+                        ),
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text="Feri", url="https://github.com/FeriEXP"
+                        ),
+                        InlineKeyboardButton(
+                            text="riz-ex", url="https://github.com/riz-ex"
+                        ),
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text="Anime Kaizoku", url="https://github.com/animekaizoku"
+                        ),
+                        InlineKeyboardButton(
+                            text="TheGhost Hunter", url="https://github.com/HuntingBots"
+                        ),
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text="Inuka Asith", url="https://github.com/inukaasith"
+                        ),
+                        InlineKeyboardButton(
+                            text="Noob-Kittu", url="https://github.com/noob-kittu"
+                        ),
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text="Queen Arzoo", url="https://github.com/QueenArzoo"
+                        ),
+                        InlineKeyboardButton(
+                            text="Paul Larsen", url="https://github.com/PaulSonOfLars"
+                        ),
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text="Ryomen-Sukuna", url="https://github.com/Ryomen-Sukuna"
+                        ),
+                        InlineKeyboardButton(
+                            text="UserLazy", url="https://github.com/UserLazy"
+                        ),
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text="zYxDevs", url="https://github.com/zYxDevs"
+                        ),
+                        InlineKeyboardButton(
+                            text="idzero23", url="https://github.com/idzero23"
+                        ),
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text="Tonic990", url="https://github.com/Tonic990"
+                        ),
+                        InlineKeyboardButton(
+                            text="aryazakaria01", url="https://github.com/aryazakaria01"
+                        ),
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text="Go Back", callback_data="natsunagi_"
+                        ),
+                    ],
                 ]
             ),
         )
+
 
 def Source_about_callback(update, context):
     query = update.callback_query
@@ -563,25 +584,22 @@ def Source_about_callback(update, context):
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
-                [
-                 [
-                    InlineKeyboardButton(text="Go Back", callback_data="natsunagi_")
-                 ]
-                ]
+                [[InlineKeyboardButton(text="Go Back", callback_data="natsunagi_")]]
             ),
         )
     elif query.data == "source_back":
         first_name = update.effective_user.first_name
         query.message.edit_text(
-                PM_START_TEXT.format(
-                    escape_markdown(first_name),
-                    escape_markdown(uptime),
-                    sql.num_users(),
-                    sql.num_chats()),
-                reply_markup=InlineKeyboardMarkup(buttons),
-                parse_mode=ParseMode.MARKDOWN,
-                timeout=60,
-                disable_web_page_preview=False,
+            PM_START_TEXT.format(
+                escape_markdown(first_name),
+                escape_markdown(uptime),
+                sql.num_users(),
+                sql.num_chats(),
+            ),
+            reply_markup=InlineKeyboardMarkup(buttons),
+            parse_mode=ParseMode.MARKDOWN,
+            timeout=60,
+            disable_web_page_preview=False,
         )
 
 
@@ -859,19 +877,20 @@ def migrate_chats(update: Update, context: CallbackContext):
     LOGGER.info("Successfully migrated!")
     raise DispatcherHandlerStop
 
+
 def main():
 
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
             dispatcher.bot.sendMessage(
-                f"@{SUPPORT_CHAT}", 
+                f"@{SUPPORT_CHAT}",
                 f"""**Natsunagi Nagisa Started!**
 
 » Python: `{python_version()}`
 » Telethon: `{tlh}`
 » Pyrogram: `{pyr}`
 » Telegram Library: v`{tgl}`""",
-                parse_mode=ParseMode.MARKDOWN
+                parse_mode=ParseMode.MARKDOWN,
             )
         except BadRequest as e:
             LOGGER.warning(e.message)
@@ -879,7 +898,9 @@ def main():
     dispatcher.add_error_handler(error_callback)
 
     if WEBHOOK:
-        LOGGER.info(f"Natsunagi started, Using webhook. | BOT: [@{dispatcher.bot.username}]")
+        LOGGER.info(
+            f"Natsunagi started, Using webhook. | BOT: [@{dispatcher.bot.username}]"
+        )
         updater.start_webhook(listen="127.0.0.1", port=PORT, url_path=TOKEN)
 
         if CERT_PATH:

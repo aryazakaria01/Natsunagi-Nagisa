@@ -1,25 +1,18 @@
 import html
-import Natsunagi.modules.sql.blacklistusers_sql as sql
 
-from Natsunagi import (
-    DEV_USERS,
-    OWNER_ID,
-    DRAGONS,
-    DEMONS,
-    TIGERS,
-    WOLVES,
-    dispatcher,
-)
+from telegram import ParseMode, Update
+from telegram.error import BadRequest
+from telegram.ext import CallbackContext, CommandHandler
+from telegram.utils.helpers import mention_html
+
+import Natsunagi.modules.sql.blacklistusers_sql as sql
+from Natsunagi import DEMONS, DEV_USERS, DRAGONS, OWNER_ID, TIGERS, WOLVES, dispatcher
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus
 from Natsunagi.modules.helper_funcs.extraction import (
     extract_user,
     extract_user_and_text,
 )
 from Natsunagi.modules.log_channel import gloggable
-from telegram import ParseMode, Update
-from telegram.error import BadRequest
-from telegram.ext import CallbackContext, CommandHandler, run_async
-from telegram.utils.helpers import mention_html
 
 BLACKLISTWHITELIST = [OWNER_ID] + DEV_USERS + DRAGONS + WOLVES + DEMONS
 BLABLEUSERS = [OWNER_ID] + DEV_USERS
@@ -48,10 +41,10 @@ def bl_user(update: Update, context: CallbackContext) -> str:
     try:
         target_user = bot.get_chat(user_id)
     except BadRequest as excp:
-        if excp.message != 'User not found':
+        if excp.message != "User not found":
             raise
         message.reply_text("I can't seem to find this user.")
-        return ''
+        return ""
     sql.blacklist_user(user_id, reason)
     message.reply_text("I shall ignore the existence of this user!")
     log_message = (

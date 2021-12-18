@@ -31,9 +31,8 @@ from functools import wraps
 from pyrogram.errors.exceptions.forbidden_403 import ChatWriteForbidden
 from pyrogram.types import Message
 
-from Natsunagi import DRAGONS
+from Natsunagi import DRAGONS, pgram
 from Natsunagi.utils.pluginhelp import member_permissions
-from Natsunagi import pgram
 
 
 async def authorised(func, subFunc2, client, message, *args, **kwargs):

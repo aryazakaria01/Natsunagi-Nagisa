@@ -1,6 +1,8 @@
+from platform import python_version
+
 from dearpygui.core import *
 from dearpygui.simple import *
-from platform import python_version
+
 from Natsunagi.__main__ import STATS
 
 try:
@@ -20,7 +22,6 @@ with window("About"):
 
 with window("stats"):
     add_text("\n*Bot statistics*:\n" + "\n".join([mod.__stats__() for mod in STATS]))
-
 
 
 start_dearpygui(primary_window="About")

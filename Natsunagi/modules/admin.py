@@ -1,31 +1,24 @@
-import requests
-import os
 import html
-from html import escape
+import os
 from typing import Optional
 
-from telegram import (
-    ParseMode, 
-    Update, 
-    InlineKeyboardButton, 
-    InlineKeyboardMarkup, 
-    Message, 
-    User,
-)
+import requests
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update, User
 from telegram.error import BadRequest
-from telegram.ext import CallbackContext, CommandHandler, Filters, run_async, MessageHandler
+from telegram.ext import CallbackContext, CommandHandler, Filters, MessageHandler
 from telegram.utils.helpers import mention_html
-from telethon import events
-from telethon.tl import functions, types
-from telethon.tl import *
 from telethon import *
+from telethon import events
+from telethon.tl import *
+from telethon.tl import functions, types
 
-from pyrogram import Client
-from pyrogram.types import Message
-
-from Natsunagi import DRAGONS, TOKEN, dispatcher, telethn as bot
+from Natsunagi import TOKEN, dispatcher
+from Natsunagi import telethn as bot
+from Natsunagi.modules.connection import connected
 from Natsunagi.modules.disable import DisableAbleCommandHandler
+from Natsunagi.modules.helper_funcs.alternate import send_message, typing_action
 from Natsunagi.modules.helper_funcs.chat_status import (
+    ADMIN_CACHE,
     bot_admin,
     can_pin,
     can_promote,
@@ -34,18 +27,14 @@ from Natsunagi.modules.helper_funcs.chat_status import (
     user_can_changeinfo,
     user_can_pin,
     user_can_promote,
-    ADMIN_CACHE,
 )
-
 from Natsunagi.modules.helper_funcs.extraction import (
     extract_user,
     extract_user_and_text,
 )
 from Natsunagi.modules.log_channel import loggable
-from Natsunagi.modules.helper_funcs.alternate import send_message, typing_action
-from Natsunagi.modules.connection import connected
 from Natsunagi.modules.sql import acm_sql
-from Natsunagi.events import register
+
 
 async def is_register_admin(chat, user):
     if isinstance(chat, (types.InputPeerChannel, types.InputChannel)):
@@ -89,10 +78,7 @@ async def can_ban_users(message):
 async def get_users(show):
     if not show.is_group:
         return
-    if (
-        show.is_group
-        and not await is_register_admin(show.input_chat, show.sender_id)
-    ):
+    if show.is_group and not await is_register_admin(show.input_chat, show.sender_id):
         return
     info = await bot.get_entity(show.chat_id)
     title = info.title if info.title else "this chat"
@@ -313,8 +299,11 @@ def promote(update: Update, context: CallbackContext) -> Optional[str]:
     keyboard = InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton(text="⏬ Demote", callback_data="demote_({})".format(user_member.user.id)),
-                InlineKeyboardButton(text="🔄 Cache", callback_data="close2")
+                InlineKeyboardButton(
+                    text="⏬ Demote",
+                    callback_data="demote_({})".format(user_member.user.id),
+                ),
+                InlineKeyboardButton(text="🔄 Cache", callback_data="close2"),
             ]
         ]
     )
@@ -341,9 +330,11 @@ def promote(update: Update, context: CallbackContext) -> Optional[str]:
         )
     )
 
+
 close_keyboard = InlineKeyboardMarkup(
     [[InlineKeyboardButton("🔄 Cache", callback_data="close2")]]
 )
+
 
 @bot_admin
 @can_promote
@@ -410,8 +401,11 @@ def fullpromote(update, context):
     keyboard = InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton(text="⏬ Demote", callback_data="demote_({})".format(user_member.user.id)),
-                InlineKeyboardButton(text="🔄 Cache", callback_data="close2")
+                InlineKeyboardButton(
+                    text="⏬ Demote",
+                    callback_data="demote_({})".format(user_member.user.id),
+                ),
+                InlineKeyboardButton(text="🔄 Cache", callback_data="close2"),
             ]
         ]
     )
@@ -422,7 +416,7 @@ def fullpromote(update, context):
         reply_markup=keyboard,
         parse_mode=ParseMode.HTML,
     )
-    
+
     log_message = (
         f"<b>{html.escape(chat.title)}:</b>\n"
         f"#FULLPROMOTED\n"
@@ -430,9 +424,11 @@ def fullpromote(update, context):
         f"<b>User:</b> {mention_html(user_member.user.id, user_member.user.first_name)}"
     )
 
+
 close_keyboard = InlineKeyboardMarkup(
     [[InlineKeyboardButton("🔄 Cache", callback_data="close2")]]
 )
+
 
 @bot_admin
 @can_promote
@@ -505,7 +501,6 @@ def demote(update: Update, context: CallbackContext) -> Optional[str]:
         return ""
 
 
-
 @user_admin
 def refresh_admin(update, _):
     try:
@@ -514,7 +509,6 @@ def refresh_admin(update, _):
         pass
 
     update.effective_message.reply_text("Admins cache refreshed!")
-
 
 
 @connection_status
@@ -583,7 +577,6 @@ def set_title(update: Update, context: CallbackContext):
     )
 
 
-
 @bot_admin
 @can_pin
 @user_admin
@@ -614,9 +607,9 @@ def pin(update: Update, context: CallbackContext) -> str:
     is_silent = True
     if len(args) >= 1:
         is_silent = (
-                args[0].lower() != "notify"
-                or args[0].lower() == "loud"
-                or args[0].lower() == "violent"
+            args[0].lower() != "notify"
+            or args[0].lower() == "loud"
+            or args[0].lower() == "violent"
         )
 
     if prev_message and is_group:
@@ -629,8 +622,12 @@ def pin(update: Update, context: CallbackContext) -> str:
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
-                            InlineKeyboardButton(text="📝 View Messages", url=f"{message_link}"),
-                            InlineKeyboardButton(text="❌ Delete", callback_data="close2")
+                            InlineKeyboardButton(
+                                text="📝 View Messages", url=f"{message_link}"
+                            ),
+                            InlineKeyboardButton(
+                                text="❌ Delete", callback_data="close2"
+                            ),
                         ]
                     ]
                 ),
@@ -648,6 +645,7 @@ def pin(update: Update, context: CallbackContext) -> str:
         )
 
         return log_message
+
 
 close_keyboard = InlineKeyboardMarkup(
     [[InlineKeyboardButton("❌ Delete", callback_data="close2")]]
@@ -720,7 +718,6 @@ def pinned(update: Update, context: CallbackContext) -> str:
         msg.reply_text(f"There is no pinned message in {html.escape(chat.title)}!")
 
 
-
 @bot_admin
 @user_admin
 @typing_action
@@ -755,6 +752,7 @@ def invite(update, context):
             "I can only give you invite links for supergroups and channels, sorry!"
         )
 
+
 @connection_status
 def adminlist(update, context):
     chat = update.effective_chat  # type: Optional[Chat] -> unused variable
@@ -766,7 +764,7 @@ def adminlist(update, context):
         send_message(update.effective_message, "This command only works in Groups.")
         return
 
-    chat = update.effective_chat
+    update.effective_chat
     chat_id = update.effective_chat.id
     chat_name = update.effective_message.chat.title  # -> unused variable
 
@@ -926,6 +924,7 @@ def button(update: Update, context: CallbackContext) -> str:
         )
         return ""
 
+
 @bot_admin
 @user_admin
 def antichannelmode(update: Update, context: CallbackContext):
@@ -939,22 +938,36 @@ def antichannelmode(update: Update, context: CallbackContext):
         param = args[0]
         if param in ("on", "true", "yes", "On", "Yes", "True"):
             acm_sql.setCleanLinked(chat.id, True)
-            msg.reply_text(f"*Enabled* Anti channel in {chat.title}. Messages sent by channel will be deleted.", parse_mode=ParseMode.MARKDOWN)
+            msg.reply_text(
+                f"*Enabled* Anti channel in {chat.title}. Messages sent by channel will be deleted.",
+                parse_mode=ParseMode.MARKDOWN,
+            )
             return
         elif param in ("off", "false", "no", "No", "Off", "False"):
             acm_sql.setCleanLinked(chat.id, False)
-            msg.reply_text(f"*Disabled* Anti channel in {chat.title}.", parse_mode=ParseMode.MARKDOWN)
+            msg.reply_text(
+                f"*Disabled* Anti channel in {chat.title}.",
+                parse_mode=ParseMode.MARKDOWN,
+            )
             return
         else:
-            msg.reply_text("Your input was not recognised as one of: yes/no/on/off") #on or off ffs
+            msg.reply_text(
+                "Your input was not recognised as one of: yes/no/on/off"
+            )  # on or off ffs
             return
     else:
         stat = acm_sql.getCleanLinked(str(chat.id))
         if stat:
-            msg.reply_text(f"Linked channel post deletion is currently *enabled* in {chat.title}. Messages sent from the linked channel will be deleted.", parse_mode=ParseMode.MARKDOWN)
+            msg.reply_text(
+                f"Linked channel post deletion is currently *enabled* in {chat.title}. Messages sent from the linked channel will be deleted.",
+                parse_mode=ParseMode.MARKDOWN,
+            )
             return
         else:
-            msg.reply_text(f"Linked channel post deletion is currently *disabled* in {chat.title}.", parse_mode=ParseMode.MARKDOWN)
+            msg.reply_text(
+                f"Linked channel post deletion is currently *disabled* in {chat.title}.",
+                parse_mode=ParseMode.MARKDOWN,
+            )
             return
 
 
@@ -976,18 +989,26 @@ def sfachat(update: Update, context: CallbackContext):
             BAN_CHAT_CHANNEL = f"https://api.telegram.org/bot{TOKEN}/banChatSenderChat?chat_id={update.message.chat.id}&sender_chat_id={update.message.sender_chat.id}"
             respond = requests.post(BAN_CHAT_CHANNEL)
             if respond.status_code == 200:
-                BANNED_CHANNEL_LINK = f"t.me/c/{update.message.sender_chat.id}/1".replace('-100', '')
-                update.message.reply_text(f'''
+                BANNED_CHANNEL_LINK = (
+                    f"t.me/c/{update.message.sender_chat.id}/1".replace("-100", "")
+                )
+                update.message.reply_text(
+                    f"""
 • AUTO-BAN CHANNEL EVENT ‼️
 🚫 Banned This Channel: <a href="{BANNED_CHANNEL_LINK}">here's the link</a>
-                ''', parse_mode=ParseMode.HTML)
+                """,
+                    parse_mode=ParseMode.HTML,
+                )
             else:
-                update.message.reply_text(f'''
+                update.message.reply_text(
+                    f"""
 There was an error occured during auto ban and delete message. please report this to @BlackKnightsUnion_DevChat.
 • Error: `{respond}`
-                ''')
+                """
+                )
             msg.delete()
             return ""
+
 
 __help__ = """
 *User Commands*:
@@ -1082,7 +1103,12 @@ ADMIN_REFRESH_HANDLER = CommandHandler(
     "admincache", refresh_admin, filters=Filters.chat_type.groups, run_async=True
 )
 
-CLEANLINKED_HANDLER = CommandHandler(['acm', 'antichannel', 'antichannelmode'], antichannelmode, filters=Filters.chat_type.groups, run_async=True)
+CLEANLINKED_HANDLER = CommandHandler(
+    ["acm", "antichannel", "antichannelmode"],
+    antichannelmode,
+    filters=Filters.chat_type.groups,
+    run_async=True,
+)
 SFA_HANDLER = MessageHandler(Filters.all, sfachat, allow_edit=True, run_async=True)
 
 dispatcher.add_handler(SET_DESC_HANDLER)

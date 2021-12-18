@@ -1,14 +1,11 @@
-import os
-import logging
-import asyncio
 import io
 import sys
 import traceback
 
-from Natsunagi import telethn as client
-from datetime import datetime
-from os import environ, execle
 from telethon.sync import events
+
+from Natsunagi import telethn as client
+
 
 @client.on(
     events.NewMessage(

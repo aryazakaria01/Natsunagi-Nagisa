@@ -1,7 +1,6 @@
 """Users Database."""
 
 from Natsunagi import dispatcher
-
 from Natsunagi.modules.no_sql import get_collection
 
 USERS_DB = get_collection("USERS")

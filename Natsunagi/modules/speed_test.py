@@ -1,21 +1,12 @@
-import datetime
-import time
 import requests
 import speedtest
-
-from Natsunagi import DEV_USERS, dispatcher, OWNER_ID
-from Natsunagi.modules.disable import DisableAbleCommandHandler
-from Natsunagi.modules.helper_funcs.chat_status import dev_plus
-from Natsunagi.modules.helper_funcs.alternate import typing_action, send_action
-
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
-from telegram.ext import (
-    CallbackContext,
-    CallbackQueryHandler,
-    run_async,
-    Filters,
-    CommandHandler,
-)
+from telegram.ext import CallbackContext, CallbackQueryHandler, CommandHandler, Filters
+
+from Natsunagi import DEV_USERS, OWNER_ID, dispatcher
+from Natsunagi.modules.disable import DisableAbleCommandHandler
+from Natsunagi.modules.helper_funcs.alternate import typing_action
+from Natsunagi.modules.helper_funcs.chat_status import dev_plus
 
 
 def convert(speed):

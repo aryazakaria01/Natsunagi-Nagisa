@@ -1,27 +1,28 @@
 from __future__ import unicode_literals
 
-import os
-import wget
-import time
-import yt_dlp
 import asyncio
-import aiohttp
-import requests
-import ffmpeg
-
-from pyrogram import filters
-from pyrogram.types import Message
-from Natsunagi import BOT_USERNAME, aiohttpsession as session, pgram as app
-from Natsunagi.utils.pluginhelp import get_text, progress
-from Natsunagi.modules.arq_client import arq
-from Natsunagi.utils.errors import capture_err
-from Natsunagi.utils.pastebin import epaste
-from youtube_search import YoutubeSearch
-from youtubesearchpython import SearchVideos
+import os
+import time
 from asyncio import get_running_loop
 from functools import partial
 from io import BytesIO
 from urllib.parse import urlparse
+
+import ffmpeg
+import requests
+import wget
+import yt_dlp
+from pyrogram import filters
+from pyrogram.types import Message
+from youtube_search import YoutubeSearch
+from youtubesearchpython import SearchVideos
+
+from Natsunagi import BOT_USERNAME
+from Natsunagi import aiohttpsession as session
+from Natsunagi import pgram as app
+from Natsunagi.modules.arq_client import arq
+from Natsunagi.utils.errors import capture_err
+from Natsunagi.utils.pluginhelp import get_text, progress
 
 is_downloading = False
 
@@ -153,7 +154,7 @@ def song(client, message):
         open(thumb_name, "wb").write(thumb.content)
 
         duration = results[0]["duration"]
-        url_suffix = results[0]["url_suffix"]
+        results[0]["url_suffix"]
         views = results[0]["views"]
 
     except Exception as e:

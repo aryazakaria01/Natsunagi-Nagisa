@@ -1,4 +1,5 @@
-from sqlalchemy import Column, String, Numeric, Boolean
+from sqlalchemy import Column, Numeric, String
+
 from Natsunagi.modules.sql import BASE, SESSION
 
 

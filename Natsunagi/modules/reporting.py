@@ -1,30 +1,28 @@
 import html
 
-import Natsunagi.modules.sql.log_channel_sql as logsql
-from Natsunagi import LOGGER, DRAGONS, TIGERS, WOLVES, dispatcher
-from Natsunagi.modules.helper_funcs.chat_status import user_not_admin
-from Natsunagi.modules.log_channel import loggable
-from Natsunagi.modules.sql import reporting_sql as sql
-from Natsunagi.modules.helper_funcs.decorators import natsunagicmd, natsunagimsg, natsunagicallback
-from ..modules.helper_funcs.anonymous import user_admin, AdminPerms
-
 from telegram import Chat, InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
 from telegram.error import BadRequest, Unauthorized
-from telegram.ext import (
-    CallbackContext,
-    CallbackQueryHandler,
-    CommandHandler,
-    Filters,
-    MessageHandler,
-    run_async,
-)
+from telegram.ext import CallbackContext, Filters
 from telegram.utils.helpers import mention_html
+
+import Natsunagi.modules.sql.log_channel_sql as logsql
+from Natsunagi import DRAGONS, LOGGER, TIGERS, WOLVES
+from Natsunagi.modules.helper_funcs.chat_status import user_not_admin
+from Natsunagi.modules.helper_funcs.decorators import (
+    natsunagicallback,
+    natsunagicmd,
+    natsunagimsg,
+)
+from Natsunagi.modules.log_channel import loggable
+from Natsunagi.modules.sql import reporting_sql as sql
+
+from ..modules.helper_funcs.anonymous import AdminPerms, user_admin
 
 REPORT_GROUP = 12
 REPORT_IMMUNE_USERS = DRAGONS + TIGERS + WOLVES
 
 
-@natsunagicmd(command='reports')
+@natsunagicmd(command="reports")
 @user_admin(AdminPerms.CAN_CHANGE_INFO)
 def report_setting(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
@@ -68,7 +66,7 @@ def report_setting(update: Update, context: CallbackContext):
         )
 
 
-@natsunagicmd(command='report', filters=Filters.chat_type.groups, group=REPORT_GROUP)
+@natsunagicmd(command="report", filters=Filters.chat_type.groups, group=REPORT_GROUP)
 @natsunagimsg((Filters.regex(r"(?i)@admin(s)?")), group=REPORT_GROUP)
 @user_not_admin
 @loggable
@@ -88,7 +86,7 @@ def report(update: Update, context: CallbackContext) -> str:
             if admin.user.is_bot:  # AI didnt take over yet
                 continue
             try:
-                reported += f"<a href=\"tg://user?id={admin.user.id}\">\u2063</a>"
+                reported += f'<a href="tg://user?id={admin.user.id}">\u2063</a>'
             except BadRequest:
                 log.exception("Exception while reporting user")
         message.reply_text(reported, parse_mode=ParseMode.HTML)
@@ -178,7 +176,7 @@ def report(update: Update, context: CallbackContext) -> str:
                             message.reply_to_message.forward(admin.user.id)
 
                             if (
-                                    len(message.text.split()) > 1
+                                len(message.text.split()) > 1
                             ):  # If user is giving a reason, send his message too
                                 message.forward(admin.user.id)
                     if not chat.username:
@@ -192,7 +190,7 @@ def report(update: Update, context: CallbackContext) -> str:
                             message.reply_to_message.forward(admin.user.id)
 
                             if (
-                                    len(message.text.split()) > 1
+                                len(message.text.split()) > 1
                             ):  # If user is giving a reason, send his message too
                                 message.forward(admin.user.id)
 
@@ -208,7 +206,7 @@ def report(update: Update, context: CallbackContext) -> str:
                             message.reply_to_message.forward(admin.user.id)
 
                             if (
-                                    len(message.text.split()) > 1
+                                len(message.text.split()) > 1
                             ):  # If user is giving a reason, send his message too
                                 message.forward(admin.user.id)
 

@@ -1,26 +1,32 @@
-import Natsunagi.modules.sql.locks_sql as sql
-import html
 import ast
+import html
 
-from telegram import Message, Chat, ParseMode, MessageEntity
-from telegram import TelegramError, ChatPermissions
-from telegram.error import BadRequest
-from telegram.ext import CommandHandler, MessageHandler, Filters
-from telegram.ext.dispatcher import run_async
-from telegram.utils.helpers import mention_html
 from alphabet_detector import AlphabetDetector
-from Natsunagi import dispatcher, DRAGONS, LOGGER, REDIS
+from telegram import (
+    Chat,
+    ChatPermissions,
+    Message,
+    MessageEntity,
+    ParseMode,
+    TelegramError,
+)
+from telegram.error import BadRequest
+from telegram.ext import CommandHandler, Filters, MessageHandler
+from telegram.utils.helpers import mention_html
+
+import Natsunagi.modules.sql.locks_sql as sql
+from Natsunagi import LOGGER, REDIS, dispatcher
+from Natsunagi.modules.connection import connected
 from Natsunagi.modules.disable import DisableAbleCommandHandler
+from Natsunagi.modules.helper_funcs.alternate import send_message, typing_action
 from Natsunagi.modules.helper_funcs.chat_status import (
     can_delete,
-    is_user_admin,
-    user_not_admin,
     is_bot_admin,
+    is_user_admin,
     user_admin,
+    user_not_admin,
 )
 from Natsunagi.modules.log_channel import loggable
-from Natsunagi.modules.connection import connected
-from Natsunagi.modules.helper_funcs.alternate import send_message, typing_action
 
 ad = AlphabetDetector()
 

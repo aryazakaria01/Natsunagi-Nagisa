@@ -1,20 +1,19 @@
 import random
+
 import requests as r
-
-from Natsunagi.modules.helper_funcs.chat_status import user_admin
-from Natsunagi.modules.disable import DisableAbleCommandHandler
-from Natsunagi import dispatcher
-from Natsunagi.modules.helper_funcs.alternate import typing_action, send_action
-
 from telegram import (
+    ChatAction,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     ParseMode,
     Update,
-    ChatAction,
 )
-from telegram.ext.dispatcher import run_async
-from telegram.ext import CallbackContext, Filters, CommandHandler
+from telegram.ext import CallbackContext, CommandHandler, Filters
+
+from Natsunagi import dispatcher
+from Natsunagi.modules.disable import DisableAbleCommandHandler
+from Natsunagi.modules.helper_funcs.alternate import send_action, typing_action
+from Natsunagi.modules.helper_funcs.chat_status import user_admin
 
 MARKDOWN_HELP = f"""
 Markdown is a very powerful formatting tool supported by telegram. {dispatcher.bot.first_name} has some enhancements, to make sure that \

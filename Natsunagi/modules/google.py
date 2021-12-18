@@ -1,26 +1,21 @@
 import glob
-import io
 import os
 import re
 import urllib
 import urllib.request
-import bs4
-import requests
-
-from search_engine_parser import GoogleSearch
 from asyncio import sleep
 from datetime import datetime
-from requests import get, post
-from bs4 import BeautifulSoup
-from bing_image_downloader import downloader
-from PIL import Image
-from geopy.geocoders import Nominatim
-from urllib.parse import urlencode
-from urllib.error import URLError, HTTPError
-from telethon.tl import functions, types
-from telethon import *
 
-from Natsunagi import telethn, BOT_NAME
+import bs4
+import requests
+from bing_image_downloader import downloader
+from bs4 import BeautifulSoup
+from geopy.geocoders import Nominatim
+from requests import get, post
+from search_engine_parser import GoogleSearch
+from telethon.tl import functions, types
+
+from Natsunagi import BOT_NAME, telethn
 from Natsunagi.events import register
 
 
@@ -76,7 +71,7 @@ async def _(event):
     gsearch = GoogleSearch()
     gresults = await gsearch.async_search(*search_args)
     msg = ""
-    for i in enumerate(gresults['links']):
+    for i in enumerate(gresults["links"]):
         try:
             title = gresults["titles"][i]
             link = gresults["links"][i]
@@ -172,7 +167,7 @@ async def apk(e):
         page = requests.get(
             "https://play.google.com/store/search?q=" + final_name + "&c=apps"
         )
-        lnk = str(page.status_code)
+        str(page.status_code)
         soup = bs4.BeautifulSoup(page.content, "lxml", from_encoding="utf-8")
         results = soup.findAll("div", "ZmHEEd")
         app_name = (

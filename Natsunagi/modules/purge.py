@@ -1,6 +1,7 @@
 import time
 
 from telethon import events
+
 from Natsunagi import telethn
 from Natsunagi.modules.helper_funcs.telethn.chatstatus import (
     can_delete_messages,

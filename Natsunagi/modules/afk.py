@@ -1,30 +1,20 @@
-import time
 import random
-import humanize
+import time
 
-from typing import Optional
-from datetime import datetime
-from telegram import Message, User
-from telegram import MessageEntity, ParseMode
+from telegram import MessageEntity
 from telegram.error import BadRequest
-from telegram.ext import Filters, MessageHandler, run_async
+from telegram.ext import Filters, MessageHandler
 
-from Natsunagi import dispatcher
-from Natsunagi.modules.disable import (
-    DisableAbleCommandHandler,
-    DisableAbleMessageHandler,
-)
+from Natsunagi import REDIS, dispatcher
+from Natsunagi.modules.disable import DisableAbleCommandHandler
+from Natsunagi.modules.helper_funcs.readable_time import get_readable_time
 from Natsunagi.modules.redis.afk_redis import (
-    start_afk,
+    afk_reason,
     end_afk,
     is_user_afk,
-    afk_reason,
+    start_afk,
 )
-from Natsunagi import REDIS
 from Natsunagi.modules.users import get_user_id
-
-from Natsunagi.modules.helper_funcs.alternate import send_message
-from Natsunagi.modules.helper_funcs.readable_time import get_readable_time
 
 AFK_GROUP = 7
 AFK_REPLY_GROUP = 8

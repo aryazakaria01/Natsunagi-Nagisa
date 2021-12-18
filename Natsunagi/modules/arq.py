@@ -1,6 +1,6 @@
 from pyrogram import filters
 
-from Natsunagi import pgram, arq, BOT_USERNAME
+from Natsunagi import BOT_USERNAME, arq, pgram
 
 
 @pgram.on_message(filters.command("arq"))

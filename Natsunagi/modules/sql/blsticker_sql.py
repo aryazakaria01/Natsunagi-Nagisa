@@ -1,7 +1,8 @@
 import threading
 
-from Natsunagi.modules.sql import BASE, SESSION
 from sqlalchemy import Column, Integer, String, UnicodeText, distinct, func
+
+from Natsunagi.modules.sql import BASE, SESSION
 
 
 class StickersFilters(BASE):

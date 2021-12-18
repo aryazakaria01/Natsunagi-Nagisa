@@ -2,10 +2,10 @@ import threading
 import time
 from typing import Union
 
-from sqlalchemy import Column, String, Boolean, UnicodeText, Integer
+from sqlalchemy import Boolean, Column, Integer, String, UnicodeText
 from sqlalchemy.sql.sqltypes import BigInteger
 
-from Natsunagi.modules.sql import SESSION, BASE
+from Natsunagi.modules.sql import BASE, SESSION
 
 
 class ChatAccessConnectionSettings(BASE):

@@ -1,10 +1,5 @@
 from typing import Optional
 
-import Natsunagi.modules.sql.rules_sql as sql
-from Natsunagi import dispatcher
-from Natsunagi.modules.helper_funcs.string_handling import markdown_parser
-from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
-from Natsunagi.modules.helper_funcs.anonymous import user_admin, AdminPerms
 from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
@@ -14,10 +9,17 @@ from telegram import (
     User,
 )
 from telegram.error import BadRequest
-from telegram.ext import CallbackContext, CommandHandler, Filters, run_async
+from telegram.ext import CallbackContext, Filters
 from telegram.utils.helpers import escape_markdown
 
-@natsunagicmd(command='rules', filters=Filters.chat_type.groups)
+import Natsunagi.modules.sql.rules_sql as sql
+from Natsunagi import dispatcher
+from Natsunagi.modules.helper_funcs.anonymous import AdminPerms, user_admin
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
+from Natsunagi.modules.helper_funcs.string_handling import markdown_parser
+
+
+@natsunagicmd(command="rules", filters=Filters.chat_type.groups)
 def get_rules(update: Update, _: CallbackContext):
     chat_id = update.effective_chat.id
     send_rules(update, chat_id)
@@ -80,7 +82,7 @@ def send_rules(update, chat_id, from_pm=False):
                         text="📝 Read Rules",
                         url=f"t.me/{bot.username}?start={chat_id}",
                     ),
-                    InlineKeyboardButton(text="❌ Delete", callback_data="close2")
+                    InlineKeyboardButton(text="❌ Delete", callback_data="close2"),
                 ]
             ]
         )
@@ -102,7 +104,7 @@ close_keyboard = InlineKeyboardMarkup(
 )
 
 
-@natsunagicmd(command='setrules', filters=Filters.chat_type.groups)
+@natsunagicmd(command="setrules", filters=Filters.chat_type.groups)
 @user_admin(AdminPerms.CAN_CHANGE_INFO)
 def set_rules(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
@@ -122,7 +124,7 @@ def set_rules(update: Update, context: CallbackContext):
         update.effective_message.reply_text("Successfully set rules for this group.")
 
 
-@natsunagicmd(command='clearrules', filters=Filters.chat_type.groups)
+@natsunagicmd(command="clearrules", filters=Filters.chat_type.groups)
 @user_admin(AdminPerms.CAN_CHANGE_INFO)
 def clear_rules(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id

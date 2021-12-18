@@ -1,6 +1,6 @@
 import threading
 
-from sqlalchemy import Column, UnicodeText, Boolean
+from sqlalchemy import Boolean, Column, UnicodeText
 
 from Natsunagi.modules.sql import BASE, SESSION
 

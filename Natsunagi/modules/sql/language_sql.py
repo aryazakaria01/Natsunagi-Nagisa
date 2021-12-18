@@ -1,7 +1,8 @@
 import threading
 
 from sqlalchemy import Column, String, UnicodeText
-from Natsunagi.modules.sql import SESSION, BASE
+
+from Natsunagi.modules.sql import BASE, SESSION
 
 
 class ChatLangs(BASE):

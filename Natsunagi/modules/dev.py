@@ -1,37 +1,25 @@
-import re
+import asyncio
 import os
+import re
 import subprocess
 import sys
-import asyncio
-import html
-
-from Natsunagi import (
-    dispatcher, 
-    DEV_USERS, 
-    telethn, 
-    OWNER_ID,
-)    
-from Natsunagi.modules.helper_funcs.chat_status import dev_plus
-
-from contextlib import suppress
 from statistics import mean
 from time import monotonic as time
 from time import sleep
+
 from telegram import (
-    TelegramError, 
-    Update, 
-    InlineKeyboardButton, 
-    InlineKeyboardMarkup, 
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
     ParseMode,
-)    
-from telegram.error import Unauthorized
-from telegram.ext import (
-    CallbackContext, 
-    CommandHandler, 
-    run_async,
-)    
+    TelegramError,
+    Update,
+)
+from telegram.ext import CallbackContext, CommandHandler
 from telegram.ext.callbackqueryhandler import CallbackQueryHandler
 from telethon import events
+
+from Natsunagi import DEV_USERS, OWNER_ID, dispatcher, telethn
+from Natsunagi.modules.helper_funcs.chat_status import dev_plus
 
 
 def leave_cb(update: Update, context: CallbackContext):
@@ -157,8 +145,10 @@ def leave(update: Update, context: CallbackContext):
         # user = update.effective_user
         natsunagi_leave_bt = [
             [
-                InlineKeyboardButton(text="Yes", callback_data="leavechat_cb_({})".format(chat.id)),
-                InlineKeyboardButton(text="No", callback_data="close2")
+                InlineKeyboardButton(
+                    text="Yes", callback_data="leavechat_cb_({})".format(chat.id)
+                ),
+                InlineKeyboardButton(text="No", callback_data="close2"),
             ]
         ]
         update.effective_message.reply_text(
@@ -168,9 +158,11 @@ def leave(update: Update, context: CallbackContext):
             reply_markup=InlineKeyboardMarkup(natsunagi_leave_bt),
         )
 
+
 close_keyboard = InlineKeyboardMarkup(
     [[InlineKeyboardButton("No", callback_data="close2")]]
 )
+
 
 @dev_plus
 def gitpull(update: Update, context: CallbackContext):
@@ -196,9 +188,7 @@ def restart(update: Update, context: CallbackContext):
     update.effective_message.reply_text(
         "Exiting all Processes and starting a new Instance!"
     )
-    process = subprocess.run(
-        "pkill python3 && python3 -m Natsunagi", check=True
-    )
+    process = subprocess.run("pkill python3 && python3 -m Natsunagi", check=True)
     process.communicate()
 
 

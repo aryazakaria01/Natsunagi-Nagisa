@@ -1,13 +1,12 @@
-import time
 import re
+import time
 
-from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton, Update, Bot
+from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
 from telegram.error import BadRequest, Unauthorized
-from telegram.ext import CommandHandler, CallbackQueryHandler, run_async
+from telegram.ext import CallbackQueryHandler, CommandHandler
 
 import Natsunagi.modules.sql.connection_sql as sql
-
-from Natsunagi import dispatcher, DRAGONS, DEV_USERS
+from Natsunagi import DEV_USERS, DRAGONS, dispatcher
 from Natsunagi.modules.helper_funcs import chat_status
 from Natsunagi.modules.helper_funcs.alternate import send_message, typing_action
 
@@ -339,7 +338,7 @@ Actions which are available with connected groups:-
 
 def help_connect_chat(update, context):
 
-    args = context.args
+    context.args
 
     if update.effective_message.chat.type != "private":
         send_message(update.effective_message, "PM me with that command to get help.")

@@ -1,23 +1,26 @@
-import os
 import math
-import requests
-import cloudscraper
+import os
 import textwrap
 import urllib.request as urllib
-
-from PIL import Image, ImageFont, ImageDraw
 from html import escape
-from bs4 import BeautifulSoup as bs
 
-from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
-from telegram import TelegramError, Update
-from telegram.ext import run_async, CallbackContext
+import requests
+from bs4 import BeautifulSoup as bs
+from PIL import Image, ImageDraw, ImageFont
+from telegram import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    ParseMode,
+    TelegramError,
+    Update,
+)
+from telegram.ext import CallbackContext
 from telegram.utils.helpers import mention_html
 
 from Natsunagi import dispatcher
-from Natsunagi.modules.disable import DisableAbleCommandHandler
-from Natsunagi.events import register
 from Natsunagi import telethn as bot
+from Natsunagi.events import register
+from Natsunagi.modules.disable import DisableAbleCommandHandler
 
 combot_stickers_url = "https://combot.org/telegram/stickers?q="
 
@@ -171,7 +174,7 @@ def kang(update: Update, context: CallbackContext):
                             )
                         ]
                     ]
-                )        
+                )
                 msg.reply_text(
                     "Your Sticker Pack has been created!\n\n"
                     "You can now reply to images, stickers and animated sticker with /steal or /kang to add them to your pack\n\n"
@@ -212,14 +215,14 @@ def kang(update: Update, context: CallbackContext):
                                 )
                             ]
                         ]
-                    )            
+                    )
                     msg.reply_text(
                         "Your Sticker Pack has been created!\n\n"
                         "You can now reply to images, stickers and animated sticker with /steal or /kang to add them to your pack\n\n"
                         "Send /stickers to find sticker pack.",
                         reply_markup=edited_keyboard,
                         parse_mode=ParseMode.HTML,
-                    )   
+                    )
                 elif e.message == "Stickers_too_much":
                     msg.reply_text("Max packsize reached. Press F to pay respecc.")
                 elif e.message == "Stickerset_invalid":
@@ -356,7 +359,7 @@ def kang(update: Update, context: CallbackContext):
                 ),
                 parse_mode=ParseMode.MARKDOWN,
             )
-            
+
         except OSError as e:
             msg.reply_text("I can only kang images m8.")
             print(e)
@@ -554,7 +557,6 @@ async def handler(event):
 async def drawText(image_path, text):
     img = Image.open(image_path)
     os.remove(image_path)
-    shadowcolor = "black"
     i_width, i_height = img.size
     if os.name == "nt":
         fnt = "ariel.ttf"

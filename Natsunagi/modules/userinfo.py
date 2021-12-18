@@ -1,55 +1,42 @@
 import html
 import re
-import os
+
 import requests
-import datetime
-import platform
-import time
-
-from psutil import cpu_percent, virtual_memory, disk_usage, boot_time
-from platform import python_version
-from telethon.tl.functions.channels import GetFullChannelRequest
-from telethon.tl.types import ChannelParticipantsAdmins
-from telethon import events
-
 from telegram import (
     MAX_MESSAGE_LENGTH,
-    ParseMode,
-    Update,
-    MessageEntity,
-    __version__ as ptbver,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
+    MessageEntity,
+    ParseMode,
+    Update,
 )
-from telegram.ext import CallbackContext, CommandHandler
-from telegram.ext.dispatcher import run_async
 from telegram.error import BadRequest
+from telegram.ext import CallbackContext
 from telegram.utils.helpers import escape_markdown, mention_html
+from telethon import events
+from telethon.tl.functions.channels import GetFullChannelRequest
+from telethon.tl.types import ChannelParticipantsAdmins
 
+import Natsunagi.modules.sql.userinfo_sql as sql
 from Natsunagi import (
-    DEV_USERS,
-    OWNER_ID,
-    DRAGONS,
     DEMONS,
+    DEV_USERS,
+    DRAGONS,
+    INFOPIC,
+    OWNER_ID,
     TIGERS,
     WOLVES,
-    INFOPIC,
     dispatcher,
     sw,
-    StartTime,
-    SUPPORT_CHAT,
 )
-from Natsunagi.__main__ import STATS, TOKEN, USER_INFO
-from Natsunagi.modules.sql import SESSION
-import Natsunagi.modules.sql.userinfo_sql as sql
-from Natsunagi.modules.disable import DisableAbleCommandHandler
-from Natsunagi.modules.no_sql.global_bans_db import is_user_gbanned
-from Natsunagi.modules.redis.afk_redis import is_user_afk, afk_reason
-from Natsunagi.modules.no_sql.users_db import get_user_num_chats
-from Natsunagi.modules.helper_funcs.chat_status import sudo_plus
-from Natsunagi.modules.helper_funcs.extraction import extract_user
-from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
 from Natsunagi import telethn as Natsunagi
+from Natsunagi.__main__ import STATS, TOKEN, USER_INFO
+from Natsunagi.modules.helper_funcs.chat_status import sudo_plus
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
+from Natsunagi.modules.helper_funcs.extraction import extract_user
+from Natsunagi.modules.no_sql.global_bans_db import is_user_gbanned
+from Natsunagi.modules.no_sql.users_db import get_user_num_chats
+from Natsunagi.modules.redis.afk_redis import afk_reason, is_user_afk
 
 
 def no_by_per(totalhp, percentage):
@@ -374,36 +361,41 @@ def info(update: Update, context: CallbackContext):
                     [
                         [
                             InlineKeyboardButton(
-                                "Health", url="https://t.me/CyberMusicProject/45"),
+                                "Health", url="https://t.me/CyberMusicProject/45"
+                            ),
                             InlineKeyboardButton(
-                                "Disaster", url="https://t.me/CyberMusicProject/70")
+                                "Disaster", url="https://t.me/CyberMusicProject/70"
+                            ),
                         ],
                     ]
                 ),
                 parse_mode=ParseMode.HTML,
             )
-            
+
         # Incase user don't have profile pic, send normal text
         except IndexError:
             message.reply_text(
-                text, 
+                text,
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
                             InlineKeyboardButton(
-                                "Health", url="https://t.me/CyberMusicProject/45"),
+                                "Health", url="https://t.me/CyberMusicProject/45"
+                            ),
                             InlineKeyboardButton(
-                                "Levelling", url="https://t.me/CyberMusicProject/70")
+                                "Levelling", url="https://t.me/CyberMusicProject/70"
+                            ),
                         ],
                     ]
                 ),
                 parse_mode=ParseMode.HTML,
-                disable_web_page_preview=True
+                disable_web_page_preview=True,
             )
 
     else:
         message.reply_text(
-            text, parse_mode=ParseMode.HTML,
+            text,
+            parse_mode=ParseMode.HTML,
         )
 
     rep.delete()
@@ -469,7 +461,9 @@ def set_about_me(update: Update, context: CallbackContext):
 @sudo_plus
 @natsunagicmd(command=["stats", "statistics"])
 def stats(update: Update, context: CallbackContext):
-    stats = "╔━⊰✦✪「 <b>Current stats:</b> 」✪✦⊱━╗\n" + "\n".join([mod.__stats__() for mod in STATS])
+    stats = "╔━⊰✦✪「 <b>Current stats:</b> 」✪✦⊱━╗\n" + "\n".join(
+        [mod.__stats__() for mod in STATS]
+    )
     result = re.sub(r"(\d+)", r"<code>\1</code>", stats)
     update.effective_message.reply_text(result, parse_mode=ParseMode.HTML)
 
@@ -510,9 +504,9 @@ def about_bio(update: Update, context: CallbackContext):
         sender_id = update.effective_user.id
 
         if (
-                user_id == bot.id
-                and sender_id not in SUDO_USERS
-                and sender_id not in DEV_USERS
+            user_id == bot.id
+            and sender_id not in SUDO_USERS
+            and sender_id not in DEV_USERS
         ):
             message.reply_text(
                 "Erm... yeah, I only trust sudo users or developers to set my bio."

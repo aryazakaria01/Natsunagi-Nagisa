@@ -1,20 +1,19 @@
 import html
 from typing import Optional
 
-from telegram import Update, ParseMode
-from telegram.ext import CallbackContext
+from telegram import ParseMode, Update
 from telegram.chatmemberupdated import ChatMemberUpdated
+from telegram.ext import CallbackContext
 from telegram.ext.chatmemberhandler import ChatMemberHandler
 
 import Natsunagi.modules.sql.log_channel_sql as logsql
+import Natsunagi.modules.sql.logger_sql as sql
 from Natsunagi import dispatcher
 from Natsunagi.modules.log_channel import loggable
 
-import Natsunagi.modules.sql.logger_sql as sql
-
-
 # Module to extract and log (optional: send to chat) status changes in chat members using ChatMemberUpdated
 # https://github.com/python-telegram-bot/python-telegram-bot/blob/master/examples/chatmemberbot.py
+
 
 def extract_status_change(chat_member_update: ChatMemberUpdated):
     try:
@@ -41,20 +40,24 @@ def chatmemberupdates(update: Update, context: CallbackContext) -> Optional[str]
     message = update.effective_message
     log_setting = logsql.get_chat_setting(chat.id)
     if not log_setting:
-        logsql.set_chat_setting(logsql.LogChannelSettings(chat.id, True, True, True, True, True))
+        logsql.set_chat_setting(
+            logsql.LogChannelSettings(chat.id, True, True, True, True, True)
+        )
         log_setting = logsql.get_chat_setting(chat.id)
-        
+
     result = extract_status_change(update.chat_member)
     status_change, title_change = result
 
-    if title_change is not None and status_change is None:  # extract title changes for admins
+    if (
+        title_change is not None and status_change is None
+    ):  # extract title changes for admins
         oldtitle, newtitle = title_change
         cause_name = update.chat_member.from_user.mention_html()
         member_name = update.chat_member.new_chat_member.user.mention_html()
         if oldtitle != newtitle:
 
             if str(update.chat_member.from_user.id) == str(bot.id):  # bot action
-                return ''  # we handle these in their respective modules
+                return ""  # we handle these in their respective modules
             else:
 
                 if oldtitle is None:
@@ -108,12 +111,12 @@ def chatmemberupdates(update: Update, context: CallbackContext) -> Optional[str]
                     return log_message
 
     if status_change is not None:  # exctract chat changes
-        status = ','.join(status_change)
+        status = ",".join(status_change)
         oldstat = str(status.split(",")[0])
         newstat = str(status.split(",")[1])
 
         if str(update.chat_member.from_user.id) == str(bot.id):
-            return ''  # we handle these in their respective modules same as before
+            return ""  # we handle these in their respective modules same as before
         else:
 
             cause_name = update.chat_member.from_user.mention_html()
@@ -361,4 +364,6 @@ def chatmemberupdates(update: Update, context: CallbackContext) -> Optional[str]
                 return log_message
 
 
-dispatcher.add_handler(ChatMemberHandler(chatmemberupdates, ChatMemberHandler.CHAT_MEMBER, run_async=True))
+dispatcher.add_handler(
+    ChatMemberHandler(chatmemberupdates, ChatMemberHandler.CHAT_MEMBER, run_async=True)
+)

@@ -1,13 +1,12 @@
 import codecs
 import pickle
 from asyncio import gather, get_running_loop
-from io import BytesIO
-from math import atan2, cos, radians, sin, sqrt
-from random import randint
 from datetime import datetime, timedelta
+from math import atan2, cos, radians, sin, sqrt
 from os import execvp
-from re import sub as re_sub
+from random import randint
 from re import findall
+from re import sub as re_sub
 from sys import executable
 
 import aiofiles
@@ -15,14 +14,12 @@ import aiohttp
 import speedtest
 from carbonnow import Carbon
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
-from wget import download
 from pyrogram.types import Message
+from wget import download
 
 from Natsunagi.utils import aiodownloader
-from Natsunagi.utils.fetch import fetch
-from Natsunagi import aiohttpsession as aiosession
-from Natsunagi.utils.http import get, post
 from Natsunagi.utils.dbfunctions import start_restart_stage
+from Natsunagi.utils.fetch import fetch
 
 """
 Just import 'downloader' anywhere and do downloader.download() to

@@ -4,9 +4,8 @@ from traceback import format_exc
 from pyrogram import filters
 from pyrogram.types import Message
 
-from Natsunagi import arq
+from Natsunagi import arq, pgram
 from Natsunagi.utils.errors import capture_err
-from Natsunagi import pgram, BOT_USERNAME
 
 
 async def quotify(messages: list):

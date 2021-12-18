@@ -3,7 +3,7 @@
 
 import requests
 from telegram import ParseMode, Update
-from telegram.ext import run_async, CallbackContext
+from telegram.ext import CallbackContext
 
 from Natsunagi import dispatcher
 from Natsunagi.modules.disable import DisableAbleCommandHandler

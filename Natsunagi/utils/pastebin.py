@@ -1,11 +1,12 @@
-import socket
 import json
-import requests
-
+import socket
 from asyncio import get_running_loop
 from functools import partial
+
+import requests
+
+from Natsunagi import BOTLOG_CHATID, LOGGER
 from Natsunagi.utils.http import post
-from Natsunagi import LOGGER, BOTLOG_CHATID
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36",
@@ -38,11 +39,8 @@ async def hpaste(content: str):
 
 async def epaste(content):
     loop = get_running_loop()
-    link = await loop.run_in_executor(
-        None, partial(_netcat, "ezup.dev", 9999, content)
-    )
+    link = await loop.run_in_executor(None, partial(_netcat, "ezup.dev", 9999, content))
     return link
-
 
 
 async def p_paste(message, extension=None):

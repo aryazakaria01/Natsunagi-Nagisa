@@ -1,8 +1,8 @@
-import requests as r
-
 from random import randint
-from telegram import Update, ChatAction
-from telegram.ext import CallbackContext, run_async
+
+import requests as r
+from telegram import ChatAction, Update
+from telegram.ext import CallbackContext
 
 from Natsunagi import SUPPORT_CHAT, WALL_API, dispatcher
 from Natsunagi.modules.disable import DisableAbleCommandHandler

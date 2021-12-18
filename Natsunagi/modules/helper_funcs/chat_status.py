@@ -1,20 +1,12 @@
-from time import perf_counter
 from functools import wraps
-from cachetools import TTLCache
 from threading import RLock
-from Natsunagi import (
-    DEL_CMDS,
-    DEV_USERS,
-    DRAGONS,
-    SUPPORT_CHAT,
-    DEMONS,
-    TIGERS,
-    WOLVES,
-    dispatcher,
-)
+from time import perf_counter
 
+from cachetools import TTLCache
 from telegram import Chat, ChatMember, ParseMode, Update, User
 from telegram.ext import CallbackContext
+
+from Natsunagi import DEL_CMDS, DEMONS, DEV_USERS, DRAGONS, TIGERS, WOLVES, dispatcher
 
 ADMIN_CACHE = TTLCache(maxsize=512, ttl=60 * 10, timer=perf_counter)
 THREAD_LOCK = RLock()
@@ -91,7 +83,9 @@ def can_delete(chat: Chat, bot_id: int) -> bool:
     return chat.get_member(bot_id).can_delete_messages
 
 
-def is_user_ban_protected(update: Update, user_id: int, member: ChatMember = None) -> bool:
+def is_user_ban_protected(
+    update: Update, user_id: int, member: ChatMember = None
+) -> bool:
     chat = update.effective_chat
     msg = update.effective_message
     if (
@@ -119,7 +113,7 @@ def is_user_in_chat(chat: Chat, user_id: int) -> bool:
 def dev_plus(func):
     @wraps(func)
     def is_dev_plus_func(update: Update, context: CallbackContext, *args, **kwargs):
-        bot = context.bot
+        context.bot
         user = update.effective_user
 
         if user.id in DEV_USERS:
@@ -143,7 +137,7 @@ def dev_plus(func):
 def sudo_plus(func):
     @wraps(func)
     def is_sudo_plus_func(update: Update, context: CallbackContext, *args, **kwargs):
-        bot = context.bot
+        context.bot
         user = update.effective_user
         chat = update.effective_chat
 
@@ -167,7 +161,7 @@ def sudo_plus(func):
 def stats_plus(func):
     @wraps(func)
     def is_stats_plus_func(update: Update, context: CallbackContext, *args, **kwargs):
-        bot = context.bot
+        context.bot
         user = update.effective_user
         chat = update.effective_chat
 
@@ -191,7 +185,7 @@ def stats_plus(func):
 def support_plus(func):
     @wraps(func)
     def is_support_plus_func(update: Update, context: CallbackContext, *args, **kwargs):
-        bot = context.bot
+        context.bot
         user = update.effective_user
         chat = update.effective_chat
 
@@ -211,7 +205,7 @@ def whitelist_plus(func):
     def is_whitelist_plus_func(
         update: Update, context: CallbackContext, *args, **kwargs
     ):
-        bot = context.bot
+        context.bot
         user = update.effective_user
         chat = update.effective_chat
 
@@ -228,9 +222,9 @@ def whitelist_plus(func):
 def user_admin(func):
     @wraps(func)
     def is_admin(update: Update, context: CallbackContext, *args, **kwargs):
-        bot = context.bot
+        context.bot
         user = update.effective_user
-        chat = update.effective_chat
+        update.effective_chat
 
         if user and is_user_admin(update, user.id):
             return func(update, context, *args, **kwargs)
@@ -254,9 +248,9 @@ def user_admin_no_reply(func):
     def is_not_admin_no_reply(
         update: Update, context: CallbackContext, *args, **kwargs
     ):
-        bot = context.bot
+        context.bot
         user = update.effective_user
-        chat = update.effective_chat
+        update.effective_chat
 
         if user and is_user_admin(update, user.id):
             return func(update, context, *args, **kwargs)
@@ -274,9 +268,9 @@ def user_admin_no_reply(func):
 def user_not_admin(func):
     @wraps(func)
     def is_not_admin(update: Update, context: CallbackContext, *args, **kwargs):
-        bot = context.bot
+        context.bot
         user = update.effective_user
-        chat = update.effective_chat
+        update.effective_chat
 
         if user and not is_user_admin(update, user.id):
             return func(update, context, *args, **kwargs)
@@ -401,7 +395,7 @@ def can_restrict(func):
 def user_can_ban(func):
     @wraps(func)
     def user_is_banhammer(update: Update, context: CallbackContext, *args, **kwargs):
-        bot = context.bot
+        context.bot
         user = update.effective_user.id
         member = update.effective_chat.get_member(user)
 

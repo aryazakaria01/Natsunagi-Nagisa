@@ -1,26 +1,20 @@
-import bs4
-import html
-import jikanpy
 import datetime
-import textwrap
-import requests
+import html
 import json
+import textwrap
 
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
-from telegram.ext import (
-    CallbackQueryHandler,
-    CommandHandler,
-    run_async,
-    CallbackContext,
-)
-from telegram.utils.helpers import mention_html
-from pyrogram import filters
+import bs4
+import jikanpy
+import requests
 from bs4 import BeautifulSoup
+from pyrogram import filters
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
+from telegram.ext import CallbackContext, CallbackQueryHandler
+from telegram.utils.helpers import mention_html
 
-from Natsunagi.modules.helper_funcs.alternate import typing_action
-from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi import OWNER_ID, REDIS, dispatcher, pgram
-
+from Natsunagi.modules.disable import DisableAbleCommandHandler
+from Natsunagi.modules.helper_funcs.alternate import typing_action
 
 kaizoku_btn = "Kaizoku ☠️"
 kayo_btn = "Kayo 🏴‍☠️"
@@ -302,7 +296,7 @@ def anime(update, context):
         anime_name_w = f"{json['title']['romaji']}"
         info = json.get("siteUrl")
         trailer = json.get("trailer", None)
-        anime_id = json["id"]
+        json["id"]
         if trailer:
             trailer_id = trailer.get("id", None)
             site = trailer.get("site", None)
@@ -598,7 +592,7 @@ def upcoming(update, context):
 
 
 def watchlist(update, context):
-    chat = update.effective_chat
+    update.effective_chat
     user = update.effective_user
     message = update.effective_message
     watchlist = list(REDIS.sunion(f"anime_watch_list{user.id}"))
@@ -640,7 +634,7 @@ def removewatchlist(update, context):
 
 
 def fvrtchar(update, context):
-    chat = update.effective_chat
+    update.effective_chat
     user = update.effective_user
     message = update.effective_message
     fvrt_char = list(REDIS.sunion(f"anime_fvrtchar{user.id}"))
@@ -682,7 +676,7 @@ def removefvrtchar(update, context):
 
 
 def readmanga(update, context):
-    chat = update.effective_chat
+    update.effective_chat
     user = update.effective_user
     message = update.effective_message
     manga_list = list(REDIS.sunion(f"anime_mangaread{user.id}"))
@@ -843,8 +837,8 @@ def quotes(update: Update, context: CallbackContext):
 
 
 def change_quote(update: Update, context: CallbackContext):
-    query = update.callback_query
-    chat = update.effective_chat
+    update.callback_query
+    update.effective_chat
     message = update.effective_message
     quote, character, anime = anime_quote()
     msg = f"<i>❝{quote}❞</i>\n\n<b>{character} from {anime}</b>"

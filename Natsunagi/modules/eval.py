@@ -1,21 +1,21 @@
 import ast
 import io
 import os
-import textwrap
-import re
-import subprocess
 import sys
+import textwrap
 import traceback
-
+from contextlib import redirect_stdout
 from inspect import getfullargspec
 from io import StringIO
 from time import time
-from contextlib import redirect_stdout
-from telegram import ParseMode, Update
-from telegram.ext import CallbackContext, CommandHandler, run_async
+
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
-from Natsunagi import LOGGER, dispatcher, OWNER_ID, DEV_USERS, pgram as app
+from telegram import ParseMode, Update
+from telegram.ext import CallbackContext, CommandHandler
+
+from Natsunagi import DEV_USERS, LOGGER, dispatcher
+from Natsunagi import pgram as app
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus
 
 namespaces = {}
@@ -39,7 +39,7 @@ def log_input(update):
     chat = update.effective_chat.id
     LOGGER.info(f"IN: {update.effective_message.text} (user={user}, chat={chat})")
 
-    
+
 def send(msg, bot, update):
     if len(str(msg)) > 2000:
         with io.BytesIO(str.encode(msg)) as out_file:
@@ -73,7 +73,7 @@ def execute(update: Update, context: CallbackContext):
     bot = context.bot
     send(do(exec, bot, update), bot, update)
 
-    
+
 def cleanup_code(code):
     if code.startswith("```") and code.endswith("```"):
         return "\n".join(code.split("\n")[1:-1])
@@ -101,7 +101,7 @@ def do(func, bot, update):
     try:
         with redirect_stdout(stdout):
             func_return = func()
-    except Exception as e:
+    except Exception:
         value = stdout.getvalue()
         return f"{value}{traceback.format_exc()}"
     else:
@@ -192,9 +192,7 @@ async def executor(client, message):
                 ]
             ]
         )
-        await edit_or_reply(
-            message, text=final_output, reply_markup=keyboard
-        )
+        await edit_or_reply(message, text=final_output, reply_markup=keyboard)
 
 
 @app.on_callback_query(filters.regex(r"runtime"))

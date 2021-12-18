@@ -3,29 +3,31 @@ import logging
 import os
 import sys
 import time
-import spamwatch
-import aiohttp
-import telegram.ext as tg
-
 from inspect import getfullargspec
-from pyrogram import Client, errors
-from pyrogram.errors.exceptions.bad_request_400 import PeerIdInvalid, ChannelInvalid
-from pyrogram.types import Message
-from telethon import TelegramClient
-from telethon.sessions import MemorySession
-from pymongo.errors import ServerSelectionTimeoutError
-from redis import StrictRedis
-from Python_ARQ import ARQ
+
+import aiohttp
+import spamwatch
+import telegram.ext as tg
 from aiohttp import ClientSession
+from ptbcontrib.postgres_persistence import PostgresPersistence
+from pymongo.errors import ServerSelectionTimeoutError
+from pyrogram import Client, errors
+from pyrogram.errors.exceptions.bad_request_400 import ChannelInvalid, PeerIdInvalid
+from pyrogram.types import Message
+from Python_ARQ import ARQ
+from redis import StrictRedis
 from telegram import Chat
 from telegraph import Telegraph
-from ptbcontrib.postgres_persistence import PostgresPersistence
+from telethon import TelegramClient
+from telethon.sessions import MemorySession
 
 StartTime = time.time()
+
 
 def get_user_list(__init__, key):
     with open("{}/Natsunagi/{}".format(os.getcwd(), __init__), "r") as json_file:
         return json.load(json_file)[key]
+
 
 # enable logging
 FORMAT = "[Natsunagi] %(message)s"
@@ -36,10 +38,14 @@ logging.basicConfig(
     datefmt="[%X]",
 )
 logging.getLogger("pyrogram").setLevel(logging.INFO)
-logging.getLogger('ptbcontrib.postgres_persistence.postgrespersistence').setLevel(logging.WARNING)
+logging.getLogger("ptbcontrib.postgres_persistence.postgrespersistence").setLevel(
+    logging.WARNING
+)
 
-LOGGER = logging.getLogger('[Natsunagi]')
-LOGGER.info("Natsunagi is starting. | An CyberNetwork Project Parts. | Licensed under GPLv3.")
+LOGGER = logging.getLogger("[Natsunagi]")
+LOGGER.info(
+    "Natsunagi is starting. | An CyberNetwork Project Parts. | Licensed under GPLv3."
+)
 LOGGER.info("Not affiliated to Tantei Wa Mou or Villain in any way whatsoever.")
 LOGGER.info("Project maintained by: github.com/aryazakaria01 (t.me/Badboyanim)")
 
@@ -141,9 +147,11 @@ if ENV:
     CUSTOM_CMD = os.environ.get("CUSTOM_CMD", "?")
     BOTLOG_CHATID = os.environ.get("BOTLOG_CHATID")
     SUDO_USERS = os.environ.get("SUDO_USERS")
-    
+
     try:
-        WHITELIST_CHATS = {int(x) for x in os.environ.get("WHITELIST_CHATS", "").split()}
+        WHITELIST_CHATS = {
+            int(x) for x in os.environ.get("WHITELIST_CHATS", "").split()
+        }
     except ValueError:
         raise Exception("Your blacklisted chats list does not contain valid integers.")
 
@@ -240,7 +248,7 @@ else:
     CUSTOM_CMD = Config.CUSTOM_CMD
     BOTLOG_CHATID = Config.BOTLOG_CHATID
     SUDO_USERS = Config.SUDO_USERS
-    
+
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
     except ValueError:

@@ -1,7 +1,7 @@
 import threading
 import typing
 
-from sqlalchemy import Column, String, func, distinct, BigInteger, Boolean, select
+from sqlalchemy import BigInteger, Boolean, Column, String, distinct, func
 
 from Natsunagi.modules.sql import BASE, SESSION
 
@@ -26,8 +26,15 @@ class LogChannelSettings(BASE):
     # log_media = Column(Boolean)
     log_report = Column(Boolean, default=True)
 
-    def __init__(self, chat_id: int, log_join: bool, log_leave: bool, log_warn: bool, log_action: bool,
-                 log_report: bool):
+    def __init__(
+        self,
+        chat_id: int,
+        log_join: bool,
+        log_leave: bool,
+        log_warn: bool,
+        log_action: bool,
+        log_report: bool,
+    ):
         self.chat_id = chat_id
         self.log_warn = log_warn
         self.log_joins = log_join

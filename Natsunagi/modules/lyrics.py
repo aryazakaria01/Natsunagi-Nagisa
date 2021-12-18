@@ -1,17 +1,10 @@
-import asyncio
-import io
 import os
+
 import lyricsgenius
-import requests
-
 from pyrogram import filters
-from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent, Message
-from tswift import Song
-from youtubesearchpython import SearchVideos
+from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent
 
-from Natsunagi.utils.pluginhelp import get_text, progress
-from Natsunagi import pgram, GENIUS_API_TOKEN, BOT_USERNAME, arq
-from Natsunagi.modules.disable import DisableAbleCommandHandler
+from Natsunagi import BOT_USERNAME, GENIUS_API_TOKEN, arq, pgram
 
 
 async def lyrics_func(answers, text):

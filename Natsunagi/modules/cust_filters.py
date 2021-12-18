@@ -1,35 +1,35 @@
-import re
 import random
+import re
 from html import escape
+
 import telegram
-from telegram import ParseMode, InlineKeyboardMarkup, Message, InlineKeyboardButton
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Message, ParseMode
 from telegram.error import BadRequest
 from telegram.ext import (
-    CommandHandler,
-    MessageHandler,
-    DispatcherHandlerStop,
     CallbackQueryHandler,
-    run_async,
+    DispatcherHandlerStop,
     Filters,
+    MessageHandler,
 )
-from telegram.utils.helpers import mention_html, escape_markdown
-from Natsunagi import dispatcher, LOGGER, DRAGONS
+from telegram.utils.helpers import escape_markdown, mention_html
+
+from Natsunagi import DRAGONS, LOGGER, dispatcher
+from Natsunagi.modules.connection import connected
 from Natsunagi.modules.disable import DisableAbleCommandHandler
-from Natsunagi.modules.helper_funcs.handlers import MessageHandlerChecker
+from Natsunagi.modules.helper_funcs.alternate import send_message, typing_action
 from Natsunagi.modules.helper_funcs.chat_status import user_admin
 from Natsunagi.modules.helper_funcs.extraction import extract_text
 from Natsunagi.modules.helper_funcs.filters import CustomFilters
+from Natsunagi.modules.helper_funcs.handlers import MessageHandlerChecker
 from Natsunagi.modules.helper_funcs.misc import build_keyboard_parser
 from Natsunagi.modules.helper_funcs.msg_types import get_filter_type
 from Natsunagi.modules.helper_funcs.string_handling import (
-    split_quotes,
     button_markdown_parser,
     escape_invalid_curly_brackets,
     markdown_to_html,
+    split_quotes,
 )
 from Natsunagi.modules.sql import cust_filters_sql as sql
-from Natsunagi.modules.connection import connected
-from Natsunagi.modules.helper_funcs.alternate import send_message, typing_action
 
 HANDLER_GROUP = 10
 

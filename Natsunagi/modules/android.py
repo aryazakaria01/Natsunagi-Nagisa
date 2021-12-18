@@ -5,9 +5,7 @@ from datetime import datetime
 from bs4 import BeautifulSoup
 from hurry.filesize import size as sizee
 from requests import get
-from telegram import InlineKeyboardButton
-from telegram import InlineKeyboardMarkup
-from telegram import ParseMode
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 from telegram.error import BadRequest
 from ujson import loads
 

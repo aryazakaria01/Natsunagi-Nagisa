@@ -1,15 +1,7 @@
-import asyncio
 import os
-import time
 
-from datetime import datetime
-from Natsunagi import ( 
-    OWNER_ID, 
-    DEV_USERS, 
-    telethn as tbot, 
-    TEMP_DOWNLOAD_DIRECTORY as path,
-)
-
+from Natsunagi import DEV_USERS, OWNER_ID
+from Natsunagi import telethn as tbot
 from Natsunagi.events import register
 
 water = "./Natsunagi/image/natsunagi.jpg"

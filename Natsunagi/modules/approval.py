@@ -1,16 +1,16 @@
 import html
 
-import Natsunagi.modules.redis.approvals_redis as redis
-
-from Natsunagi.modules.disable import DisableAbleCommandHandler
-from Natsunagi import dispatcher, DRAGONS
-from Natsunagi.modules.helper_funcs.extraction import extract_user
-from Natsunagi.modules.helper_funcs.chat_status import user_admin
-from Natsunagi.modules.log_channel import loggable
-from telegram.ext import CallbackContext, run_async, CallbackQueryHandler
-from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton, Update
-from telegram.utils.helpers import mention_html
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
 from telegram.error import BadRequest
+from telegram.ext import CallbackContext, CallbackQueryHandler
+from telegram.utils.helpers import mention_html
+
+import Natsunagi.modules.redis.approvals_redis as redis
+from Natsunagi import DRAGONS, dispatcher
+from Natsunagi.modules.disable import DisableAbleCommandHandler
+from Natsunagi.modules.helper_funcs.chat_status import user_admin
+from Natsunagi.modules.helper_funcs.extraction import extract_user
+from Natsunagi.modules.log_channel import loggable
 
 
 @loggable

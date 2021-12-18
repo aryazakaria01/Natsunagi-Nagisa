@@ -3,19 +3,12 @@ from time import sleep
 
 from telegram import TelegramError, Update
 from telegram.error import BadRequest, Unauthorized
-from telegram.ext import (
-    CallbackContext,
-    Filters,
-    MessageHandler,
-    CommandHandler,
-)
+from telegram.ext import CallbackContext, CommandHandler, Filters, MessageHandler
 
 import Natsunagi.modules.no_sql.users_db as user_db
-from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi import DEV_USERS, LOGGER, OWNER_ID, dispatcher
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus, sudo_plus
 from Natsunagi.modules.no_sql.users_db import get_all_users
-
 
 USERS_GROUP = 4
 CHAT_GROUP = 5
@@ -123,7 +116,7 @@ def chats(update: Update, context: CallbackContext):
     for chat in all_chats:
         try:
             curr_chat = context.bot.getChat(chat.chat_id)
-            bot_member = curr_chat.get_member(context.bot.id)
+            curr_chat.get_member(context.bot.id)
             chat_members = curr_chat.get_member_count(context.bot.id)
             chatfile += "{}. {} | {} | {}\n".format(
                 P,

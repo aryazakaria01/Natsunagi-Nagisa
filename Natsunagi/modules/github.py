@@ -1,9 +1,8 @@
 import aiohttp
-
 from pyrogram import filters
+
 from Natsunagi import pgram
 from Natsunagi.utils.errors import capture_err
-
 
 __mod_name__ = "Github"
 

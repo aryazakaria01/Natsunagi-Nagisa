@@ -3,16 +3,11 @@ import json
 import os
 from typing import Optional
 
-from Natsunagi import (
-    DEV_USERS,
-    OWNER_ID,
-    DRAGONS,
-    SUPPORT_CHAT,
-    DEMONS,
-    TIGERS,
-    WOLVES,
-    dispatcher,
-)
+from telegram import ParseMode, TelegramError, Update
+from telegram.ext import CallbackContext, CommandHandler
+from telegram.utils.helpers import mention_html
+
+from Natsunagi import DEMONS, DEV_USERS, DRAGONS, OWNER_ID, TIGERS, WOLVES, dispatcher
 from Natsunagi.modules.helper_funcs.chat_status import (
     dev_plus,
     sudo_plus,
@@ -20,9 +15,6 @@ from Natsunagi.modules.helper_funcs.chat_status import (
 )
 from Natsunagi.modules.helper_funcs.extraction import extract_user
 from Natsunagi.modules.log_channel import gloggable
-from telegram import ParseMode, TelegramError, Update
-from telegram.ext import CallbackContext, CommandHandler, run_async
-from telegram.utils.helpers import mention_html
 
 ELEVATED_USERS_FILE = os.path.join(os.getcwd(), "Natsunagi/elevated_users.json")
 

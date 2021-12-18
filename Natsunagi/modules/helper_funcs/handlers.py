@@ -21,20 +21,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import Natsunagi.modules.sql.blacklistusers_sql as sql
-
-from Natsunagi import ALLOW_EXCL
-from Natsunagi import DEV_USERS, DRAGONS, DEMONS, TIGERS, WOLVES
-
-from telegram import Update
-from telegram.ext import CommandHandler, MessageHandler, RegexHandler, Filters
 from pyrate_limiter import (
     BucketFullException,
     Duration,
-    RequestRate,
     Limiter,
     MemoryListBucket,
+    RequestRate,
 )
+from telegram import Update
+from telegram.ext import CommandHandler, Filters, MessageHandler, RegexHandler
+
+import Natsunagi.modules.sql.blacklistusers_sql as sql
+from Natsunagi import ALLOW_EXCL, DEMONS, DEV_USERS, DRAGONS, TIGERS, WOLVES
 
 CMD_STARTERS = ("/", "!") if ALLOW_EXCL else ("/",)
 

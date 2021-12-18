@@ -2,6 +2,21 @@ import html
 import re
 from typing import Optional
 
+from telegram import (
+    Bot,
+    CallbackQuery,
+    Chat,
+    ChatPermissions,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    ParseMode,
+    Update,
+    User,
+)
+from telegram.error import BadRequest
+from telegram.ext import CallbackContext, CallbackQueryHandler, CommandHandler
+from telegram.utils.helpers import mention_html
+
 from Natsunagi import LOGGER, TIGERS, dispatcher
 from Natsunagi.modules.helper_funcs.chat_status import (
     bot_admin,
@@ -11,32 +26,10 @@ from Natsunagi.modules.helper_funcs.chat_status import (
     user_admin,
     user_admin_no_reply,
 )
-from Natsunagi.modules.helper_funcs.extraction import (
-    extract_user,
-    extract_user_and_text,
-)
+from Natsunagi.modules.helper_funcs.extraction import extract_user_and_text
 from Natsunagi.modules.helper_funcs.string_handling import extract_time
 from Natsunagi.modules.log_channel import loggable
 from Natsunagi.modules.redis.approvals_redis import is_approved
-from telegram import (
-    Bot,
-    Chat,
-    ChatPermissions,
-    ParseMode,
-    Update,
-    User,
-    CallbackQuery,
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-)
-from telegram.error import BadRequest
-from telegram.ext import (
-    CallbackContext,
-    CommandHandler,
-    run_async,
-    CallbackQueryHandler,
-)
-from telegram.utils.helpers import mention_html
 
 
 def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:
@@ -112,8 +105,11 @@ def mute(update: Update, context: CallbackContext) -> str:
         keyboard = InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton(text="⚠️ Unmute", callback_data="unmute_({})".format(member.user.id)),
-                    InlineKeyboardButton(text="❌ Delete", callback_data="close2")
+                    InlineKeyboardButton(
+                        text="⚠️ Unmute",
+                        callback_data="unmute_({})".format(member.user.id),
+                    ),
+                    InlineKeyboardButton(text="❌ Delete", callback_data="close2"),
                 ]
             ]
         )
@@ -128,9 +124,11 @@ def mute(update: Update, context: CallbackContext) -> str:
 
     return ""
 
+
 close_keyboard = InlineKeyboardMarkup(
     [[InlineKeyboardButton("❌ Delete", callback_data="close2")]]
 )
+
 
 @connection_status
 @bot_admin
@@ -259,8 +257,11 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
             keyboard = InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton(text="⚠️ Unmute", callback_data="unmute_({})".format(member.user.id)),
-                        InlineKeyboardButton(text="❌ Delete", callback_data="close2")
+                        InlineKeyboardButton(
+                            text="⚠️ Unmute",
+                            callback_data="unmute_({})".format(member.user.id),
+                        ),
+                        InlineKeyboardButton(text="❌ Delete", callback_data="close2"),
                     ]
                 ]
             )
@@ -288,9 +289,11 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
 
     return ""
 
+
 close_keyboard = InlineKeyboardMarkup(
     [[InlineKeyboardButton("❌ Delete", callback_data="close2")]]
 )
+
 
 @user_admin_no_reply
 @bot_admin

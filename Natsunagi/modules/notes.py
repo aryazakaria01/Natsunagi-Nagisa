@@ -1,37 +1,35 @@
-import re
 import ast
 import random
-import Natsunagi.modules.sql.notes_sql as sql
-
+import re
 from io import BytesIO
 from typing import Optional
-from Natsunagi import LOGGER, JOIN_LOGGER, SUPPORT_CHAT, dispatcher, DRAGONS
-from Natsunagi.modules.disable import DisableAbleCommandHandler
-from Natsunagi.modules.helper_funcs.handlers import MessageHandlerChecker
-from Natsunagi.modules.helper_funcs.chat_status import user_admin, connection_status
-from Natsunagi.modules.helper_funcs.misc import build_keyboard, revert_buttons
-from Natsunagi.modules.helper_funcs.msg_types import get_note_type
-from Natsunagi.modules.helper_funcs.string_handling import (
-    escape_invalid_curly_brackets,
-)
+
 from telegram import (
     MAX_MESSAGE_LENGTH,
+    InlineKeyboardButton,
     InlineKeyboardMarkup,
     Message,
     ParseMode,
     Update,
-    InlineKeyboardButton,
 )
 from telegram.error import BadRequest
-from telegram.utils.helpers import escape_markdown, mention_markdown
 from telegram.ext import (
     CallbackContext,
-    CommandHandler,
     CallbackQueryHandler,
+    CommandHandler,
     Filters,
     MessageHandler,
 )
-from telegram.ext.dispatcher import run_async
+from telegram.utils.helpers import escape_markdown, mention_markdown
+
+import Natsunagi.modules.sql.notes_sql as sql
+from Natsunagi import DRAGONS, JOIN_LOGGER, LOGGER, SUPPORT_CHAT, dispatcher
+from Natsunagi.modules.disable import DisableAbleCommandHandler
+from Natsunagi.modules.helper_funcs.chat_status import connection_status, user_admin
+from Natsunagi.modules.helper_funcs.handlers import MessageHandlerChecker
+from Natsunagi.modules.helper_funcs.misc import build_keyboard, revert_buttons
+from Natsunagi.modules.helper_funcs.msg_types import get_note_type
+from Natsunagi.modules.helper_funcs.string_handling import escape_invalid_curly_brackets
 
 FILE_MATCHER = re.compile(r"^###file_id(!photo)?###:(.*?)(?:\s|$)")
 STICKER_MATCHER = re.compile(r"^###sticker(!photo)?###:")

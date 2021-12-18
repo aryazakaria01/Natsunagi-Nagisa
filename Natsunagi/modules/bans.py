@@ -1,52 +1,43 @@
 import html
-import random
+from typing import Optional
 
-from time import sleep
 from telegram import (
-    ParseMode,
-    Update,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
+    ParseMode,
+    TelegramError,
+    Update,
 )
 from telegram.error import BadRequest
-from telegram.ext import (
-    CallbackContext,
-    Filters,
-    CommandHandler,
-    run_async,
-    CallbackQueryHandler,
-)
+from telegram.ext import CallbackContext, CallbackQueryHandler, CommandHandler, Filters
 from telegram.utils.helpers import mention_html
-from typing import Optional, List
-from telegram import TelegramError
 
-import Natsunagi.modules.no_sql.users_db as user_db
-from Natsunagi.modules.disable import DisableAbleCommandHandler
-from Natsunagi.modules.helper_funcs.filters import CustomFilters
 from Natsunagi import (
+    DEMONS,
     DEV_USERS,
+    DRAGONS,
     LOGGER,
     OWNER_ID,
-    DRAGONS,
-    DEMONS,
     TIGERS,
     WOLVES,
     dispatcher,
 )
+from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.chat_status import (
-    user_admin_no_reply,
     bot_admin,
+    can_delete,
     can_restrict,
     connection_status,
+    dev_plus,
     is_user_admin,
     is_user_ban_protected,
     is_user_in_chat,
     user_admin,
+    user_admin_no_reply,
     user_can_ban,
-    can_delete,
-    dev_plus,
 )
 from Natsunagi.modules.helper_funcs.extraction import extract_user_and_text
+from Natsunagi.modules.helper_funcs.filters import CustomFilters
 from Natsunagi.modules.helper_funcs.string_handling import extract_time
 from Natsunagi.modules.log_channel import gloggable, loggable
 
@@ -66,20 +57,23 @@ def ban(update: Update, context: CallbackContext) -> str:
     args = context.args
     reason = ""
     if message.reply_to_message and message.reply_to_message.sender_chat:
-        r = bot.ban_chat_sender_chat(chat_id=chat.id, sender_chat_id=message.reply_to_message.sender_chat.id)
+        r = bot.ban_chat_sender_chat(
+            chat_id=chat.id, sender_chat_id=message.reply_to_message.sender_chat.id
+        )
         if r:
-            message.reply_text("Channel {} was banned successfully from {}".format(
-                html.escape(message.reply_to_message.sender_chat.title),
-                html.escape(chat.title)
-            ),
-                parse_mode="html"
+            message.reply_text(
+                "Channel {} was banned successfully from {}".format(
+                    html.escape(message.reply_to_message.sender_chat.title),
+                    html.escape(chat.title),
+                ),
+                parse_mode="html",
             )
         else:
             message.reply_text("Failed to ban channel")
         return
 
     user_id, reason = extract_user_and_text(message, args)
-    
+
     if not user_id:
         message.reply_text("Dude at least refer some user to ban!")
         return log_message
@@ -104,9 +98,7 @@ def ban(update: Update, context: CallbackContext) -> str:
                 "Fighting this Shadow Slayer here will put user lives at risk."
             )
         elif user_id in DEMONS:
-            message.reply_text(
-                "Bring an order from Master Servant to fight a Guardian"
-            )
+            message.reply_text("Bring an order from Master Servant to fight a Guardian")
         elif user_id in TIGERS:
             message.reply_text(
                 "Bring an order from Master Servant to fight a Light Shooters"
@@ -203,7 +195,7 @@ def temp_ban(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     log_message = ""
     bot, args = context.bot, context.args
-    
+
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
@@ -369,7 +361,7 @@ def punch(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
     log_message = ""
     bot, args = context.bot, context.args
-    
+
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
@@ -443,18 +435,21 @@ def unban(update: Update, context: CallbackContext) -> Optional[str]:
     log_message = ""
     bot, args = context.bot, context.args
     if message.reply_to_message and message.reply_to_message.sender_chat:
-        r = bot.unban_chat_sender_chat(chat_id=chat.id, sender_chat_id=message.reply_to_message.sender_chat.id)
+        r = bot.unban_chat_sender_chat(
+            chat_id=chat.id, sender_chat_id=message.reply_to_message.sender_chat.id
+        )
         if r:
-            message.reply_text("Channel {} was unbanned successfully from {}".format(
-                html.escape(message.reply_to_message.sender_chat.title),
-                html.escape(chat.title)
-            ),
-                parse_mode="html"
+            message.reply_text(
+                "Channel {} was unbanned successfully from {}".format(
+                    html.escape(message.reply_to_message.sender_chat.title),
+                    html.escape(chat.title),
+                ),
+                parse_mode="html",
             )
         else:
             message.reply_text("Failed to unban channel")
         return
-    
+
     user_id, reason = extract_user_and_text(message, args)
     if not user_id:
         message.reply_text("I doubt that's a user.")

@@ -1,10 +1,11 @@
-import os
 import datetime
+import os
 
-from telethon import events
 from telegram import Update
-from telegram.ext import CallbackContext, CommandHandler, run_async
-from Natsunagi import telethn, dispatcher
+from telegram.ext import CallbackContext, CommandHandler
+from telethon import events
+
+from Natsunagi import dispatcher, telethn
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus
 
 DEBUG_MODE = False

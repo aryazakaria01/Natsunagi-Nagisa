@@ -1,9 +1,9 @@
 import threading
 
-from Natsunagi.modules.sql import BASE, SESSION
-
 from sqlalchemy import Column, UnicodeText
 from sqlalchemy.sql.sqltypes import BigInteger
+
+from Natsunagi.modules.sql import BASE, SESSION
 
 
 class UserInfo(BASE):

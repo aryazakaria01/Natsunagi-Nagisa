@@ -1,9 +1,9 @@
-from math import ceil
 from typing import Dict, List
 
-from Natsunagi import NO_LOAD
 from telegram import MAX_MESSAGE_LENGTH, Bot, InlineKeyboardButton, ParseMode
 from telegram.error import TelegramError
+
+from Natsunagi import NO_LOAD
 
 
 class EqInlineKeyboardButton(InlineKeyboardButton):

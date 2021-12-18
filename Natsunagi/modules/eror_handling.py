@@ -6,10 +6,10 @@ import traceback
 
 import pretty_errors
 import requests
-from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import CallbackContext, CommandHandler
 
-from Natsunagi import dispatcher, DEV_USERS, ERROR_LOGS
+from Natsunagi import DEV_USERS, ERROR_LOGS, dispatcher
 
 pretty_errors.mono()
 

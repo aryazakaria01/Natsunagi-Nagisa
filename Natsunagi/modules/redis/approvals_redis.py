@@ -1,4 +1,5 @@
 import ast
+
 from Natsunagi import REDIS
 
 try:

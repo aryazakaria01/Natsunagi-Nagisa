@@ -1,8 +1,8 @@
 import threading
 
-from sqlalchemy import Column, String, Boolean
+from sqlalchemy import Boolean, Column, String
 
-from Natsunagi.modules.sql import SESSION, BASE
+from Natsunagi.modules.sql import BASE, SESSION
 
 
 class Permissions(BASE):

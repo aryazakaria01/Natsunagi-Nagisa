@@ -1,15 +1,7 @@
-import json
-import sys
-from random import randint
-from time import time
-
-import aiohttp
-from Natsunagi import ARQ_API_KEY, ARQ_API_URL, BOT_ID, OWNER_ID, aiohttpsession, pgram
 from aiohttp import ClientSession
-
-from google_trans_new import google_translator
 from Python_ARQ import ARQ
-from search_engine_parser import GoogleSearch
+
+from Natsunagi import ARQ_API_KEY, ARQ_API_URL, OWNER_ID, aiohttpsession, pgram
 
 ARQ_API = "WZQUBA-PFAZQJ-OMIINH-MIVHYM-ARQ"
 ARQ_API_KEY = "WZQUBA-PFAZQJ-OMIINH-MIVHYM-ARQ"
@@ -24,4 +16,3 @@ print("[INFO]: INITIALIZING ARQ CLIENT")
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
 
 app = pgram
-import socket

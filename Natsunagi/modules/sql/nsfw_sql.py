@@ -1,7 +1,9 @@
 import threading
 
 from sqlalchemy import Column, String
+
 from Natsunagi.modules.sql import BASE, SESSION
+
 
 #   |----------------------------------|
 #   |  Test Module by @EverythingSuckz |

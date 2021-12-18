@@ -1,5 +1,8 @@
-import importlib
 import collections
+import importlib
+
+from telegram import ParseMode, Update
+from telegram.ext import CallbackContext, CommandHandler
 
 from Natsunagi import dispatcher, telethn
 from Natsunagi.__main__ import (
@@ -14,8 +17,6 @@ from Natsunagi.__main__ import (
     USER_SETTINGS,
 )
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus, sudo_plus
-from telegram import ParseMode, Update
-from telegram.ext import CallbackContext, CommandHandler, run_async
 
 
 @dev_plus

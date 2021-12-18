@@ -1,27 +1,15 @@
-import os
-from telethon.tl.types import (
-    ChannelParticipantsAdmins, 
-    ChatAdminRights, 
-    ChatBannedRights, 
-    MessageEntityMentionName, 
-    MessageMediaPhoto,
-)    
-from telethon import *
-from telethon.tl.functions.channels import (
-    EditAdminRequest, 
-    EditBannedRequest, 
-    EditPhotoRequest,
-)    
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from telethon import *
+from telethon.tl.types import ChatBannedRights
 
+from Natsunagi import LOGGER, OWNER_ID, telethn
+from Natsunagi.events import register
 from Natsunagi.modules.sql.night_mode_sql import (
     add_nightmode,
-    rmnightmode,
     get_all_chat_id,
     is_nightmode_indb,
+    rmnightmode,
 )
-from Natsunagi.events import register
-from Natsunagi import OWNER_ID, telethn, LOGGER
 
 hehes = ChatBannedRights(
     until_date=None,
@@ -106,10 +94,7 @@ async def profanity(event):
         add_nightmode(str(event.chat_id))
         await event.reply("NightMode turned on for this chat.")
     if "off" in input:
-        if (
-            event.is_group
-            and not is_nightmode_indb(str(event.chat_id))
-        ):
+        if event.is_group and not is_nightmode_indb(str(event.chat_id)):
             await event.reply("Night Mode is Already Off for this Chat")
             return
         rmnightmode(str(event.chat_id))

@@ -2,24 +2,10 @@ import re
 
 from jikanpy import Jikan
 from jikanpy.exceptions import APIException
-from telegram import (
-    Message,
-    Chat,
-    User,
-    ParseMode,
-    Update,
-    InlineKeyboardMarkup,
-    InlineKeyboardButton,
-)
-from telegram.ext import (
-    CallbackContext,
-    CommandHandler,
-    Filters,
-    CallbackQueryHandler,
-    run_async,
-)
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
+from telegram.ext import CallbackContext, CallbackQueryHandler
 
-from Natsunagi import dispatcher, REDIS
+from Natsunagi import REDIS, dispatcher
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 
 jikan = Jikan()

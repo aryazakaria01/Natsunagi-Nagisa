@@ -1,18 +1,19 @@
 import os
 
 from gpytranslate import SyncTranslator
+from gtts import gTTS
 from telegram import (
-    Update,
     ChatAction,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     ParseMode,
+    Update,
 )
 from telegram.ext import CallbackContext
-from gtts import gTTS
+
 from Natsunagi import dispatcher
 from Natsunagi.modules.disable import DisableAbleCommandHandler
-from Natsunagi.modules.helper_funcs.alternate import typing_action, send_action
+from Natsunagi.modules.helper_funcs.alternate import send_action, typing_action
 
 trans = SyncTranslator()
 

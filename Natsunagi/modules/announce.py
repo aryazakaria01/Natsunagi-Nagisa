@@ -4,11 +4,12 @@ from telegram import Update
 from telegram.ext import CallbackContext
 from telegram.utils.helpers import mention_html
 
-from Natsunagi.modules.log_channel import loggable
-from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
-
 import Natsunagi.modules.sql.logger_sql as sql
-from ..modules.helper_funcs.anonymous import user_admin as u_admin, AdminPerms
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
+from Natsunagi.modules.log_channel import loggable
+
+from ..modules.helper_funcs.anonymous import AdminPerms
+from ..modules.helper_funcs.anonymous import user_admin as u_admin
 
 
 @natsunagicmd(command="announce", pass_args=True)
@@ -17,7 +18,7 @@ from ..modules.helper_funcs.anonymous import user_admin as u_admin, AdminPerms
 def announcestat(update: Update, context: CallbackContext) -> str:
     args = context.args
     if len(args) > 0:
-        u = update.effective_user
+        update.effective_user
         message = update.effective_message
         chat = update.effective_chat
         user = update.effective_user
@@ -51,9 +52,10 @@ def announcestat(update: Update, context: CallbackContext) -> str:
             "Your current setting is: {}\n"
             "When True, any admin actions in your group will be announced."
             "When False, admin actions in your group will not be announced.".format(
-                sql.does_chat_log(update.effective_chat.id))
+                sql.does_chat_log(update.effective_chat.id)
+            )
         )
-        return ''
+        return ""
 
 
 def __migrate__(old_chat_id, new_chat_id):

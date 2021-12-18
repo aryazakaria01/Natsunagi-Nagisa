@@ -2,12 +2,11 @@ import random
 import threading
 from typing import Union
 
-from Natsunagi.modules.helper_funcs.msg_types import Types
-from Natsunagi.modules.sql import BASE, SESSION
-
-from sqlalchemy import Boolean, Column, String, UnicodeText, Integer
+from sqlalchemy import Boolean, Column, Integer, String, UnicodeText
 from sqlalchemy.sql.sqltypes import BigInteger
 
+from Natsunagi.modules.helper_funcs.msg_types import Types
+from Natsunagi.modules.sql import BASE, SESSION
 
 DEFAULT_WELCOME = "Hey {first}, how are you?"
 DEFAULT_GOODBYE = "Nice knowing ya!"

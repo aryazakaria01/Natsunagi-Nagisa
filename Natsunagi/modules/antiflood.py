@@ -1,29 +1,21 @@
 import html
-import re
+from typing import Optional
 
-from typing import Optional, List
-from telegram import (
-    Message,
-    Chat,
-    Update,
-    Bot,
-    User,
-    ChatPermissions,
-)
+from telegram import Chat, ChatPermissions, Message, User
 from telegram.error import BadRequest
-from telegram.ext import Filters, MessageHandler, CommandHandler, run_async, CallbackContext
-from telegram.utils.helpers import mention_html, escape_markdown
+from telegram.ext import CommandHandler, Filters, MessageHandler
+from telegram.utils.helpers import mention_html
 
-from Natsunagi import dispatcher, DRAGONS, DEV_USERS, SUDO_USERS
-from Natsunagi.modules.helper_funcs.string_handling import extract_time
-from Natsunagi.modules.helper_funcs.chat_status import is_user_admin
-from Natsunagi.modules.log_channel import loggable
-from Natsunagi.modules.sql import antiflood_sql as sql
+from Natsunagi import dispatcher
 from Natsunagi.modules.connection import connected
-from Natsunagi.modules.redis.approvals_redis import is_approved
-from ..modules.helper_funcs.anonymous import user_admin, AdminPerms
 from Natsunagi.modules.helper_funcs.alternate import send_message, typing_action
-from Natsunagi.modules.helper_funcs.decorators import natsunagicmd, natsunagimsg, natsunagicallback
+from Natsunagi.modules.helper_funcs.chat_status import is_user_admin
+from Natsunagi.modules.helper_funcs.string_handling import extract_time
+from Natsunagi.modules.log_channel import loggable
+from Natsunagi.modules.redis.approvals_redis import is_approved
+from Natsunagi.modules.sql import antiflood_sql as sql
+
+from ..modules.helper_funcs.anonymous import AdminPerms, user_admin
 
 FLOOD_GROUP = 3
 
@@ -246,7 +238,6 @@ def flood(update, context):
             )
         )
     send_message(update.effective_message, text, parse_mode="markdown")
-
 
 
 @user_admin(AdminPerms.CAN_CHANGE_INFO)

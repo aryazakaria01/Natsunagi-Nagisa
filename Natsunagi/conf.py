@@ -3,6 +3,7 @@ import sys
 
 import yaml
 from envparse import env
+
 from Natsunagi import LOGGER
 
 DEFAULTS = {

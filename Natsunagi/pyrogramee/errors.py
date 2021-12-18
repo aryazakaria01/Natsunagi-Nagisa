@@ -1,7 +1,8 @@
 import sys
 import traceback
 from functools import wraps
-from Natsunagi import pgram, SUPPORT_CHAT
+
+from Natsunagi import SUPPORT_CHAT, pgram
 
 
 def split_limits(text):
