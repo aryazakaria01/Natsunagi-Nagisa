@@ -42,7 +42,7 @@ def check_flood(update, context) -> Optional[str]:
         return ""
 
     # ignore admins
-    if is_user_admin(chat, user.id):
+    if is_user_admin(update, user.id):
         sql.update_flood(chat.id, None)
         return ""
 
