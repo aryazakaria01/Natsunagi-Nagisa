@@ -40,7 +40,7 @@ def get_gbanned_user(user_id):
 
 
 def get_gban_list() -> dict:
-    return [i for i in GBAN_USER.find()]
+    return list(GBAN_USER.find())
 
 
 def enable_gbans(chat_id) -> None:
