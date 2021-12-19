@@ -401,7 +401,7 @@ def user_can_ban(func):
 
         if (
             not (member.can_restrict_members or member.status == "creator")
-            and not user in SUDO_USERS
+            and not user in DEV_USERS
         ):
             update.effective_message.reply_text(
                 "Sorry son, but you're not worthy to wield the banhammer."
