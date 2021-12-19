@@ -2,9 +2,9 @@ import functools
 from enum import Enum
 
 from telegram import (
-    ParseMode, 
-    Update, 
-    InlineKeyboardButton, 
+    ParseMode,
+    Update,
+    InlineKeyboardButton,
     InlineKeyboardMarkup,
 )
 from telegram.ext import CallbackContext
