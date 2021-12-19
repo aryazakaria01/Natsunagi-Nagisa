@@ -306,7 +306,7 @@ def unbanb_btn(update: Update, context: CallbackContext) -> str:
         query_match = splitter[0]
         if query_match == "unbanb_unban":
             user_id = splitter[1]
-            if not is_user_admin(chat, int(user.id)):
+            if not is_user_admin(update, int(user.id)):
                 bot.answer_callback_query(
                     query.id,
                     text="You don't have enough rights to unmute people",
