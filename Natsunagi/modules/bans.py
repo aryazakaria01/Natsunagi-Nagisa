@@ -440,7 +440,7 @@ def unban(update: Update, context: CallbackContext) -> Optional[str]:
         )
         if r:
             message.reply_text(
-                "Finally! Channel {} was unbanned successfully from {}. All hail on this guy".format(
+                "Finally! Channel {} was unbanned successfully from {}\n\n💡 Now this users can send the messages with they channel again".format(
                     html.escape(message.reply_to_message.sender_chat.title),
                     html.escape(chat.title),
                 ),
