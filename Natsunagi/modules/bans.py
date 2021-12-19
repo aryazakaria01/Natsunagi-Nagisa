@@ -62,9 +62,9 @@ def ban(update: Update, context: CallbackContext) -> str:
         )
         if r:
             message.reply_text(
-                "Channel {} was banned successfully from {}".format(
+                "{} [{}] blocked.\n\n💡 __He can only write with his profile but not through other channels__.".format(
                     html.escape(message.reply_to_message.sender_chat.title),
-                    html.escape(chat.title),
+                    html.escape(chat.id),
                 ),
                 parse_mode="html",
             )
@@ -440,9 +440,9 @@ def unban(update: Update, context: CallbackContext) -> Optional[str]:
         )
         if r:
             message.reply_text(
-                "Channel {} was unbanned successfully from {}".format(
+                "{} [{}] release from blocking".format(
                     html.escape(message.reply_to_message.sender_chat.title),
-                    html.escape(chat.title),
+                    html.escape(chat.id),
                 ),
                 parse_mode="html",
             )
