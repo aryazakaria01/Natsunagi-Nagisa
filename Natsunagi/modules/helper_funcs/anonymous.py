@@ -1,12 +1,7 @@
 import functools
 from enum import Enum
 
-from telegram import (
-    ParseMode, 
-    Update, 
-    InlineKeyboardButton, 
-    InlineKeyboardMarkup,
-)
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
 from telegram.ext import CallbackContext
 
 from Natsunagi import DEV_USERS, dispatcher
