@@ -1,14 +1,16 @@
 import functools
 from enum import Enum
 
-from telegram import ParseMode, Update
+from telegram import (
+    ParseMode, 
+    Update, 
+    InlineKeyboardButton, 
+    InlineKeyboardMarkup,
+)
 from telegram.ext import CallbackContext
-from telegram.inline.inlinekeyboardbutton import InlineKeyboardButton
-from telegram.inline.inlinekeyboardmarkup import InlineKeyboardMarkup
 
-from Natsunagi import DEV_USERS, SUDO_USERS, dispatcher
-
-from .decorators import natsunagicallback
+from Natsunagi import DEV_USERS, dispatcher
+from Natsunagi.modules.helper_funcs.decorators import natsunagicallback
 
 
 class AdminPerms(Enum):
@@ -69,7 +71,7 @@ def user_admin(permission: AdminPerms):
                 if (
                     getattr(mem, permission.value) is True
                     or mem.status == "creator"
-                    or user_id in SUDO_USERS
+                    or user_id in DEV_USERS
                 ):
                     return func(update, context, *args, **kwargs)
                 else:
