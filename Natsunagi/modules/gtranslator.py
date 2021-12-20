@@ -129,7 +129,7 @@ Use this module to translate stuff!
    ➢ `/langs: List of all language code to translates!
    ➢ `/tl` (or `/tr`): as a reply to a message, translates it to English.
    ➢ `/tl <lang>`: translates to <lang>
-   
+
 eg: `/tl ja`: translates to Japanese.
    ➢ `/tl <source>//<dest>`: translates from <source> to <lang>.
 • [List of supported languages for translation](https://telegra.ph/Lang-Codes-03-19-3)
