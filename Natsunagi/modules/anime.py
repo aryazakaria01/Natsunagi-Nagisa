@@ -955,7 +955,7 @@ Get information about anime, manga or characters from [AniList](anilist.co)
   ➢ `/manga <manga>`*:* returns information about the manga from AniList.
   ➢ `/upcoming`*:* returns a list of new anime in the upcoming seasons from AniList.
   ➢ `/airing <anime>`*:* returns anime airing info from AniList.
- 
+
 Get information about anime, manga or characters from [MAL](https://myanimelist.net/)
 *My Anime list Commands:*
   ➢ `/manime <anime>`*:* returns information about the anime MAL.
@@ -964,19 +964,20 @@ Get information about anime, manga or characters from [MAL](https://myanimelist.
   ➢ `/mupcoming`*:* returns a list of new anime in the upcoming seasons from MAL.
   ➢ `/user <user>`*:* returns information about a MyAnimeList user.
   ➢ `/animequotes`*:* sends random anime quotes.
+
 *Anime Search Commands:*
    ➢ `/kayo`*:* search an Anime on AnimeKayo website.
    ➢ `/kaizoku`*:* search an Anime on AnimeKaizoku website.
    ➢ `/whatanime`*:* Please reply to a Gif or Photo or Video, then bot gives information about the anime.
-   
+
 *Anime Search Commands:*
   ➢ `/meme`*:* sends Anime Memes.
   ➢ `/hmeme`*:* sends Hentai Memes.
   ➢ `/rmeme`*:* sends Reddit Memes.
-  
+
 *Anime Search Commands:*
   ➢ `/watchorder <anime>`*:* send watch Order of anime.
-  
+
 You saw a good anime video, photo, gif but dont know what is that anime's name?
 This is where whatanime comes in, just reply to that media with /whatanime and it will search the anime name for you from anilist.                             
  """
