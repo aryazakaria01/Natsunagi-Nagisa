@@ -23,7 +23,7 @@ regex
 requests
 spamwatch
 speedtest-cli
-SQLAlchemy==1.4.29
+SQLAlchemy==1.4.28
 telethon==1.24.0
 ujson
 wikipedia
