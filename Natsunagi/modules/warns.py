@@ -52,7 +52,7 @@ CURRENT_WARNING_FILTER_STRING = "<b>Current warning filters in this chat:</b>\n"
 # Not async
 def warn(
     user: User,
-    chat: Chat,
+    update: Update
     reason: str,
     message: Message,
     warner: User = None,
