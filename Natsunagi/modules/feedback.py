@@ -28,7 +28,10 @@ async def feedback(e):
         "https://telegra.ph/file/53d0320dcaa0d21da19c0.jpg",
         "https://telegra.ph/file/fc988e9441acfb5fe71a7.jpg",
         "https://telegra.ph/file/731387573fd96e3cfc2f5.jpg",
-        "https://telegra.ph/file/41a2c085e2f6b60358779.jpg",
+        "https://telegra.ph/file/6c9951e14cece66f2fc3a.jpg",
+    )
+    NATFEED = (
+        "https://telegra.ph/file/2dd04f407b16bc2cfdf76.jpg",
     )
     BUTTON = [[Button.url("Go To Support Group", f"https://t.me/{SUPPORT_CHAT}")]]
     TEXT = "Thanks For Your Feedback, I Hope You Happy With Our Service"
@@ -46,7 +49,7 @@ async def feedback(e):
             GIVE,
             parse_mode=ParseMode.MARKDOWN,
             buttons=BUTTON,
-            file=random.choice(NATSUNAGI),
+            file=random.choice(NATFEED),
         ),
         return
 
