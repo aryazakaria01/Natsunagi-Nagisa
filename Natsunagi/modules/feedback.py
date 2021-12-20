@@ -56,4 +56,4 @@ async def feedback(e):
         file=random.choice(NATSUNAGI),
         link_preview=False,
     )
-    await e.reply(TEXT, file=random.choice(OWO), buttons=BUTTON)
+    await e.reply(TEXT, file=random.choice(NATSUNAGI), buttons=BUTTON)
