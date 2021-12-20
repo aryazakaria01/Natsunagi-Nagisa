@@ -149,6 +149,7 @@ __help__ = """
 Available commands:
 📐 Markdown:
   ➢ `/markdownhelp`: quick summary of how markdown works in telegram - can only be called in private chats
+
 💴 Currency converter:
   ➢ `/cash`: currency converter
  Example:
@@ -156,42 +157,48 @@ Available commands:
       OR
  `/cash 1 usd inr`
  Output: `1.0 USD = 75.505 INR`
+
 🗣 Translator:
   ➢ `/tr` or `/tl` (language code) as reply to a long message
 Example:
   `/tr en`: translates something to english
   `/tr hi-en`: translates hindi to english.
   ➢ `/langs` : lists all the language codes
+
 🕐 Timezones:
   ➢ `/time <query>`: Gives information about a timezone.
 Available queries: Country Code/Country Name/Timezone Name
  ➩ [Timezones list](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+
 🖌️ Quotly:
   ➢ `/q` : To quote a message.
   ➢ `/q <Number>` : To quote more than 1 messages.
   ➢ `/q r` : to quote a message with it's reply
+
 🗜️ Compress And Decompress: 
   ➢ `/zip`*:* reply to a telegram file to compress it in .zip format
   ➢ `/unzip`*:* reply to a telegram file to decompress it from the .zip format
-  
+
 👤 Fake Info:
   ➢ `/fakegen`*:* Generates Fake Information
   ➢ `/picgen  ➢ `/ generate a fake pic
+
 🎛️ Encryprion:
   ➢ `/encrypt`*:* Encrypts The Given Text
   ➢ `/decrypt`*:* Decrypts Previously Ecrypted Text
+
 📙 English:
   ➢ `/define <text>`*:* Type the word or expression you want to search\nFor example /define kill
   ➢ `/spell`*:* while replying to a message, will reply with a grammar corrected version
   ➢ `/synonyms <word>`*:* Find the synonyms of a word
   ➢ `/antonyms <word>`*:* Find the antonyms of a word
-  
+
 📙 Encryprion:
   ➢ `/antonyms <Word>`*:* Get antonyms from Dictionary.
   ➢ `/synonyms <Word>`*:* Get synonyms from Dictionary.
   ➢ `/define <Word>`*:* Get definition from Dictionary.
   ➢ `/spell <Word>`*:* Get definition from Dictionary.
-  
+
 💳 CC Checker:
   ➢ `/au [cc]`*:* Stripe Auth given CC
   ➢ `/pp [cc]`*:* Paypal 1$ Guest Charge
