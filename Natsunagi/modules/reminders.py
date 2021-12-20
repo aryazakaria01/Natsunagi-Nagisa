@@ -185,18 +185,18 @@ def clear_all_my_reminders(update: Update, context: CallbackContext):
 
 __mod_name__ = "Reminders"
 __help__ = """
-  ➢ `/reminders`*:* get a list of *TimeStamps* of your reminders. 
+  ➢ `/reminders`*:* get a list of *TimeStamps* of your reminders.
   ➢ `/setreminder <time> <remind message>`*:* Set a reminder after the mentioned time.
   ➢ `/clearreminder <timestamp>`*:* clears the reminder with that timestamp if the time to remind is not yet completed.
   ➢ `/clearmyreminders`*:* clears all the reminders of the user.
-  
+
 *Owner Only:*
   ➢ `/warns <userhandle>`*:* get a user's number, and reason, of warns.
-  
+
 *Similar Commands:*
   ➢ `/reminders`, `/myreminders`
   ➢ `/clearmyreminders`, `/clearallmyreminders`
-  
+
 *Usage:*
   ➢ `/setreminder 30s reminder`*:* Here the time format is same as the time format in muting but with extra seconds(s)
   ➢ `/clearreminder 1234567890123456789`
