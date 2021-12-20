@@ -195,11 +195,12 @@ Maybe not enough to make them admin, but you might be ok with locks, blacklists,
 That's what approvals are for - approve of trustworthy users to allow them to send.
 *User commands*:
   ➢ `/approval`*:* Check a user's approval status in this chat.
+
 *Admins commands*:
   ➢ `/approve`*:* Approve of a user. Locks, blacklists, and antiflood won't apply to them anymore.
   ➢ `/unapprove`*:* Unapprove of a user. They will now be subject to locks, blacklists, and antiflood again.
   ➢ `/approved`*:* List all approved users.
-  
+
 *Group Owner commands*:
   ➢ `/unapproveall: Unapprove ALL users in a chat. This cannot be undone.
 """
