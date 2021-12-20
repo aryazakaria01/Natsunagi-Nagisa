@@ -1,15 +1,20 @@
 import random
-from ..events import register
-from telethon import Button
+
 from telegram import ParseMode
-from Natsunagi import SUPPORT_CHAT, OWNER_ID, telethn as tbot
+from telethon import Button
+
+from Natsunagi import OWNER_ID, SUPPORT_CHAT
+from Natsunagi import telethn as tbot
+
+from ..events import register
+
 
 @register(pattern="/feedback ?(.*)")
 async def feedback(e):
     quew = e.pattern_match.group(1)
     user_id = e.sender.id
     user_name = e.sender.first_name
-    mention = "["+user_name+"](tg://user?id="+str(user_id)+")" 
+    mention = "[" + user_name + "](tg://user?id=" + str(user_id) + ")"
     NATSUNAGI = (
         "https://telegra.ph/file/753bfe51f0e0314f1f3ff.jpg",
         "https://telegra.ph/file/20bab4a499d6dccd823f1.jpg",
@@ -37,8 +42,18 @@ async def feedback(e):
 **Feedback:** `{e.text}`
 """
     if e.sender_id != OWNER_ID and not quew:
-     await e.reply(GIVE, parse_mode=ParseMode.MARKDOWN, buttons=BUTTON, file=random.choice(NATSUNAGI)), 
-     return
+        await e.reply(
+            GIVE,
+            parse_mode=ParseMode.MARKDOWN,
+            buttons=BUTTON,
+            file=random.choice(NATSUNAGI),
+        ),
+        return
 
-    await tbot.send_message(SUPPORT_CHAT, f"{logger_text}", file=random.choice(NATSUNAGI), link_preview=False)
+    await tbot.send_message(
+        SUPPORT_CHAT,
+        f"{logger_text}",
+        file=random.choice(NATSUNAGI),
+        link_preview=False,
+    )
     await e.reply(TEXT, file=random.choice(OWO), buttons=BUTTON)
