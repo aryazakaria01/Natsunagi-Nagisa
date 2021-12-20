@@ -30,9 +30,7 @@ async def feedback(e):
         "https://telegra.ph/file/731387573fd96e3cfc2f5.jpg",
         "https://telegra.ph/file/6c9951e14cece66f2fc3a.jpg",
     )
-    NATFEED = (
-        "https://telegra.ph/file/2dd04f407b16bc2cfdf76.jpg",
-    )
+    NATFEED = ("https://telegra.ph/file/2dd04f407b16bc2cfdf76.jpg",)
     BUTTON = [[Button.url("Go To Support Group", f"https://t.me/{SUPPORT_CHAT}")]]
     TEXT = "Thanks For Your Feedback, I Hope You Happy With Our Service"
     GIVE = "Give Some Text For Feedback ✨"
