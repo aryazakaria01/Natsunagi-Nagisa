@@ -488,7 +488,7 @@ def gbanstat(update: Update, context: CallbackContext):
                 "I am now protecting your group from potential remote threats!",
             )
         elif args[0].lower() in ["off", "no"]:
-            sql.disable_gbans(update.effective_chat.id)
+            gban_db.disable_gbans(update.effective_chat.id)
             update.effective_message.reply_text(
                 "» Antispan is now disabled\n" "» Spamwatch is now disabled\n"
             )
