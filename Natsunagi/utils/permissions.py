@@ -41,10 +41,7 @@ def adminsOnly(permission):
             chatID = message.chat.id
             if not message.from_user:
                 # For anonymous admins
-                if (
-                    message.sender_chat
-                    and message.sender_chat.id == message.chat.id
-                ):
+                if message.sender_chat and message.sender_chat.id == message.chat.id:
                     return await authorised(
                         func,
                         subFunc2,
@@ -59,9 +56,7 @@ def adminsOnly(permission):
             permissions = await member_permissions(chatID, userID)
             if userID not in DRAGONS and permission not in permissions:
                 return await unauthorised(message, permission, subFunc2)
-            return await authorised(
-                func, subFunc2, client, message, *args, **kwargs
-            )
+            return await authorised(func, subFunc2, client, message, *args, **kwargs)
 
         return subFunc2
 
