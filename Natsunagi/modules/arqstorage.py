@@ -4,7 +4,8 @@ from os import remove
 from pyrogram import filters
 from pyrogram.types import Message
 
-from Natsunagi import pgram as app, arq
+from Natsunagi import arq
+from Natsunagi import pgram as app
 from Natsunagi.utils.errors import capture_err
 from Natsunagi.utils.functions import get_file_id_from_message
 
