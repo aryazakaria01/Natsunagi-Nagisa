@@ -32,7 +32,7 @@ from Natsunagi.modules.log_channel import loggable
 from Natsunagi.modules.redis.approvals_redis import is_approved
 
 
-def check_user(user_id: int, bot: Bot, update: Update, chat: Chat) -> Optional[str]:
+def check_user(user_id: int, bot: Bot, hat: Chat) -> Optional[str]:
 
     if not user_id:
         reply = "You don't seem to be referring to a user or the ID specified is incorrect.."
