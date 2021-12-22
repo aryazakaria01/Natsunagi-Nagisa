@@ -10,12 +10,13 @@ from Natsunagi.utils.errors import capture_err
 from Natsunagi.utils.functions import get_file_id_from_message
 
 __mod_name__ = "Storage"
+
 __help__ = """
 Upload unlimited files smaller than 100MB
 And get a download link
 
-**Usage:**
-/upload [url|Reply to a file]
+*Usage*:
+/upload [URL|Reply to a file]
 """
 
 UPLOAD_LOCK = Lock()
