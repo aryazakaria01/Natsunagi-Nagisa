@@ -4,7 +4,8 @@ from os import system as execute
 from pyrogram import filters
 from pyrogram.types import Message
 
-from Natsunagi import MONGO_URI, DEV_USERS, pgram as app
+from Natsunagi import DEV_USERS, MONGO_URI
+from Natsunagi import pgram as app
 
 
 @app.on_message(filters.command("backup") & filters.user(DEV_USERS))
