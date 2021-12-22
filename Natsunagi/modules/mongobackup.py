@@ -20,7 +20,6 @@ async def backup(_, message: Message):
         return await m.edit(
             "Looks like you don't have mongo-database-tools installed "
             + "grab it from mongodb.com/try/download/database-tools"
-            disable_web_page_preview=True,
         )
 
     code = execute("zip backup.zip -r9 dump/*")
