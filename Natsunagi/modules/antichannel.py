@@ -9,7 +9,8 @@ import Natsunagi.modules.sql.antilinkedchannel_sql as sql
 from Natsunagi import TOKEN, dispatcher
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.anonymous import AdminPerms, user_admin
-from Natsunagi.modules.helper_funcs.chat_status import bot_admin, user_admin as u_admin
+from Natsunagi.modules.helper_funcs.chat_status import bot_admin
+from Natsunagi.modules.helper_funcs.chat_status import user_admin as u_admin
 from Natsunagi.modules.helper_funcs.decorators import natsunagimsg
 from Natsunagi.modules.sql import acm_sql
 
