@@ -6,7 +6,7 @@ from telegram.ext import CallbackContext
 from telegram.ext.filters import Filters
 
 import Natsunagi.modules.sql.antilinkedchannel_sql as sql
-from Natsunagi import TOKEN
+from Natsunagi import TOKEN, dispatcher 
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.anonymous import AdminPerms, user_admin
 from Natsunagi.modules.helper_funcs.chat_status import bot_admin, user_admin
@@ -139,6 +139,7 @@ There was an error occured during auto ban and delete message. please report thi
 
 
 __mod_name__ = "AntiChannel"
+
 __help__ = """
 *Anti Channel Mode*:
 ❂ `/antichannelmode` or `/antichannel`*:* Bans and deletes anyone who tries to talk as channel and forces them to talk using real account
