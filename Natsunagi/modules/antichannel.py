@@ -6,7 +6,7 @@ from telegram.ext import CallbackContext
 from telegram.ext.filters import Filters
 
 import Natsunagi.modules.sql.antilinkedchannel_sql as sql
-from Natsunagi import TOKEN, dispatcher 
+from Natsunagi import TOKEN, dispatcher
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.anonymous import AdminPerms, user_admin
 from Natsunagi.modules.helper_funcs.chat_status import bot_admin, user_admin
