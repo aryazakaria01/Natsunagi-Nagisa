@@ -18,13 +18,13 @@ from Natsunagi.modules.helper_funcs.chat_status import user_admin
 MARKDOWN_HELP = f"""
 Markdown is a very powerful formatting tool supported by telegram. {dispatcher.bot.first_name} has some enhancements, to make sure that \
 saved messages are correctly parsed, and to allow you to create buttons.
- ➢ <code>_italic_</code>: wrapping text with '_' will produce italic text
- ➢ <code>*bold*</code>: wrapping text with '*' will produce bold text
- ➢ <code>`code`</code>: wrapping text with '`' will produce monospaced text, also known as 'code'
- ➢ <code>[sometext](someURL)</code>: this will create a link - the message will just show <code>sometext</code>, \
+ × <code>_italic_</code>: wrapping text with '_' will produce italic text
+ × <code>*bold*</code>: wrapping text with '*' will produce bold text
+ × <code>`code`</code>: wrapping text with '`' will produce monospaced text, also known as 'code'
+ × <code>[sometext](someURL)</code>: this will create a link - the message will just show <code>sometext</code>, \
 and tapping on it will open the page at <code>someURL</code>.
 <b>Example:</b><code>[test](example.com)</code>
-• <code>[buttontext](buttonurl:someURL)</code>: this is a special enhancement to allow users to have telegram \
+× <code>[buttontext](buttonurl:someURL)</code>: this is a special enhancement to allow users to have telegram \
 buttons in their markdown. <code>buttontext</code> will be what is displayed on the button, and <code>someurl</code> \
 will be the url which is opened.
 <b>Example:</b> <code>[This is a button](buttonurl:example.com)</code>
@@ -70,7 +70,7 @@ def markdown_help_sender(update: Update):
 @typing_action
 def src(update, _):
     update.effective_message.reply_text(
-        "Hey there! You can find what makes me click [here](https://github.com/Awesome-RJ/Natsunagi).",
+        "Hey there! You can find what makes me click [here](https://github.com/aryazakaria01/Natsunagi-Nagisa).",
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
     )
@@ -147,87 +147,56 @@ def markdown_help(update: Update, context: CallbackContext):
 
 __help__ = """
 Available commands:
-📐 Markdown:
-  ➢ `/markdownhelp`: quick summary of how markdown works in telegram - can only be called in private chats
+*Markdown*:
+❂ `/markdownhelp`: quick summary of how markdown works in telegram - can only be called in private chats
 
-💴 Currency converter:
-  ➢ `/cash`: currency converter
- Example:
- `/cash 1 USD INR`
-      OR
- `/cash 1 usd inr`
- Output: `1.0 USD = 75.505 INR`
-
-🗣 Translator:
-  ➢ `/tr` or `/tl` (language code) as reply to a long message
+*Currency converter*:
+❂ `/cash`: currency converter
 Example:
-  `/tr en`: translates something to english
-  `/tr hi-en`: translates hindi to english.
-  ➢ `/langs` : lists all the language codes
+× `/cash 1 USD INR`
+     OR
+× `/cash 1 usd inr`
+» Output: `1.0 USD = 75.505 INR`
 
-🕐 Timezones:
-  ➢ `/time <query>`: Gives information about a timezone.
+*Translator*:
+❂ `/tr` or `/tl` (language code) as reply to a long message
+❂ `/langs` : lists all the language codes
+Example:
+ × `/tr en`: translates something to english
+ × `/tr hi-en`: translates hindi to english.
+
+*Timezones*:
+❂ `/time <query>`: Gives information about a timezone.
 Available queries: Country Code/Country Name/Timezone Name
- ➩ [Timezones list](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+ × [Timezones list](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
 
-🖌️ Quotly:
-  ➢ `/q` : To quote a message.
-  ➢ `/q <Number>` : To quote more than 1 messages.
-  ➢ `/q r` : to quote a message with it's reply
+*Quotly*:
+❂ `/q` : To quote a message.
+❂ `/q <Number>` : To quote more than 1 messages.
+❂ `/q r` : to quote a message with it's reply
 
-🗜️ Compress And Decompress: 
-  ➢ `/zip`*:* reply to a telegram file to compress it in .zip format
-  ➢ `/unzip`*:* reply to a telegram file to decompress it from the .zip format
+Compress And Decompress: 
+❂ `/zip`*:* reply to a telegram file to compress it in .zip format
+❂ `/unzip`*:* reply to a telegram file to decompress it from the .zip format
 
-👤 Fake Info:
-  ➢ `/fakegen`*:* Generates Fake Information
-  ➢ `/picgen  ➢ `/ generate a fake pic
+*Other Commands*:
+*Paste*:
+❂ `/paste`*:* Saves replied content to ezup and replies with a url
 
-🎛️ Encryprion:
-  ➢ `/encrypt`*:* Encrypts The Given Text
-  ➢ `/decrypt`*:* Decrypts Previously Ecrypted Text
+*React*:
+❂ `/react`*:* Reacts with a random reaction
 
-📙 English:
-  ➢ `/define <text>`*:* Type the word or expression you want to search\nFor example /define kill
-  ➢ `/spell`*:* while replying to a message, will reply with a grammar corrected version
-  ➢ `/synonyms <word>`*:* Find the synonyms of a word
-  ➢ `/antonyms <word>`*:* Find the antonyms of a word
+*Urban Dictonary*:
+❂ `/ud <word>`*:* Type the word or expression you want to search use
 
-📙 Encryprion:
-  ➢ `/antonyms <Word>`*:* Get antonyms from Dictionary.
-  ➢ `/synonyms <Word>`*:* Get synonyms from Dictionary.
-  ➢ `/define <Word>`*:* Get definition from Dictionary.
-  ➢ `/spell <Word>`*:* Get definition from Dictionary.
+*Wikipedia*:
+❂ `/wiki <query>`*:* wikipedia your query
 
-💳 CC Checker:
-  ➢ `/au [cc]`*:* Stripe Auth given CC
-  ➢ `/pp [cc]`*:* Paypal 1$ Guest Charge
-  ➢ `/ss [cc]`*:* Speedy Stripe Auth
-  ➢ `/ch [cc]`*:* Check If CC is Live
-  ➢ `/bin [bin]`*:* Gather's Info About the bin
-  ➢ `/gen [bin]`*:* Generates CC with given bin
-  ➢ `/key [sk]`*:* Checks if Stripe key is Live
-🗳  Other Commands:
-Paste:
-  ➢ `/paste`*:* Saves replied content to nekobin.com and replies with a url
-React:
-  ➢ `/react`*:* Reacts with a random reaction
-Urban Dictonary:
-  ➢ `/ud <word>`*:* Type the word or expression you want to search use
-Wikipedia:
-  ➢ `/wiki <query>`*:* wikipedia your query
-Wallpapers:
-  ➢ `/wall <query>`*:* get a wallpaper from alphacoders
-Text To Speech:
-  ➢ `/texttospeech <text>`*:* Converts a text message to a voice message.
-Books:
-  ➢ `/book <book name>`*:* Gets Instant Download Link Of Given Book.
-Cricket Score:
-  ➢ `/cs`*:* get a Cricket Score.
-Phone Info
-  ➢ `/phone [phone no]`*:* Gathers no info.
-Bass Boosting
-  ➢ `/bassboost`*:* Reply To Music Bass Boost.
+*Wallpapers*:
+❂ `/wall <query>`*:* get a wallpaper from alphacoders
+
+*Text To Speech*:
+❂ `/tts <text>`*:* Converts a text message to a voice message.
 """
 
 ECHO_HANDLER = DisableAbleCommandHandler(
