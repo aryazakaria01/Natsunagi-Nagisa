@@ -1,12 +1,12 @@
 import html
 
-from telegram import Update, TelegramError
+from telegram import TelegramError, Update
 from telegram.ext import CallbackContext
 from telegram.ext.filters import Filters
 
-from Natsunagi.modules.helper_funcs.decorators import natsunagicmd, natsunagimsg
-from Natsunagi.modules.helper_funcs.anonymous import user_admin, AdminPerms
 import Natsunagi.modules.sql.antilinkedchannel_sql as sql
+from Natsunagi.modules.helper_funcs.anonymous import AdminPerms, user_admin
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd, natsunagimsg
 
 
 @natsunagicmd(command="antilinkedchan", group=112)
@@ -19,15 +19,22 @@ def set_antilinkedchannel(update: Update, context: CallbackContext):
         s = args[0].lower()
         if s in ["yes", "on"]:
             sql.enable(chat.id)
-            message.reply_html("Enabled anti linked channel in {}".format(html.escape(chat.title)))
+            message.reply_html(
+                "Enabled anti linked channel in {}".format(html.escape(chat.title))
+            )
         elif s in ["off", "no"]:
             sql.disable(chat.id)
-            message.reply_html("Disabled anti linked channel in {}".format(html.escape(chat.title)))
+            message.reply_html(
+                "Disabled anti linked channel in {}".format(html.escape(chat.title))
+            )
         else:
             message.reply_text("Unrecognized arguments {}".format(s))
         return
     message.reply_html(
-        "Linked channel deletion is currently {} in {}".format(sql.status(chat.id), html.escape(chat.title)))
+        "Linked channel deletion is currently {} in {}".format(
+            sql.status(chat.id), html.escape(chat.title)
+        )
+    )
 
 
 @natsunagimsg(Filters.is_automatic_forward, group=111)
