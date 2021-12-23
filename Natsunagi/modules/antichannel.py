@@ -1,20 +1,18 @@
 import html
-import requests
 
+import requests
 from telegram import TelegramError, Update
 from telegram.ext import CallbackContext
 from telegram.ext.filters import Filters
 
 import Natsunagi.modules.sql.antilinkedchannel_sql as sql
 from Natsunagi import TOKEN
-from Natsunagi.modules.helper_funcs.anonymous import AdminPerms, user_admin
-from Natsunagi.modules.helper_funcs.decorators import natsunagimsg
-from Natsunagi.modules.helper_funcs.chat_status import (
-    bot_admin,
-    user_admin,
-)
 from Natsunagi.modules.disable import DisableAbleCommandHandler
+from Natsunagi.modules.helper_funcs.anonymous import AdminPerms, user_admin
+from Natsunagi.modules.helper_funcs.chat_status import bot_admin, user_admin
+from Natsunagi.modules.helper_funcs.decorators import natsunagimsg
 from Natsunagi.modules.sql import acm_sql
+
 
 @user_admin(AdminPerms.CAN_RESTRICT_MEMBERS)
 def set_antilinkedchannel(update: Update, context: CallbackContext):
@@ -139,6 +137,7 @@ There was an error occured during auto ban and delete message. please report thi
             msg.delete()
             return ""
 
+
 __mod_name__ = "AntiChannel"
 __help__ = """
 *Anti Channel Mode*:
@@ -154,13 +153,15 @@ CLEANLINKED_HANDLER = CommandHandler(
 )
 SFA_HANDLER = MessageHandler(Filters.all, sfachat, allow_edit=True, run_async=True)
 
-ANTILINKEDCHANNEL_HANDLER = DisableAbleCommandHandler("antilinkedchat", set_antilinkedchannel, run_async=True)
+ANTILINKEDCHANNEL_HANDLER = DisableAbleCommandHandler(
+    "antilinkedchat", set_antilinkedchannel, run_async=True
+)
 
 dispatcher.add_handler(SFA_HANDLER, group=69)
 dispatcher.add_handler(CLEANLINKED_HANDLER)
 dispatcher.add_handler(ANTILINKEDCHANNEL_HANDLER, group=112)
 
-__command_list__= [
+__command_list__ = [
     "antichannel",
     "antilinkedchat",
 ]
