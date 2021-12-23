@@ -1,7 +1,7 @@
 import html
 
 import requests
-from telegram import TelegramError, Update
+from telegram import TelegramError, Update, ParseMode
 from telegram.ext import CallbackContext, CommandHandler, MessageHandler
 from telegram.ext.filters import Filters
 
