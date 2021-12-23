@@ -2,7 +2,7 @@ import html
 
 import requests
 from telegram import TelegramError, Update
-from telegram.ext import CallbackContext
+from telegram.ext import CallbackContext, CommandHandler
 from telegram.ext.filters import Filters
 
 import Natsunagi.modules.sql.antilinkedchannel_sql as sql
