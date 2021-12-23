@@ -1,8 +1,7 @@
 import threading
 
-from sqlalchemy import Boolean
+from sqlalchemy import Boolean, Column
 from sqlalchemy.sql.sqltypes import String
-from sqlalchemy import Column
 
 from Natsunagi.modules.sql import BASE, SESSION
 
