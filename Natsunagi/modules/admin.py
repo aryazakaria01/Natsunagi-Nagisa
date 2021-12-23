@@ -1058,6 +1058,10 @@ __help__ = """
 ❂ `/setgpic`*:* reply to an image to set as group photo
 ❂ `/setdesc`*:* Set group description
 ❂ `/setsticker`*:* Set group sticker
+
+*Anti Channel Mode*:
+❂ `/antichannelmode` or `/antichannel`*:* Bans and deletes anyone who tries to talk as channel and forces them to talk using real account
+❂ `/antilinkedchannel`*:* Makes Natsunagi Nagisa automatically delete linked channel posts from groups
 """
 
 SET_DESC_HANDLER = CommandHandler(
