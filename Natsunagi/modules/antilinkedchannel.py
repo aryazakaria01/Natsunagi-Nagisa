@@ -9,7 +9,7 @@ from Natsunagi.modules.helper_funcs.anonymous import AdminPerms, user_admin
 from Natsunagi.modules.helper_funcs.decorators import natsunagicmd, natsunagimsg
 
 
-@natsunagicmd(command="antilinkedchan", group=112)
+@natsunagicmd(command="antilinkedchat", group=112)
 @user_admin(AdminPerms.CAN_RESTRICT_MEMBERS)
 def set_antilinkedchannel(update: Update, context: CallbackContext):
     message = update.effective_message
