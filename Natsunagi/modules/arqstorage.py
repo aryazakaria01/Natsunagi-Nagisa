@@ -15,7 +15,7 @@ __help__ = """
 Upload unlimited files smaller than 100MB
 And get a download link
 
-*Usage*:
+Command:
 /upload [URL|Reply to a file]
 """
 
@@ -62,16 +62,16 @@ async def arq_upload(_, message):
             if not file_id:
                 return await message.reply("Unsupported media.")
 
-            m = await message.reply("Downloading...")
+            m = await message.reply("Downloading the media...")
             file = await app.download_media(file_id)
 
-            await m.edit("Uploading...")
+            await m.edit("Uploading the files to the system...")
             return await upload(m, file=file)
 
     if len(message.command) != 2:
-        return await message.reply("Not enough arguments")
+        return await message.reply("Not enough arguments for upload the files")
 
     url = message.text.split(None, 1)[1]
 
-    m = await message.reply("Uploading...")
+    m = await message.reply("Uploading the files to the system...")
     await upload(m, url=url)
