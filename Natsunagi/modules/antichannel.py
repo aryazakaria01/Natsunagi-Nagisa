@@ -9,7 +9,7 @@ import Natsunagi.modules.sql.antilinkedchannel_sql as sql
 from Natsunagi import TOKEN, dispatcher
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.anonymous import AdminPerms, user_admin
-from Natsunagi.modules.helper_funcs.chat_status import bot_admin, user_admin
+from Natsunagi.modules.helper_funcs.chat_status import bot_admin, user_admin as u_admin
 from Natsunagi.modules.helper_funcs.decorators import natsunagimsg
 from Natsunagi.modules.sql import acm_sql
 
@@ -54,7 +54,7 @@ def eliminate_linked_channel_msg(update: Update, _: CallbackContext):
 
 
 @bot_admin
-@user_admin
+@u_admin
 def antichannelmode(update: Update, context: CallbackContext):
     args = context.args
     chat = update.effective_chat
