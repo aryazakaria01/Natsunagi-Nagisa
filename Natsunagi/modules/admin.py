@@ -1,8 +1,8 @@
 import html
 import os
-from typing import Optional
-
 import requests
+
+from typing import Optional
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update, User
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, Filters, MessageHandler
@@ -1012,52 +1012,52 @@ There was an error occured during auto ban and delete message. please report thi
 
 __help__ = """
 *User Commands*:
-  ➢ `/admins`*:* list of admins in the chat
-  ➢ `/pinned`*:* to get the current pinned message.
-  ➢ `/rules`*:* get the rules for this chat.
+❂ `/admins`*:* list of admins in the chat
+❂ `/pinned`*:* to get the current pinned message.
+❂ `/rules`*:* get the rules for this chat.
 
 *Promote & Demote Commands are Admins only*:
-  ➢ `/promote (user) (?admin's title)`*:* Promotes the user to admin.
-  ➢ `/demote (user)`*:* Demotes the user from admin.
-  ➢ `/fullpromote`*:* Promote a member with max rights
+❂ `/promote (user) (?admin's title)`*:* Promotes the user to admin.
+❂ `/demote (user)`*:* Demotes the user from admin.
+❂ `/fullpromote`*:* Promote a member with max rights
 
 *Cleaner & Purge Commands are Admins only*:
-  ➢ `/del`*:* deletes the message you replied to
-  ➢ `/purge`*:* deletes all messages between this and the replied to message.
-  ➢ `/purge <integer X>`*:* deletes the replied message, and X messages following it if replied to a message.
-  ➢ `/zombies`*:* counts the number of deleted account in your group
-  ➢ `/kickthefools`*:* Kick inactive members from group (one week)
+❂ `/del`*:* deletes the message you replied to
+❂ `/purge`*:* deletes all messages between this and the replied to message.
+❂ `/purge <integer X>`*:* deletes the replied message, and X messages following it if replied to a message.
+❂ `/zombies`*:* counts the number of deleted account in your group
+❂ `/kickthefools`*:* Kick inactive members from group (one week)
 
 *Pin & Unpin Commands are Admins only*:
-  ➢ `/pin`*:* silently pins the message replied to - add 'loud' or 'notify' to give notifs to users.
-  ➢ `/unpin`*:* unpins the currently pinned message - add 'all' to unpin all pinned messages.
-  ➢ `/permapin`*:* Pin a custom message through the bot. This message can contain markdown, buttons, and all the other cool features.
-  ➢ `/unpinall`*:* Unpins all pinned messages.
-  ➢ `/antichannelpin <yes/no/on/off>`*:* Don't let telegram auto-pin linked channels. If no arguments are given, shows current setting.
-  ➢ `/cleanlinked <yes/no/on/off>`*:* Delete messages sent by the linked channel.
+❂ `/pin`*:* silently pins the message replied to - add 'loud' or 'notify' to give notifs to users.
+❂ `/unpin`*:* unpins the currently pinned message - add 'all' to unpin all pinned messages.
+❂ `/permapin`*:* Pin a custom message through the bot. This message can contain markdown, buttons, and all the other cool features.
+❂ `/unpinall`*:* Unpins all pinned messages.
+❂ `/antichannelpin <yes/no/on/off>`*:* Don't let telegram auto-pin linked channels. If no arguments are given, shows current setting.
+❂ `/cleanlinked <yes/no/on/off>`*:* Delete messages sent by the linked channel.
 
 *Log Channel are Admins only*:
-  ➢ `/logchannel`*:* get log channel info
-  ➢ `/setlog`*:* set the log channel.
-  ➢ `/unsetlog`*:* unset the log channel.
+❂ `/logchannel`*:* get log channel info
+❂ `/setlog`*:* set the log channel.
+❂ `/unsetlog`*:* unset the log channel.
 
 *Setting the log channel is done by*:
- ➩ adding the bot to the desired channel (as an admin!)
- ➩ sending `/setlog` in the channel
- ➩ forwarding the `/setlog` to the group
+× Adding the bot to the desired channel (as an admin!) 
+× Sending `/setlog` in the channel
+× Forwarding the `/setlog` to the group
 
 *Rules*:
-  ➢ `/setrules <your rules here>`*:* set the rules for this chat.
-  ➢ `/clearrules`*:* clear the rules for this chat.
+❂ `/setrules <your rules here>`*:* set the rules for this chat.
+❂ `/clearrules`*:* clear the rules for this chat.
 
 *The Others Commands are Admins only*:
-  ➢ `/invitelink`*:* gets invitelink
-  ➢ `/title <title here>`*:* sets a custom title for an admin that the bot promoted
-  ➢ `/admincache`*:* force refresh the admins list
-  ➢ `/setgtitle <text>`*:* set group title
-  ➢ `/setgpic`*:* reply to an image to set as group photo
-  ➢ `/setdesc`*:* Set group description
-  ➢ `/setsticker`*:* Set group sticker
+❂ `/invitelink`*:* gets invitelink
+❂ `/title <title here>`*:* sets a custom title for an admin that the bot promoted
+❂ `/admincache`*:* force refresh the admins list
+❂ `/setgtitle <text>`*:* set group title
+❂ `/setgpic`*:* reply to an image to set as group photo
+❂ `/setdesc`*:* Set group description
+❂ `/setsticker`*:* Set group sticker
 """
 
 SET_DESC_HANDLER = CommandHandler(
