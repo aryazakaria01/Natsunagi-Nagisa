@@ -19,15 +19,22 @@ def set_antilinkedchannel(update: Update, context: CallbackContext):
         s = args[0].lower()
         if s in ["yes", "on"]:
             sql.enable(chat.id)
-            message.reply_html("Enabled anti linked channel in {}".format(html.escape(chat.title)))
+            message.reply_html(
+                "Enabled anti linked channel in {}".format(html.escape(chat.title))
+            )
         elif s in ["off", "no"]:
             sql.disable(chat.id)
-            message.reply_html("Disabled anti linked channel in {}".format(html.escape(chat.title)))
+            message.reply_html(
+                "Disabled anti linked channel in {}".format(html.escape(chat.title))
+            )
         else:
             message.reply_text("Unrecognized arguments {}".format(s))
         return
     message.reply_html(
-        "Linked channel deletion is currently {} in {}".format(sql.status(chat.id), html.escape(chat.title)))
+        "Linked channel deletion is currently {} in {}".format(
+            sql.status(chat.id), html.escape(chat.title)
+        )
+    )
 
 
 @natsunagimsg(Filters.is_automatic_forward, group=111)
