@@ -4,16 +4,15 @@
 
 import html
 
-import Natsunagi.modules.sql.mod_sql as sql
-
-from Natsunagi.modules.disable import DisableAbleCommandHandler
-from Natsunagi import dispatcher, DRAGONS
-from Natsunagi.modules.helper_funcs.extraction import extract_user
-from telegram.ext import CallbackContext, CallbackQueryHandler
-from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton, Update
-from telegram.utils.helpers import mention_html
+from telegram import ParseMode
 from telegram.error import BadRequest
+from telegram.utils.helpers import mention_html
+
+import Natsunagi.modules.sql.mod_sql as sql
+from Natsunagi import dispatcher
+from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.chat_status import user_admin
+from Natsunagi.modules.helper_funcs.extraction import extract_user
 from Natsunagi.modules.log_channel import loggable
 
 
@@ -36,9 +35,7 @@ def mod(update, context):
     except BadRequest:
         return ""
     if member.status == "administrator" or member.status == "creator":
-        message.reply_text(
-            "No need to Modertor an Admin!"
-        )
+        message.reply_text("No need to Modertor an Admin!")
         return ""
     if sql.is_modd(message.chat_id, user_id):
         message.reply_text(
@@ -98,6 +95,7 @@ def dismod(update, context):
 
     return log_message
 
+
 @user_admin
 def modd(update, context):
     message = update.effective_message
@@ -127,13 +125,10 @@ def modr(update, context):
         )
         return ""
     if sql.is_modd(message.chat_id, user_id):
-        message.reply_text(
-            f"{member.user['first_name']} is an moderator user."
-        )
+        message.reply_text(f"{member.user['first_name']} is an moderator user.")
     else:
-        message.reply_text(
-            f"{member.user['first_name']} is not an moderator user."
-        )
+        message.reply_text(f"{member.user['first_name']} is not an moderator user.")
+
 
 __help__ = """
 Sometimes, you don't trust but want to make user manager of your group then you can make him/her moderator.
