@@ -7,6 +7,7 @@ from telegram import Chat, ChatMember, ParseMode, Update, User
 from telegram.ext import CallbackContext
 
 from Natsunagi import DEL_CMDS, DEMONS, DEV_USERS, DRAGONS, TIGERS, WOLVES, dispatcher
+from Natsunagi.modules.sql.mod_sql import is_modd
 
 ADMIN_CACHE = TTLCache(maxsize=512, ttl=60 * 10, timer=perf_counter)
 THREAD_LOCK = RLock()
@@ -48,6 +49,7 @@ def is_user_admin(update: Update, user_id: int, member: ChatMember = None) -> bo
         or user_id in DEMONS
         or user_id in DEV_USERS
         or chat.all_members_are_administrators
+        or is_modd(chat.id, user_id)
         or (msg.sender_chat is not None and msg.sender_chat.type != "channel")
     ):
         return True
@@ -93,6 +95,7 @@ def is_user_ban_protected(
         or user_id in DEMONS
         or user_id in DEV_USERS
         or user_id in DRAGONS
+        or is_modd(chat.id, user_id)
         or user_id in TIGERS
         or chat.all_members_are_administrators
         or (msg.sender_chat is not None and msg.sender_chat.type != "channel")
