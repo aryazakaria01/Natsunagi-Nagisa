@@ -1,8 +1,10 @@
 import threading
 
-from sqlalchemy import Boolean, Column
+from sqlalchemy import Boolean
 from sqlalchemy.sql.sqltypes import String
-from tg_bot.modules.sql import BASE, SESSION
+from sqlalchemy import Column
+
+from Natsunagi.modules.sql import BASE, SESSION
 
 
 class AntiLinkedChannelSettings(BASE):
