@@ -15,7 +15,7 @@ from Natsunagi.modules.sql import acm_sql
 
 
 @user_admin(AdminPerms.CAN_RESTRICT_MEMBERS)
-def set_antilinkedchannel(update: Update, context: CallbackContext):
+def antilinkedchannel(update: Update, context: CallbackContext):
     message = update.effective_message
     chat = update.effective_chat
     args = context.args
@@ -155,7 +155,7 @@ CLEANLINKED_HANDLER = CommandHandler(
 SFA_HANDLER = MessageHandler(Filters.all, sfachat, allow_edit=True, run_async=True)
 
 ANTILINKEDCHANNEL_HANDLER = DisableAbleCommandHandler(
-    "antilinkedchat", set_antilinkedchannel, run_async=True
+    "antilinkedchat", antilinkedchannel, run_async=True
 )
 
 dispatcher.add_handler(SFA_HANDLER, group=69)
