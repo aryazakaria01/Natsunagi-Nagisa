@@ -4,17 +4,17 @@ from telegram import MessageEntity
 from telegram.error import BadRequest
 from telegram.ext import Filters, MessageHandler
 
-from Natsunagi import dispatcher, REDIS
+from Natsunagi import REDIS, dispatcher
 from Natsunagi.modules.disable import (
     DisableAbleCommandHandler,
     DisableAbleMessageHandler,
 )
 from Natsunagi.modules.helper_funcs.readable_time import get_readable_time
 from Natsunagi.modules.redis.afk_redis import (
-    start_afk,
+    afk_reason,
     end_afk,
     is_user_afk,
-    afk_reason,
+    start_afk,
 )
 from Natsunagi.modules.users import get_user_id
 
