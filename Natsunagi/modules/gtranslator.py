@@ -27,7 +27,7 @@ def translate(update: Update, context: CallbackContext) -> None:
         return
     if reply_msg.caption:
         to_translate = reply_msg.caption
-    elif reply_msg.text:
+    else:
         to_translate = reply_msg.text
     try:
         args = message.text.split()[1].lower()
