@@ -426,9 +426,7 @@ def natsunagi_about_callback(update, context):
         query.message.edit_text(
             PM_START_TEXT.format(
                 escape_markdown(first_name),
-                escape_markdown(uptime),
-                user_db.num_users(),
-                user_db.num_chats(),
+                escape_markdown(context.bot.first_name),
             ),
             reply_markup=InlineKeyboardMarkup(buttons),
             parse_mode=ParseMode.MARKDOWN,
@@ -592,9 +590,7 @@ def Source_about_callback(update, context):
         query.message.edit_text(
             PM_START_TEXT.format(
                 escape_markdown(first_name),
-                escape_markdown(uptime),
-                sql.num_users(),
-                sql.num_chats(),
+                escape_markdown(context.bot.first_name),
             ),
             reply_markup=InlineKeyboardMarkup(buttons),
             parse_mode=ParseMode.MARKDOWN,
