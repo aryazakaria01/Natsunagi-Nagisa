@@ -32,7 +32,6 @@ from telegram.ext.dispatcher import DispatcherHandlerStop
 from telegram.utils.helpers import escape_markdown
 from telethon import __version__ as tlh
 
-import Natsunagi.modules.no_sql.users_db as user_db
 from Natsunagi import (
     BOT_USERNAME,
     CERT_PATH,
@@ -422,7 +421,7 @@ def natsunagi_about_callback(update, context):
         )
     elif query.data == "natsunagi_back":
         first_name = update.effective_user.first_name
-        uptime = get_readable_time((time.time() - StartTime))
+        get_readable_time((time.time() - StartTime))
         query.message.edit_text(
             PM_START_TEXT.format(
                 escape_markdown(first_name),
