@@ -9,26 +9,31 @@ import Natsunagi.modules.sql.antilinkedchannel_sql as sql
 from Natsunagi import TOKEN, dispatcher
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.anonymous import AdminPerms, user_admin
-from Natsunagi.modules.helper_funcs.chat_status import bot_admin
+from Natsunagi.modules.helper_funcs.chat_status import bot_admin, bot_can_delete
 from Natsunagi.modules.helper_funcs.chat_status import user_admin as u_admin
-from Natsunagi.modules.helper_funcs.decorators import natsunagimsg
+from Natsunagi.modules.helper_funcs.decorators import natsunagimsg, natsunagicmd
 from Natsunagi.modules.sql import acm_sql
 
 
+@natsunagicmd(command="antilinkedchan", group=112)
+@bot_can_delete
 @user_admin(AdminPerms.CAN_RESTRICT_MEMBERS)
-def antilinkedchannel(update: Update, context: CallbackContext):
+def set_antilinkedchannel(update: Update, context: CallbackContext):
     message = update.effective_message
     chat = update.effective_chat
     args = context.args
     if len(args) > 0:
         s = args[0].lower()
         if s in ["yes", "on"]:
-            sql.enable(chat.id)
-            message.reply_html(
-                "Enabled anti linked channel in {}".format(html.escape(chat.title))
-            )
+            if sql.status_pin(chat.id):
+                sql.disable_pin(chat.id)
+                sql.enable_pin(chat.id)
+                message.reply_html("Enabled Linked channel deletion and Disabled anti channel pin in {}".format(html.escape(chat.title)))
+            else:
+                sql.enable_linked(chat.id)
+                message.reply_html("Enabled anti linked channel in {}".format(html.escape(chat.title)))
         elif s in ["off", "no"]:
-            sql.disable(chat.id)
+            sql.disable_linked(chat.id)
             message.reply_html(
                 "Disabled anti linked channel in {}".format(html.escape(chat.title))
             )
@@ -37,7 +42,7 @@ def antilinkedchannel(update: Update, context: CallbackContext):
         return
     message.reply_html(
         "Linked channel deletion is currently {} in {}".format(
-            sql.status(chat.id), html.escape(chat.title)
+            sql.status_linked(chat.id), html.escape(chat.title)
         )
     )
 
@@ -139,12 +144,50 @@ There was an error occured during auto ban and delete message. please report thi
             return ""
 
 
+@natsunagicmd(command="antichannelpin", group=114)
+@bot_admin
+@user_admin(AdminPerms.CAN_RESTRICT_MEMBERS)
+def set_antipinchannel(update: Update, context: CallbackContext):
+    message = update.effective_message
+    chat = update.effective_chat
+    args = context.args
+    if len(args) > 0:
+        s = args[0].lower()
+        if s in ["yes", "on"]:
+            if sql.status_linked(chat.id):
+                sql.disable_linked(chat.id)
+                sql.enable_pin(chat.id)
+                message.reply_html("Disabled Linked channel deletion and Enabled anti channel pin in {}".format(html.escape(chat.title)))
+            else:
+                sql.enable_pin(chat.id)
+                message.reply_html("Enabled anti channel pin in {}".format(html.escape(chat.title)))
+        elif s in ["off", "no"]:
+            sql.disable_pin(chat.id)
+            message.reply_html("Disabled anti channel pin in {}".format(html.escape(chat.title)))
+        else:
+            message.reply_text("Unrecognized arguments {}".format(s))
+        return
+    message.reply_html(
+        "Linked channel message unpin is currently {} in {}".format(sql.status_pin(chat.id), html.escape(chat.title)))
+
+
+@natsunagimsg(Filters.is_automatic_forward | Filters.status_update.pinned_message, group=113)
+def eliminate_linked_channel_msg(update: Update, _: CallbackContext):
+    message = update.effective_message
+    chat = update.effective_chat
+    if not sql.status_pin(chat.id):
+        return
+    try:
+        message.unpin()
+    except TelegramError:
+        return
 __mod_name__ = "AntiChannel"
 
 __help__ = """
 *Anti Channel Mode*:
-❂ `/antichannelmode` or `/antichannel`*:* Bans and deletes anyone who tries to talk as channel and forces them to talk using real account
-❂ `/antilinkedchannel`*:* Makes Natsunagi Nagisa automatically delete linked channel posts from groups
+❂ `/antichannelmode` or `/antichannel` <on/off>*:* Bans and deletes anyone who tries to talk as channel and forces them to talk using real account
+❂ `/antilinkedchannel` <on/off>*:* Makes Natsunagi Nagisa automatically delete linked channel posts from groups
+❂ `/antichannelpin` <on/off>*:* Makes Natsunagi Nagisa automatically unpin linked channel posts from chatroom
 """
 
 CLEANLINKED_HANDLER = CommandHandler(
@@ -155,21 +198,15 @@ CLEANLINKED_HANDLER = CommandHandler(
 )
 SFA_HANDLER = MessageHandler(Filters.all, sfachat, allow_edit=True, run_async=True)
 
-ANTILINKEDCHANNEL_HANDLER = DisableAbleCommandHandler(
-    "antilinkedchat", antilinkedchannel, run_async=True
-)
 
 dispatcher.add_handler(SFA_HANDLER, group=69)
 dispatcher.add_handler(CLEANLINKED_HANDLER)
-dispatcher.add_handler(ANTILINKEDCHANNEL_HANDLER, group=112)
 
 __command_list__ = [
     "antichannel",
-    "antilinkedchat",
 ]
 
 __handlers__ = [
     CLEANLINKED_HANDLER,
     SFA_HANDLER,
-    ANTILINKEDCHANNEL_HANDLER,
 ]
