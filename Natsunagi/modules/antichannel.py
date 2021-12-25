@@ -56,7 +56,7 @@ def set_antilinkedchannel(update: Update, context: CallbackContext):
 def eliminate_linked_channel_msg(update: Update, _: CallbackContext):
     message = update.effective_message
     chat = update.effective_chat
-    if not sql.status(chat.id):
+    if not sql.status_linked(chat.id):
         return
     try:
         message.delete()
