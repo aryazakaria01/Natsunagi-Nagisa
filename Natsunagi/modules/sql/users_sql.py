@@ -1,17 +1,10 @@
 import threading
 
+from sqlalchemy import Column, ForeignKey, String, UnicodeText, UniqueConstraint, func
+from sqlalchemy.sql.sqltypes import BigInteger
+
 from Natsunagi import dispatcher
 from Natsunagi.modules.sql import BASE, SESSION
-
-from sqlalchemy.sql.sqltypes import BigInteger
-from sqlalchemy import (
-    Column,
-    ForeignKey,
-    String,
-    UnicodeText,
-    UniqueConstraint,
-    func,
-)
 
 
 class Users(BASE):
