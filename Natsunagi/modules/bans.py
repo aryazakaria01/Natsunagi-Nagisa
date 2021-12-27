@@ -32,7 +32,7 @@ from Natsunagi.modules.helper_funcs.chat_status import (
     is_user_admin,
     is_user_ban_protected,
     is_user_in_chat,
-    user_admin,
+    user_admin as u_admin,
     user_admin_no_reply,
     user_can_ban,
 )
@@ -40,10 +40,11 @@ from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
 from Natsunagi.modules.helper_funcs.extraction import extract_user_and_text
 from Natsunagi.modules.helper_funcs.filters import CustomFilters
 from Natsunagi.modules.helper_funcs.string_handling import extract_time
+from Natsunagi.modules.helper_funcs.anonymous import user_admin, AdminPerms
 from Natsunagi.modules.log_channel import gloggable, loggable
 
 
-@natsunagicmd(command="ban", pass_args=True)
+@natsunagicmd(command=["ban", "sban", "dban"], pass_args=True)
 @connection_status
 @bot_admin
 @can_restrict
@@ -129,6 +130,7 @@ def ban(
             return ""
     else:
         silent = False
+
     log = (
         f"<b>{html.escape(chat.title)}:</b>\n"
         f"#{'S' if silent else ''}BANNED\n"
@@ -177,6 +179,8 @@ def ban(
     except BadRequest as excp:
         if excp.message == "Reply message not found":
             # Do not reply
+            if silent:
+                return log
             message.reply_text("Banned!", quote=False)
             return log
         else:
@@ -196,7 +200,7 @@ def ban(
 @connection_status
 @bot_admin
 @can_restrict
-@user_admin
+@u_admin
 @user_can_ban
 @loggable
 def temp_ban(update: Update, context: CallbackContext) -> str:
@@ -362,7 +366,7 @@ def unbanb_btn(update: Update, context: CallbackContext) -> str:
 @connection_status
 @bot_admin
 @can_restrict
-@user_admin
+@u_admin
 @user_can_ban
 @loggable
 def punch(update: Update, context: CallbackContext) -> str:
@@ -435,7 +439,7 @@ def punchme(update: Update, context: CallbackContext):
 @connection_status
 @bot_admin
 @can_restrict
-@user_admin
+@u_admin
 @user_can_ban
 @loggable
 def unban(update: Update, context: CallbackContext) -> Optional[str]:
