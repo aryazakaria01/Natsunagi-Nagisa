@@ -1,11 +1,8 @@
 import asyncio
-import os
 import re
 import subprocess
-import sys
 from statistics import mean
 from time import monotonic as time
-from time import sleep
 
 from telegram import (
     InlineKeyboardButton,
@@ -17,9 +14,8 @@ from telegram import (
 from telegram.ext import CallbackContext, CommandHandler
 from telegram.ext.callbackqueryhandler import CallbackQueryHandler
 from telethon import events
-from pyrogram.errors import FloodWait
 
-from Natsunagi import DEV_USERS, OWNER_ID, dispatcher, telethn, pgram
+from Natsunagi import DEV_USERS, OWNER_ID, dispatcher, pgram, telethn
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus
 
 
