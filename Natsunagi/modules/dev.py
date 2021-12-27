@@ -188,7 +188,6 @@ def restart(update: Update, context: CallbackContext):
 
 PIP_INSTALL_HANDLER = CommandHandler("install", pip_install, run_async=True)
 LEAVE_HANDLER = CommandHandler("leave", leave, run_async=True)
-GITPULL_HANDLER = CommandHandler("gitpull", gitpull, run_async=True)
 RESTART_HANDLER = CommandHandler("reboot", restart, run_async=True)
 ALLOWGROUPS_HANDLER = CommandHandler("lockdown", allow_groups, run_async=True)
 LEAVE_CALLBACK_HANDLER = CallbackQueryHandler(
@@ -198,14 +197,12 @@ LEAVE_CALLBACK_HANDLER = CallbackQueryHandler(
 dispatcher.add_handler(PIP_INSTALL_HANDLER)
 dispatcher.add_handler(ALLOWGROUPS_HANDLER)
 dispatcher.add_handler(LEAVE_HANDLER)
-dispatcher.add_handler(GITPULL_HANDLER)
 dispatcher.add_handler(RESTART_HANDLER)
 dispatcher.add_handler(LEAVE_CALLBACK_HANDLER)
 
 __mod_name__ = "Dev"
 __handlers__ = [
     LEAVE_HANDLER,
-    GITPULL_HANDLER,
     RESTART_HANDLER,
     ALLOWGROUPS_HANDLER,
     LEAVE_CALLBACK_HANDLER,
