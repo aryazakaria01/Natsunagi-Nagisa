@@ -112,7 +112,7 @@ pySmartDL
 validators
 flag
 fuzzysearch
-PyYAML>5.0
+PyYAML
 configparser
 gitpython
 html-telegraph-poster
@@ -133,3 +133,4 @@ git+https://github.com/Sorrybabe/downloader
 git+https://github.com/python-telegram-bot/ptbcontrib.git
 tswift
 geopy
+APScheduler
