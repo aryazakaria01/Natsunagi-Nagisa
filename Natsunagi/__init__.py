@@ -148,7 +148,7 @@ if ENV:
     BOTLOG_CHATID = os.environ.get("BOTLOG_CHATID")
     SUDO_USERS = os.environ.get("SUDO_USERS")
     MESSAGE_DUMP_CHAT = os.environ.get("MESSAGE_DUMP_CHAT")
-    WELCOME_DELAY_KICK_SEC os.environ.get("WELCOME_DELAY_KICK_SEC)
+    WELCOME_DELAY_KICK_SEC os.environ.get("WELCOME_DELAY_KICK_SEC")
     LOG_MENTIONS = os.environ.get("LOG_MENTIONS")
     RSS_DELAY = os.environ.get("RSS_DELAY")
 
