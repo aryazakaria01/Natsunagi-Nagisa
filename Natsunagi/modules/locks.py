@@ -1,27 +1,32 @@
 import ast
 import html
+from typing import Optional
 
 from alphabet_detector import AlphabetDetector
-from telegram import Message, Chat, ParseMode, MessageEntity, Update
-from telegram import TelegramError, ChatPermissions
+from telegram import (
+    Chat,
+    ChatPermissions,
+    Message,
+    MessageEntity,
+    ParseMode,
+    TelegramError,
+    Update,
+)
 from telegram.error import BadRequest
-from telegram.ext import Filters, CallbackContext
+from telegram.ext import CallbackContext, Filters
 from telegram.utils.helpers import mention_html
-from typing import Optional
+
 import Natsunagi.modules.sql.locks_sql as sql
 from Natsunagi import dispatcher, log
 from Natsunagi.modules.connection import connected
 from Natsunagi.modules.helper_funcs.alternate import send_message, typing_action
-from Natsunagi.modules.helper_funcs.chat_status import (
-    can_delete,
-    user_not_admin,
-    is_bot_admin,
-    user_admin as u_admin,
-)
+from Natsunagi.modules.helper_funcs.anonymous import AdminPerms, user_admin
+from Natsunagi.modules.helper_funcs.chat_status import can_delete, is_bot_admin
+from Natsunagi.modules.helper_funcs.chat_status import user_admin as u_admin
+from Natsunagi.modules.helper_funcs.chat_status import user_not_admin
 from Natsunagi.modules.helper_funcs.decorators import natsunagicmd, natsunagimsg
 from Natsunagi.modules.log_channel import loggable
 from Natsunagi.modules.redis.approvals_redis import is_approved
-from Natsunagi.modules.helper_funcs.anonymous import user_admin, AdminPerms
 
 ad = AlphabetDetector()
 
@@ -32,9 +37,10 @@ LOCK_TYPES = {
     "video": Filters.video,
     "contact": Filters.contact,
     "photo": Filters.photo,
-    "url": Filters.entity(MessageEntity.URL) | Filters.caption_entity(MessageEntity.URL),
+    "url": Filters.entity(MessageEntity.URL)
+    | Filters.caption_entity(MessageEntity.URL),
     "bots": Filters.status_update.new_chat_members,
-    "forward": Filters.forwarded & ~ Filters.is_automatic_forward,
+    "forward": Filters.forwarded & ~Filters.is_automatic_forward,
     "game": Filters.game,
     "location": Filters.location,
     "egame": Filters.dice,
@@ -93,7 +99,7 @@ REST_GROUP = -12
 
 # NOT ASYNC
 def restr_members(
-        bot, chat_id, members, messages=False, media=False, other=False, previews=False
+    bot, chat_id, members, messages=False, media=False, other=False, previews=False
 ):
     for mem in members:
         try:
@@ -111,7 +117,7 @@ def restr_members(
 
 # NOT ASYNC
 def unrestr_members(
-        bot, chat_id, members, messages=True, media=True, other=True, previews=True
+    bot, chat_id, members, messages=True, media=True, other=True, previews=True
 ):
     for mem in members:
         try:
@@ -127,7 +133,7 @@ def unrestr_members(
             pass
 
 
-@natsunagicmd(command='locktypes')
+@natsunagicmd(command="locktypes")
 def locktypes(update, _):
     update.effective_message.reply_text(
         "\n × ".join(
@@ -137,7 +143,7 @@ def locktypes(update, _):
     )
 
 
-@natsunagicmd(command='lock', pass_args=True)
+@natsunagicmd(command="lock", pass_args=True)
 @user_admin(AdminPerms.CAN_CHANGE_INFO)
 @loggable
 @typing_action
@@ -147,8 +153,8 @@ def lock(update: Update, context: CallbackContext) -> str:  # sourcery no-metric
     user = update.effective_user
 
     if (
-            can_delete(chat, context.bot.id)
-            or update.effective_message.chat.type == "private"
+        can_delete(chat, context.bot.id)
+        or update.effective_message.chat.type == "private"
     ):
         if len(args) >= 1:
             ltype = args[0].lower()
@@ -245,7 +251,7 @@ def lock(update: Update, context: CallbackContext) -> str:  # sourcery no-metric
     return ""
 
 
-@natsunagicmd(command='unlock', pass_args=True)
+@natsunagicmd(command="unlock", pass_args=True)
 @user_admin(AdminPerms.CAN_CHANGE_INFO)
 @loggable
 @typing_action
@@ -373,10 +379,10 @@ def del_lockables(update, context):  # sourcery no-metrics
             continue
         if lockable == "button":
             if (
-                    sql.is_locked(chat.id, lockable)
-                    and can_delete(chat, context.bot.id)
-                    and message.reply_markup
-                    and message.reply_markup.inline_keyboard
+                sql.is_locked(chat.id, lockable)
+                and can_delete(chat, context.bot.id)
+                and message.reply_markup
+                and message.reply_markup.inline_keyboard
             ):
                 try:
                     message.delete()
@@ -387,10 +393,10 @@ def del_lockables(update, context):  # sourcery no-metrics
             continue
         if lockable == "inline":
             if (
-                    sql.is_locked(chat.id, lockable)
-                    and can_delete(chat, context.bot.id)
-                    and message
-                    and message.via_bot
+                sql.is_locked(chat.id, lockable)
+                and can_delete(chat, context.bot.id)
+                and message
+                and message.via_bot
             ):
                 try:
                     message.delete()
@@ -400,9 +406,9 @@ def del_lockables(update, context):  # sourcery no-metrics
                 break
             continue
         if (
-                filter(update)
-                and sql.is_locked(chat.id, lockable)
-                and can_delete(chat, context.bot.id)
+            filter(update)
+            and sql.is_locked(chat.id, lockable)
+            and can_delete(chat, context.bot.id)
         ):
             if lockable == "bots":
                 new_members = update.effective_message.new_chat_members
@@ -478,7 +484,7 @@ def build_lock_message(chat_id):
     return res
 
 
-@natsunagicmd(command='locks')
+@natsunagicmd(command="locks")
 @u_admin
 @typing_action
 def list_locks(update, context):
