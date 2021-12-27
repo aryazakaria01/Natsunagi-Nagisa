@@ -147,6 +147,10 @@ if ENV:
     CUSTOM_CMD = os.environ.get("CUSTOM_CMD", "?")
     BOTLOG_CHATID = os.environ.get("BOTLOG_CHATID")
     SUDO_USERS = os.environ.get("SUDO_USERS")
+    MESSAGE_DUMP_CHAT = os.environ.get("MESSAGE_DUMP_CHAT")
+    WELCOME_DELAY_KICK_SEC os.environ.get("WELCOME_DELAY_KICK_SEC)
+    LOG_MENTIONS = os.environ.get("LOG_MENTIONS")
+    RSS_DELAY = os.environ.get("RSS_DELAY")
 
     try:
         WHITELIST_CHATS = {
@@ -248,6 +252,10 @@ else:
     CUSTOM_CMD = Config.CUSTOM_CMD
     BOTLOG_CHATID = Config.BOTLOG_CHATID
     SUDO_USERS = Config.SUDO_USERS
+    MESSAGE_DUMP_CHAT = Config.MESSAGE_DUMP_CHAT
+    WELCOME_DELAY_KICK_SEC = Config.WELCOME_DELAY_KICK_SEC
+    LOG_MENTIONS = Config.LOG_MENTIONS
+    RSS_DELAY = Config.RSS_DELAY
 
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
