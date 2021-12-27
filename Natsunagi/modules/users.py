@@ -5,10 +5,10 @@ from telegram import TelegramError, Update
 from telegram.error import BadRequest, Unauthorized
 from telegram.ext import CallbackContext, CommandHandler, Filters, MessageHandler
 
-import Natsunagi.modules.sql.users_sql as sql
+import Natsunagi.modules.no_sql.users_db as user_db
 from Natsunagi import DEV_USERS, LOGGER, OWNER_ID, dispatcher
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus, sudo_plus
-from Natsunagi.modules.sql.users_sql import get_all_users
+from Natsunagi.modules.no_sql.users_db import get_all_users
 
 USERS_GROUP = 4
 CHAT_GROUP = 5
@@ -23,13 +23,14 @@ def get_user_id(username):
     if username.startswith("@"):
         username = username[1:]
 
-    users = sql.get_userid_by_name(username)
+    users = user_db.get_userid_by_name(username)
 
     if not users:
         return None
 
     if len(users) == 1:
-        return users[0].user_id
+        return users[0]["_id"]
+
     for user_obj in users:
         try:
             userdat = dispatcher.bot.get_chat(user_obj.user_id)
@@ -56,7 +57,7 @@ def broadcast(update: Update, context: CallbackContext):
             to_user = True
         else:
             to_group = to_user = True
-        chats = sql.get_all_chats() or []
+        chats = user_db.get_all_chats() or []
         users = get_all_users()
         failed = 0
         failed_user = 0
@@ -64,7 +65,7 @@ def broadcast(update: Update, context: CallbackContext):
             for chat in chats:
                 try:
                     context.bot.sendMessage(
-                        int(chat.chat_id),
+                        int(chat["chat_id"]),
                         to_send[1],
                         parse_mode="MARKDOWN",
                         disable_web_page_preview=True,
@@ -76,7 +77,7 @@ def broadcast(update: Update, context: CallbackContext):
             for user in users:
                 try:
                     context.bot.sendMessage(
-                        int(user.user_id),
+                        int(user["_id"]),
                         to_send[1],
                         parse_mode="MARKDOWN",
                         disable_web_page_preview=True,
@@ -93,10 +94,10 @@ def log_user(update: Update, context: CallbackContext):
     chat = update.effective_chat
     msg = update.effective_message
 
-    sql.update_user(msg.from_user.id, msg.from_user.username, chat.id, chat.title)
+    user_db.update_user(msg.from_user.id, msg.from_user.username, chat.id, chat.title)
 
     if msg.reply_to_message:
-        sql.update_user(
+        user_db.update_user(
             msg.reply_to_message.from_user.id,
             msg.reply_to_message.from_user.username,
             chat.id,
@@ -104,12 +105,12 @@ def log_user(update: Update, context: CallbackContext):
         )
 
     if msg.forward_from:
-        sql.update_user(msg.forward_from.id, msg.forward_from.username)
+        user_db.update_user(msg.forward_from.id, msg.forward_from.username)
 
 
 @sudo_plus
 def chats(update: Update, context: CallbackContext):
-    all_chats = sql.get_all_chats() or []
+    all_chats = user_db.get_all_chats() or []
     chatfile = "List of chats.\n0. Chat name | Chat ID | Members count\n"
     P = 1
     for chat in all_chats:
@@ -150,16 +151,16 @@ def __user_info__(user_id):
         return """╘══「 Groups count: <code>???</code> 」"""
     if user_id == dispatcher.bot.id:
         return """╘══「 Groups count: <code>???</code> 」"""
-    num_chats = sql.get_user_num_chats(user_id)
+    num_chats = user_db.get_user_num_chats(user_id)
     return f"""╘══「 Groups count: <code>{num_chats}</code> 」"""
 
 
 def __stats__():
-    return f"× {sql.num_users()} users, across {sql.num_chats()} chats"
+    return f"× {user_db.num_users()} users, across {user_db.num_chats()} chats"
 
 
 def __migrate__(old_chat_id, new_chat_id):
-    sql.migrate_chat(old_chat_id, new_chat_id)
+    user_db.migrate_chat(old_chat_id, new_chat_id)
 
 
 BROADCAST_HANDLER = CommandHandler(
