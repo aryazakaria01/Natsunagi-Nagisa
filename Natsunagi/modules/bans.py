@@ -39,34 +39,38 @@ from Natsunagi.modules.helper_funcs.chat_status import (
 from Natsunagi.modules.helper_funcs.extraction import extract_user_and_text
 from Natsunagi.modules.helper_funcs.filters import CustomFilters
 from Natsunagi.modules.helper_funcs.string_handling import extract_time
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
 from Natsunagi.modules.log_channel import gloggable, loggable
 
 
+@natsunagicmd(command='ban', pass_args=True)
 @connection_status
 @bot_admin
 @can_restrict
-@user_admin
-@user_can_ban
+@user_admin(AdminPerms.CAN_RESTRICT_MEMBERS)
 @loggable
-def ban(update: Update, context: CallbackContext) -> str:
-    chat = update.effective_chat
-    user = update.effective_user
-    message = update.effective_message
-    log_message = ""
-    bot = context.bot
+def ban(update: Update, context: CallbackContext) -> Optional[str]:  # sourcery no-metrics
+    chat = update.effective_chat  # type: Optional[Chat]
+    user = update.effective_user  # type: Optional[User]
+    message = update.effective_message  # type: Optional[Message]
     args = context.args
+    bot = context.bot
+    log_message = ""
     reason = ""
     if message.reply_to_message and message.reply_to_message.sender_chat:
-        r = bot.ban_chat_sender_chat(
-            chat_id=chat.id, sender_chat_id=message.reply_to_message.sender_chat.id
-        )
+        r = bot.ban_chat_sender_chat(chat_id=chat.id, sender_chat_id=message.reply_to_message.sender_chat.id)
         if r:
-            message.reply_text(
-                "Finally! Channel {} was banned successfully from {}\n\n💡 He can only write with his profile but not through other channels.".format(
-                    html.escape(message.reply_to_message.sender_chat.title),
-                    html.escape(chat.title),
-                ),
-                parse_mode="html",
+            message.reply_text("Finally! Channel {} was banned successfully from {}\n\n💡 He can only write with his profile but not through other channels.".format(
+                html.escape(message.reply_to_message.sender_chat.title),
+                html.escape(chat.title)
+            ),
+                parse_mode="html"
+            )
+            return (
+                f"<b>{html.escape(chat.title)}:</b>\n"
+                f"#BANNED\n"
+                f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+                f"<b>Channel:</b> {html.escape(message.reply_to_message.sender_chat.title)} ({message.reply_to_message.sender_chat.id})"
             )
         else:
             message.reply_text("Failed to ban channel")
@@ -75,16 +79,18 @@ def ban(update: Update, context: CallbackContext) -> str:
     user_id, reason = extract_user_and_text(message, args)
 
     if not user_id:
-        message.reply_text("Dude at least refer some user to ban!")
+        message.reply_text("I doubt that's a user.")
         return log_message
+
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
         if excp.message != "User not found":
             raise
+
         message.reply_text("Can't seem to find this person.")
         return log_message
-    if user_id == bot.id:
+    if user_id == context.bot.id:
         message.reply_text("Oh yeah, ban myself, noob!")
         return log_message
 
@@ -94,15 +100,11 @@ def ban(update: Update, context: CallbackContext) -> str:
         elif user_id in DEV_USERS:
             message.reply_text("I can't act against our own.")
         elif user_id in DRAGONS:
-            message.reply_text(
-                "Fighting this Shadow Slayer here will put user lives at risk."
-            )
+            message.reply_text("Fighting this Shadow Slayer here will put user lives at risk.")
         elif user_id in DEMONS:
             message.reply_text("Bring an order from Master Servant to fight a Guardian")
         elif user_id in TIGERS:
-            message.reply_text(
-                "Bring an order from Master Servant to fight a Light Shooters"
-            )
+            message.reply_text("Bring an order from Master Servant to fight a Light Shooters")
         elif user_id in WOLVES:
             message.reply_text("Villain abilities make them ban immune!")
         else:
@@ -121,8 +123,8 @@ def ban(update: Update, context: CallbackContext) -> str:
     log = (
         f"<b>{html.escape(chat.title)}:</b>\n"
         f"#{'S' if silent else ''}BANNED\n"
-        f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
-        f"<b>User:</b> {mention_html(member.user.id, html.escape(member.user.first_name))}"
+        f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+        f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}"
     )
     if reason:
         log += "\n<b>Reason:</b> {}".format(reason)
@@ -136,7 +138,7 @@ def ban(update: Update, context: CallbackContext) -> str:
             message.delete()
             return log
 
-        # bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
+        # context.bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
         reply = (
             f"Yep! Banned {mention_html(member.user.id, html.escape(member.user.first_name))} from {chat.title}\n"
             f"By {mention_html(user.id, html.escape(user.first_name))}"
@@ -166,21 +168,20 @@ def ban(update: Update, context: CallbackContext) -> str:
     except BadRequest as excp:
         if excp.message == "Reply message not found":
             # Do not reply
-            if silent:
-                return log
             message.reply_text("Banned!", quote=False)
             return log
-        LOGGER.warning(update)
-        LOGGER.exception(
-            "ERROR banning user %s in chat %s (%s) due to %s",
-            user_id,
-            chat.title,
-            chat.id,
-            excp.message,
-        )
-        message.reply_text("Uhm...that didn't work...")
+        else:
+            LOGGER.warning(update)
+            LOGGER.exception(
+                "ERROR banning user %s in chat %s (%s) due to %s",
+                user_id,
+                chat.title,
+                chat.id,
+                excp.message,
+            )
+            message.reply_text("Well damn, I can't ban that user.")
 
-    return log_message
+    return ""
 
 
 @connection_status
