@@ -36,20 +36,22 @@ from Natsunagi.modules.helper_funcs.chat_status import (
     user_admin_no_reply,
     user_can_ban,
 )
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
 from Natsunagi.modules.helper_funcs.extraction import extract_user_and_text
 from Natsunagi.modules.helper_funcs.filters import CustomFilters
 from Natsunagi.modules.helper_funcs.string_handling import extract_time
-from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
 from Natsunagi.modules.log_channel import gloggable, loggable
 
 
-@natsunagicmd(command='ban', pass_args=True)
+@natsunagicmd(command="ban", pass_args=True)
 @connection_status
 @bot_admin
 @can_restrict
 @user_admin(AdminPerms.CAN_RESTRICT_MEMBERS)
 @loggable
-def ban(update: Update, context: CallbackContext) -> Optional[str]:  # sourcery no-metrics
+def ban(
+    update: Update, context: CallbackContext
+) -> Optional[str]:  # sourcery no-metrics
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
     message = update.effective_message  # type: Optional[Message]
@@ -58,13 +60,16 @@ def ban(update: Update, context: CallbackContext) -> Optional[str]:  # sourcery 
     log_message = ""
     reason = ""
     if message.reply_to_message and message.reply_to_message.sender_chat:
-        r = bot.ban_chat_sender_chat(chat_id=chat.id, sender_chat_id=message.reply_to_message.sender_chat.id)
+        r = bot.ban_chat_sender_chat(
+            chat_id=chat.id, sender_chat_id=message.reply_to_message.sender_chat.id
+        )
         if r:
-            message.reply_text("Finally! Channel {} was banned successfully from {}\n\n💡 He can only write with his profile but not through other channels.".format(
-                html.escape(message.reply_to_message.sender_chat.title),
-                html.escape(chat.title)
-            ),
-                parse_mode="html"
+            message.reply_text(
+                "Finally! Channel {} was banned successfully from {}\n\n💡 He can only write with his profile but not through other channels.".format(
+                    html.escape(message.reply_to_message.sender_chat.title),
+                    html.escape(chat.title),
+                ),
+                parse_mode="html",
             )
             return (
                 f"<b>{html.escape(chat.title)}:</b>\n"
@@ -100,11 +105,15 @@ def ban(update: Update, context: CallbackContext) -> Optional[str]:  # sourcery 
         elif user_id in DEV_USERS:
             message.reply_text("I can't act against our own.")
         elif user_id in DRAGONS:
-            message.reply_text("Fighting this Shadow Slayer here will put user lives at risk.")
+            message.reply_text(
+                "Fighting this Shadow Slayer here will put user lives at risk."
+            )
         elif user_id in DEMONS:
             message.reply_text("Bring an order from Master Servant to fight a Guardian")
         elif user_id in TIGERS:
-            message.reply_text("Bring an order from Master Servant to fight a Light Shooters")
+            message.reply_text(
+                "Bring an order from Master Servant to fight a Light Shooters"
+            )
         elif user_id in WOLVES:
             message.reply_text("Villain abilities make them ban immune!")
         else:
