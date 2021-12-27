@@ -17,8 +17,9 @@ from telegram import (
 from telegram.ext import CallbackContext, CommandHandler
 from telegram.ext.callbackqueryhandler import CallbackQueryHandler
 from telethon import events
+from pyrogram.errors import FloodWait
 
-from Natsunagi import DEV_USERS, OWNER_ID, dispatcher, telethn
+from Natsunagi import DEV_USERS, OWNER_ID, dispatcher, telethn, pgram
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus
 
 
@@ -164,23 +165,19 @@ close_keyboard = InlineKeyboardMarkup(
 )
 
 
-@dev_plus
-def gitpull(update: Update, context: CallbackContext):
-    sent_msg = update.effective_message.reply_text(
-        "Pulling all changes from remote and then attempting to restart."
+@pgram.on_message(filters.command("gitpull") & filters.user(DEV_USERS))
+async def update_restart(_, message):
+    try:
+        out = subprocess.check_output(["git", "pull"]).decode("UTF-8")
+        if "Already up to date." in str(out):
+            return await message.reply_text("Its already up-to date!")
+        await message.reply_text(f"```{out}```")
+    except Exception as e:
+        return await message.reply_text(str(e))
+    m = await message.reply_text(
+        "**Pulling all changes from remote and then attempting to restart.**"
     )
-    subprocess.Popen("git pull", stdout=subprocess.PIPE)
-
-    sent_msg_text = sent_msg.text + "\n\nChanges pulled...I guess.. Restarting in "
-
-    for i in reversed(range(5)):
-        sent_msg.edit_text(sent_msg_text + str(i + 1))
-        sleep(1)
-
-    sent_msg.edit_text("Restarted.")
-
-    os.system("restart.bat")
-    os.execv("start.bat", sys.argv)
+    await restart(m)
 
 
 @dev_plus
