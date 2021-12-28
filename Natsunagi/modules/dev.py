@@ -16,7 +16,7 @@ from telegram.ext import CallbackContext, CommandHandler
 from telegram.ext.callbackqueryhandler import CallbackQueryHandler
 from telethon import events
 
-from Natsunagi import DEV_USERS, OWNER_ID, dispatcher, telethn
+from Natsunagi import DEV_USERS, OWNER_ID, dispatcher, telethn, updater
 from Natsunagi.modules.helper_funcs.alternate import typing_action
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus
 from Natsunagi.modules.helper_funcs.filters import CustomFilters
