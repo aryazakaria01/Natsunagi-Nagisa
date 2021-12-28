@@ -1,5 +1,6 @@
-import wikipedia
 import re
+
+import wikipedia
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 from Natsunagi import dispatcher
