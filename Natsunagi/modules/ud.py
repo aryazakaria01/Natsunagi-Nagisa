@@ -18,11 +18,11 @@ def ud(update, context):
         return
     try:
         results = get(f"http://api.urbandictionary.com/v0/define?term={text}").json()
-        reply_text = f'Word: {text}\nDefinition: {results["list"][0]["definition"]}'
+        reply_text = f'Word: {text}\n\nDefinition: {results["list"][0]["definition"]}'
         reply_text += f'\n\nExample: {results["list"][0]["example"]}'
     except IndexError:
         reply_text = (
-            f"Word: {text}\nResults: Sorry could not find any matching results!"
+            f"Word: {text}\n\nResults: Sorry could not find any matching results!"
         )
     ignore_chars = "[]"
     reply = reply_text
