@@ -177,7 +177,7 @@ def gitpull(update, context):
 
 
 def restart(update, context):
-        update.message.reply_text("Exiting all Processes and starting a new Instance!:)
+        update.message.reply_text("Exiting all Processes and starting a new Instance!")
         Thread(target=stop_and_restart).start()
 
 
