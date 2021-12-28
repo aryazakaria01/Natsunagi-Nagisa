@@ -2,10 +2,9 @@ import asyncio
 import re
 import subprocess
 from statistics import mean
+from threading import Thread
 from time import monotonic as time
 
-from threading import Thread
-from pyrogram import filters
 from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
@@ -17,9 +16,10 @@ from telegram.ext import CallbackContext, CommandHandler
 from telegram.ext.callbackqueryhandler import CallbackQueryHandler
 from telethon import events
 
-from Natsunagi import DEV_USERS, OWNER_ID, dispatcher, pgram, telethn
-from Natsunagi.modules.helper_funcs.chat_status import dev_plus
+from Natsunagi import DEV_USERS, OWNER_ID, dispatcher, telethn
 from Natsunagi.modules.helper_funcs.alternate import typing_action
+from Natsunagi.modules.helper_funcs.chat_status import dev_plus
+
 
 def leave_cb(update: Update, context: CallbackContext):
     bot = context.bot
@@ -162,12 +162,15 @@ close_keyboard = InlineKeyboardMarkup(
     [[InlineKeyboardButton("No", callback_data="close2")]]
 )
 
+
 @typing_action
 def gitpull(update, context):
-    sent_msg = update.effective_message.reply_text(
-        "Pulling all changes from remote..."
+    sent_msg = update.effective_message.reply_text("Pulling all changes from remote...")
+    subprocess.Popen(
+        "git reset --hard origin/master && git clean -fd && git pull",
+        stdout=subprocess.PIPE,
+        shell=True,
     )
-    subprocess.Popen("git reset --hard origin/master && git clean -fd && git pull", stdout=subprocess.PIPE, shell=True)
 
     sent_msg_text = (
         sent_msg.text
@@ -177,8 +180,8 @@ def gitpull(update, context):
 
 
 def restart(update, context):
-        update.message.reply_text("Exiting all Processes and starting a new Instance!")
-        Thread(target=stop_and_restart).start()
+    update.message.reply_text("Exiting all Processes and starting a new Instance!")
+    Thread(target=stop_and_restart).start()
 
 
 PIP_INSTALL_HANDLER = CommandHandler("install", pip_install, run_async=True)
