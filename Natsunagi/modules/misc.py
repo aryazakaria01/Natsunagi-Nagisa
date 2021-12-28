@@ -1,4 +1,12 @@
 import random
+import datetime
+import html
+import os
+import platform
+import subprocess
+import time
+import sys
+from platform import python_version
 
 import requests as r
 from telegram import (
@@ -8,12 +16,18 @@ from telegram import (
     ParseMode,
     Update,
 )
+from telegram import ParseMode, __version__
+from telegram.error import BadRequest, TelegramError
 from telegram.ext import CallbackContext, CommandHandler, Filters
+from threading import Thread
+from psutil import boot_time, cpu_percent, disk_usage, virtual_memory
+from spamwatch import __version__ as __sw__
 
 from Natsunagi import dispatcher
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.alternate import send_action, typing_action
 from Natsunagi.modules.helper_funcs.chat_status import user_admin
+from Natsunagi.modules.helper_funcs.filters import CustomFilters
 
 MARKDOWN_HELP = f"""
 Markdown is a very powerful formatting tool supported by telegram. {dispatcher.bot.first_name} has some enhancements, to make sure that \
@@ -145,6 +159,43 @@ def markdown_help(update: Update, context: CallbackContext):
     markdown_help_sender(update)
 
 
+@typing_action
+def get_bot_ip(update, context):
+    """Sends the bot's IP address, so as to be able to ssh in if necessary.
+    OWNER ONLY.
+    """
+    res = requests.get("http://ipinfo.io/ip")
+    update.message.reply_text(res.text)
+
+
+@typing_action
+def system_status(update, context):
+    uptime = datetime.datetime.fromtimestamp(boot_time()).strftime(
+        "%Y-%m-%d %H:%M:%S"
+    )
+    status = "<b>======[ SYSTEM INFO ]======</b>\n\n"
+    status += "<b>System uptime:</b> <code>" + str(uptime) + "</code>\n"
+
+    uname = platform.uname()
+    status += "<b>System:</b> <code>" + str(uname.system) + "</code>\n"
+    status += "<b>Node name:</b> <code>" + str(uname.node) + "</code>\n"
+    status += "<b>Release:</b> <code>" + str(uname.release) + "</code>\n"
+    status += "<b>Version:</b> <code>" + str(uname.version) + "</code>\n"
+    status += "<b>Machine:</b> <code>" + str(uname.machine) + "</code>\n"
+    status += "<b>Processor:</b> <code>" + str(uname.processor) + "</code>\n\n"
+
+    mem = virtual_memory()
+    cpu = cpu_percent()
+    disk = disk_usage("/")
+    status += "<b>CPU usage:</b> <code>" + str(cpu) + " %</code>\n"
+    status += "<b>Ram usage:</b> <code>" + str(mem[2]) + " %</code>\n"
+    status += "<b>Storage used:</b> <code>" + str(disk[3]) + " %</code>\n\n"
+    status += "<b>Python version:</b> <code>" + python_version() + "</code>\n"
+    status += "<b>Library version:</b> <code>" + str(__version__) + "</code>\n"
+    status += "<b>Spamwatch API:</b> <code>" + str(__sw__) + "</code>\n"
+    context.bot.sendMessage(
+        update.effective_chat.id, status, parse_mode=ParseMode.HTML
+    )
 __help__ = """
 Available commands:
 *Markdown*:
@@ -207,17 +258,27 @@ SRC_HANDLER = CommandHandler(
     "source", src, filters=Filters.chat_type.private, run_async=True
 )
 REDDIT_MEMES_HANDLER = DisableAbleCommandHandler("rmeme", rmemes, run_async=True)
+IP_HANDLER = CommandHandler(
+    "ip", get_bot_ip, filters=Filters.chat(OWNER_ID), run_async=True
+)
+SYS_STATUS_HANDLER = CommandHandler(
+    "sysinfo", system_status, filters=CustomFilters.dev_filter, run_async=True
+)
 
 dispatcher.add_handler(ECHO_HANDLER)
 dispatcher.add_handler(MD_HELP_HANDLER)
 dispatcher.add_handler(SRC_HANDLER)
 dispatcher.add_handler(REDDIT_MEMES_HANDLER)
+dispatcher.add_handler(SYS_STATUS_HANDLER)
+dispatcher.add_handler(IP_HANDLER)
 
 __mod_name__ = "Extras"
-__command_list__ = ["id", "echo", "source", "rmeme"]
+__command_list__ = ["id", "echo", "source", "rmeme", "ip", "sysinfo"]
 __handlers__ = [
     ECHO_HANDLER,
     MD_HELP_HANDLER,
     SRC_HANDLER,
     REDDIT_MEMES_HANDLER,
+    IP_HANDLER,
+    SYS_STATUS_HANDLER,
 ]
