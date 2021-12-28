@@ -6,6 +6,7 @@ from Natsunagi import dispatcher
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.alternate import typing_action
 
+
 @typing_action
 def ud(update, context):
     msg = update.effective_message
@@ -18,15 +19,13 @@ def ud(update, context):
         msg.reply_text("Who is Arya!")
         return
     try:
-        results = get(
-            f"http://api.urbandictionary.com/v0/define?term={text}"
-        ).json()
-        reply_text = (
-            f'Word: {text}\nDefinition: {results["list"][0]["definition"]}'
-        )
+        results = get(f"http://api.urbandictionary.com/v0/define?term={text}").json()
+        reply_text = f'Word: {text}\nDefinition: {results["list"][0]["definition"]}'
         reply_text += f'\n\nExample: {results["list"][0]["example"]}'
     except IndexError:
-        reply_text = f"Word: {text}\nResults: Sorry could not find any matching results!"
+        reply_text = (
+            f"Word: {text}\nResults: Sorry could not find any matching results!"
+        )
     ignore_chars = "[]"
     reply = reply_text
     for chars in ignore_chars:
