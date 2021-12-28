@@ -180,6 +180,12 @@ def gitpull(update, context):
     sent_msg.edit_text(sent_msg_text)
 
 
+def stop_and_restart():
+        """Kill old instance, replace the new one"""
+        updater.stop()
+        os.execl(sys.executable, sys.executable, *sys.argv)
+
+
 def restart(update, context):
     update.message.reply_text("Exiting all Processes and starting a new Instance!")
     Thread(target=stop_and_restart).start()
