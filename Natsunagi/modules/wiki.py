@@ -1,11 +1,10 @@
 import wikipedia
-from telegram import ParseMode, Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import CallbackContext
-from wikipedia.exceptions import DisambiguationError, PageError
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 from Natsunagi import dispatcher
 from Natsunagi.modules.disable import DisableAbleCommandHandler
-from Natsunagi.modules.helper_funcs.alternate import send_action, typing_action
+from Natsunagi.modules.helper_funcs.alternate import typing_action
+
 
 @typing_action
 def wiki(update, context):
@@ -15,7 +14,9 @@ def wiki(update, context):
         update.effective_message.reply_text("Enter keywords!")
     else:
         try:
-            pertama = update.effective_message.reply_text("Searching the keywords from wikipedia...")
+            pertama = update.effective_message.reply_text(
+                "Searching the keywords from wikipedia..."
+            )
             keyboard = InlineKeyboardMarkup(
                 [
                     [
