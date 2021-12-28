@@ -14,7 +14,7 @@ def wiki(update, context):
     Shinano = re.split(pattern="wiki", string=update.effective_message.text)
     wikipedia.set_lang("en")
     if len(str(Shinano[1])) == 0:
-        update.effective_message.reply_text("Enter keywords!")
+        update.effective_message.reply_text("Enter the keywords for searching to wikipedia!")
     else:
         try:
             Natsunagi = update.effective_message.reply_text(
@@ -37,12 +37,12 @@ def wiki(update, context):
                 reply_markup=keyboard,
             )
         except wikipedia.PageError as e:
-            update.effective_message.reply_text(f"⚠ Error: {e}")
+            update.effective_message.reply_text(f"⚠ Error Detected: {e}")
         except BadRequest as et:
-            update.effective_message.reply_text(f"⚠ Error: {et}")
+            update.effective_message.reply_text(f"⚠ Error Detected: {et}")
         except wikipedia.exceptions.DisambiguationError as eet:
             update.effective_message.reply_text(
-                f"⚠ Error\n There are too many query! Express it more!\nPossible query result:\n{eet}"
+                f"⚠ Error Detected\n\nThere are too many query! Express it more!\n\nPossible query result:\n\n{eet}"
             )
 
 
