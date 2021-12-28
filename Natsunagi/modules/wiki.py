@@ -14,7 +14,9 @@ def wiki(update, context):
     Shinano = re.split(pattern="wiki", string=update.effective_message.text)
     wikipedia.set_lang("en")
     if len(str(Shinano[1])) == 0:
-        update.effective_message.reply_text("Enter the keywords for searching to wikipedia!")
+        update.effective_message.reply_text(
+            "Enter the keywords for searching to wikipedia!"
+        )
     else:
         try:
             Natsunagi = update.effective_message.reply_text(
