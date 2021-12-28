@@ -2,6 +2,7 @@ import re
 
 import wikipedia
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.error import BadRequest
 
 from Natsunagi import dispatcher
 from Natsunagi.modules.disable import DisableAbleCommandHandler
