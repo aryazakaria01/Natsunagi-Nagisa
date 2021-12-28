@@ -19,7 +19,7 @@ from telethon import events
 from Natsunagi import DEV_USERS, OWNER_ID, dispatcher, telethn
 from Natsunagi.modules.helper_funcs.alternate import typing_action
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus
-
+from Natsunagi.modules.helper_funcs.filters import CustomFilters
 
 def leave_cb(update: Update, context: CallbackContext):
     bot = context.bot
