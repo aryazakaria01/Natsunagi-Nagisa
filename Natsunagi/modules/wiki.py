@@ -10,13 +10,13 @@ from Natsunagi.modules.helper_funcs.alternate import typing_action
 
 @typing_action
 def wiki(update, context):
-    kueri = re.split(pattern="wiki", string=update.effective_message.text)
+    Shinano = re.split(pattern="wiki", string=update.effective_message.text)
     wikipedia.set_lang("en")
-    if len(str(kueri[1])) == 0:
+    if len(str(Shinano[1])) == 0:
         update.effective_message.reply_text("Enter keywords!")
     else:
         try:
-            pertama = update.effective_message.reply_text(
+            Natsunagi = update.effective_message.reply_text(
                 "Searching the keywords from wikipedia..."
             )
             keyboard = InlineKeyboardMarkup(
@@ -24,15 +24,15 @@ def wiki(update, context):
                     [
                         InlineKeyboardButton(
                             text="More Information",
-                            url=wikipedia.page(kueri).url,
+                            url=wikipedia.page(Shinano).url,
                         )
                     ]
                 ]
             )
             context.bot.editMessageText(
                 chat_id=update.effective_chat.id,
-                message_id=pertama.message_id,
-                text=wikipedia.summary(kueri, sentences=10),
+                message_id=Natsunagi.message_id,
+                text=wikipedia.summary(Shinano, sentences=10),
                 reply_markup=keyboard,
             )
         except wikipedia.PageError as e:
