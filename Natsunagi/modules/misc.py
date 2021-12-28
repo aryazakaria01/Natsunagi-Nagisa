@@ -1,27 +1,21 @@
-import random
 import datetime
-import html
-import os
 import platform
-import subprocess
-import time
-import sys
+import random
 from platform import python_version
 
 import requests as r
+from psutil import boot_time, cpu_percent, disk_usage, virtual_memory
+from spamwatch import __version__ as __sw__
 from telegram import (
     ChatAction,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     ParseMode,
     Update,
+    __version__,
 )
-from telegram import ParseMode, __version__
-from telegram.error import BadRequest, TelegramError
+from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, Filters
-from threading import Thread
-from psutil import boot_time, cpu_percent, disk_usage, virtual_memory
-from spamwatch import __version__ as __sw__
 
 from Natsunagi import dispatcher
 from Natsunagi.modules.disable import DisableAbleCommandHandler
@@ -170,9 +164,7 @@ def get_bot_ip(update, context):
 
 @typing_action
 def system_status(update, context):
-    uptime = datetime.datetime.fromtimestamp(boot_time()).strftime(
-        "%Y-%m-%d %H:%M:%S"
-    )
+    uptime = datetime.datetime.fromtimestamp(boot_time()).strftime("%Y-%m-%d %H:%M:%S")
     status = "<b>======[ SYSTEM INFO ]======</b>\n\n"
     status += "<b>System uptime:</b> <code>" + str(uptime) + "</code>\n"
 
@@ -193,9 +185,9 @@ def system_status(update, context):
     status += "<b>Python version:</b> <code>" + python_version() + "</code>\n"
     status += "<b>Library version:</b> <code>" + str(__version__) + "</code>\n"
     status += "<b>Spamwatch API:</b> <code>" + str(__sw__) + "</code>\n"
-    context.bot.sendMessage(
-        update.effective_chat.id, status, parse_mode=ParseMode.HTML
-    )
+    context.bot.sendMessage(update.effective_chat.id, status, parse_mode=ParseMode.HTML)
+
+
 __help__ = """
 Available commands:
 *Markdown*:
