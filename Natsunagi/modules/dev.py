@@ -4,6 +4,7 @@ import subprocess
 from statistics import mean
 from time import monotonic as time
 
+from threading import Thread
 from pyrogram import filters
 from telegram import (
     InlineKeyboardButton,
@@ -18,7 +19,7 @@ from telethon import events
 
 from Natsunagi import DEV_USERS, OWNER_ID, dispatcher, pgram, telethn
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus
-
+from Natsunagi.modules.helper_funcs.alternate import typing_action
 
 def leave_cb(update: Update, context: CallbackContext):
     bot = context.bot
@@ -161,29 +162,23 @@ close_keyboard = InlineKeyboardMarkup(
     [[InlineKeyboardButton("No", callback_data="close2")]]
 )
 
-
-@pgram.on_message(filters.command("gitpull") & filters.user(DEV_USERS))
-async def update_restart(_, message):
-    try:
-        out = subprocess.check_output(["git", "pull"]).decode("UTF-8")
-        if "Already up to date." in str(out):
-            return await message.reply_text("Its already up-to date!")
-        await message.reply_text(f"```{out}```")
-    except Exception as e:
-        return await message.reply_text(str(e))
-    m = await message.reply_text(
-        "**Pulling all changes from remote and then attempting to restart.**"
+@typing_action
+def gitpull(update, context):
+    sent_msg = update.effective_message.reply_text(
+        "Pulling all changes from remote..."
     )
-    await restart(m)
+    subprocess.Popen("git reset --hard origin/master && git clean -fd && git pull", stdout=subprocess.PIPE, shell=True)
 
-
-@dev_plus
-def restart(update: Update, context: CallbackContext):
-    update.effective_message.reply_text(
-        "Exiting all Processes and starting a new Instance!"
+    sent_msg_text = (
+        sent_msg.text
+        + "\n\nChanges pulled... I guess..\nContinue to restart with /reboot "
     )
-    process = subprocess.run("pkill python3 && python3 -m Natsunagi", check=True)
-    process.communicate()
+    sent_msg.edit_text(sent_msg_text)
+
+
+def restart(update, context):
+        update.message.reply_text("Exiting all Processes and starting a new Instance!:)
+        Thread(target=stop_and_restart).start()
 
 
 PIP_INSTALL_HANDLER = CommandHandler("install", pip_install, run_async=True)
@@ -193,12 +188,16 @@ ALLOWGROUPS_HANDLER = CommandHandler("lockdown", allow_groups, run_async=True)
 LEAVE_CALLBACK_HANDLER = CallbackQueryHandler(
     leave_cb, pattern=r"leavechat_cb_", run_async=True
 )
+GITPULL_HANDLER = CommandHandler(
+    "gitpull", gitpull, filters=CustomFilters.dev_filter, run_async=True
+)
 
 dispatcher.add_handler(PIP_INSTALL_HANDLER)
 dispatcher.add_handler(ALLOWGROUPS_HANDLER)
 dispatcher.add_handler(LEAVE_HANDLER)
 dispatcher.add_handler(RESTART_HANDLER)
 dispatcher.add_handler(LEAVE_CALLBACK_HANDLER)
+dispatcher.add_handler(GITPULL_HANDLER)
 
 __mod_name__ = "Dev"
 __handlers__ = [
@@ -207,4 +206,5 @@ __handlers__ = [
     ALLOWGROUPS_HANDLER,
     LEAVE_CALLBACK_HANDLER,
     PIP_INSTALL_HANDLER,
+    GITPULL_HANDLER,
 ]
