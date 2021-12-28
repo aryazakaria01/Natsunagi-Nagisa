@@ -181,9 +181,9 @@ def gitpull(update, context):
 
 
 def stop_and_restart():
-        """Kill old instance, replace the new one"""
-        updater.stop()
-        os.execl(sys.executable, sys.executable, *sys.argv)
+    """Kill old instance, replace the new one"""
+    updater.stop()
+    os.execl(sys.executable, sys.executable, *sys.argv)
 
 
 def restart(update, context):
