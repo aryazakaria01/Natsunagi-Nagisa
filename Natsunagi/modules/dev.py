@@ -1,6 +1,12 @@
 import asyncio
 import re
 import subprocess
+import datetime
+import html
+import os
+import platform
+import time
+import sys
 from statistics import mean
 from threading import Thread
 from time import monotonic as time
