@@ -17,7 +17,7 @@ from telegram import (
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, Filters
 
-from Natsunagi import dispatcher
+from Natsunagi import SUPPORT_CHAT, OWNER_ID, dispatcher, updater
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.alternate import send_action, typing_action
 from Natsunagi.modules.helper_funcs.chat_status import user_admin
