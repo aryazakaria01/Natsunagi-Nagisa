@@ -7,6 +7,7 @@ from Natsunagi import dispatcher
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.alternate import send_action, typing_action
 
+
 @typing_action
 def wiki(update, context):
     kueri = re.split(pattern="wiki", string=update.effective_message.text)
@@ -15,7 +16,9 @@ def wiki(update, context):
         update.effective_message.reply_text("Enter keywords!")
     else:
         try:
-            pertama = update.effective_message.reply_text("Searching the keywords from wikipedia...")
+            pertama = update.effective_message.reply_text(
+                "Searching the keywords from wikipedia..."
+            )
             keyboard = InlineKeyboardMarkup(
                 [
                     [
