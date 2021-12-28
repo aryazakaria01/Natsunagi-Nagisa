@@ -1,53 +1,44 @@
 import wikipedia
-from telegram import ParseMode, Update
+from telegram import ParseMode, Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CallbackContext
 from wikipedia.exceptions import DisambiguationError, PageError
 
 from Natsunagi import dispatcher
 from Natsunagi.modules.disable import DisableAbleCommandHandler
+from Natsunagi.modules.helper_funcs.alternate import send_action, typing_action
 
-
-def wiki(update: Update, context: CallbackContext):
-    msg = update.effective_message.reply_to_message or update.effective_message
-    res = ""
-    if msg == update.effective_message:
-        search = msg.text.split(" ", maxsplit=1)[1]
+@typing_action
+def wiki(update, context):
+    kueri = re.split(pattern="wiki", string=update.effective_message.text)
+    wikipedia.set_lang("en")
+    if len(str(kueri[1])) == 0:
+        update.effective_message.reply_text("Enter keywords!")
     else:
-        search = msg.text
-    try:
-        res = wikipedia.summary(search)
-    except DisambiguationError as e:
-        update.message.reply_text(
-            "Disambiguated pages found! Adjust your query accordingly.\n<i>{}</i>".format(
-                e,
-            ),
-            parse_mode=ParseMode.HTML,
-        )
-    except PageError as e:
-        update.message.reply_text(
-            "<code>{}</code>".format(e),
-            parse_mode=ParseMode.HTML,
-        )
-    if res:
-        result = f"<b>{search}</b>\n\n"
-        result += f"<i>{res}</i>\n"
-        result += f"""<a href="https://en.wikipedia.org/wiki/{search.replace(" ", "%20")}">Read more...</a>"""
-        if len(result) > 4000:
-            with open("result.txt", "w") as f:
-                f.write(f"{result}\n\nUwU OwO OmO UmU")
-            with open("result.txt", "rb") as f:
-                context.bot.send_document(
-                    document=f,
-                    filename=f.name,
-                    reply_to_message_id=update.message.message_id,
-                    chat_id=update.effective_chat.id,
-                    parse_mode=ParseMode.HTML,
-                )
-        else:
-            update.message.reply_text(
-                result,
-                parse_mode=ParseMode.HTML,
-                disable_web_page_preview=True,
+        try:
+            pertama = update.effective_message.reply_text("Searching the keywords from wikipedia...")
+            keyboard = InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            text="More Information",
+                            url=wikipedia.page(kueri).url,
+                        )
+                    ]
+                ]
+            )
+            context.bot.editMessageText(
+                chat_id=update.effective_chat.id,
+                message_id=pertama.message_id,
+                text=wikipedia.summary(kueri, sentences=10),
+                reply_markup=keyboard,
+            )
+        except wikipedia.PageError as e:
+            update.effective_message.reply_text(f"⚠ Error: {e}")
+        except BadRequest as et:
+            update.effective_message.reply_text(f"⚠ Error: {et}")
+        except wikipedia.exceptions.DisambiguationError as eet:
+            update.effective_message.reply_text(
+                f"⚠ Error\n There are too many query! Express it more!\nPossible query result:\n{eet}"
             )
 
 
