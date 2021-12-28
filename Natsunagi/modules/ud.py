@@ -1,4 +1,4 @@
-from requests import get, post
+from requests import get
 
 from Natsunagi import dispatcher
 from Natsunagi.modules.disable import DisableAbleCommandHandler
