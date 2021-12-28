@@ -1,3 +1,5 @@
+from requests import get, post
+
 from Natsunagi import dispatcher
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.alternate import typing_action
