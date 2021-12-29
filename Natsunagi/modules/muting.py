@@ -17,7 +17,7 @@ from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CallbackQueryHandler, CommandHandler
 from telegram.utils.helpers import mention_html
 
-from Natsunagi import LOGGER, TIGERS, dispatcher
+from Natsunagi import LOGGER, dispatcher
 from Natsunagi.modules.helper_funcs.chat_status import (
     bot_admin,
     can_restrict,
@@ -29,7 +29,6 @@ from Natsunagi.modules.helper_funcs.chat_status import (
 from Natsunagi.modules.helper_funcs.extraction import extract_user_and_text
 from Natsunagi.modules.helper_funcs.string_handling import extract_time
 from Natsunagi.modules.log_channel import loggable
-from Natsunagi.modules.redis.approvals_redis import is_approved
 
 
 def check_user(user_id: int, bot: Bot, update: Update) -> Optional[str]:
@@ -39,7 +38,7 @@ def check_user(user_id: int, bot: Bot, update: Update) -> Optional[str]:
     try:
         member = update.effective_chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == 'User not found':
+        if excp.message == "User not found":
             return "I can't seem to find this user"
         else:
             raise
