@@ -86,50 +86,51 @@ def get_readable_time(seconds: int) -> str:
     return ping_time
 
 
-HELP_MSG = "Click the button below to get help menu in your pm."
-HELP_MSG_MODULES = "Contact me in PM to get help of {}"
-START_MSG = "I'm awake already!\n<b>Haven't slept since:</b> <code>{}</code>"
+HELP_MSG = "Contact me in PM for help!"
+HELP_MSG_MODULES = "Contact me in PM for help!"
 
-PM_START_TEXT = """
-Hello {}, My name is {}, and i'm here for you![.](https://telegra.ph/file/cd1ff43d08d42cdd93ab5.jpg)
-────────────────────────
-❂ I'm an anime-themed group management bot with an Tantei wa mou, shindeiru theme.
-❂ Maintenance by @Badboyanim
-────────────────────────
-❂ Click the button /help below to see how to use me.
-"""
+PM_START_TEXT = f"""
+Hey there! My name is *{dispatcher.bot.first_name}*-I'm here to help you manage your groups! Hit /help to find out more about how to use me to my full potential.
 
-GROUP_START_TEXT = """
-I'm awake already!
-Haven't slept since: {}
+Join my [update news](https://t.me/CyberMusicProject) to get information on all the latest updates.
+
+Use the /privacy command to view the privacy policy, and interact with your data.
 """
 
 buttons = [
-    [InlineKeyboardButton(text="About Me", callback_data="natsunagi_")],
-    [
-        InlineKeyboardButton(text="❓ Help", callback_data="help_back"),
-        InlineKeyboardButton(text="📢 Updates", url="https://t.me/CyberMusicProject"),
-    ],
     [
         InlineKeyboardButton(
-            text=f"Add Natsunagi to your group",
-            url=f"t.me/{BOT_USERNAME}?startgroup=true",
-        ),
-    ],
+            text="Add me to your chat!", url="t.me/NatsunagiProBot?startgroup=true")
+    ]
 ]
 
 
-HELP_STRINGS = """
-*Main commands available*[:](https://telegra.ph/file/a8ce80707def6b27d254f.jpg)
- ➛ /help: PM's you this message.
- ➛ /help <module name>: PM's you info about that module.
- ➛ /donate: information on how to donate!
- ➛ /settings:
-   × in PM: will send you your settings for all supported modules.
-   × in a group: will redirect you to pm, with all that chat's settings.
+HELP_STRINGS = f"""
+Help
+
+Hey! My name is *{dispatcher.bot.first_name}*. I am a group management bot, here to help you get around and keep the order in your groups!
+I have lots of handy features, such as flood control, a warning system, a note keeping system, and even predetermined replies on certain keywords.
+
+Helpful commands:
+➛ /start: Starts me! You've probably already used this.
+➛ /help: Sends this message; I'll tell you more about myself!
+➛ /donate: Gives you info on how to support me and my creator.
+
+If you have any bugs or questions on how to use me, have a look at my [group](https://t.me/NatsunagiCorporationGroup), or head to @CyberMusicProject.
+All commands can be used with the following: / !
 """
 
-DONATE_STRING = """× I'm Free for Everyone ×"""
+DONATE_STRING = """
+So you want to donate? Amazing!
+It took a lot of work for my creator to get me to where I am now - so if you have some money to spare, and want to show your support; Donate!
+After all, server fees don't pay themselves - so every little helps! All donation money goes straight to funding the VPS, and of course, boosting morale - always nice to see my work is appreciated :)
+You can donate on pm [me](https://t.me/FurryChemistry), or if you want to help support me on a monthly basis, you can set up a recurring donation on [GitHub Sponsors](https://github.com/sponsors/aryazakaria01).
+Thank you for your donation!
+"""
+
+PRIVACY_STRING = """
+Select one of the below options for more information about how the bot handles your privacy.
+"""
 
 
 IMPORTED = {}
@@ -250,8 +251,7 @@ def start(update: Update, context: CallbackContext):
             )
     else:
         update.effective_message.reply_text(
-            f"<b>Hi I'm Natsunagi Nagisa!</b>\n<b>Started working since:</b> <code>{uptime}</code>",
-            parse_mode=ParseMode.HTML,
+            "Heya :) PM me if you have any questions on how to use me!"
         )
 
 
@@ -323,7 +323,7 @@ def help_button(update, context):
         if mod_match:
             module = mod_match.group(1)
             text = (
-                "╔━⊰✦✪「 *{}* module: 」✪✦⊱━╗\n".format(HELPABLE[module].__mod_name__)
+                "*{}*\n".format(HELPABLE[module].__mod_name__)
                 + HELPABLE[module].__help__
             )
             query.message.edit_text(
@@ -372,232 +372,6 @@ def help_button(update, context):
         pass
 
 
-@natsunagicallback(pattern=r"natsunagi_")
-def natsunagi_about_callback(update, context):
-    query = update.callback_query
-    if query.data == "natsunagi_":
-        query.message.edit_text(
-            text="❂ I'm *Natsunagi Nagisa*, a powerful group management bot built to help you manage your group easily.\n"
-            "\n× I can restrict users."
-            "\n× I can greet users with customizable welcome messages and even set a group's rules."
-            "\n× I have an advanced anti-flood system."
-            "\n× I can warn users until they reach max warns, with each predefined actions such as ban, mute, kick, etc."
-            "\n× I have a note keeping system, blacklists, and even predetermined replies on certain keywords."
-            "\n× I check for admins' permissions before executing any command and more stuffs"
-            "\n\n_Natsunagu's licensed under the GNU General Public License v3.0_"
-            "\n\n Click on button bellow to get basic help for Natsunagi Nagisa.",
-            parse_mode=ParseMode.MARKDOWN,
-            disable_web_page_preview=True,
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(
-                            text="Admins", callback_data="natsunagi_admin"
-                        ),
-                        InlineKeyboardButton(
-                            text="Notes", callback_data="natsunagi_notes"
-                        ),
-                    ],
-                    [
-                        InlineKeyboardButton(
-                            text="Support", callback_data="natsunagi_support"
-                        ),
-                        InlineKeyboardButton(
-                            text="Credits", callback_data="natsunagi_credit"
-                        ),
-                    ],
-                    [
-                        InlineKeyboardButton(
-                            text="Valkyrie Family", url="https://t.me/valkyriefamily"
-                        ),
-                    ],
-                    [
-                        InlineKeyboardButton(
-                            text="Go Back", callback_data="natsunagi_back"
-                        ),
-                    ],
-                ]
-            ),
-        )
-    elif query.data == "natsunagi_back":
-        first_name = update.effective_user.first_name
-        get_readable_time((time.time() - StartTime))
-        query.message.edit_text(
-            PM_START_TEXT.format(
-                escape_markdown(first_name),
-                escape_markdown(context.bot.first_name),
-            ),
-            reply_markup=InlineKeyboardMarkup(buttons),
-            parse_mode=ParseMode.MARKDOWN,
-            timeout=60,
-            disable_web_page_preview=False,
-        )
-
-    elif query.data == "natsunagi_admin":
-        query.message.edit_text(
-            text=f"*❂ Let's make your group bit effective now*\n"
-            "\nCongragulations, Natsunagi Nagisa now ready to manage your group."
-            "\n\n*Admin Tools*"
-            "\nBasic Admin tools help you to protect and powerup your group."
-            "\nYou can ban members, Kick members, Promote someone as admin through commands of bot."
-            "\n\n*Greetings*"
-            "\nLets set a welcome message to welcome new users coming to your group."
-            "\nsend `/setwelcome [message]` to set a welcome message!",
-            parse_mode=ParseMode.MARKDOWN,
-            disable_web_page_preview=True,
-            reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Go Back", callback_data="natsunagi_")]]
-            ),
-        )
-
-    elif query.data == "natsunagi_notes":
-        query.message.edit_text(
-            text=f"<b>❂ Setting up notes</b>"
-            f"\nYou can save message/media/audio or anything as notes"
-            f"\nto get a note simply use # at the beginning of a word"
-            f"\n\nYou can also set buttons for notes and filters (refer help menu)",
-            parse_mode=ParseMode.HTML,
-            reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Go Back", callback_data="natsunagi_")]]
-            ),
-        )
-    elif query.data == "natsunagi_support":
-        query.message.edit_text(
-            text="*❂ Natsunagi support chats*"
-            "\nJoin My Support Group/Channel for see or report a problem on Natsunagi.",
-            parse_mode=ParseMode.MARKDOWN,
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(
-                            text="Support", url="t.me/NatsunagiCorporationGroup"
-                        ),
-                        InlineKeyboardButton(
-                            text="Updates", url="https://t.me/CyberMusicProject"
-                        ),
-                    ],
-                    [
-                        InlineKeyboardButton(
-                            text="Go Back", callback_data="natsunagi_"
-                        ),
-                    ],
-                ]
-            ),
-        )
-
-    elif query.data == "natsunagi_credit":
-        query.message.edit_text(
-            text=f"❂ Credis for Natsunagi\n"
-            "\nHere Developers Making And Give Inspiration For Made The Natsunagi Nagisa",
-            parse_mode=ParseMode.MARKDOWN,
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(
-                            text="sena-ex", url="https://github.com/kennedy-ex"
-                        ),
-                        InlineKeyboardButton(
-                            text="TheHamkerCat", url="https://github.com/TheHamkerCat"
-                        ),
-                    ],
-                    [
-                        InlineKeyboardButton(
-                            text="Feri", url="https://github.com/FeriEXP"
-                        ),
-                        InlineKeyboardButton(
-                            text="riz-ex", url="https://github.com/riz-ex"
-                        ),
-                    ],
-                    [
-                        InlineKeyboardButton(
-                            text="Anime Kaizoku", url="https://github.com/animekaizoku"
-                        ),
-                        InlineKeyboardButton(
-                            text="TheGhost Hunter", url="https://github.com/HuntingBots"
-                        ),
-                    ],
-                    [
-                        InlineKeyboardButton(
-                            text="Inuka Asith", url="https://github.com/inukaasith"
-                        ),
-                        InlineKeyboardButton(
-                            text="Noob-Kittu", url="https://github.com/noob-kittu"
-                        ),
-                    ],
-                    [
-                        InlineKeyboardButton(
-                            text="Queen Arzoo", url="https://github.com/QueenArzoo"
-                        ),
-                        InlineKeyboardButton(
-                            text="Paul Larsen", url="https://github.com/PaulSonOfLars"
-                        ),
-                    ],
-                    [
-                        InlineKeyboardButton(
-                            text="Ryomen-Sukuna", url="https://github.com/Ryomen-Sukuna"
-                        ),
-                        InlineKeyboardButton(
-                            text="UserLazy", url="https://github.com/UserLazy"
-                        ),
-                    ],
-                    [
-                        InlineKeyboardButton(
-                            text="zYxDevs", url="https://github.com/zYxDevs"
-                        ),
-                        InlineKeyboardButton(
-                            text="idzero23", url="https://github.com/idzero23"
-                        ),
-                    ],
-                    [
-                        InlineKeyboardButton(
-                            text="Tonic990", url="https://github.com/Tonic990"
-                        ),
-                        InlineKeyboardButton(
-                            text="aryazakaria01", url="https://github.com/aryazakaria01"
-                        ),
-                    ],
-                    [
-                        InlineKeyboardButton(
-                            text="Go Back", callback_data="natsunagi_"
-                        ),
-                    ],
-                ]
-            ),
-        )
-
-
-def Source_about_callback(update, context):
-    query = update.callback_query
-    if query.data == "source_":
-        query.message.edit_text(
-            text="❂ This advance command for Musicplayer."
-            "\n\n❂ Command for admins only."
-            "\n × `/pause` - To pause the playback."
-            "\n × `/resume` - To resuming the playback You've paused."
-            "\n × `/skip` - To skipping the player."
-            "\n × `/end` - For end the playback."
-            "\n\n❂ Command for all members."
-            "\n × `/play` <query /reply audio> - Playing music via YouTube.",
-            parse_mode=ParseMode.MARKDOWN,
-            disable_web_page_preview=True,
-            reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Go Back", callback_data="natsunagi_")]]
-            ),
-        )
-    elif query.data == "source_back":
-        first_name = update.effective_user.first_name
-        query.message.edit_text(
-            PM_START_TEXT.format(
-                escape_markdown(first_name),
-                escape_markdown(context.bot.first_name),
-            ),
-            reply_markup=InlineKeyboardMarkup(buttons),
-            parse_mode=ParseMode.MARKDOWN,
-            timeout=60,
-            disable_web_page_preview=False,
-        )
-
-
 @typing_action
 @natsunagicmd(command="help")
 def get_help(update, context):
@@ -610,13 +384,12 @@ def get_help(update, context):
         if len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
             module = args[1].lower()
             update.effective_message.reply_photo(
-                HELP_IMG,
                 HELP_MSG_MODULES.format(module.capitalize()),
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
                             InlineKeyboardButton(
-                                text="Open In Private Chat",
+                                text="Click me for help!",
                                 url="t.me/{}?start=ghelp_{}".format(
                                     context.bot.username,
                                     module,
@@ -628,13 +401,12 @@ def get_help(update, context):
             )
             return
         update.effective_message.reply_photo(
-            HELP_IMG,
             HELP_MSG,
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
-                            text="Open In Private Chat",
+                            text="Click me for help!",
                             url="t.me/{}?start=help".format(context.bot.username),
                         )
                     ]
