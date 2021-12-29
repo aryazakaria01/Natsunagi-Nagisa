@@ -3,14 +3,7 @@ import os
 from html import escape
 from typing import Optional
 
-from telegram import (
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-    Message,
-    ParseMode,
-    Update,
-    User,
-)
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update, User
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, Filters
 from telegram.utils.helpers import mention_html
