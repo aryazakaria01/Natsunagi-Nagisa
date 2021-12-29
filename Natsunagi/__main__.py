@@ -33,10 +33,8 @@ from telegram.utils.helpers import escape_markdown
 from telethon import __version__ as tlh
 
 from Natsunagi import (
-    BOT_USERNAME,
     CERT_PATH,
     DONATION_LINK,
-    HELP_IMG,
     LOGGER,
     OWNER_ID,
     PORT,
@@ -100,7 +98,8 @@ Use the /privacy command to view the privacy policy, and interact with your data
 buttons = [
     [
         InlineKeyboardButton(
-            text="Add me to your chat!", url="t.me/NatsunagiProBot?startgroup=true")
+            text="Add me to your chat!", url="t.me/NatsunagiProBot?startgroup=true"
+        )
     ]
 ]
 
@@ -203,7 +202,7 @@ def test(update: Update, context: CallbackContext):
 @natsunagicmd(command="start", pass_args=True)
 def start(update: Update, context: CallbackContext):
     args = context.args
-    uptime = get_readable_time((time.time() - StartTime))
+    get_readable_time((time.time() - StartTime))
     if update.effective_chat.type == "private":
         if len(args) >= 1:
             if args[0].lower() == "help":
