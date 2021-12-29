@@ -58,8 +58,9 @@ from Natsunagi.modules.helper_funcs.decorators import (
     natsunagicmd,
     natsunagimsg,
 )
-from Natsunagi.modules.helper_funcs.misc import paginate_modules
 from Natsunagi.modules.helper_funcs.filters import CustomFilters
+from Natsunagi.modules.helper_funcs.misc import paginate_modules
+
 
 def get_readable_time(seconds: int) -> str:
     count = 0
@@ -458,10 +459,7 @@ def get_help(update, context):
     elif len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
         module = args[1].lower()
         text = (
-            "*{}*\n".format(
-                HELPABLE[module].__mod_name__
-            )
-            + HELPABLE[module].__help__
+            "*{}*\n".format(HELPABLE[module].__mod_name__) + HELPABLE[module].__help__
         )
         send_help(
             chat.id,
