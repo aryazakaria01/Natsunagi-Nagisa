@@ -415,22 +415,12 @@ def staff_help(update, context):
         )
         return
 
-    if (
-        user.id in DEV_USERS
-        or user.id in SUDO_USERS
-        or user.id in SUPPORT_USERS
-    ):
+    if user.id in DEV_USERS or user.id in SUDO_USERS or user.id in SUPPORT_USERS:
         update.effective_message.reply_text(
             text=STAFF_HELP_STRINGS,
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton(
-                            text="Modules help", callback_data="help_back"
-                        )
-                    ]
-                ]
+                [[InlineKeyboardButton(text="Modules help", callback_data="help_back")]]
             ),
         )
     else:
