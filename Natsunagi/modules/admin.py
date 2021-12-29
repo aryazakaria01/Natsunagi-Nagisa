@@ -760,9 +760,10 @@ def invite(update, context):
         )
 
 
-@natsunagicmd(command="staff")
-def staff(update: Update, message: Message, context):
+@natsunagicmd(command="admins")
+def staff(update: Update, context: CallbackContext):
     bot = context.bot
+    message = update.effective_message
     creator = []
     co_founder = []
     admin = []
