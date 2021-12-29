@@ -27,7 +27,7 @@ from telegram.error import (
     TimedOut,
     Unauthorized,
 )
-from telegram.ext import CallbackContext, Filters
+from telegram.ext import CallbackContext, Filters, CommandHandler
 from telegram.ext.dispatcher import DispatcherHandlerStop
 from telegram.utils.helpers import escape_markdown
 from telethon import __version__ as tlh
@@ -47,6 +47,8 @@ from Natsunagi import (
     pgram,
     telethn,
     updater,
+    DEMONS,
+    DRAGONS,
 )
 from Natsunagi.modules import ALL_MODULES
 from Natsunagi.modules.helper_funcs.alternate import typing_action
@@ -57,7 +59,8 @@ from Natsunagi.modules.helper_funcs.decorators import (
     natsunagimsg,
 )
 from Natsunagi.modules.helper_funcs.misc import paginate_modules
-
+from Natsunagi.modules.helper_funcs.alternate import typing_action
+from Natsunagi.modules.helper_funcs.misc import paginate_modules
 
 def get_readable_time(seconds: int) -> str:
     count = 0
@@ -347,6 +350,7 @@ def help_button(update, context):
     mod_match = re.match(r"help_module\((.+?)\)", query.data)
     prev_match = re.match(r"help_prev\((.+?)\)", query.data)
     next_match = re.match(r"help_next\((.+?)\)", query.data)
+    staff_match = re.match(r"help_staff", query.data)
     back_match = re.match(r"help_back", query.data)
 
     print(query.message.chat.id)
@@ -431,38 +435,22 @@ def staff_help(update, context):
 @natsunagicmd(command="help")
 def get_help(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
+    user = update.effective_user
     args = update.effective_message.text.split(None, 1)
 
     # ONLY send help in PM
     if chat.type != chat.PRIVATE:
 
-        if len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
-            module = args[1].lower()
-            update.effective_message.reply_photo(
-                HELP_MSG_MODULES.format(module.capitalize()),
-                reply_markup=InlineKeyboardMarkup(
-                    [
-                        [
-                            InlineKeyboardButton(
-                                text="Click me for help!",
-                                url="t.me/{}?start=ghelp_{}".format(
-                                    context.bot.username,
-                                    module,
-                                ),
-                            ),
-                        ],
-                    ],
-                ),
-            )
-            return
-        update.effective_message.reply_photo(
-            HELP_MSG,
+        update.effective_message.reply_text(
+            "Contact me in PM to get the list of possible commands.",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
-                            text="Click me for help!",
-                            url="t.me/{}?start=help".format(context.bot.username),
+                            text="Help",
+                            url="t.me/{}?start=help".format(
+                                context.bot.username
+                            ),
                         )
                     ]
                 ]
@@ -470,22 +458,45 @@ def get_help(update, context):
         )
         return
 
-    if len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
+    elif len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
         module = args[1].lower()
         text = (
-            " 〔 *{}* 〕\n".format(HELPABLE[module].__mod_name__)
+            "Here is the available help for the *{}* module:\n".format(
+                HELPABLE[module].__mod_name__
+            )
             + HELPABLE[module].__help__
         )
         send_help(
             chat.id,
             text,
             InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Go Back", callback_data="help_back")]]
+                [
+                    [
+                        InlineKeyboardButton(
+                            text="Back", callback_data="help_back"
+                        )
+                    ]
+                ]
             ),
         )
 
     else:
-        send_help(chat.id, HELP_STRINGS)
+        keyb = paginate_modules(0, HELPABLE, "help")
+        # Add aditional button if staff user detected
+        if (
+            user.id in DEV_USERS
+            or user.id in DEMONS
+            or user.id in DRAGONS
+        ):
+            keyb += [
+                [
+                    InlineKeyboardButton(
+                        text="Staff", callback_data="help_staff"
+                    )
+                ]
+            ]
+
+        send_help(chat.id, HELP_STRINGS, InlineKeyboardMarkup(keyb))
 
 
 def send_settings(chat_id, user_id, user=False):
