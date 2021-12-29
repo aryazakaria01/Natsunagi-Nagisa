@@ -3,25 +3,6 @@ import re
 from typing import Optional
 
 import telegram
-from Natsunagi import TIGERS, WOLVES, dispatcher
-from Natsunagi.modules.disable import DisableAbleCommandHandler
-from Natsunagi.modules.helper_funcs.chat_status import (
-    bot_admin,
-    can_restrict,
-    is_user_admin,
-    user_admin_no_reply,
-)
-from Natsunagi.modules.helper_funcs.extraction import (
-    extract_text,
-    extract_user,
-    extract_user_and_text,
-)
-from Natsunagi.modules.helper_funcs.filters import CustomFilters
-from Natsunagi.modules.helper_funcs.misc import split_message
-from Natsunagi.modules.helper_funcs.string_handling import split_quotes
-from Natsunagi.modules.log_channel import loggable
-from Natsunagi.modules.sql import warns_sql as sql
-from Natsunagi.modules.sql.approve_sql import is_approved
 from telegram import (
     CallbackQuery,
     Chat,
@@ -43,7 +24,27 @@ from telegram.ext import (
 )
 from telegram.utils.helpers import mention_html
 
-from ..modules.helper_funcs.anonymous import user_admin, AdminPerms
+from Natsunagi import TIGERS, WOLVES, dispatcher
+from Natsunagi.modules.disable import DisableAbleCommandHandler
+from Natsunagi.modules.helper_funcs.chat_status import (
+    bot_admin,
+    can_restrict,
+    is_user_admin,
+    user_admin_no_reply,
+)
+from Natsunagi.modules.helper_funcs.extraction import (
+    extract_text,
+    extract_user,
+    extract_user_and_text,
+)
+from Natsunagi.modules.helper_funcs.filters import CustomFilters
+from Natsunagi.modules.helper_funcs.misc import split_message
+from Natsunagi.modules.helper_funcs.string_handling import split_quotes
+from Natsunagi.modules.log_channel import loggable
+from Natsunagi.modules.sql import warns_sql as sql
+from Natsunagi.modules.sql.approve_sql import is_approved
+
+from ..modules.helper_funcs.anonymous import AdminPerms, user_admin
 
 WARN_HANDLER_GROUP = 9
 CURRENT_WARNING_FILTER_STRING = "<b>Current warning filters in this chat:</b>\n"
@@ -51,7 +52,7 @@ CURRENT_WARNING_FILTER_STRING = "<b>Current warning filters in this chat:</b>\n"
 
 # Not async
 def warn(
-        user: User, update: Update, reason: str, message: Message, warner: User = None
+    user: User, update: Update, reason: str, message: Message, warner: User = None
 ) -> Optional[str]:  # sourcery no-metrics
     chat = update.effective_chat
     if is_user_admin(update, user.id):
@@ -181,7 +182,6 @@ def button(update: Update, context: CallbackContext) -> str:
                 f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
                 f"<b>User:</b> {mention_html(user_member.user.id, user_member.user.first_name)}\n"
                 f"<b>User ID:</b> <code>{user_member.user.id}</code>"
-                
             )
         else:
             update.effective_message.edit_text(
@@ -204,8 +204,8 @@ def warn_user(update: Update, context: CallbackContext) -> str:
 
     if user_id:
         if (
-                message.reply_to_message
-                and message.reply_to_message.from_user.id == user_id
+            message.reply_to_message
+            and message.reply_to_message.from_user.id == user_id
         ):
             return warn(
                 message.reply_to_message.from_user,
