@@ -17,7 +17,7 @@ from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CallbackQueryHandler, CommandHandler
 from telegram.utils.helpers import mention_html
 
-from Natsunagi import LOGGER, dispatcher
+from Natsunagi import LOGGER, TIGERS, dispatcher
 from Natsunagi.modules.helper_funcs.chat_status import (
     bot_admin,
     can_restrict,
@@ -45,7 +45,7 @@ def check_user(user_id: int, bot: Bot, update: Update) -> Optional[str]:
     if user_id == bot.id:
         return "I'm not gonna MUTE myself, How high are you?"
 
-    if is_user_admin(update, user_id, member) or user_id in SARDEGNA_USERS:
+    if is_user_admin(update, user_id, member) or user_id in TIGERS:
         return "Can't. Find someone else to mute but not this one."
 
     return None
