@@ -51,14 +51,11 @@ CURRENT_WARNING_FILTER_STRING = "<b>Current warning filters in this chat:</b>\n"
 
 # Not async
 def warn(
-    user: User,
-    update: Update,
-    reason: str,
-    message: Message,
-    warner: User = None,
-) -> str:
+        user: User, update: Update, reason: str, message: Message, warner: User = None
+) -> Optional[str]:  # sourcery no-metrics
+    chat = update.effective_chat
     if is_user_admin(update, user.id):
-        # message.reply_text("Damn admins, They are too far to be One Punched!")
+        # message.reply_text("Damn admins, They are too far to be kicked!")
         return
 
     if user.id in TIGERS:
@@ -66,7 +63,7 @@ def warn(
             message.reply_text("Light Shooters cant be warned.")
         else:
             message.reply_text(
-                "Light Shooters triggered an auto warn filter!\n I can't warn the Light Shooters but they should avoid abusing this."
+                "Light Shooters triggered an auto warn filter!\nI can't warn the Light Shooters but they should avoid abusing this."
             )
         return
 
@@ -75,7 +72,8 @@ def warn(
             message.reply_text("Villains disasters are warn immune.")
         else:
             message.reply_text(
-                "Villains Disaster triggered an auto warn filter!\nI can't warn the Villains but they should avoid abusing this."
+                "Villains Disaster triggered an auto warn filter!\nI can't warn Villains users but they should avoid "
+                "abusing this. "
             )
         return
 
@@ -88,12 +86,12 @@ def warn(
     num_warns, reasons = sql.warn_user(user.id, chat.id, reason)
     if num_warns >= limit:
         sql.reset_warns(user.id, chat.id)
-        if soft_warn:  # punch
+        if soft_warn:  # kick
             chat.unban_member(user.id)
             reply = f"Yep! User {mention_html(user.id, user.first_name)} with extraction database [<code>{user.id}</code>] has been Kicked"
 
         else:  # ban
-            chat.kick_member(user.id)
+            chat.ban_member(user.id)
             reply = f"Yep! User {mention_html(user.id, user.first_name)} with extraction database [<code>{user.id}</code>] has been Banned"
 
         for warn_reason in reasons:
@@ -106,7 +104,7 @@ def warn(
             f"#WARN_BAN\n"
             f"<b>Admin:</b> {warner_tag}\n"
             f"<b>User:</b> {mention_html(user.id, user.first_name)}\n"
-            f"<b>User ID:<b> <code>{user.id}</code>\n"
+            f"<b>User ID:</b> <code>{user.id}</code>\n"
             f"<b>Reason:</b> {reason}\n"
             f"<b>Counts:</b> <code>{num_warns}/{limit}</code>"
         )
@@ -116,7 +114,7 @@ def warn(
             [
                 [
                     InlineKeyboardButton(
-                        "❌ Remove", callback_data="rm_warn({})".format(user.id)
+                        "❌ Remove Warn", callback_data="rm_warn({})".format(user.id)
                     )
                 ]
             ]
