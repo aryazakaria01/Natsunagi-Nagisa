@@ -756,7 +756,7 @@ def invite(update, context):
 
 
 @natsunagicmd(command="staff")
-async def staff(client: Client, message: Message):
+def staff(client: Client, message: Message):
     creator = []
     co_founder = []
     admin = []
