@@ -62,7 +62,7 @@ def mute(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
 
     user_id, reason = extract_user_and_text(message, args)
-    reply = check_user(user_id, bot, chat)
+    reply = check_user(user_id, bot, update)
 
     if reply:
         message.reply_text(reply)
@@ -197,7 +197,7 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
     message = update.effective_message
 
     user_id, reason = extract_user_and_text(message, args)
-    reply = check_user(user_id, bot, chat)
+    reply = check_user(user_id, bot, update)
 
     if reply:
         message.reply_text(reply)
