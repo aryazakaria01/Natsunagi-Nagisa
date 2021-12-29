@@ -39,7 +39,7 @@ def check_user(user_id: int, bot: Bot, update: Update) -> Optional[str]:
     try:
         member = update.effective_chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == 'User not found':
+        if excp.message == "User not found":
             return "I can't seem to find this user"
         else:
             raise
