@@ -102,7 +102,7 @@ def dbcleanup(update, context):
 
 def get_muted_chats(bot: Bot, update: Update, leave: bool = False):
     chat_id = update.effective_chat.id
-    chats = users_db.get_all_chats()
+    chats = user_db.get_all_chats()
     muted_chats, progress = 0, 0
     chat_list = []
     progress_message = None
