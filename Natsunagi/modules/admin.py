@@ -3,9 +3,7 @@ import os
 from html import escape
 from typing import Optional
 
-from pyrogram import Client
-from pyrogram.types import Message
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update, User
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update, User, Message
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, Filters
 from telegram.utils.helpers import mention_html
@@ -756,11 +754,12 @@ def invite(update, context):
 
 
 @natsunagicmd(command="staff")
-def staff(client: Client, message: Message):
+def staff(update: Update, message: Message, context: CallbackContext):
+    bot = context.bot
     creator = []
     co_founder = []
     admin = []
-    admin_check = client.get_chat_members(message.chat.id, filter="administrators")
+    admin_check = bot.get_chat_members(message.chat.id, filter="administrators")
     for x in admin_check:
         # Ini buat nyari co-founder
         if x.status == "administrator" and x.can_promote_members and x.title:
