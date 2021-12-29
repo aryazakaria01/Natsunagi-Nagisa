@@ -32,33 +32,22 @@ from Natsunagi.modules.log_channel import loggable
 from Natsunagi.modules.redis.approvals_redis import is_approved
 
 
-def check_user(user_id: int, bot: Bot, chat: Chat, update: Update) -> Optional[str]:
-
+def check_user(user_id: int, bot: Bot, update: Update) -> Optional[str]:
     if not user_id:
-        reply = "You don't seem to be referring to a user or the ID specified is incorrect.."
-        return reply
-
-    if is_approved(chat.id, user_id):
-        reply = (
-            "This is user is approved in this chat and approved users can't be muted!"
-        )
-        return reply
+        return "You don't seem to be referring to a user or the ID specified is incorrect.."
 
     try:
-        member = chat.get_member(user_id)
+        member = update.effective_chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == "User not found":
-            reply = "I can't seem to find this user"
-            return reply
-        raise
-
+        if excp.message == 'User not found':
+            return "I can't seem to find this user"
+        else:
+            raise
     if user_id == bot.id:
-        reply = "I'm not gonna MUTE myself, How high are you?"
-        return reply
+        return "I'm not gonna MUTE myself, How high are you?"
 
-    if is_user_admin(update, user_id, member) or user_id in TIGERS:
-        reply = "Can't. Find someone else to mute but not this one."
-        return reply
+    if is_user_admin(update, user_id, member) or user_id in SARDEGNA_USERS:
+        return "Can't. Find someone else to mute but not this one."
 
     return None
 
