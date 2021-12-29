@@ -6,10 +6,8 @@ from telegram.ext import CallbackQueryHandler, CommandHandler
 
 from Natsunagi import DEV_USERS, dispatcher
 from Natsunagi.modules.helper_funcs.filters import CustomFilters
-from Natsunagi.modules.no_sql import (
-    global_bans_db as gban_db,
-    users_db as user_db,
-)
+from Natsunagi.modules.no_sql import global_bans_db as gban_db
+from Natsunagi.modules.no_sql import users_db as user_db
 
 
 def get_invalid_chats(bot: Bot, update: Update, remove: bool = False):
