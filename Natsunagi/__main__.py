@@ -105,7 +105,7 @@ buttons = [
 
 
 HELP_STRINGS = f"""
-Help
+*Help*
 
 Hey! My name is *{dispatcher.bot.first_name}*. I am a group management bot, here to help you get around and keep the order in your groups!
 I have lots of handy features, such as flood control, a warning system, a note keeping system, and even predetermined replies on certain keywords.
@@ -131,6 +131,35 @@ PRIVACY_STRING = """
 Select one of the below options for more information about how the bot handles your privacy.
 """
 
+STAFF_HELP_STRINGS = """Hey there staff users. Nice to see you :)
+Here is all the staff's commands. Users above has the command access for all commands below.
+
+*OWNER*
+× /broadcast: Send a broadcast message to all chat that i'm currently in.
+× /staffids: Get all staff's you have.
+× /ip: Sends the bot's IP address to ssh in if necessary (PM only).
+
+*DEV USERS*
+× /gitpull: Pull latest update.
+× /reboot: Restart the bot.
+× /dbcleanup: Clean my invalid database.
+× /leavemutedchats: Leave all chats where i can't send message.
+× /leave <chatid>: Tell me to leave the given group. (alias /leavechat /leavegroup).
+× /stats: List of all blacklists, filters, federations, gbans, etc from all group.
+× /getlink <chatid>: Get chat invite link.
+× /sysinfo: Get my system info.
+
+*SUDO USERS*
+× /snipe <chatid> <string>: Tell me to send a message to the given chat.
+× /echo <string>: Like snipe but on the current chat.
+× /chatlist: Get the list of chat that i'm currently in.
+× /ping: Start a ping test.
+× /speedtest: Start a speedtest from my server.
+
+*SUPPORT USERS*
+× /gban <userid>: global ban a user.
+× /ungban <userid>: remove currently gbanned user.
+× /gbanlist: Get the list of currently gbanned users."""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -141,6 +170,7 @@ DATA_IMPORT = []
 DATA_EXPORT = []
 CHAT_SETTINGS = {}
 USER_SETTINGS = {}
+GDPR = []
 
 for module_name in ALL_MODULES:
     imported_module = importlib.import_module("Natsunagi.modules." + module_name)
@@ -161,6 +191,9 @@ for module_name in ALL_MODULES:
 
     if hasattr(imported_module, "__stats__"):
         STATS.append(imported_module)
+
+    if hasattr(imported_module, "__gdpr__"):
+        GDPR.append(imported_module)
 
     if hasattr(imported_module, "__user_info__"):
         USER_INFO.append(imported_module)
@@ -369,6 +402,39 @@ def help_button(update, context):
 
     except BadRequest:
         pass
+
+
+@typing_action
+def staff_help(update, context):
+    chat = update.effective_chat
+    user = update.effective_user
+
+    if chat.type != chat.PRIVATE:
+        update.effective_message.reply_text(
+            "Contact me in PM to get the list of staff's command"
+        )
+        return
+
+    if (
+        user.id in DEV_USERS
+        or user.id in SUDO_USERS
+        or user.id in SUPPORT_USERS
+    ):
+        update.effective_message.reply_text(
+            text=STAFF_HELP_STRINGS,
+            parse_mode=ParseMode.MARKDOWN,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            text="Modules help", callback_data="help_back"
+                        )
+                    ]
+                ]
+            ),
+        )
+    else:
+        update.effective_message.reply_text("You can't access this command")
 
 
 @typing_action
@@ -661,7 +727,15 @@ def main():
         except BadRequest as e:
             LOGGER.warning(e.message)
 
+    help_staff_handler = CommandHandler(
+        "staffhelp",
+        staff_help,
+        filters=CustomFilters.support_filter,
+        run_async=True,
+    )
+
     dispatcher.add_error_handler(error_callback)
+    dispatcher.add_handler(help_staff_handler)
 
     if WEBHOOK:
         LOGGER.info(
