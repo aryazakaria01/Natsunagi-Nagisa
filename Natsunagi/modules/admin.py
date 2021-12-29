@@ -824,7 +824,7 @@ def staff(client: Client, message: Message):
             "👨‍✈️ <b><i>Co-Founder</i></b>\n" + "\n".join(co_founder) + "\n\n"
             "👮‍♂ <b><i>Admin</i></b>\n" + "\n".join(admin)
         )
-    await message.reply(result)
+    message.reply(result)
 
 
 @bot_admin
