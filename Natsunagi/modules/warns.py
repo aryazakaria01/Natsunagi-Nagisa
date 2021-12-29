@@ -89,17 +89,17 @@ def warn(
         if soft_warn:  # kick
             chat.unban_member(user.id)
             reply = (
-                f"❕ Kick Event</b>\n"
-                f"• User:</b> {mention_html(user.id, user.first_name)}\n"
-                f"• Count:</b> {limit}"
+                f"❕ Kick Event\n"
+                f"• User: {mention_html(user.id, user.first_name)}\n"
+                f"• Count: {limit}"
             )
 
         else:  # ban
             chat.ban_member(user.id)
             reply = (
-                f"❕ Ban Event</b>\n"
-                f"• User:</b> {mention_html(user.id, user.first_name)}\n"
-                f"• Count:</b> {limit}"
+                f"❕ Ban Event\n"
+                f"• User: {mention_html(user.id, user.first_name)}\n"
+                f"• Count: {limit}"
             )
 
         for warn_reason in reasons:
@@ -129,12 +129,12 @@ def warn(
         )
 
         reply = (
-            f"❕ Warn Event</b>\n"
-            f"• User:</b> {mention_html(user.id, user.first_name)}\n"
-            f"• Count:</b> {num_warns}/{limit}"
+            f"❕ Warn Event\n"
+            f"• User: {mention_html(user.id, user.first_name)}\n"
+            f"• Count: {num_warns}/{limit}"
         )
         if reason:
-            reply += f"\n• Reason:</b> {html.escape(reason)}"
+            reply += f"\n• Reason: {html.escape(reason)}"
 
         log_reason = (
             f"<b>{html.escape(chat.title)}:</b>\n"
