@@ -4,14 +4,15 @@ from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.error import BadRequest, Unauthorized
 from telegram.ext import CallbackQueryHandler, CommandHandler
 
+from Natsunagi.modules.no_sql import gban_db
+from Natsunagi.modules.no_sql import user_db
 from Natsunagi import DEV_USERS, dispatcher
 from Natsunagi.modules.helper_funcs.filters import CustomFilters
-from Natsunagi.modules.no_sql import gban_db, users_db
 
 
 def get_invalid_chats(bot: Bot, update: Update, remove: bool = False):
     chat_id = update.effective_chat.id
-    chats = users_db.get_all_chats()
+    chats = user_db.get_all_chats()
     kicked_chats, progress = 0, 0
     chat_list = []
     progress_message = None
@@ -51,7 +52,7 @@ def get_invalid_chats(bot: Bot, update: Update, remove: bool = False):
     else:
         for muted_chat in chat_list:
             sleep(0.5)
-            users_db.rem_chat(muted_chat)
+            user_db.rem_chat(muted_chat)
         return kicked_chats
 
 
@@ -92,7 +93,9 @@ def dbcleanup(update, context):
     reply = f"Total invalid chats - {invalid_chat_count}\n"
     reply += f"Total invalid gbanned users - {invalid_gban_count}"
 
-    buttons = [[InlineKeyboardButton("Cleanup DB", callback_data="db_cleanup")]]
+    buttons = [
+        [InlineKeyboardButton("Cleanup DB", callback_data="db_cleanup")]
+    ]
 
     update.effective_message.reply_text(
         reply, reply_markup=InlineKeyboardMarkup(buttons)
@@ -155,7 +158,9 @@ def leave_muted_chats(update, context):
     progress_message = message.reply_text("Getting chat count ...")
     muted_chats = get_muted_chats(context.bot, update)
 
-    buttons = [[InlineKeyboardButton("Leave chats", callback_data="db_leave_chat")]]
+    buttons = [
+        [InlineKeyboardButton("Leave chats", callback_data="db_leave_chat")]
+    ]
 
     update.effective_message.reply_text(
         f"I am muted in {muted_chats} chats.",
@@ -175,14 +180,18 @@ def callback_button(update, context):
 
     if query_type == "db_leave_chat":
         if query.from_user.id in DEV_USERS:
-            bot.editMessageText("Leaving chats ...", chat_id, message.message_id)
+            bot.editMessageText(
+                "Leaving chats ...", chat_id, message.message_id
+            )
             chat_count = get_muted_chats(bot, update, True)
             bot.sendMessage(chat_id, f"Left {chat_count} chats.")
         else:
             query.answer("You are not allowed to use this.")
     elif query_type == "db_cleanup":
         if query.from_user.id in DEV_USERS:
-            bot.editMessageText("Cleaning up DB ...", chat_id, message.message_id)
+            bot.editMessageText(
+                "Cleaning up DB ...", chat_id, message.message_id
+            )
             invalid_chat_count = get_invalid_chats(bot, update, True)
             invalid_gban_count = get_invalid_gban(bot, update, True)
             reply = "Cleaned up {} chats and {} gbanned users from db.".format(
@@ -202,7 +211,9 @@ LEAVE_MUTED_CHATS_HANDLER = CommandHandler(
     filters=CustomFilters.dev_filter,
     run_async=True,
 )
-BUTTON_HANDLER = CallbackQueryHandler(callback_button, pattern="db_.*", run_async=True)
+BUTTON_HANDLER = CallbackQueryHandler(
+    callback_button, pattern="db_.*", run_async=True
+)
 
 dispatcher.add_handler(DB_CLEANUP_HANDLER)
 dispatcher.add_handler(LEAVE_MUTED_CHATS_HANDLER)
