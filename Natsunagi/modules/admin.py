@@ -760,7 +760,7 @@ def staff(client: Client, message: Message):
     creator = []
     co_founder = []
     admin = []
-    admin_check = await client.get_chat_members(
+    admin_check = client.get_chat_members(
         message.chat.id, filter="administrators"
     )
     for x in admin_check:
