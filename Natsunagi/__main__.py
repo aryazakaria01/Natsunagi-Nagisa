@@ -59,7 +59,7 @@ from Natsunagi.modules.helper_funcs.decorators import (
     natsunagimsg,
 )
 from Natsunagi.modules.helper_funcs.misc import paginate_modules
-
+from Natsunagi.modules.helper_funcs.filters import CustomFilters
 
 def get_readable_time(seconds: int) -> str:
     count = 0
@@ -441,12 +441,12 @@ def get_help(update, context):
     if chat.type != chat.PRIVATE:
 
         update.effective_message.reply_text(
-            "Contact me in PM to get the list of possible commands.",
+            "Contact me in PM for help!",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
-                            text="Help",
+                            text="Click me for help!",
                             url="t.me/{}?start=help".format(context.bot.username),
                         )
                     ]
@@ -458,7 +458,7 @@ def get_help(update, context):
     elif len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
         module = args[1].lower()
         text = (
-            "Here is the available help for the *{}* module:\n".format(
+            "*{}*\n".format(
                 HELPABLE[module].__mod_name__
             )
             + HELPABLE[module].__help__
