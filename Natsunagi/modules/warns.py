@@ -51,7 +51,7 @@ CURRENT_WARNING_FILTER_STRING = "<b>Current warning filters in this chat:</b>\n"
 
 # Not async
 def warn(
-    user: User, update: Update, reason: str, message: Message, warner: User = None
+        user: User, update: Update, reason: str, message: Message, warner: User = None
 ) -> Optional[str]:  # sourcery no-metrics
     chat = update.effective_chat
     if is_user_admin(update, user.id):
@@ -63,7 +63,7 @@ def warn(
             message.reply_text("Light Shooters cant be warned.")
         else:
             message.reply_text(
-                "Light Shooters triggered an auto warn filter!\nI can't warn the Light Shooters but they should avoid abusing this."
+                "Light Shooters triggered an auto warn filter!\n I can't warn the Light Shooters but they should avoid abusing this."
             )
         return
 
@@ -72,8 +72,7 @@ def warn(
             message.reply_text("Villains disasters are warn immune.")
         else:
             message.reply_text(
-                "Villains Disaster triggered an auto warn filter!\nI can't warn Villains users but they should avoid "
-                "abusing this. "
+                "Villains Disaster triggered an auto warn filter!\nI can't warn the Villains but they should avoid abusing this."
             )
         return
 
@@ -88,11 +87,19 @@ def warn(
         sql.reset_warns(user.id, chat.id)
         if soft_warn:  # kick
             chat.unban_member(user.id)
-            reply = f"Yep! User {mention_html(user.id, user.first_name)} with extraction database [<code>{user.id}</code>] has been Kicked"
+            reply = (
+                f"❕ Kick Event</b>\n"
+                f"• User:</b> {mention_html(user.id, user.first_name)}\n"
+                f"• Count:</b> {limit}"
+            )
 
         else:  # ban
             chat.ban_member(user.id)
-            reply = f"Yep! User {mention_html(user.id, user.first_name)} with extraction database [<code>{user.id}</code>] has been Banned"
+            reply = (
+                f"❕ Ban Event</b>\n"
+                f"• User:</b> {mention_html(user.id, user.first_name)}\n"
+                f"• Count:</b> {limit}"
+            )
 
         for warn_reason in reasons:
             reply += f"\n - {html.escape(warn_reason)}"
@@ -114,18 +121,19 @@ def warn(
             [
                 [
                     InlineKeyboardButton(
-                        "❌ Remove Warn", callback_data="rm_warn({})".format(user.id)
+                        "❌ Remove Warns", callback_data="rm_warn({})".format(user.id)
                     )
                 ]
             ]
         )
 
         reply = (
-            f"Yep! User {mention_html(user.id, user.first_name)} with extraction database [<code>{user.id}</code>] has been"
-            f" Warned ({num_warns} of {limit})."
+            f"❕ Warn Event\n"
+            f"• User:</b> {mention_html(user.id, user.first_name)}\n"
+            f"• Count:</b> {num_warns}/{limit}"
         )
         if reason:
-            reply += f"\nReason: {html.escape(reason)}"
+            reply += f"\n• Reason:</b> {html.escape(reason)}"
 
         log_reason = (
             f"<b>{html.escape(chat.title)}:</b>\n"
