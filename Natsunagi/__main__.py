@@ -49,6 +49,7 @@ from Natsunagi import (
     pgram,
     telethn,
     updater,
+    DEV_USERS
 )
 from Natsunagi.modules import ALL_MODULES
 from Natsunagi.modules.helper_funcs.alternate import typing_action
