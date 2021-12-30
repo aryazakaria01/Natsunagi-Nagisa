@@ -446,12 +446,12 @@ def demote(update: Update, context: CallbackContext) -> Optional[str]:
 
     user_id = extract_user(message, args)
     if not user_id:
-        message.reply_text("mention one.... 🤷🏻‍♂.")
+        message.reply_text("You don't seem to be referring to a user or the ID specified is incorrect..")
         return ""
 
     user_member = chat.get_member(user_id)
     if user_member.status == "creator":
-        message.reply_text("I'm not gonna demote Creator this group.... 🙄")
+        message.reply_text("This person CREATED the chat, how would I demote them?")
         return ""
 
     if user_member.status != "administrator":
@@ -461,7 +461,7 @@ def demote(update: Update, context: CallbackContext) -> Optional[str]:
         return ""
 
     if user_id == bot.id:
-        message.reply_text("Yeahhh... Not gonna demote myself!")
+        message.reply_text("Yeahhh... I'm not gonna demote myself!")
         return ""
 
     try:
@@ -655,36 +655,67 @@ close_keyboard = InlineKeyboardMarkup(
 @can_pin
 @user_admin
 @loggable
-@typing_action
-def unpin(update, context):
-    bot = context.bot
+def unpin(update: Update, context: CallbackContext):
     chat = update.effective_chat
     user = update.effective_user
-    message = update.effective_message
+    msg = update.effective_message
+    msg_id = msg.reply_to_message.message_id if msg.reply_to_message else msg.message_id
+    unpinner = chat.get_member(user.id)
 
-    if user_can_pin(chat, user, bot.id) is False:
-        message.reply_text("You are missing rights to unpin a message!")
-        return ""
+    if (
+        not (unpinner.can_pin_messages or unpinner.status == "creator")
+        and user.id not in DRAGONS
+    ):
+        message.reply_text("You don't have the necessary rights to do that!")
+        return
 
-    try:
-        bot.unpinChatMessage(chat.id)
-    except BadRequest as excp:
-        if excp.message == "Chat_not_modified":
-            pass
-        elif excp.message == "Message to unpin not found":
-            message.reply_text(
-                "I can't see pinned message, Maybe already unpinned, or pin message to old!"
+    if msg.chat.username:
+        # If chat has a username, use this format
+        link_chat_id = msg.chat.username
+        message_link = f"https://t.me/{link_chat_id}/{msg_id}"
+    elif (str(msg.chat.id)).startswith("-100"):
+        # If chat does not have a username, use this
+        link_chat_id = (str(msg.chat.id)).replace("-100", "")
+        message_link = f"https://t.me/c/{link_chat_id}/{msg_id}"
+
+    is_group = chat.type not in ("private", "channel")
+    prev_message = update.effective_message.reply_to_message
+
+    if prev_message and is_group:
+        try:
+            context.bot.unpinChatMessage(
+                chat.id, prev_message.message_id
             )
-        else:
-            raise
+            msg.reply_text(
+                f"Unpinned <a href='{message_link}'>this message</a>.",
+                parse_mode=ParseMode.HTML,
+                disable_web_page_preview=True,
+            )
+        except BadRequest as excp:
+            if excp.message != "Chat_not_modified":
+                raise
 
-    return (
-        "<b>{}:</b>"
-        "\n#UNPINNED"
-        "\n<b>Admin:</b> {}".format(
-            html.escape(chat.title), mention_html(user.id, user.first_name)
-        )
+    if not prev_message and is_group:
+        try:
+            context.bot.unpinChatMessage(chat.id)
+            msg.reply_text(
+                "🔽 Unpinned the last pinned message."
+            )
+        except BadRequest as excp:
+            if excp.message == "Message to unpin not found":
+               msg.reply_text(
+                   "I can't see pinned message, Maybe already unpined, or pin Message to old 🙂"
+               )
+            else:
+                raise
+
+    log_message = (
+        f"<b>{html.escape(chat.title)}:</b>\n"
+        f"MESSAGE-UNPINNED-SUCCESSFULLY\n"
+        f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}"
     )
+
+    return log_message
 
 
 @bot_admin
@@ -708,13 +739,20 @@ def pinned(update: Update, context: CallbackContext) -> str:
             message_link = f"https://t.me/c/{link_chat_id}/{pinned_id}"
 
         msg.reply_text(
-            f'The pinned message of {html.escape(chat.title)} is <a href="{message_link}">here</a>.',
+            f'📌 Pinned the message on {html.escape(chat.title)}.',
             reply_to_message_id=msg_id,
             parse_mode=ParseMode.HTML,
             disable_web_page_preview=True,
+            reply_markup=InlineKeyboardMarkup(
+                [[InlineKeyboardButton(text="Pinned Messages", url=f"https://t.me/{link_chat_id}/{pinned_id}")]]
+            ),
         )
+
     else:
-        msg.reply_text(f"There is no pinned message in {html.escape(chat.title)}!")
+        msg.reply_text(
+            f"There is no pinned message on <b>{html.escape(chat.title)}!</b>",
+            parse_mode=ParseMode.HTML,
+        )
 
 
 @bot_admin
