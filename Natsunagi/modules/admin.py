@@ -618,7 +618,7 @@ def pin(update: Update, context: CallbackContext) -> str:
                 chat.id, prev_message.message_id, disable_notification=is_silent
             )
             msg.reply_text(
-                "I have pinned a message.",
+                "Success! Pinned this message on this group",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
@@ -697,7 +697,7 @@ def unpin(update: Update, context: CallbackContext):
     if not prev_message and is_group:
         try:
             context.bot.unpinChatMessage(chat.id)
-            msg.reply_text("🔽 Unpinned the last pinned message.")
+            msg.reply_text("🔽 Unpinned the last message on this group.")
         except BadRequest as excp:
             if excp.message == "Message to unpin not found":
                 msg.reply_text(
