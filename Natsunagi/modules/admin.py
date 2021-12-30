@@ -24,7 +24,6 @@ from Natsunagi.modules.helper_funcs.chat_status import (
     connection_status,
     user_admin,
     user_can_changeinfo,
-    user_can_pin,
     user_can_promote,
 )
 from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
@@ -446,7 +445,9 @@ def demote(update: Update, context: CallbackContext) -> Optional[str]:
 
     user_id = extract_user(message, args)
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user or the ID specified is incorrect..")
+        message.reply_text(
+            "You don't seem to be referring to a user or the ID specified is incorrect.."
+        )
         return ""
 
     user_member = chat.get_member(user_id)
@@ -683,9 +684,7 @@ def unpin(update: Update, context: CallbackContext):
 
     if prev_message and is_group:
         try:
-            context.bot.unpinChatMessage(
-                chat.id, prev_message.message_id
-            )
+            context.bot.unpinChatMessage(chat.id, prev_message.message_id)
             msg.reply_text(
                 f"Unpinned <a href='{message_link}'>this message</a>.",
                 parse_mode=ParseMode.HTML,
@@ -698,14 +697,12 @@ def unpin(update: Update, context: CallbackContext):
     if not prev_message and is_group:
         try:
             context.bot.unpinChatMessage(chat.id)
-            msg.reply_text(
-                "🔽 Unpinned the last pinned message."
-            )
+            msg.reply_text("🔽 Unpinned the last pinned message.")
         except BadRequest as excp:
             if excp.message == "Message to unpin not found":
-               msg.reply_text(
-                   "I can't see pinned message, Maybe already unpined, or pin Message to old 🙂"
-               )
+                msg.reply_text(
+                    "I can't see pinned message, Maybe already unpined, or pin Message to old 🙂"
+                )
             else:
                 raise
 
@@ -739,12 +736,19 @@ def pinned(update: Update, context: CallbackContext) -> str:
             message_link = f"https://t.me/c/{link_chat_id}/{pinned_id}"
 
         msg.reply_text(
-            f'📌 Pinned the message on {html.escape(chat.title)}.',
+            f"📌 Pinned the message on {html.escape(chat.title)}.",
             reply_to_message_id=msg_id,
             parse_mode=ParseMode.HTML,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Pinned Messages", url=f"https://t.me/{link_chat_id}/{pinned_id}")]]
+                [
+                    [
+                        InlineKeyboardButton(
+                            text="Pinned Messages",
+                            url=f"https://t.me/{link_chat_id}/{pinned_id}",
+                        )
+                    ]
+                ]
             ),
         )
 
