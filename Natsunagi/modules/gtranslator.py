@@ -42,8 +42,8 @@ def translate(update: Update, context: CallbackContext) -> None:
         dest = "en"
     translation = trans(to_translate, sourcelang=source, targetlang=dest)
     reply = (
-        f"<b>Translated from {source} to {dest}</b>:\n"
-        f"<code>{translation.text}</code>"
+        f"<b>Language: {source} -> {dest}</b>:\n\n"
+        f"Translation: <code>{translation.text}</code>"
     )
 
     bot.send_message(text=reply, chat_id=message.chat.id, parse_mode=ParseMode.HTML)
@@ -85,8 +85,8 @@ def gtts(update, context):
         with open("Natsunagi.mp3", "rb") as speech:
             msg.reply_audio(speech)
     finally:
-        if os.path.isfile("zeldris.mp3"):
-            os.remove("zeldris.mp3")
+        if os.path.isfile("Natsunagi.mp3"):
+            os.remove("Natsunagi.mp3")
 
 
 # Open API key
@@ -125,14 +125,31 @@ def spellcheck(update, _):
 
 __help__ = """ 
 Use this module to translate stuff!
-*Commands:*
-   ➢ `/langs: List of all language code to translates!
-   ➢ `/tl` (or `/tr`): as a reply to a message, translates it to English.
-   ➢ `/tl <lang>`: translates to <lang>
 
-eg: `/tl ja`: translates to Japanese.
-   ➢ `/tl <source>//<dest>`: translates from <source> to <lang>.
-• [List of supported languages for translation](https://telegra.ph/Lang-Codes-03-19-3)
+*Commands:*
+❂ `/tl (or /tr)`*:* as a reply to a message, translates it to English.
+❂ `/tl <lang>`*:* translates to <lang>
+
+eg: /tl ja: translates to Japanese.
+❂ `/tl <source>//<dest>`*:* translates from <source> to <lang>.
+
+eg:  /tl ja//en: translates from Japanese to English.
+❂ `/langs`*:* get a list of supported languages for translation.
+
+I can convert text to voice and voice to text..
+❂ `/tts <lang code>`*:* Reply to any message to get text to speech output
+❂ `/stt`*:* Type in reply to a voice message(support english only) to extract text from it.
+
+You weak on english language ? Try using...
+❂ `/splcheck`*:* Type a word that you doesn't know how to spell it and they will send the voice how to spell it
+
+*Language Codes*
+`af,am,ar,az,be,bg,bn,bs,ca,ceb,co,cs,cy,da,de,el,en,eo,es,
+et,eu,fa,fi,fr,fy,ga,gd,gl,gu,ha,haw,hi,hmn,hr,ht,hu,hy,
+id,ig,is,it,iw,ja,jw,ka,kk,km,kn,ko,ku,ky,la,lb,lo,lt,lv,mg,mi,mk,
+ml,mn,mr,ms,mt,my,ne,nl,no,ny,pa,pl,ps,pt,ro,ru,sd,si,sk,sl,
+sm,sn,so,sq,sr,st,su,sv,sw,ta,te,tg,th,tl,tr,uk,ur,uz,
+vi,xh,yi,yo,zh,zh_CN,zh_TW,zu`
 """
 
 dispatcher.add_handler(
