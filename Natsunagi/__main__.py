@@ -266,7 +266,7 @@ def start(update: Update, context: CallbackContext):
                 match = re.match("stngs_(.*)", args[0].lower())
                 chat = dispatcher.bot.getChat(match.group(1))
 
-                if is_user_admin(chat, update.effective_user.id):
+                if is_user_admin(update, update.effective_user.id):
                     send_settings(match.group(1), update.effective_user.id, False)
                 else:
                     send_settings(match.group(1), update.effective_user.id, True)
