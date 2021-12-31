@@ -432,8 +432,8 @@ def staff_help(update, context):
         update.effective_message.reply_text("You can't access this command")
 
 
-@typing_action
 @natsunagicmd(command="help")
+@typing_action
 def get_help(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user
