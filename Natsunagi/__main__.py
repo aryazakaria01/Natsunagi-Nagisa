@@ -613,7 +613,7 @@ def get_settings(update: Update, context: CallbackContext):
     if chat.type == chat.PRIVATE:
         send_settings(chat.id, user.id, True)
 
-    elif is_user_admin(chat, user.id):
+    elif is_user_admin(update, user.id):
         text = "Click here to get this chat's settings, as well as yours."
         msg.reply_text(
             text,
