@@ -1,6 +1,24 @@
-from typing import Dict, List
+import typing
+import requests
+import json
+import zlib
+import base64
+import base58
 
-from telegram import MAX_MESSAGE_LENGTH, Bot, InlineKeyboardButton, ParseMode
+from Crypto import Random, Hash, Protocol
+from Crypto.Cipher import AES
+from typing import Dict, List
+from urllib.parse import urlparse, urljoin, urlunparse
+from uuid import uuid4
+from telegram import (
+    MAX_MESSAGE_LENGTH, 
+    Bot, 
+    InlineKeyboardButton, 
+    InlineKeyboardMarkup, 
+    ParseMode, 
+    InlineQueryResultArticle, 
+    InputTextMessageContent,
+)
 from telegram.error import TelegramError
 
 from Natsunagi import NO_LOAD
@@ -76,6 +94,28 @@ def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
     return pairs
 
 
+def article(
+    title: str = "",
+    description: str = "",
+    message_text: str = "",
+    thumb_url: str = None,
+    reply_markup: InlineKeyboardMarkup = None,
+    disable_web_page_preview: bool = False,
+) -> InlineQueryResultArticle:
+
+    return InlineQueryResultArticle(
+        id=uuid4(),
+        title=title,
+        description=description,
+        thumb_url=thumb_url,
+        input_message_content=InputTextMessageContent(
+            message_text=message_text,
+            disable_web_page_preview=disable_web_page_preview,
+        ),
+        reply_markup=reply_markup,
+    )
+
+
 def send_to_list(
     bot: Bot, send_to: list, message: str, markdown=False, html=False
 ) -> None:
@@ -128,3 +168,20 @@ def build_keyboard_parser(bot, chat_id, buttons):
 
 def is_module_loaded(name):
     return name not in NO_LOAD
+
+
+def upload_text(data: str) -> typing.Optional[str]:
+    passphrase = Random.get_random_bytes(32)
+    salt = Random.get_random_bytes(8)
+    key = Protocol.KDF.PBKDF2(passphrase, salt, 32, 100000, hmac_hash_module=Hash.SHA256)
+    compress = zlib.compressobj(wbits=-15)
+    paste_blob = compress.compress(json.dumps({'paste': data}, separators=(',', ':')).encode()) + compress.flush()
+    cipher = AES.new(key, AES.MODE_GCM)
+    paste_meta = [[base64.b64encode(cipher.nonce).decode(), base64.b64encode(salt).decode(), 100000, 256, 128, 'aes', 'gcm', 'zlib'], 'syntaxhighlighting', 0, 0]
+    cipher.update(json.dumps(paste_meta, separators=(',', ':')).encode())
+    ct, tag = cipher.encrypt_and_digest(paste_blob)
+    resp = requests.post('https://bin.nixnet.services', headers={'X-Requested-With': 'JSONHttpRequest'}, data=json.dumps({'v': 2, 'adata': paste_meta, 'ct': base64.b64encode(ct + tag).decode(), 'meta': {'expire': '1week'}}, separators=(',', ':')))
+    data = resp.json()
+    url = list(urlparse(urljoin('https://bin.nixnet.services', data['url'])))
+    url[5] = base58.b58encode(passphrase).decode()
+    return urlunparse(url)
