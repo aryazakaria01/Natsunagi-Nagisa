@@ -33,7 +33,7 @@ def get_user_id(username):
 
     for user_obj in users:
         try:
-            userdat = dispatcher.bot.get_chat(user_obj.user_id)
+            userdat = dispatcher.bot.get_chat(user_obj["_id"])
             if userdat.username == username:
                 return userdat.id
 
