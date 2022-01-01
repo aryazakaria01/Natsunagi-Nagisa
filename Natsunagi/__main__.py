@@ -1,4 +1,3 @@
-import datetime
 import html
 import importlib
 import json
@@ -25,7 +24,7 @@ from telegram.error import (
     Unauthorized,
 )
 from telegram.ext import CallbackContext, Filters
-from telegram.ext.dispatcher import Dispatcher, DispatcherHandlerStop
+from telegram.ext.dispatcher import DispatcherHandlerStop
 from telegram.utils.helpers import escape_markdown
 
 from Natsunagi import (
@@ -649,9 +648,6 @@ def main():
 
     dispatcher.add_error_handler(error_callback)
 
-    # add antiflood processor
-    Dispatcher.process_update = process_update
-
     if WEBHOOK:
         LOGGER.info(
             f"Natsunagi started, Using webhook. | BOT: [@{dispatcher.bot.username}]"
@@ -667,72 +663,18 @@ def main():
         LOGGER.info(
             f"Natsunagi started, Using long polling. | BOT: [@{dispatcher.bot.username}]"
         )
-        updater.start_polling(timeout=15, read_latency=4)
+        updater.start_polling(
+            allowed_updates=Update.ALL_TYPES,
+            timeout=15,
+            read_latency=4,
+            drop_pending_updates=True,
+        )
+    if len(argv) not in (1, 3, 4):
+        telethn.disconnect()
+    else:
+        telethn.run_until_disconnected()
 
     updater.idle()
-
-
-CHATS_CNT = {}
-CHATS_TIME = {}
-
-
-def process_update(self, update):
-    # An error happened while polling
-    if isinstance(update, TelegramError):
-        try:
-            self.dispatch_error(None, update)
-        except Exception:
-            self.logger.exception(
-                "An uncaught error was raised while handling the error"
-            )
-        return
-
-    now = datetime.datetime.utcnow()
-    cnt = CHATS_CNT.get(update.effective_chat.id, 0)
-
-    t = CHATS_TIME.get(update.effective_chat.id, datetime.datetime(1970, 1, 1))
-    if t and now > t + datetime.timedelta(0, 1):
-        CHATS_TIME[update.effective_chat.id] = now
-        cnt = 0
-    else:
-        cnt += 1
-
-    if cnt > 10:
-        return
-
-    CHATS_CNT[update.effective_chat.id] = cnt
-    for group in self.groups:
-        try:
-            for handler in (x for x in self.handlers[group] if x.check_update(update)):
-                handler.handle_update(update, self)
-                break
-
-        # Stop processing with any other handler.
-        except DispatcherHandlerStop:
-            self.logger.debug("Stopping further handlers due to DispatcherHandlerStop")
-            break
-
-        # Dispatch any error.
-        except TelegramError as te:
-            self.logger.warning(
-                "A TelegramError was raised while processing the Update"
-            )
-
-            try:
-                self.dispatch_error(update, te)
-            except DispatcherHandlerStop:
-                self.logger.debug("Error handler stopped further handlers")
-                break
-            except Exception:
-                self.logger.exception(
-                    "An uncaught error was raised while handling the error"
-                )
-
-        # Errors should not stop the thread.
-        except Exception:
-            self.logger.exception(
-                "An uncaught error was raised while processing the update"
-            )
 
 
 if __name__ == "__main__":
