@@ -7,9 +7,10 @@ import traceback
 import pretty_errors
 import requests
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
-from telegram.ext import CallbackContext, CommandHandler
+from telegram.ext import CallbackContext
 
 from Natsunagi import DEV_USERS, ERROR_LOGS, dispatcher
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
 
 pretty_errors.mono()
 
@@ -108,13 +109,14 @@ def error_callback(update: Update, context: CallbackContext):
         )
 
 
+@natsunagicmd(command="errors")
 def list_errors(update: Update, context: CallbackContext):
     if update.effective_user.id not in DEV_USERS:
         return
     e = dict(sorted(errors.items(), key=lambda item: item[1], reverse=True))
     msg = "<b>Errors List:</b>\n"
     for x, value in e.items():
-        msg += f"• <code>{x}:</code> <b>{value}</b> #{x.identifier}\n"
+        msg += f"× <code>{x}:</code> <b>{value}</b> #{x.identifier}\n"
     msg += f"{len(errors)} have occurred since startup."
     if len(msg) > 4096:
         with open("errors_msg.txt", "w+") as f:
@@ -130,4 +132,3 @@ def list_errors(update: Update, context: CallbackContext):
 
 
 dispatcher.add_error_handler(error_callback)
-dispatcher.add_handler(CommandHandler("errors", list_errors))
