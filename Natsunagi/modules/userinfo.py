@@ -149,8 +149,8 @@ def get_id(update: Update, context: CallbackContext):
 
             msg.reply_text(
                 f"<b>Telegram ID:</b>,"
-                f"• {html.escape(user2.first_name)} - <code>{user2.id}</code>.\n"
-                f"• {html.escape(user1.first_name)} - <code>{user1.id}</code>.",
+                f"× {html.escape(user2.first_name)} - <code>{user2.id}</code>.\n"
+                f"× {html.escape(user1.first_name)} - <code>{user1.id}</code>.",
                 parse_mode=ParseMode.HTML,
             )
 
