@@ -134,3 +134,5 @@ git+https://github.com/python-telegram-bot/ptbcontrib.git
 tswift
 geopy
 APScheduler
+pycryptodome
+base58
