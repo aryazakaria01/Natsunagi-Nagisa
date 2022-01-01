@@ -108,6 +108,7 @@ def error_callback(update: Update, context: CallbackContext):
             parse_mode="html",
         )
 
+
 @natsunagicmd(command="errors")
 def list_errors(update: Update, context: CallbackContext):
     if update.effective_user.id not in DEV_USERS:
