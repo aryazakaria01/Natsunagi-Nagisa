@@ -2,24 +2,23 @@ import asyncio
 import codecs
 import os
 import re
+from io import BytesIO
+
 import aiofiles
 import requests
-
-from io import BytesIO
 from pykeyboard import InlineKeyboard
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, Message
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 
-from Natsunagi import aiohttpsession, dispatcher, eor
+from Natsunagi import aiohttpsession, eor
 from Natsunagi import pgram as app
-from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.alternate import typing_action
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
+from Natsunagi.modules.helper_funcs.misc import upload_text
 from Natsunagi.utils.errors import capture_err
 from Natsunagi.utils.keyboard import ikb
 from Natsunagi.utils.pastebin import epaste, hpaste
-from Natsunagi.modules.helper_funcs.misc import upload_text
-from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
 
 __mod_name__ = "Paste"
 
@@ -257,7 +256,7 @@ def spacepaste(update, context):
     )
 
 
-@natsunagicmd(command='pvpaste', pass_args=True)
+@natsunagicmd(command="pvpaste", pass_args=True)
 def paste(update: Update, context: CallbackContext):
     args = context.args
     message = update.effective_message
@@ -276,7 +275,7 @@ def paste(update: Update, context: CallbackContext):
     else:
         message.reply_text("What am I supposed to do with this?")
         return
-    
+
     txt = ""
     paste_url = upload_text(data)
     if not paste_url:
