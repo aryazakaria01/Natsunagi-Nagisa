@@ -636,7 +636,7 @@ def main():
 
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
-            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "Yeah! System Started")
+            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "Finally! System Started Successfully")
         except Unauthorized:
             LOGGER.warning(
                 "Bot isnt able to send message to support_chat, go and check!"
@@ -650,7 +650,7 @@ def main():
     Dispatcher.process_update = process_update
 
     if WEBHOOK:
-        LOGGER.info("Using webhooks.")
+        LOGGER.info(f"Natsunagi started, Using webhook. | BOT: [@{dispatcher.bot.username}]")
         updater.start_webhook(listen="127.0.0.1", port=PORT, url_path=TOKEN)
 
         if CERT_PATH:
@@ -659,7 +659,7 @@ def main():
             updater.bot.set_webhook(url=URL + TOKEN)
 
     else:
-        LOGGER.info("Using long polling.")
+        LOGGER.info(f"Natsunagi started, Using long polling. | BOT: [@{dispatcher.bot.username}]")
         updater.start_polling(timeout=15, read_latency=4)
 
     updater.idle()
