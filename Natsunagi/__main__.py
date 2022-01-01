@@ -28,7 +28,7 @@ from telegram.error import (
     Unauthorized,
 )
 from telegram.ext import CallbackContext, CommandHandler, Filters
-from telegram.ext.dispatcher import DispatcherHandlerStop
+from telegram.ext.dispatcher import DispatcherHandlerStop, Dispatcher
 from telegram.utils.helpers import escape_markdown
 from telethon import __version__ as tlh
 
@@ -134,36 +134,6 @@ Thank you for your donation!
 PRIVACY_STRING = """
 Select one of the below options for more information about how the bot handles your privacy.
 """
-
-STAFF_HELP_STRINGS = """Hey there staff users. Nice to see you :)
-Here is all the staff's commands. Users above has the command access for all commands below.
-
-*OWNER*
-× /broadcast: Send a broadcast message to all chat that i'm currently in.
-× /staffids: Get all staff's you have.
-× /ip: Sends the bot's IP address to ssh in if necessary (PM only).
-
-*DEV USERS*
-× /gitpull: Pull latest update.
-× /reboot: Restart the bot.
-× /dbcleanup: Clean my invalid database.
-× /leavemutedchats: Leave all chats where i can't send message.
-× /leave <chatid>: Tell me to leave the given group. (alias /leavechat /leavegroup).
-× /stats: List of all blacklists, filters, federations, gbans, etc from all group.
-× /getlink <chatid>: Get chat invite link.
-× /sysinfo: Get my system info.
-
-*SUDO USERS*
-× /snipe <chatid> <string>: Tell me to send a message to the given chat.
-× /echo <string>: Like snipe but on the current chat.
-× /chatlist: Get the list of chat that i'm currently in.
-× /ping: Start a ping test.
-× /speedtest: Start a speedtest from my server.
-
-*SUPPORT USERS*
-× /gban <userid>: global ban a user.
-× /ungban <userid>: remove currently gbanned user.
-× /gbanlist: Get the list of currently gbanned users."""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -407,29 +377,6 @@ def help_button(update, context):
 
     except BadRequest:
         pass
-
-
-@typing_action
-def staff_help(update, context):
-    chat = update.effective_chat
-    user = update.effective_user
-
-    if chat.type != chat.PRIVATE:
-        update.effective_message.reply_text(
-            "Contact me in PM to get the list of staff's command"
-        )
-        return
-
-    if user.id in DEV_USERS or user.id in SUDO_USERS or user.id in SUPPORT_USERS:
-        update.effective_message.reply_text(
-            text=STAFF_HELP_STRINGS,
-            parse_mode=ParseMode.MARKDOWN,
-            reply_markup=InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Modules help", callback_data="help_back")]]
-            ),
-        )
-    else:
-        update.effective_message.reply_text("You can't access this command")
 
 
 @natsunagicmd(command="help")
@@ -695,55 +642,92 @@ def main():
 
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
-            dispatcher.bot.sendMessage(
-                f"@{SUPPORT_CHAT}",
-                f"""**Natsunagi Nagisa Started!**
-
-» Python: `{python_version()}`
-» Telethon: `{tlh}`
-» Pyrogram: `{pyr}`
-» Telegram Library: v`{tgl}`""",
-                parse_mode=ParseMode.MARKDOWN,
+            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "Yeah! System Started")
+        except Unauthorized:
+            LOGGER.warning(
+                "Bot isnt able to send message to support_chat, go and check!"
             )
         except BadRequest as e:
             LOGGER.warning(e.message)
 
-    help_staff_handler = CommandHandler(
-        "staffhelp",
-        staff_help,
-        filters=CustomFilters.support_filter,
-        run_async=True,
-    )
-
     dispatcher.add_error_handler(error_callback)
-    dispatcher.add_handler(help_staff_handler)
+
+
+    # add antiflood processor
+    Dispatcher.process_update = process_update
 
     if WEBHOOK:
-        LOGGER.info(
-            f"Natsunagi started, Using webhook. | BOT: [@{dispatcher.bot.username}]"
-        )
-        updater.start_webhook(listen="127.0.0.1", port=PORT, url_path=TOKEN)
+        LOGGER.info("Using webhooks.")
+        updater.start_webhook(listen="127.0.0.1",
+                              port=PORT,
+                              url_path=TOKEN)
 
         if CERT_PATH:
-            updater.bot.set_webhook(url=URL + TOKEN, certificate=open(CERT_PATH, "rb"))
+            updater.bot.set_webhook(url=URL + TOKEN,
+                                    certificate=open(CERT_PATH, 'rb'))
         else:
             updater.bot.set_webhook(url=URL + TOKEN)
 
     else:
-        LOGGER.info(
-            f"Natsunagi started, Using long polling. | BOT: [@{dispatcher.bot.username}]"
-        )
-        updater.start_polling(
-            allowed_updates=Update.ALL_TYPES,
-            timeout=15,
-            read_latency=4,
-            drop_pending_updates=True,
-        )
-    if len(argv) not in (1, 3, 4):
-        telethn.disconnect()
-    else:
-        telethn.run_until_disconnected()
+        LOGGER.info("Using long polling.")
+        updater.start_polling(timeout=15, read_latency=4)
+
     updater.idle()
+
+
+CHATS_CNT = {}
+CHATS_TIME = {}
+
+
+def process_update(self, update):
+    # An error happened while polling
+    if isinstance(update, TelegramError):
+        try:
+            self.dispatch_error(None, update)
+        except Exception:
+            self.logger.exception('An uncaught error was raised while handling the error')
+        return
+
+    now = datetime.datetime.utcnow()
+    cnt = CHATS_CNT.get(update.effective_chat.id, 0)
+
+    t = CHATS_TIME.get(update.effective_chat.id, datetime.datetime(1970, 1, 1))
+    if t and now > t + datetime.timedelta(0, 1):
+        CHATS_TIME[update.effective_chat.id] = now
+        cnt = 0
+    else:
+        cnt += 1
+
+    if cnt > 10:
+        return
+
+    CHATS_CNT[update.effective_chat.id] = cnt
+    for group in self.groups:
+        try:
+            for handler in (x for x in self.handlers[group] if x.check_update(update)):
+                handler.handle_update(update, self)
+                break
+
+        # Stop processing with any other handler.
+        except DispatcherHandlerStop:
+            self.logger.debug('Stopping further handlers due to DispatcherHandlerStop')
+            break
+
+        # Dispatch any error.
+        except TelegramError as te:
+            self.logger.warning('A TelegramError was raised while processing the Update')
+
+            try:
+                self.dispatch_error(update, te)
+            except DispatcherHandlerStop:
+                self.logger.debug('Error handler stopped further handlers')
+                break
+            except Exception:
+                self.logger.exception('An uncaught error was raised while handling the error')
+
+        # Errors should not stop the thread.
+        except Exception:
+            self.logger.exception('An uncaught error was raised while processing the update')
 
 
 if __name__ == "__main__":
