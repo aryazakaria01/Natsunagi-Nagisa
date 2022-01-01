@@ -2,9 +2,10 @@ import asyncio
 import codecs
 import os
 import re
-
 import aiofiles
 import requests
+
+from io import BytesIO
 from pykeyboard import InlineKeyboard
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, Message
@@ -17,6 +18,8 @@ from Natsunagi.modules.helper_funcs.alternate import typing_action
 from Natsunagi.utils.errors import capture_err
 from Natsunagi.utils.keyboard import ikb
 from Natsunagi.utils.pastebin import epaste, hpaste
+from Natsunagi.modules.helper_funcs.misc import upload_text
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
 
 __mod_name__ = "Paste"
 
@@ -118,6 +121,7 @@ async def epaste_func(_, message: Message):
     return await m.edit(link)
 
 
+@natsunagicmd(command="hpaste")
 def paste(update, context):
     msg = update.effective_message
 
@@ -153,6 +157,7 @@ def paste(update, context):
         return
 
 
+@natsunagicmd(command="npaste")
 @typing_action
 def nekopaste(update, context):
     msg = update.effective_message
@@ -195,6 +200,7 @@ def nekopaste(update, context):
         return
 
 
+@natsunagicmd(command="spaste")
 @typing_action
 def spacepaste(update, context):
     message = update.effective_message
@@ -251,23 +257,46 @@ def spacepaste(update, context):
     )
 
 
+@natsunagicmd(command='pvpaste', pass_args=True)
+def paste(update: Update, context: CallbackContext):
+    args = context.args
+    message = update.effective_message
+
+    if message.reply_to_message:
+        data = message.reply_to_message.text or message.reply_to_message.caption
+        if message.reply_to_message.document:
+            file_info = context.bot.get_file(message.reply_to_message.document.file_id)
+            with BytesIO() as file:
+                file_info.download(out=file)
+                file.seek(0)
+                data = file.read().decode()
+
+    elif len(args) >= 1:
+        data = message.text.split(None, 1)[1]
+    else:
+        message.reply_text("What am I supposed to do with this?")
+        return
+    
+    txt = ""
+    paste_url = upload_text(data)
+    if not paste_url:
+        txt = "Failed to paste data"
+    else:
+        txt = "Successfully uploaded to Privatebin: {}".format(paste_url)
+
+    message.reply_text(txt, disable_web_page_preview=True)
+
+
 __mod_name__ = "Paste"
 
 __help__ = """
-`/spaste`*:* Paste to spacebin
-`/npaste`*:* Paste to nekobin
-`/paste`*:* Paste to ezup
-`/bpaste`*:* Paste to batbin
-`/kpaste`*:* Paste to katbin
-`/ppaste`*:* Paste to pastylus
-`/cpaste`*:* Paste to catbin
-`/dpaste`*:* Paste to dogbin 
+❂ `/spaste`*:* Paste to spacebin
+❂ `/npaste`*:* Paste to nekobin
+❂ `/paste`*:* Paste to ezup
+❂ `/bpaste`*:* Paste to batbin
+❂ `/kpaste`*:* Paste to katbin
+❂ `/ppaste`*:* Paste to pastylus
+❂ `/cpaste`*:* Paste to catbin
+❂ `/dpaste`*:* Paste to dogbin
+❂ `/pvpaste`*:* Paste to privatebin
 """
-
-PASTE_HANDLER = DisableAbleCommandHandler("hpaste", paste, run_async=True)
-NEKO_HANDLER = DisableAbleCommandHandler("npaste", nekopaste, run_async=True)
-SPASE_HANDLER = DisableAbleCommandHandler("spaste", spacepaste, run_async=True)
-
-dispatcher.add_handler(PASTE_HANDLER)
-dispatcher.add_handler(NEKO_HANDLER)
-dispatcher.add_handler(SPASE_HANDLER)
