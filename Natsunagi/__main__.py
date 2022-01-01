@@ -4,11 +4,8 @@ import json
 import re
 import time
 import traceback
-from platform import python_version
-from sys import argv
 from typing import Optional
 
-from pyrogram import __version__ as pyr
 from telegram import (
     Chat,
     InlineKeyboardButton,
@@ -18,7 +15,6 @@ from telegram import (
     Update,
     User,
 )
-from telegram import __version__ as tgl
 from telegram.error import (
     BadRequest,
     ChatMigrated,
@@ -27,10 +23,9 @@ from telegram.error import (
     TimedOut,
     Unauthorized,
 )
-from telegram.ext import CallbackContext, CommandHandler, Filters
-from telegram.ext.dispatcher import DispatcherHandlerStop, Dispatcher
+from telegram.ext import CallbackContext, Filters
+from telegram.ext.dispatcher import Dispatcher, DispatcherHandlerStop
 from telegram.utils.helpers import escape_markdown
-from telethon import __version__ as tlh
 
 from Natsunagi import (
     CERT_PATH,
@@ -59,7 +54,6 @@ from Natsunagi.modules.helper_funcs.decorators import (
     natsunagicmd,
     natsunagimsg,
 )
-from Natsunagi.modules.helper_funcs.filters import CustomFilters
 from Natsunagi.modules.helper_funcs.misc import paginate_modules
 
 
@@ -652,19 +646,15 @@ def main():
 
     dispatcher.add_error_handler(error_callback)
 
-
     # add antiflood processor
     Dispatcher.process_update = process_update
 
     if WEBHOOK:
         LOGGER.info("Using webhooks.")
-        updater.start_webhook(listen="127.0.0.1",
-                              port=PORT,
-                              url_path=TOKEN)
+        updater.start_webhook(listen="127.0.0.1", port=PORT, url_path=TOKEN)
 
         if CERT_PATH:
-            updater.bot.set_webhook(url=URL + TOKEN,
-                                    certificate=open(CERT_PATH, 'rb'))
+            updater.bot.set_webhook(url=URL + TOKEN, certificate=open(CERT_PATH, "rb"))
         else:
             updater.bot.set_webhook(url=URL + TOKEN)
 
@@ -685,7 +675,9 @@ def process_update(self, update):
         try:
             self.dispatch_error(None, update)
         except Exception:
-            self.logger.exception('An uncaught error was raised while handling the error')
+            self.logger.exception(
+                "An uncaught error was raised while handling the error"
+            )
         return
 
     now = datetime.datetime.utcnow()
@@ -710,24 +702,30 @@ def process_update(self, update):
 
         # Stop processing with any other handler.
         except DispatcherHandlerStop:
-            self.logger.debug('Stopping further handlers due to DispatcherHandlerStop')
+            self.logger.debug("Stopping further handlers due to DispatcherHandlerStop")
             break
 
         # Dispatch any error.
         except TelegramError as te:
-            self.logger.warning('A TelegramError was raised while processing the Update')
+            self.logger.warning(
+                "A TelegramError was raised while processing the Update"
+            )
 
             try:
                 self.dispatch_error(update, te)
             except DispatcherHandlerStop:
-                self.logger.debug('Error handler stopped further handlers')
+                self.logger.debug("Error handler stopped further handlers")
                 break
             except Exception:
-                self.logger.exception('An uncaught error was raised while handling the error')
+                self.logger.exception(
+                    "An uncaught error was raised while handling the error"
+                )
 
         # Errors should not stop the thread.
         except Exception:
-            self.logger.exception('An uncaught error was raised while processing the update')
+            self.logger.exception(
+                "An uncaught error was raised while processing the update"
+            )
 
 
 if __name__ == "__main__":
