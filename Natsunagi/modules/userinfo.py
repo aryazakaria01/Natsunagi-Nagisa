@@ -468,10 +468,12 @@ def set_about_me(update: Update, context: CallbackContext):
             )
 
 
-@kigcmd(command='stats', can_disable=False)
+@kigcmd(command="stats", can_disable=False)
 @sudo_plus
 def stats(update, context):
-    db_size = SESSION.execute("SELECT pg_size_pretty(pg_database_size(current_database()))").scalar_one_or_none()
+    db_size = SESSION.execute(
+        "SELECT pg_size_pretty(pg_database_size(current_database()))"
+    ).scalar_one_or_none()
     uptime = datetime.datetime.fromtimestamp(boot_time()).strftime("%Y-%m-%d %H:%M:%S")
     botuptime = get_readable_time((time.time() - StartTime))
     status = "*╒═══「 System statistics: 」*\n\n"
@@ -492,21 +494,21 @@ def stats(update, context):
     status += "*× python-telegram-bot:* " + str(ptbver) + "\n"
     status += "*× Uptime:* " + str(botuptime) + "\n"
     status += "*× Database size:* " + str(db_size) + "\n"
-    kb = [
-          [
-           InlineKeyboardButton('Ping', callback_data='pingCB')
-          ]
-    ]
+    kb = [[InlineKeyboardButton("Ping", callback_data="pingCB")]]
     repo = git.Repo(search_parent_directories=True)
     sha = repo.head.object.hexsha
     status += f"*× Commit*: {sha[0:9]}\n"
     try:
-        update.effective_message.reply_text(status +
-            "\n*Bot statistics*:\n"
-            + "\n".join([mod.__stats__() for mod in STATS]) +
-            "\n\n[⍙ GitHub](https://github.com/aryazakaria01/Natsunagi-Nagisa) | [⍚ GitLab](https://gitlab.com/aryazakaria01/Natsunagi-Nagisa)\n\n" +
-            "╘══「 by [Dynamic](github.com/aryazakaria01) 」\n",
-        parse_mode=ParseMode.MARKDOWN, reply_markup=InlineKeyboardMarkup(kb), disable_web_page_preview=True)
+        update.effective_message.reply_text(
+            status
+            + "\n*Bot statistics*:\n"
+            + "\n".join([mod.__stats__() for mod in STATS])
+            + "\n\n[⍙ GitHub](https://github.com/aryazakaria01/Natsunagi-Nagisa) | [⍚ GitLab](https://gitlab.com/aryazakaria01/Natsunagi-Nagisa)\n\n"
+            + "╘══「 by [Dynamic](github.com/aryazakaria01) 」\n",
+            parse_mode=ParseMode.MARKDOWN,
+            reply_markup=InlineKeyboardMarkup(kb),
+            disable_web_page_preview=True,
+        )
     except BaseException:
         update.effective_message.reply_text(
             (
@@ -525,14 +527,14 @@ def stats(update, context):
         )
 
 
-@natsunagicallback(pattern=r'^pingCB')
+@natsunagicallback(pattern=r"^pingCB")
 def pingCallback(update: Update, context: CallbackContext):
     query = update.callback_query
     start_time = time.time()
-    requests.get('https://api.telegram.org')
+    requests.get("https://api.telegram.org")
     end_time = time.time()
     ping_time = round((end_time - start_time) * 1000, 3)
-    query.answer('Pong! {}ms'.format(ping_time))
+    query.answer("Pong! {}ms".format(ping_time))
 
 
 @natsunagicmd(command="bio")
