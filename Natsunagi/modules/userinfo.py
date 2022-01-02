@@ -32,9 +32,9 @@ from Natsunagi import (
     OWNER_ID,
     TIGERS,
     WOLVES,
+    StartTime,
     dispatcher,
     sw,
-    StartTime,
 )
 from Natsunagi import telethn as Natsunagi
 from Natsunagi.__main__ import STATS, TOKEN, USER_INFO
