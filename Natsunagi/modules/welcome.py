@@ -43,7 +43,7 @@ from Natsunagi import (
     sw,
     telethn,
 )
-from Natsunagi.modules.helper_funcs.chat_status import user_admin
+from Natsunagi.modules.helper_funcs.chat_status import is_user_ban_protected, user_admin
 from Natsunagi.modules.helper_funcs.handlers import MessageHandlerChecker
 from Natsunagi.modules.helper_funcs.misc import build_keyboard, revert_buttons
 from Natsunagi.modules.helper_funcs.msg_types import get_welcome_type
@@ -359,7 +359,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
 
         # User exceptions from welcomemutes
         if (
-            is_user_ban_protectedd(update, new_mem.id, chat.get_member(new_mem.id))
+            is_user_ban_protected(update, new_mem.id, chat.get_member(new_mem.id))
             or human_checks
         ):
             should_mute = False
