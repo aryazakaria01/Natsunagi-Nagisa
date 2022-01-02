@@ -465,7 +465,7 @@ def set_about_me(update: Update, context: CallbackContext):
             )
 
 
-@kigcmd(command="stats", can_disable=False)
+@natsunagicmd(command="stats", can_disable=False)
 @sudo_plus
 def stats(update, context):
     db_size = SESSION.execute(
