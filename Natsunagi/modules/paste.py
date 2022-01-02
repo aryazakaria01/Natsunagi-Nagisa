@@ -9,7 +9,7 @@ import requests
 from pykeyboard import InlineKeyboard
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, Message
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
 
 from Natsunagi import aiohttpsession, eor
 from Natsunagi import pgram as app
