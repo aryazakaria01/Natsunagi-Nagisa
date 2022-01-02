@@ -4,9 +4,9 @@ import json
 import re
 import time
 import traceback
+from sys import argv
 from typing import Optional
 
-from sys import argv
 from telegram import (
     Chat,
     InlineKeyboardButton,
