@@ -9,8 +9,13 @@ import requests
 from pykeyboard import InlineKeyboard
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, Message
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
-
+from telegram import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    ParseMode,
+    Update,
+    CallbackContext,
+)
 from Natsunagi import aiohttpsession, eor
 from Natsunagi import pgram as app
 from Natsunagi.modules.helper_funcs.alternate import typing_action
