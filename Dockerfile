@@ -4,8 +4,8 @@ ENV PIP_NO_CACHE_DIR 1
 
 RUN sed -i.bak 's/us-west-2\.ec2\.//' /etc/apt/sources.list
 
-RUN apt-get update && apt-get upgrade -y && \
-    apt-get install --no-install-recommends -y \
+RUN apt update && apt upgrade -y && \
+    apt install --no-install-recommends -y \
     debian-keyring \
     debian-archive-keyring \
     bash \
@@ -59,8 +59,7 @@ RUN apt-get update && apt-get upgrade -y && \
     libopus-dev \
     && rm -rf /var/lib/apt/lists /var/cache/apt/archives /tmp
 
-RUN apt-get install -y ffmpeg python3-pip curl
-WORKDIR /Natsunagi
+RUN apt install -y ffmpeg python3-pip curl
 RUN pip3 install --upgrade pip setuptools
 
 ENV PATH="/home/bot/bin:$PATH"
