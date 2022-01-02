@@ -3,31 +3,32 @@ import random
 import re
 import time
 from functools import partial
-from typing import Tuple, Optional
 from io import BytesIO
+from typing import Optional, Tuple
 
 from multicolorcaptcha import CaptchaGenerator
 from telegram import (
+    Chat,
+    ChatMember,
+    ChatMemberUpdated,
     ChatPermissions,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     ParseMode,
     Update,
     User,
-    Chat,
-    ChatMemberUpdated,
-    ChatMember,
 )
 from telegram.error import BadRequest, TelegramError
 from telegram.ext import (
     CallbackContext,
     CallbackQueryHandler,
+    ChatMemberHandler,
     CommandHandler,
     Filters,
     MessageHandler,
-    ChatMemberHandler,
 )
 from telegram.utils.helpers import escape_markdown, mention_html, mention_markdown
+from telethon import events
 
 import Natsunagi.modules.sql.welcome_sql as sql
 from Natsunagi import (
@@ -42,7 +43,7 @@ from Natsunagi import (
     sw,
     telethn,
 )
-from Natsunagi.modules.helper_funcs.chat_status import is_user_ban_protected, user_admin
+from Natsunagi.modules.helper_funcs.chat_status import user_admin
 from Natsunagi.modules.helper_funcs.handlers import MessageHandlerChecker
 from Natsunagi.modules.helper_funcs.misc import build_keyboard, revert_buttons
 from Natsunagi.modules.helper_funcs.msg_types import get_welcome_type
@@ -52,7 +53,6 @@ from Natsunagi.modules.helper_funcs.string_handling import (
 )
 from Natsunagi.modules.log_channel import loggable
 from Natsunagi.modules.no_sql.global_bans_db import is_user_gbanned
-from telethon import events
 
 VALID_WELCOME_FORMATTERS = [
     "first",
