@@ -43,7 +43,7 @@ from Natsunagi import (
     sw,
     telethn,
 )
-from Natsunagi.modules.helper_funcs.chat_status import is_user_ban_protected, user_admin
+from Natsunagi.modules.helper_funcs.chat_status import is_user_ban_protectedd, user_admin
 from Natsunagi.modules.helper_funcs.handlers import MessageHandlerChecker
 from Natsunagi.modules.helper_funcs.misc import build_keyboard, revert_buttons
 from Natsunagi.modules.helper_funcs.msg_types import get_welcome_type
@@ -229,11 +229,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                     f"Welcome to {html.escape(chat.title)} my darling.",
                     reply_to_message_id=reply,
                 )
-                welcome_log = (
-                    f"{html.escape(chat.title)}\n"
-                    f"#USER_JOINED\n"
-                    f"My Darling just joined the chat"
-                )
+                return
 
             # Welcome Devs
             if new_mem.id in DEV_USERS:
@@ -242,6 +238,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                     "Whoa! The Destroyers just joined!",
                     reply_to_message_id=reply,
                 )
+                return
 
             # Welcome Sudos
             if new_mem.id in DRAGONS:
@@ -250,6 +247,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                     "Huh! Shadow Slayer just joined! Stay Alert!",
                     reply_to_message_id=reply,
                 )
+                return
 
             # Welcome Support
             if new_mem.id in DEMONS:
@@ -258,6 +256,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                     "Huh! Someone with Guardian just joined!",
                     reply_to_message_id=reply,
                 )
+                return
 
             # Welcome WOLVES
             if new_mem.id in WOLVES:
@@ -266,6 +265,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                     "Oof! A Villain Users just joined!",
                     reply_to_message_id=reply,
                 )
+                return
 
             # Welcome yourself
             if new_mem.id == bot.id:
@@ -290,6 +290,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                         ],
                     ),
                 )
+                return
 
             buttons = sql.get_welc_buttons(chat.id)
             keyb = build_keyboard(buttons)
@@ -359,7 +360,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
 
         # User exceptions from welcomemutes
         if (
-            is_user_ban_protected(update, new_mem.id, chat.get_member(new_mem.id))
+            is_user_ban_protectedd(chat, new_mem.id, chat.get_member(new_mem.id))
             or human_checks
         ):
             should_mute = False
