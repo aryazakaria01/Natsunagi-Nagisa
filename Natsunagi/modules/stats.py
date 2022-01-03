@@ -3,7 +3,7 @@ import time
 
 import psutil
 
-import Natsunagi.modules.sql.users_sql as sql
+import Natsunagi.modules.no_sql.users_db as user_db
 from Natsunagi import StartTime
 from Natsunagi.modules.helper_funcs import formatter
 
@@ -17,15 +17,15 @@ async def bot_sys_stats():
     disk = psutil.disk_usage("/").percent
     process = psutil.Process(os.getpid())
     stats = f"""
-root@FurryChemistry:~$ Natsunagi:
+arya@MacBook:~$ NatsunagiProBot:
 ------------------
-├-☉️⇝  UPTIME: {formatter.get_readable_time((bot_uptime))}
-├-☉️⇝  BOT: {round(process.memory_info()[0] / 1024 ** 2)} MB
-├-☉️⇝  CPU: {cpu}%
-├-☉️⇝ 🖲RAM: {mem}%
-├-☉️⇝  DISK: {disk}%
-├-☉️⇝  USERS: {sql.num_users()} users.
-└-☉️⇝  GROUPS: {sql.num_chats()} groups.
+Uptime: {formatter.get_readable_time((bot_uptime))}
+Bot: {round(process.memory_info()[0] / 1024 ** 2)} MB
+CPU: {cpu}%
+Ram: {mem}%
+Disk: {disk}%
+Users: {user_db.num_users()} users.
+Groups: {user_dn.num_chats()} groups.
 """
 
     return stats
