@@ -2,6 +2,7 @@ import time
 from typing import List
 
 import requests
+from pyrogram import filters
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext
 
