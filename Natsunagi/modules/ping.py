@@ -97,8 +97,6 @@ def ping(update: Update, context: CallbackContext):
         ),
     )
 
-    message.delete()
-
 
 @natsunagi.on_callback_query(filters.regex("stats_callback"))
 async def stats_callbacc(_, CallbackQuery):
