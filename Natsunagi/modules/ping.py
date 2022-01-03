@@ -6,7 +6,7 @@ from telegram import ParseMode, Update
 from telegram.ext import CallbackContext
 
 from Natsunagi import StartTime, dispatcher
-from Natsunagi import pbot as natsunagi
+from Natsunagi import pgram as natsunagi
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.chat_status import sudo_plus
 from Natsunagi.modules.stats import bot_sys_stats as nagisa
@@ -88,7 +88,7 @@ def ping(update: Update, context: CallbackContext):
             [
                 [
                     InlineKeyboardButton(
-                        text="System Stats 👨‍💻", callback_data="stats_callback"
+                        text="System Stats", callback_data="stats_callback"
                     )
                 ]
             ]
