@@ -18,7 +18,7 @@ pillow
 pretty-errors
 psutil
 pynewtonmath
-python-telegram-bot==13.9.0
+python-telegram-bot==13.10.0
 regex
 requests
 spamwatch
