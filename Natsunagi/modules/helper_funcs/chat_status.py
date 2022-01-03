@@ -116,6 +116,24 @@ def is_user_ban_protected(
     return member.status in ("administrator", "creator")
 
 
+def is_user_ban_protectedd(chat: Chat, user_id: int, member: ChatMember = None) -> bool:
+    if (
+        chat.type == "private"
+        or user_id in DRAGONS
+        or user_id in DEV_USERS
+        or user_id in WOLVES
+        or user_id in TIGERS
+        or chat.all_members_are_administrators
+        or user_id in {777000, 1087968824}
+    ):  # Count telegram and Group Anonymous as admin
+        return True
+
+    if not member:
+        member = chat.get_member(user_id)
+
+    return member.status in ("administrator", "creator")
+
+
 def is_user_in_chat(chat: Chat, user_id: int) -> bool:
     member = chat.get_member(user_id)
     return member.status not in ("left", "kicked")
