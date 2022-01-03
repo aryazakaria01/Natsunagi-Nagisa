@@ -25,7 +25,7 @@ CPU: {cpu}%
 Ram: {mem}%
 Disk: {disk}%
 Users: {user_db.num_users()} users.
-Groups: {user_dn.num_chats()} groups.
+Groups: {user_db.num_chats()} groups.
 """
 
     return stats
