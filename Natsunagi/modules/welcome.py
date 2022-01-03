@@ -529,6 +529,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
 
                 message = bot.send_photo(
                     chat.id,
+                    fileobj,
                     caption=f"Welcome [{escape_markdown(new_mem.first_name)}](tg://user?id={user.id}). Click the correct button to get unmuted!",
                     reply_markup=InlineKeyboardMarkup(btn),
                     parse_mode=ParseMode.MARKDOWN,
