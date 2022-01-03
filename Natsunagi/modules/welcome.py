@@ -43,7 +43,10 @@ from Natsunagi import (
     sw,
     telethn,
 )
-from Natsunagi.modules.helper_funcs.chat_status import is_user_ban_protectedd, user_admin
+from Natsunagi.modules.helper_funcs.chat_status import (
+    is_user_ban_protectedd,
+    user_admin,
+)
 from Natsunagi.modules.helper_funcs.handlers import MessageHandlerChecker
 from Natsunagi.modules.helper_funcs.misc import build_keyboard, revert_buttons
 from Natsunagi.modules.helper_funcs.msg_types import get_welcome_type
