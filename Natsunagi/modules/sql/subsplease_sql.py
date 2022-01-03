@@ -1,5 +1,7 @@
-from sqlalchemy import Column, String, Numeric, Boolean
-from Natsunagi.module.sql import SESSION, BASE
+from sqlalchemy import Column, String
+
+from Natsunagi.module.sql import BASE, SESSION
+
 
 class database(BASE):
     __tablename__ = "subsplease"
@@ -28,9 +30,6 @@ def update(website, link):
     if adder:
         adder.link = link
     else:
-        adder = database(
-            website,
-            link
-        )
+        adder = database(website, link)
     SESSION.add(adder)
     SESSION.commit()
