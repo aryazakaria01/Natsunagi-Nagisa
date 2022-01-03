@@ -5,9 +5,10 @@ import requests
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext
 
-from Natsunagi import StartTime, dispatcher
+from Natsunagi import StartTime, dispatcher, pbot as natsunagi
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.chat_status import sudo_plus
+from Natsunagi.modules.stats import bot_sys_stats as nagisa
 
 sites_list = {
     "Telegram": "https://api.telegram.org",
@@ -82,8 +83,21 @@ def ping(update: Update, context: CallbackContext):
         "<b>Time Taken:</b> <code>{}</code>\n"
         "<b>Service uptime:</b> <code>{}</code>".format(telegram_ping, uptime),
         parse_mode=ParseMode.HTML,
-    )
+            reply_markup=InlineKeyboardMarkup(
+                [
+                  [
+                  InlineKeyboardButton(text="System Stats 👨‍💻", callback_data="stats_callback")
+                  ]
+                ]
+            ),
+        )
 
+    message.delete()
+
+@natsunagi.on_callback_query(filters.regex("stats_callback"))
+async def stats_callbacc(_, CallbackQuery):
+    text = await nagisa()
+    await natsunagi.answer_callback_query(CallbackQuery.id, text, show_alert=True)
 
 @sudo_plus
 def pingall(update: Update, context: CallbackContext):
