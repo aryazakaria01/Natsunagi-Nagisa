@@ -1,8 +1,7 @@
 from html import escape
-
-from EmikoRobot import pbot
 from pyrogram import Client, filters
 from pyrogram.types import Message
+from Natsunagi import pbot
 
 
 @pbot.on_message(filters.command("staff"))
@@ -12,7 +11,6 @@ def staff(client: Client, message: Message):
     admin = []
     admin_check = pbot.get_chat_members(message.chat.id, filter="administrators")
     for x in admin_check:
-        # Ini buat nyari co-founder
         if x.status == "administrator" and x.can_promote_members and x.title:
             title = escape(x.title)
             co_founder.append(
@@ -22,7 +20,6 @@ def staff(client: Client, message: Message):
             co_founder.append(
                 f" <b>├</b> <a href='tg://user?id={x.user.id}'>{x.user.first_name}</a>"
             )
-        # ini buat nyari admin
         elif x.status == "administrator" and not x.can_promote_members and x.title:
             title = escape(x.title)
             admin.append(
@@ -32,7 +29,6 @@ def staff(client: Client, message: Message):
             admin.append(
                 f" <b>├</b> <a href='tg://user?id={x.user.id}'>{x.user.first_name}</a>"
             )
-        # ini buat nyari creator
         elif x.status == "creator" and x.title:
             title = escape(x.title)
             creator.append(
