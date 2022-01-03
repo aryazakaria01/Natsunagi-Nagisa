@@ -3,7 +3,8 @@ from typing import List
 
 import requests
 from pyrogram import filters
-from telegram import ParseMode, Update
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import ParseMode, Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CallbackContext
 
 from Natsunagi import StartTime, dispatcher
