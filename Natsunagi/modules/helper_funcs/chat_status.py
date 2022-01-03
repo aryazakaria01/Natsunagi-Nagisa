@@ -2,8 +2,8 @@ from functools import wraps
 from threading import RLock
 from time import perf_counter
 
-from pyrogram import filters
 from cachetools import TTLCache
+from pyrogram import filters
 from telegram import Chat, ChatMember, ParseMode, Update, User
 from telegram.ext import CallbackContext
 
@@ -424,9 +424,9 @@ def user_can_ban(func):
 
     return user_is_banhammer
 
+
 def call_back_in_filter(data):
-    return filters.create(lambda flt, _, query: flt.data in query.data,
-                          data=data)
+    return filters.create(lambda flt, _, query: flt.data in query.data, data=data)
 
 
 def connection_status(func):
