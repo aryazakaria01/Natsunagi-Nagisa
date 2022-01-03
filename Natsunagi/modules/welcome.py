@@ -267,8 +267,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
 
             # Welcome yourself
             if new_mem.id == bot.id:
-                bot.send_message(
-                    chat.id,
+                update.effective_chat.send_message(
                     "Hey {}, I'm {}! Thank you for adding me to {}\n\n"
                     "Join support and channel update with clicking button below!".format(
                         user.first_name, context.bot.first_name, chat.title
