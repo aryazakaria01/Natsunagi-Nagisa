@@ -243,6 +243,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                     reply_to_message_id=reply,
                 )
                 return
+
             # Welcome Sudos
             if new_mem.id in DRAGONS:
                 update.effective_chat.send_message(
@@ -250,6 +251,7 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                     reply_to_message_id=reply,
                 )
                 return
+
             # Welcome Support
             if new_mem.id in DEMONS:
                 update.effective_chat.send_message(
@@ -257,34 +259,39 @@ def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
                     reply_to_message_id=reply,
                 )
                 return
+
             # Welcome WOLVES
             if new_mem.id in WOLVES:
                 update.effective_chat.send_message(
                     "Oof! A Villain Users just joined!", reply_to_message_id=reply
                 )
                 return
+
             # Welcome yourself
             if new_mem.id == bot.id:
-                update.effective_chat.send_message(
-                    "❤️ Thanks for adding me to the group!\n\n"
-                    "Appoint me as admin in the group, otherwise I won't be able to work properly.\n\n"
-                    "Once done, then type /admincache".format(
+                bot.send_message(
+                    chat.id,
+                    "Hey {}, I'm {}! Thank you for adding me to {}\n\n"
+                    "Join support and channel update with clicking button below!".format(
+                        user.first_name, context.bot.first_name, chat.title
                     ),
                     reply_to_message_id=reply,
                     reply_markup=InlineKeyboardMarkup(
-                    [
                         [
-                            InlineKeyboardButton(
-                                text="🚑 Support", url=f"https://t.me/{SUPPORT_CHAT}"
-                            ),
-                            InlineKeyboardButton(
-                                text="📢 Updates",
-                                url="https://t.me/Black_Knights_Union",
-                            ),
-                        ]
-                    ],
-                ),
+                            [
+                                InlineKeyboardButton(
+                                    text="🚑 Support", url=f"https://t.me/{SUPPORT_CHAT}"
+                                ),
+                                InlineKeyboardButton(
+                                    text="📢 Updates",
+                                    url="https://t.me/Black_Knights_Union",
+                                ),
+                            ]
+                        ],
+                    ),
+                )
                 return
+
             buttons = sql.get_welc_buttons(chat.id)
             keyb = build_keyboard(buttons)
 
