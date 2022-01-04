@@ -45,7 +45,7 @@ def staff(client: Client, message: Message):
 
     if len(co_founder) == 0 and len(admin) == 0:
         result = (
-            "Staff in <b>{chat_title}</b>\n\n🤴 <b><i>Founder</i></b>\n"
+            "Staff In <b>{chat_title}</b>\n\n🤴 <b><i>Founder</i></b>\n"
             + "\n".join(creator)
         )
 
@@ -54,7 +54,7 @@ def staff(client: Client, message: Message):
         admin.pop(-1)
         admin.append(res_admin)
         result = (
-            "Staff in <b>{chat_title}</b>\n\n🤴 <b><i>Founder</i></b>\n"
+            "Staff In <b>{chat_title}</b>\n\n🤴 <b><i>Founder</i></b>\n"
             + "\n".join(creator)
             + "\n\n"
             "👮‍♂ <b><i>Admin</i></b>\n" + "\n".join(admin)
@@ -65,7 +65,7 @@ def staff(client: Client, message: Message):
         co_founder.pop(-1)
         co_founder.append(resco_founder)
         result = (
-            "Staff in <b>{chat_title}</b>\n\n🤴 <b><i>Founder</i></b>\n"
+            "Staff In <b>{chat_title}</b>\n\n🤴 <b><i>Founder</i></b>\n"
             + "\n".join(creator)
             + "\n\n"
             "👨‍✈️ <b><i>Co-Founder</i></b>\n" + "\n".join(co_founder)
@@ -79,10 +79,10 @@ def staff(client: Client, message: Message):
         co_founder.append(resco_founder)
         admin.append(res_admin)
         result = (
-            "Staff in <b>{chat_title}</b>\n\n🤴 <b><i>Founder</i></b>\n"
+            "Staff In <b>{chat_title}</b>\n\n🤴 <b><i>Founder</i></b>\n"
             + "\n".join(creator)
             + "\n\n"
             "👨‍✈️ <b><i>Co-Founder</i></b>\n" + "\n".join(co_founder) + "\n\n"
             "👮‍♂ <b><i>Admin</i></b>\n" + "\n".join(admin)
         )
-    message.send(result)
+    client.send_message(chat_id, result)
