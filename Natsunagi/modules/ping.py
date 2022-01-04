@@ -9,9 +9,7 @@ from telegram.ext import CallbackContext
 
 from Natsunagi import StartTime, dispatcher
 from Natsunagi import pgram as natsunagi
-from Natsunagi.modules.disable import (
-    DisableAbleCommandHandler,
-)
+from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.chat_status import sudo_plus
 from Natsunagi.modules.stats import bot_sys_stats as nagisa
 
