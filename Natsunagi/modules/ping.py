@@ -5,7 +5,7 @@ import requests
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
-from telegram.ext import CallbackContext
+from telegram.ext import CallbackContext, Filters
 
 from Natsunagi import StartTime, dispatcher
 from Natsunagi import pgram as natsunagi
