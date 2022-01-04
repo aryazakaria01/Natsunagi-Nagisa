@@ -3,16 +3,15 @@ from html import escape
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from Natsunagi import pgram as pbot
+from Natsunagi import pgram
 
 
-@pbot.on_message(filters.command("staff"))
+@pgram.on_message(filters.command("staff"))
 def staff(client: Client, message: Message):
+    chat_id = message.chat.id
     creator = []
     co_founder = []
     admin = []
-    chat_id = message.chat.id
-    chat_title = message.chat.title
     admin_check = pbot.get_chat_members(message.chat.id, filter="administrators")
     for x in admin_check:
         if x.status == "administrator" and x.can_promote_members and x.title:
@@ -44,32 +43,23 @@ def staff(client: Client, message: Message):
             )
 
     if len(co_founder) == 0 and len(admin) == 0:
-        result = (
-            "Staff In <b>{chat_title}</b>\n\n🤴 <b><i>Founder</i></b>\n"
-            + "\n".join(creator)
-        )
+        result = f"Admins on <b>{chat_title}</b>\n\n🤴 <b>Group Founder</b>\n" + "\n".join(creator)
 
     elif len(co_founder) == 0 and len(admin) > 0:
         res_admin = admin[-1].replace("├", "└")
         admin.pop(-1)
         admin.append(res_admin)
-        result = (
-            "Staff In <b>{chat_title}</b>\n\n🤴 <b><i>Founder</i></b>\n"
-            + "\n".join(creator)
-            + "\n\n"
-            "👮‍♂ <b><i>Admin</i></b>\n" + "\n".join(admin)
-        )
+        result = f"Admins on <b>{chat_title}</b>\n\n🤴 <b>Group Founder</b>\n" + "\n".join(
+            creator
+        ) + "\n\n" "👮‍♂ <b>Admin</b>\n" + "\n".join(admin)
 
     elif len(co_founder) > 0 and len(admin) == 0:
         resco_founder = co_founder[-1].replace("├", "└")
         co_founder.pop(-1)
         co_founder.append(resco_founder)
-        result = (
-            "Staff In <b>{chat_title}</b>\n\n🤴 <b><i>Founder</i></b>\n"
-            + "\n".join(creator)
-            + "\n\n"
-            "👨‍✈️ <b><i>Co-Founder</i></b>\n" + "\n".join(co_founder)
-        )
+        result = f"Admins on <b>{chat_title}</b>\n\n🤴 <b>Group Founder</b>\n" + "\n".join(
+            creator
+        ) + "\n\n" "👨‍✈️ <b>Co-Founder</b>\n" + "\n".join(co_founder)
 
     else:
         resco_founder = co_founder[-1].replace("├", "└")
@@ -79,10 +69,8 @@ def staff(client: Client, message: Message):
         co_founder.append(resco_founder)
         admin.append(res_admin)
         result = (
-            "Staff In <b>{chat_title}</b>\n\n🤴 <b><i>Founder</i></b>\n"
-            + "\n".join(creator)
-            + "\n\n"
-            "👨‍✈️ <b><i>Co-Founder</i></b>\n" + "\n".join(co_founder) + "\n\n"
-            "👮‍♂ <b><i>Admin</i></b>\n" + "\n".join(admin)
+            f"Admins on <b>{chat_title}</b>\n\n🤴 <b>Group Founder</b>\n" + "\n".join(creator) + "\n\n"
+            "👨‍✈️ <b>Co-Founder</b>\n" + "\n".join(co_founder) + "\n\n"
+            "👮‍♂ <b>Admin</b>\n" + "\n".join(admin)
         )
     client.send_message(chat_id, result)
