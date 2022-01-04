@@ -12,7 +12,7 @@ def staff(client: Client, message: Message):
     creator = []
     co_founder = []
     admin = []
-    admin_check = pbot.get_chat_members(message.chat.id, filter="administrators")
+    admin_check = pgram.get_chat_members(message.chat.id, filter="administrators")
     for x in admin_check:
         if x.status == "administrator" and x.can_promote_members and x.title:
             title = escape(x.title)
