@@ -11,8 +11,8 @@ def staff(client: Client, message: Message):
     creator = []
     co_founder = []
     admin = []
-    message.chat.id
-    message.chat.title
+    chat_id = message.chat.id
+    chat_title = message.chat.title
     admin_check = pbot.get_chat_members(message.chat.id, filter="administrators")
     for x in admin_check:
         if x.status == "administrator" and x.can_promote_members and x.title:
