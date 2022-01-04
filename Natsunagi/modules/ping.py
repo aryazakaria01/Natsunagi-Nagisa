@@ -111,7 +111,7 @@ def pingall(update: Update, context: CallbackContext):
     pinged_list.insert(2, "")
     uptime = get_readable_time((time.time() - StartTime))
 
-    reply_msg = "⏱Ping results are:\n"
+    reply_msg = "⏱ Ping results are:\n"
     reply_msg += "\n".join(pinged_list)
     reply_msg += "\n<b>Service uptime:</b> <code>{}</code>".format(uptime)
 
@@ -124,9 +124,16 @@ def pingall(update: Update, context: CallbackContext):
 
 PING_HANDLER = DisableAbleCommandHandler("ping", ping, run_async=True)
 PINGALL_HANDLER = DisableAbleCommandHandler("pingall", pingall, run_async=True)
+PING_REGEX_HANDLER = DisableAbleMessageHandler(
+    Filters.regex("(?i)^ping"),
+    ping,
+    friendly="ping",
+    run_async=True,
+)
 
 dispatcher.add_handler(PING_HANDLER)
 dispatcher.add_handler(PINGALL_HANDLER)
+dispatcher.add_handler(PING_REGEX_HANDLER)
 
 __command_list__ = ["ping", "pingall"]
-__handlers__ = [PING_HANDLER, PINGALL_HANDLER]
+__handlers__ = [PING_HANDLER, PINGALL_HANDLER, PING_REGEX_HANDLER]
