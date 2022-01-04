@@ -11,8 +11,8 @@ def staff(client: Client, message: Message):
     creator = []
     co_founder = []
     admin = []
-    chat_id = message.chat.id
-    chat_title = message.chat.title
+    message.chat.id
+    message.chat.title
     admin_check = pbot.get_chat_members(message.chat.id, filter="administrators")
     for x in admin_check:
         if x.status == "administrator" and x.can_promote_members and x.title:
@@ -44,23 +44,32 @@ def staff(client: Client, message: Message):
             )
 
     if len(co_founder) == 0 and len(admin) == 0:
-        result = "Staff in <b>{chat_title}</b>\n\n🤴 <b><i>Founder</i></b>\n" + "\n".join(creator)
+        result = (
+            "Staff in <b>{chat_title}</b>\n\n🤴 <b><i>Founder</i></b>\n"
+            + "\n".join(creator)
+        )
 
     elif len(co_founder) == 0 and len(admin) > 0:
         res_admin = admin[-1].replace("├", "└")
         admin.pop(-1)
         admin.append(res_admin)
-        result = "Staff in <b>{chat_title}</b>\n\n🤴 <b><i>Founder</i></b>\n" + "\n".join(
-            creator
-        ) + "\n\n" "👮‍♂ <b><i>Admin</i></b>\n" + "\n".join(admin)
+        result = (
+            "Staff in <b>{chat_title}</b>\n\n🤴 <b><i>Founder</i></b>\n"
+            + "\n".join(creator)
+            + "\n\n"
+            "👮‍♂ <b><i>Admin</i></b>\n" + "\n".join(admin)
+        )
 
     elif len(co_founder) > 0 and len(admin) == 0:
         resco_founder = co_founder[-1].replace("├", "└")
         co_founder.pop(-1)
         co_founder.append(resco_founder)
-        result = "Staff in <b>{chat_title}</b>\n\n🤴 <b><i>Founder</i></b>\n" + "\n".join(
-            creator
-        ) + "\n\n" "👨‍✈️ <b><i>Co-Founder</i></b>\n" + "\n".join(co_founder)
+        result = (
+            "Staff in <b>{chat_title}</b>\n\n🤴 <b><i>Founder</i></b>\n"
+            + "\n".join(creator)
+            + "\n\n"
+            "👨‍✈️ <b><i>Co-Founder</i></b>\n" + "\n".join(co_founder)
+        )
 
     else:
         resco_founder = co_founder[-1].replace("├", "└")
@@ -70,7 +79,9 @@ def staff(client: Client, message: Message):
         co_founder.append(resco_founder)
         admin.append(res_admin)
         result = (
-            "Staff in <b>{chat_title}</b>\n\n🤴 <b><i>Founder</i></b>\n" + "\n".join(creator) + "\n\n"
+            "Staff in <b>{chat_title}</b>\n\n🤴 <b><i>Founder</i></b>\n"
+            + "\n".join(creator)
+            + "\n\n"
             "👨‍✈️ <b><i>Co-Founder</i></b>\n" + "\n".join(co_founder) + "\n\n"
             "👮‍♂ <b><i>Admin</i></b>\n" + "\n".join(admin)
         )
