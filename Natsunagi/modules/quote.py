@@ -19,10 +19,11 @@ async def quotify(messages: list):
 
 
 def getArg(message: Message) -> str:
-    return message.text.strip().split(None, 1)[1].strip()
+    arg = message.text.strip().split(None, 1)[1].strip()
+    return arg
 
 
-def isArgInt(message: Message) -> list:
+def isArgInt(message: Message) -> bool:
     count = getArg(message)
     try:
         count = int(count)
@@ -50,12 +51,13 @@ async def quotly_func(client, message: Message):
             count = arg[1]
             messages = await client.get_messages(
                 message.chat.id,
-                list(
-                    range(
+                [
+                    i
+                    for i in range(
                         message.reply_to_message.message_id,
-                        message.reply_to_message.message_id + (count + 5),
+                        message.reply_to_message.message_id + count,
                     )
-                ),
+                ],
                 replies=0,
             )
         else:
@@ -70,7 +72,8 @@ async def quotly_func(client, message: Message):
             )
             messages = [reply_message]
     else:
-        return await m.edit("Incorrect argument, check quotly module in help section.")
+        await m.edit("Incorrect argument, check quotly module in help section.")
+        return
     try:
         sticker = await quotify(messages)
         if not sticker[0]:
