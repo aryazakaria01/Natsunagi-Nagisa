@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from telegram.ext import (
     CallbackQueryHandler,
@@ -6,7 +6,7 @@ from telegram.ext import (
     InlineQueryHandler,
     MessageHandler,
 )
-from telegram.ext.filters import BaseFilter
+from telegram.ext.filters import MessageFilter
 
 from Natsunagi import LOGGER
 from Natsunagi import dispatcher as n
@@ -23,13 +23,13 @@ class NatsunagiTelegramHandler:
     def command(
         self,
         command: str,
-        filters: Optional[BaseFilter] = None,
+        filters: Optional[MessageFilter] = None,
         admin_ok: bool = False,
         pass_args: bool = False,
         pass_chat_data: bool = False,
         run_async: bool = True,
         can_disable: bool = True,
-        group: Optional[int] = 40,
+        group: Optional[Union[int, str]] = 40,
     ):
         def _command(func):
             try:
@@ -96,7 +96,7 @@ class NatsunagiTelegramHandler:
         pattern: Optional[BaseFilter] = None,
         can_disable: bool = True,
         run_async: bool = True,
-        group: Optional[int] = 60,
+        group: Optional[Union[int, str]] = 60,
         friendly=None,
     ):
         def _message(func):
