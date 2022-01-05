@@ -7,7 +7,6 @@ from platform import python_version
 
 import requests
 from psutil import boot_time, cpu_percent, disk_usage, virtual_memory
-from git import Repo
 from telegram import (
     MAX_MESSAGE_LENGTH,
     InlineKeyboardButton,
