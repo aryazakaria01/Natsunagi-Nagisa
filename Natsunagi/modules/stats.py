@@ -2,7 +2,7 @@ import os
 import time
 import psutil
 
-from telegram import ParseMode, __version__ as peler
+from telegram import __version__ as peler
 from platform import python_version as memek
 from telethon import __version__ as tlh
 from pyrogram import __version__ as pyr
@@ -27,6 +27,7 @@ Uptime: {formatter.get_readable_time((bot_uptime))}
 CPU Usage: {cpu}%
 Ram Usage: {mem}%
 Disk: {disk}%
+Bot: {round(process.memory_info()[0] / 1024 ** 2)} MB
 Python version: {memek()}
 Library version: v{peler}
 Telethon version: {tlh}
