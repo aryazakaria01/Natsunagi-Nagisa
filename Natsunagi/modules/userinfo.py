@@ -494,9 +494,9 @@ def stats(update, context):
     status += "*× Uptime:* " + str(botuptime) + "\n"
     status += "*× Database size:* " + str(db_size) + "\n"
     kb = [[InlineKeyboardButton("Ping", callback_data="pingCB")]]
-    repo = git.Repo(search_parent_directories=True)
-    sha = repo.head.object.hexsha
-    status += f"*× Commit*: {sha[0:9]}\n"
+    #repo = git.Repo(search_parent_directories=True)
+    #sha = repo.head.object.hexsha
+    #status += f"*× Commit*: {sha[0:9]}\n"
     try:
         update.effective_message.reply_text(
             status
