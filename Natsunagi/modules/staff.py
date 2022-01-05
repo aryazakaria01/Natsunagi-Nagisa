@@ -9,6 +9,7 @@ from Natsunagi import pgram
 @pgram.on_message(filters.command("staff"))
 def staff(client: Client, message: Message):
     chat_id = message.chat.id
+    chat_title = message.chat.title
     creator = []
     co_founder = []
     admin = []
@@ -43,13 +44,13 @@ def staff(client: Client, message: Message):
             )
 
     if len(co_founder) == 0 and len(admin) == 0:
-        result = f"Admins on <b>{chat_id}</b>\n\n🤴 <b>Group Founder</b>\n" + "\n".join(creator)
+        result = f"Admins on <b>{chat_title}</b>\n\n🤴 <b>Group Founder</b>\n" + "\n".join(creator)
 
     elif len(co_founder) == 0 and len(admin) > 0:
         res_admin = admin[-1].replace("├", "└")
         admin.pop(-1)
         admin.append(res_admin)
-        result = f"Admins on <b>{chat_id}</b>\n\n🤴 <b>Group Founder</b>\n" + "\n".join(
+        result = f"Admins on <b>{chat_title}</b>\n\n🤴 <b>Group Founder</b>\n" + "\n".join(
             creator
         ) + "\n\n" "👮‍♂ <b>Admin</b>\n" + "\n".join(admin)
 
@@ -57,7 +58,7 @@ def staff(client: Client, message: Message):
         resco_founder = co_founder[-1].replace("├", "└")
         co_founder.pop(-1)
         co_founder.append(resco_founder)
-        result = f"Admins on <b>{chat_id}</b>\n\n🤴 <b>Group Founder</b>\n" + "\n".join(
+        result = f"Admins on <b>{chat_title}</b>\n\n🤴 <b>Group Founder</b>\n" + "\n".join(
             creator
         ) + "\n\n" "👨‍✈️ <b>Co-Founder</b>\n" + "\n".join(co_founder)
 
@@ -69,7 +70,7 @@ def staff(client: Client, message: Message):
         co_founder.append(resco_founder)
         admin.append(res_admin)
         result = (
-            f"Admins on <b>{chat_id}</b>\n\n🤴 <b>Group Founder</b>\n" + "\n".join(creator) + "\n\n"
+            f"Admins on <b>{chat_title}</b>\n\n🤴 <b>Group Founder</b>\n" + "\n".join(creator) + "\n\n"
             "👨‍✈️ <b>Co-Founder</b>\n" + "\n".join(co_founder) + "\n\n"
             "👮‍♂ <b>Admin</b>\n" + "\n".join(admin)
         )
