@@ -11,15 +11,15 @@ def ud(update, context):
     args = context.args
     text = " ".join(args).lower()
     if not text:
-        msg.reply_text("Please enter keywords to search!")
+        msg.reply_text("Please enter keywords to search on ud!")
         return
-    elif text == "starry":
-        msg.reply_text("Who is Arya!")
+    elif text == "Arya":
+        msg.reply_text("Arya is my owner so if you search him on urban dictionary you can't find the meaning because he is my husband and only me who know what's the meaning of Arya!")
         return
     try:
         results = get(f"http://api.urbandictionary.com/v0/define?term={text}").json()
-        reply_text = f'Word: {text}\n\nDefinition: {results["list"][0]["definition"]}'
-        reply_text += f'\n\nExample: {results["list"][0]["example"]}'
+        reply_text = f'Word: {text}\n\nDefinition: \n{results["list"][0]["definition"]}'
+        reply_text += f'\n\nExample: \n{results["list"][0]["example"]}'
     except IndexError:
         reply_text = (
             f"Word: {text}\n\nResults: Sorry could not find any matching results!"

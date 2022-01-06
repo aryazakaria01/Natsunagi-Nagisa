@@ -87,48 +87,39 @@ HELP_MSG = "Contact me in PM for help!"
 HELP_MSG_MODULES = "Contact me in PM for help!"
 
 PM_START_TEXT = f"""
-Hey there! My name is *{dispatcher.bot.first_name}*-I'm here to help you manage your groups! Hit /help to find out more about how to use me to my full potential.
-
-Join my [update news](https://t.me/CyberMusicProject) to get information on all the latest updates.
-
-Use the /privacy command to view the privacy policy, and interact with your data.
+👋 Hai there, My name is [{dispatcher.bot.first_name}](https://telegra.ph/file/d58da3669dc9395a29cb8.jpg)
+──────────────────
+A powerful group management bot built to help you manage your group!
+──────────────────
+Click the /help button below to learn more how to use me.
 """
 
 buttons = [
     [
+        InlineKeyboardButton(text="Get Help", callback_data="help_back"),
+        InlineKeyboardButton(text="Support", url="https://t.me/NatsunagiCorporationGroup")
+    ],
+    [
         InlineKeyboardButton(
-            text="Add me to your chat!", url="t.me/NatsunagiProBot?startgroup=true"
-        )
-    ]
+            text="➗ Add Natsunagi To Your Group ➗", url="t.me/NatsunagiProBot?startgroup=new"),
+    ],
 ]
 
 
 HELP_STRINGS = f"""
-*Help*
+✨ I'm a modular group management bot with a few fun extras! Have a look at the following for an 
+idea of some of the things I can help you with. Main commands available: 
 
-Hey! My name is *{dispatcher.bot.first_name}*. I am a group management bot, here to help you get around and keep the order in your groups!
-I have lots of handy features, such as flood control, a warning system, a note keeping system, and even predetermined replies on certain keywords.
-
-Helpful commands:
-➛ /start: Starts me! You've probably already used this.
-➛ /help: Sends this message; I'll tell you more about myself!
-➛ /donate: Gives you info on how to support me and my creator.
-
-If you have any bugs or questions on how to use me, have a look at my [group](https://t.me/NatsunagiCorporationGroup), or head to @CyberMusicProject.
-All commands can be used with the following: / !
+× /start: starts me!
+× /help: makes me send or redirect you to THIS message.
+× /settings (group chat only): makes me show the current chat settings.
 """
 
-DONATE_STRING = """
-So you want to donate? Amazing!
-It took a lot of work for my creator to get me to where I am now - so if you have some money to spare, and want to show your support; Donate!
-After all, server fees don't pay themselves - so every little helps! All donation money goes straight to funding the VPS, and of course, boosting morale - always nice to see my work is appreciated :)
-You can donate on pm [me](https://t.me/FurryChemistry), or if you want to help support me on a monthly basis, you can set up a recurring donation on [GitHub Sponsors](https://github.com/sponsors/aryazakaria01).
-Thank you for your donation!
-"""
+DONATE_STRING = """Heya, glad to hear you want to donate!
+ You can support the project by contacting @FurryChemistry \
+ Supporting isnt always financial! \
+ Those who cannot provide monetary support are welcome to help us develop the bot at ."""
 
-PRIVACY_STRING = """
-Select one of the below options for more information about how the bot handles your privacy.
-"""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -252,7 +243,7 @@ def start(update: Update, context: CallbackContext):
             )
     else:
         update.effective_message.reply_text(
-            "Heya :) PM me if you have any questions on how to use me!"
+            f"👋 Hi there, My name is {dispatcher.bot.first_name}. Nice to meet you!"
         )
 
 
@@ -385,12 +376,12 @@ def get_help(update, context):
     if chat.type != chat.PRIVATE:
 
         update.effective_message.reply_text(
-            "Contact me in PM for help!",
+            "Contact me in PM to get the list of possible commands.!",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
-                            text="Click me for help!",
+                            text="Help!",
                             url="t.me/{}?start=help".format(context.bot.username),
                         )
                     ]
@@ -411,14 +402,6 @@ def get_help(update, context):
                 [[InlineKeyboardButton(text="Back", callback_data="help_back")]]
             ),
         )
-
-    else:
-        keyb = paginate_modules(0, HELPABLE, "help")
-        # Add aditional button if staff user detected
-        if user.id in DEV_USERS or user.id in DEMONS or user.id in DRAGONS:
-            keyb += [[InlineKeyboardButton(text="Staff", callback_data="help_staff")]]
-
-        send_help(chat.id, HELP_STRINGS, InlineKeyboardMarkup(keyb))
 
 
 def send_settings(chat_id, user_id, user=False):
@@ -638,7 +621,7 @@ def main():
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
             dispatcher.bot.sendMessage(
-                f"@{SUPPORT_CHAT}", "Finally! System Started Successfully"
+                f"@{SUPPORT_CHAT}", "👋 Hi my Darling, I'm now alive"
             )
         except Unauthorized:
             LOGGER.warning(
@@ -651,7 +634,7 @@ def main():
 
     if WEBHOOK:
         LOGGER.info(
-            f"Natsunagi started, Using webhook. | BOT: [@{dispatcher.bot.username}]"
+            f"{dispatcher.bot.first_name} started, Using webhook. | BOT: [@{dispatcher.bot.username}]"
         )
         updater.start_webhook(listen="127.0.0.1", port=PORT, url_path=TOKEN)
 
@@ -662,7 +645,7 @@ def main():
 
     else:
         LOGGER.info(
-            f"Natsunagi started, Using long polling. | BOT: [@{dispatcher.bot.username}]"
+            f"{dispatcher.bot.first_name} started, Using long polling. | BOT: [@{dispatcher.bot.username}]"
         )
         updater.start_polling(
             allowed_updates=Update.ALL_TYPES,

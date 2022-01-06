@@ -64,7 +64,7 @@ This repo was just reamped to suit an Anime-centric community. All original cred
 
 ╘══「 Any other authorship/credits can be seen through the commits. 」
 
-The Support group can be reached out to at [Yūki • Black Knights Union • Dev Chat](https://t.me/BlackKnightsUnion_DevChat), where you can ask for help about [Natsunagi Nagisa](https://t.me/YuiiDev_bot), discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
+The Support group can be reached out to at [𝐍𝐀𝐓𝐒𝐔𝐍𝐀𝐆𝐈 x 𝐒𝐀𝐆𝐀 x 𝐀𝐂𝐊𝐄𝐑𝐌𝐀𝐍 | ᴅɪsᴄᴜssɪᴏɴ](https://t.me/NatsunagiCorporationGroup), where you can ask for help about [Natsunagi Nagisa](https://t.me/NatsunagiProBot), discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
 
 <details>
 	<summary>Heroku Deploy</summary>

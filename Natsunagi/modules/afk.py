@@ -39,7 +39,7 @@ def afk(update, _):
     REDIS.set(f"afk_time_{user.id}", start_afk_time)
     fname = user.first_name
     try:
-        message.reply_text(f"See you later 👋 {fname}!")
+        message.reply_text(f"See you later 👋 `{fname}`!")
     except BadRequest:
         pass
 
@@ -63,7 +63,7 @@ def no_longer_afk(update, _):
         firstname = update.effective_user.first_name
         try:
             message.reply_text(
-                f"Welcome back {firstname}!\nYou were away for: {end_afk_time}"
+                f"Welcome back `{firstname}`!\n\nYou were away for: `{end_afk_time}`"
             )
         except BadRequest:
             return
@@ -133,9 +133,9 @@ def check_afk(update, _, user_id: int, fst_name: int, userc_id: int):
         if int(userc_id) == int(user_id):
             return
         if reason == "none":
-            res = f"{fst_name} is now away!\nLast seen: {since_afk}"
+            res = f"`{fst_name}`` is now away!\n\nLast seen: `{since_afk}`"
         else:
-            res = f"{fst_name} is now away!\nReason: {reason}\nLast seen: {since_afk}"
+            res = f"`{fst_name}`` is now away!\nReason: `{reason}`\n\nLast seen: `{since_afk}`"
 
         update.effective_message.reply_text(res)
 
