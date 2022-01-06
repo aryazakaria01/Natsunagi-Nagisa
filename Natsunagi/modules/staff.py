@@ -44,23 +44,32 @@ def staff(client: Client, message: Message):
             )
 
     if len(co_founder) == 0 and len(admin) == 0:
-        result = f"Admins on <b>{chat_title}</b>\n\n🤴 <b>Group Founder</b>\n" + "\n".join(creator)
+        result = (
+            f"Admins on <b>{chat_title}</b>\n\n🤴 <b>Group Founder</b>\n"
+            + "\n".join(creator)
+        )
 
     elif len(co_founder) == 0 and len(admin) > 0:
         res_admin = admin[-1].replace("├", "└")
         admin.pop(-1)
         admin.append(res_admin)
-        result = f"Admins on <b>{chat_title}</b>\n\n🤴 <b>Group Founder</b>\n" + "\n".join(
-            creator
-        ) + "\n\n" "👮‍♂ <b>Admin</b>\n" + "\n".join(admin)
+        result = (
+            f"Admins on <b>{chat_title}</b>\n\n🤴 <b>Group Founder</b>\n"
+            + "\n".join(creator)
+            + "\n\n"
+            "👮‍♂ <b>Admin</b>\n" + "\n".join(admin)
+        )
 
     elif len(co_founder) > 0 and len(admin) == 0:
         resco_founder = co_founder[-1].replace("├", "└")
         co_founder.pop(-1)
         co_founder.append(resco_founder)
-        result = f"Admins on <b>{chat_title}</b>\n\n🤴 <b>Group Founder</b>\n" + "\n".join(
-            creator
-        ) + "\n\n" "👨‍✈️ <b>Co-Founder</b>\n" + "\n".join(co_founder)
+        result = (
+            f"Admins on <b>{chat_title}</b>\n\n🤴 <b>Group Founder</b>\n"
+            + "\n".join(creator)
+            + "\n\n"
+            "👨‍✈️ <b>Co-Founder</b>\n" + "\n".join(co_founder)
+        )
 
     else:
         resco_founder = co_founder[-1].replace("├", "└")
@@ -70,7 +79,9 @@ def staff(client: Client, message: Message):
         co_founder.append(resco_founder)
         admin.append(res_admin)
         result = (
-            f"Admins on <b>{chat_title}</b>\n\n🤴 <b>Group Founder</b>\n" + "\n".join(creator) + "\n\n"
+            f"Admins on <b>{chat_title}</b>\n\n🤴 <b>Group Founder</b>\n"
+            + "\n".join(creator)
+            + "\n\n"
             "👨‍✈️ <b>Co-Founder</b>\n" + "\n".join(co_founder) + "\n\n"
             "👮‍♂ <b>Admin</b>\n" + "\n".join(admin)
         )

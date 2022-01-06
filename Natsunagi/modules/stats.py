@@ -36,5 +36,4 @@ Users: {user_db.num_users()} users.
 Groups: {user_db.num_chats()} groups.
 """
 
-
     return stats
