@@ -612,7 +612,7 @@ def migrate_chats(update: Update, context: CallbackContext):
         except BaseException:
             pass  # Some sql modules make errors.
 
-    LOGGER.info("Successfully migrated!")
+    LOGGER.info(f"{dispatcher.bot.first_name} successfully migrated!")
     raise DispatcherHandlerStop
 
 
@@ -621,7 +621,7 @@ def main():
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
             dispatcher.bot.sendMessage(
-                f"@{SUPPORT_CHAT}", "👋 Hi my Darling, I'm now alive"
+                f"@{SUPPORT_CHAT}", "👋 Hi Darling, I'm now alive"
             )
         except Unauthorized:
             LOGGER.warning(
@@ -662,7 +662,7 @@ def main():
 
 
 if __name__ == "__main__":
-    LOGGER.info("Natsunagi successfully loaded modules: " + str(ALL_MODULES))
+    LOGGER.info(f"{dispatcher.bot.first_name} successfully loaded modules: " + str(ALL_MODULES))
     telethn.start(bot_token=TOKEN)
     pgram.start()
     main()
