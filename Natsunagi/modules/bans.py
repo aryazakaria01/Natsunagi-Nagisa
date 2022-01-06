@@ -348,7 +348,7 @@ def unbanb_btn(update: Update, context: CallbackContext) -> str:
             )
 
     else:
-        if not is_user_admin(chat, int(user.id)):
+        if not is_user_admin(update, int(user.id)):
             bot.answer_callback_query(
                 query.id,
                 text="You don't have enough rights to delete this message.",
