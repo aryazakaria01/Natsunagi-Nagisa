@@ -10,23 +10,23 @@
 <a href="https://t.me/BlackKnightsUnion_DevChat"> <img src="https://img.shields.io/badge/Support-Chat-blue?&logo=telegram" alt="Support Chat" /> </a>
 <a href="https://t.me/CyberMusicProject"> <img src="https://img.shields.io/badge/Update-Channel-blue?&logo=telegram" alt="Update Channel" /> </a><br>
 <a href="https://t.me/ZeldrisRobot"> <img src="https://img.shields.io/badge/Natsunagi-Nagisa-blue?&logo=telegram" alt="Natsunagi Nagisa on Telegram" /> </a><br>
-<a href="https://www.codacy.com/gh/aryazakaria01/Natsunagi-Nagisa/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=IDN-C-X/ZeldrisRobot&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/b290cfb10337403ba1e8d29fd474d39b"/></a><a href="https://www.codefactor.io/repository/github/aryazakaria01/natsunagi-nagisa"><img src="https://www.codefactor.io/repository/github/aryazakaria01/natsunagi-nagisa/badge?s=9d01f777392b832d05fa066728cf8ea8079dfd26" alt="CodeFactor" /></a><br>
-<a href="https://deepsource.io/gh/aryazakaria01/Natsunagi-Nagisa/?ref=repository-badge"><img src="https://static.deepsource.io/deepsource-badge-light-mini.svg" alt="DeepSource"></a><br>
+<a href="https://www.codacy.com/gh/DynamicFurry/Natsunagi-Nagisa/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=IDN-C-X/ZeldrisRobot&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/b290cfb10337403ba1e8d29fd474d39b"/></a><a href="https://www.codefactor.io/repository/github/DynamicFurry/natsunagi-nagisa"><img src="https://www.codefactor.io/repository/github/DynamicFurry/natsunagi-nagisa/badge?s=9d01f777392b832d05fa066728cf8ea8079dfd26" alt="CodeFactor" /></a><br>
+<a href="https://deepsource.io/gh/DynamicFurry/Natsunagi-Nagisa/?ref=repository-badge"><img src="https://static.deepsource.io/deepsource-badge-light-mini.svg" alt="DeepSource"></a><br>
 <a href="https://python-telegram-bot.org"> <img src="https://img.shields.io/badge/PTB-13.9.0-brightgreen?&style=flat-round&logo=github" alt="Python Telegram Bot" /> </a>
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a><br>
 <a href="https://docs.telethon.dev"> <img src="https://img.shields.io/badge/Telethon-1.24.0-brightgreen?&style=flat-round&logo=github" alt="Telethon" /> </a>
 <a href="https://docs.python.org"> <img src="https://img.shields.io/badge/Python-3.10.1-brightgreen?&style=flat-round&logo=python" alt="Python" /> </a><br>
-<a href="https://github.com/aryazakaria01"> <img src="https://badges.frapsoft.com/os/v1/open-source.svg?v=103" alt="Open Source" /> </a>
-<a href="https://GitHub.com/aryazakaria01/Natsunagi-Nagisa"> <img src="https://img.shields.io/badge/Maintained-Yes-brightgreen.svg" alt="Maintenance" /> </a><br>
-<a href="https://github.com/aryazakaria01/Natsunagi-Nagisa/blob/main/LICENSE"> <img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License" /> </a>
+<a href="https://github.com/DynamicFurry"> <img src="https://badges.frapsoft.com/os/v1/open-source.svg?v=103" alt="Open Source" /> </a>
+<a href="https://GitHub.com/DynamicFurry/Natsunagi-Nagisa"> <img src="https://img.shields.io/badge/Maintained-Yes-brightgreen.svg" alt="Maintenance" /> </a><br>
+<a href="https://github.com/DynamicFurry/Natsunagi-Nagisa/blob/main/LICENSE"> <img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License" /> </a>
 <a href="https://makeapullrequest.com"> <img src="https://img.shields.io/badge/PRs-Welcome-blue.svg?style=flat-round" alt="PRs" /> </a>
-<a href="https://deepsource.io/gh/aryazakaria01/Natsunagi-Nagisa/?ref=repository-badge}" target="_blank"><img alt="DeepSource" title="DeepSource" src="https://deepsource.io/gh/aryazakaria01/Natsunagi-Nagisa.svg/?label=active+issues&show_trend=true&token=RYYx_QApuuAWUMpqD_4iHZ5m"/></a>
-<a href="https://deepsource.io/gh/aryazakaria01/Natsunagi-Nagisa/?ref=repository-badge}" target="_blank"><img alt="DeepSource" title="DeepSource" src="https://deepsource.io/gh/aryazakaria01/Natsunagi-Nagisa.svg/?label=resolved+issues&show_trend=true&token=RYYx_QApuuAWUMpqD_4iHZ5m"/></a>	
+<a href="https://deepsource.io/gh/DynamicFurry/Natsunagi-Nagisa/?ref=repository-badge}" target="_blank"><img alt="DeepSource" title="DeepSource" src="https://deepsource.io/gh/DynamicFurry/Natsunagi-Nagisa.svg/?label=active+issues&show_trend=true&token=RYYx_QApuuAWUMpqD_4iHZ5m"/></a>
+<a href="https://deepsource.io/gh/DynamicFurry/Natsunagi-Nagisa/?ref=repository-badge}" target="_blank"><img alt="DeepSource" title="DeepSource" src="https://deepsource.io/gh/DynamicFurry/Natsunagi-Nagisa.svg/?label=resolved+issues&show_trend=true&token=RYYx_QApuuAWUMpqD_4iHZ5m"/></a>	
 </p>
 
-![Repository Size](https://img.shields.io/github/repo-size/aryazakaria01/Natsunagi-Nagisa?style=for-the-badge&logo=appveyor)</br>
+![Repository Size](https://img.shields.io/github/repo-size/DynamicFurry/Natsunagi-Nagisa?style=for-the-badge&logo=appveyor)</br>
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
-[![ForTheBadge built-with-love](http://ForTheBadge.com/images/badges/built-with-love.svg)](https://gitHub.com/aryazakaria01/)</br>
+[![ForTheBadge built-with-love](http://ForTheBadge.com/images/badges/built-with-love.svg)](https://gitHub.com/DynamicFurry/)</br>
 
 A modular telegram Python bot running on python3 with an sqlalchemy, Redis, mongodb database.
 
@@ -60,7 +60,7 @@ This repo was just reamped to suit an Anime-centric community. All original cred
 + ➢ [InukaAsith](https://github.com/InukaAsith) : MEMES, INLINE ETC MODULES 
 + ➢ [AyraHikari](https://github.com/AyraHikari): FED MODULE
 + ➢ [Peaktogoo](https://github.com/peaktogoo) : FED MODULE
-+ ➢ [Anzy](https://github.com/aryazakaria01) : OWNER NATSUNAGI
++ ➢ [DynamicFurry](https://github.com/DynamicFurry) : OWNER NATSUNAGI
 
 ╘══「 Any other authorship/credits can be seen through the commits. 」
 
