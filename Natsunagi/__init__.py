@@ -5,13 +5,11 @@ import sys
 import time
 from inspect import getfullargspec
 
-import aiohttp
 import spamwatch
 import telegram.ext as tg
 from aiohttp import ClientSession
 from ptbcontrib.postgres_persistence import PostgresPersistence
-from pymongo.errors import ServerSelectionTimeoutError
-from pyrogram import Client, errors
+from pyrogram import Client
 from pyrogram.errors.exceptions.bad_request_400 import ChannelInvalid, PeerIdInvalid
 from pyrogram.types import Message
 from Python_ARQ import ARQ

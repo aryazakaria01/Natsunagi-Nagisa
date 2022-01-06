@@ -69,11 +69,10 @@ def user_admin(permission: AdminPerms):
                     or user_id in DEV_USERS
                 ):
                     return func(update, context, *args, **kwargs)
-                else:
-                    return message.reply_text(
-                        f"You lack the permission: `{permission.name}`",
-                        parse_mode=ParseMode.MARKDOWN,
-                    )
+                return message.reply_text(
+                    f"You lack the permission: `{permission.name}`",
+                    parse_mode=ParseMode.MARKDOWN,
+                )
 
         return awrapper
 

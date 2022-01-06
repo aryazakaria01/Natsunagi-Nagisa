@@ -8,13 +8,10 @@ from sys import argv
 from typing import Optional
 
 from telegram import (
-    Chat,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
-    Message,
     ParseMode,
     Update,
-    User,
 )
 from telegram.error import (
     BadRequest,
@@ -30,10 +27,7 @@ from telegram.utils.helpers import escape_markdown
 
 from Natsunagi import (
     CERT_PATH,
-    DEMONS,
-    DEV_USERS,
     DONATION_LINK,
-    DRAGONS,
     LOGGER,
     OWNER_ID,
     PORT,
@@ -388,7 +382,7 @@ def get_help(update, context):
         )
         return
 
-    elif len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
+    if len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
         module = args[1].lower()
         text = (
             "*{}*\n".format(HELPABLE[module].__mod_name__) + HELPABLE[module].__help__

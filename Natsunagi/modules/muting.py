@@ -40,8 +40,7 @@ def check_user(user_id: int, bot: Bot, update: Update) -> Optional[str]:
     except BadRequest as excp:
         if excp.message == "User not found":
             return "I can't seem to find this user"
-        else:
-            raise
+        raise
     if user_id == bot.id:
         return "I'm not gonna MUTE myself, How high are you?"
 

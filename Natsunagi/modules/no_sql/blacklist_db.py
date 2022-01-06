@@ -14,7 +14,6 @@ def add_to_blacklist(chat_id, trigger):
         {"$set": {"chat_id": chat_id, "trigger": trigger}},
         upsert=True,
     )
-    global CHAT_BLACKLISTS
     if CHAT_BLACKLISTS.get(str(chat_id), set()) == set():
         CHAT_BLACKLISTS[str(chat_id)] = {trigger}
     else:
@@ -74,8 +73,7 @@ def get_blacklist_setting(chat_id) -> [int, str]:
     setting = CHAT_SETTINGS_BLACKLISTS.get(str(chat_id))
     if setting:
         return setting["blacklist_type"], setting["value"]
-    else:
-        return 1, "0"
+    return 1, "0"
 
 
 def __load_chat_blacklists():

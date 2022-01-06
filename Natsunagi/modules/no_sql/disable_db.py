@@ -53,7 +53,6 @@ def migrate_chat(old_chat_id, new_chat_id) -> None:
 
 
 def __load_disabled_commands() -> None:
-    global DISABLED
     all_chats = DISABLED_COMMANDS.find()
     for chat in all_chats:
         DISABLED.setdefault(chat["chat_id"], set()).add(chat["command"])
