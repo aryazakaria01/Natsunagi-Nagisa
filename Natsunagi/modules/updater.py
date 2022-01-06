@@ -25,9 +25,7 @@ async def update_it(client, message):
     try:
         repo = Repo()
     except GitCommandError:
-        return await msg_.edit(
-            engine.get_string("INVALID_GIT_CMD")
-        )
+        return await msg_.edit(engine.get_string("INVALID_GIT_CMD"))
     except InvalidGitRepositoryError:
         repo = Repo.init()
         if "upstream" in repo.remotes:
@@ -40,7 +38,9 @@ async def update_it(client, message):
         repo.heads.master.checkout(True)
     if repo.active_branch.name != Config.U_BRANCH:
         return await msg_.edit(
-            engine.get_sring("CUSTOM_BRANCH").format(repo.active_branch.name, Config.U_BRANCH)
+            engine.get_sring("CUSTOM_BRANCH").format(
+                repo.active_branch.name, Config.U_BRANCH
+            )
         )
     try:
         repo.create_remote("upstream", REPO_)
@@ -99,7 +99,9 @@ async def edit_or_reply(message, text, parse_mode="md"):
         return await message.edit(text, parse_mode=parse_mode)
     if message.from_user.id in sudo_lis_t:
         if message.reply_to_message:
-            return await message.reply_to_message.reply_text(text, parse_mode=parse_mode)
+            return await message.reply_to_message.reply_text(
+                text, parse_mode=parse_mode
+            )
         return await message.reply_text(text, parse_mode=parse_mode)
     return await message.edit(text, parse_mode=parse_mode)
 
