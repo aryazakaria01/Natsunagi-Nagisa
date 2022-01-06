@@ -13,7 +13,7 @@ def ud(update, context):
     if not text:
         msg.reply_text("Please enter keywords to search on ud!")
         return
-    elif text == "Arya":
+    if text == "Arya":
         msg.reply_text("Arya is my owner so if you search him on urban dictionary you can't find the meaning because he is my husband and only me who know what's the meaning of Arya!")
         return
     try:

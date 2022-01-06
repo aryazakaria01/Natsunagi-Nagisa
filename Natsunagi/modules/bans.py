@@ -77,8 +77,7 @@ def ban(
                 f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
                 f"<b>Channel:</b> {html.escape(message.reply_to_message.sender_chat.title)} ({message.reply_to_message.sender_chat.id})"
             )
-        else:
-            message.reply_text("Failed to ban channel")
+        message.reply_text("Failed to ban channel")
         return
 
     user_id, reason = extract_user_and_text(message, args)
@@ -182,16 +181,15 @@ def ban(
                 return log
             message.reply_text("Banned!", quote=False)
             return log
-        else:
-            LOGGER.warning(update)
-            LOGGER.exception(
-                "ERROR banning user %s in chat %s (%s) due to %s",
-                user_id,
-                chat.title,
-                chat.id,
-                excp.message,
-            )
-            message.reply_text("Well damn, I can't ban that user.")
+        LOGGER.warning(update)
+        LOGGER.exception(
+            "ERROR banning user %s in chat %s (%s) due to %s",
+            user_id,
+            chat.title,
+            chat.id,
+            excp.message,
+        )
+        message.reply_text("Well damn, I can't ban that user.")
 
     return ""
 

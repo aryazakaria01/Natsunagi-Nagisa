@@ -82,18 +82,17 @@ def antichannelmode(update: Update, context: CallbackContext):
                 parse_mode=ParseMode.MARKDOWN,
             )
             return
-        elif param in ("off", "false", "no", "No", "Off", "False"):
+        if param in ("off", "false", "no", "No", "Off", "False"):
             acm_sql.setCleanLinked(chat.id, False)
             msg.reply_text(
                 f"*Disabled* Anti channel in {chat.title}.",
                 parse_mode=ParseMode.MARKDOWN,
             )
             return
-        else:
-            msg.reply_text(
-                "Your input was not recognised as one of: yes/no/on/off"
-            )  # on or off ffs
-            return
+        msg.reply_text(
+            "Your input was not recognised as one of: yes/no/on/off"
+        )  # on or off ffs
+        return
     else:
         stat = acm_sql.getCleanLinked(str(chat.id))
         if stat:
@@ -102,12 +101,11 @@ def antichannelmode(update: Update, context: CallbackContext):
                 parse_mode=ParseMode.MARKDOWN,
             )
             return
-        else:
-            msg.reply_text(
-                f"Linked channel post deletion is currently *disabled* in {chat.title}.",
-                parse_mode=ParseMode.MARKDOWN,
-            )
-            return
+        msg.reply_text(
+            f"Linked channel post deletion is currently *disabled* in {chat.title}.",
+            parse_mode=ParseMode.MARKDOWN,
+        )
+        return
 
 
 # Ban all channel of that user and delete the channel sent message

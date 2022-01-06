@@ -74,8 +74,7 @@ def get_blacklist_setting(chat_id) -> [int, str]:
     setting = CHAT_SETTINGS_BLACKLISTS.get(str(chat_id))
     if setting:
         return setting["blacklist_type"], setting["value"]
-    else:
-        return 1, "0"
+    return 1, "0"
 
 
 def __load_chat_blacklists():

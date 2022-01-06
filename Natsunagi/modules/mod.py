@@ -109,8 +109,7 @@ def modd(update, context):
     if msg.endswith("moderator.\n"):
         message.reply_text(f"No users are Moderator in {chat_title}.")
         return ""
-    else:
-        message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
+    message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
 
 
 def modr(update, context):
