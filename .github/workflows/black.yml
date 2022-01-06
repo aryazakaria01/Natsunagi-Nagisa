@@ -1,4 +1,4 @@
-name: Black
+aryazakaria01aryazakaria01aryazakaria01aryazakaria01aryazakaria01aryazakaria01name: Black
 
 on: push
 
@@ -22,7 +22,7 @@ jobs:
           body: Automated code formatting.
           labels: ⚫️ black
           branch: autofix
-          committer: DynamicFurry<88209926+DynamicFurry@sakuraempire.net>
+          committer: aryazakaria01<88209926+aryazakaria01@sakuraempire.net>
           author: ${{ github.actor }} <${{ github.actor }}@sakuraempire.net>
           signoff: true
           delete-branch: true

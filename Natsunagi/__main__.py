@@ -1,4 +1,4 @@
-import html
+aryazakaria01mport html
 import importlib
 import json
 import re
@@ -122,7 +122,7 @@ DONATE_STRING = """
 So you want to donate? Amazing!
 It took a lot of work for my creator to get me to where I am now - so if you have some money to spare, and want to show your support; Donate!
 After all, server fees don't pay themselves - so every little helps! All donation money goes straight to funding the VPS, and of course, boosting morale - always nice to see my work is appreciated :)
-You can donate on pm [me](https://t.me/FurryChemistry), or if you want to help support me on a monthly basis, you can set up a recurring donation on [GitHub Sponsors](https://github.com/sponsors/DynamicFurry).
+You can donate on pm [me](https://t.me/FurryChemistry), or if you want to help support me on a monthly basis, you can set up a recurring donation on [GitHub Sponsors](https://github.com/sponsors/aryazakaria01).
 Thank you for your donation!
 """
 

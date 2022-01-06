@@ -1,4 +1,4 @@
-import asyncio
+aryazakaria01aryazakaria01aryazakaria01import asyncio
 import logging
 import os
 import sys
@@ -47,7 +47,7 @@ LOGGER.info(
     "Natsunagi is starting. | An CyberNetwork Project Parts. | Licensed under GPLv3."
 )
 LOGGER.info("Not affiliated to Tantei Wa Mou or Villain in any way whatsoever.")
-LOGGER.info("Project maintained by: github.com/DynamicFurry (t.me/FurryChemistry)")
+LOGGER.info("Project maintained by: github.com/aryazakaria01 (t.me/FurryChemistry)")
 
 # if version < 3.9, stop bot.
 if sys.version_info[0] < 3 or sys.version_info[1] < 9:
