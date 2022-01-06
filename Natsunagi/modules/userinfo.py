@@ -502,8 +502,8 @@ def stats(update, context):
             status
             + "\n*Bot statistics*:\n"
             + "\n".join([mod.__stats__() for mod in STATS])
-            + "\n\n[⍙ GitHub](https://github.com/aryazakaria01/Natsunagi-Nagisa) | [⍚ GitLab](https://gitlab.com/aryazakaria01/Natsunagi-Nagisa)\n\n"
-            + "╘══「 by [Dynamic](github.com/aryazakaria01) 」\n",
+            + "\n\n[⍙ GitHub](https://github.com/DynamicFurry/Natsunagi-Nagisa) | [⍚ GitLab](https://gitlab.com/DynamicFurry/Natsunagi-Nagisa)\n\n"
+            + "╘══「 by [Dynamic](github.com/DynamicFurry) 」\n",
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=InlineKeyboardMarkup(kb),
             disable_web_page_preview=True,
@@ -516,9 +516,9 @@ def stats(update, context):
                         "\n*Bot statistics*:\n"
                         + "\n".join(mod.__stats__() for mod in STATS)
                     )
-                    + "\n\n⍙ [GitHub](https://github.com/aryazakaria01/Natsunagi-Nagisa) | ⍚ [GitLab](https://gitlab.com/aryazakaria01/Natsunagi-Nagisa)\n\n"
+                    + "\n\n⍙ [GitHub](https://github.com/DynamicFurry/Natsunagi-Nagisa) | ⍚ [GitLab](https://gitlab.com/DynamicFurry/Natsunagi-Nagisa)\n\n"
                 )
-                + "╘══「 by [Dynamic](github.com/aryazakaria01) 」\n"
+                + "╘══「 by [Dynamic](github.com/DynamicFurry) 」\n"
             ),
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=InlineKeyboardMarkup(kb),
