@@ -59,7 +59,6 @@ def set_blacklist_strength(chat_id, blacklist_type, value):
         - 6 = tban
         - 7 = tmute.
     """
-    global CHAT_SETTINGS_BLACKLISTS
     BL_SETTING.update_one(
         {"chat_id": chat_id},
         {"$set": {"blacklist_type": int(blacklist_type), "value": str(value)}},
@@ -80,7 +79,6 @@ def get_blacklist_setting(chat_id) -> [int, str]:
 
 
 def __load_chat_blacklists():
-    global CHAT_BLACKLISTS
     for chat in BL.find():
         CHAT_BLACKLISTS[chat["chat_id"]] = []
 
@@ -91,7 +89,6 @@ def __load_chat_blacklists():
 
 
 def __load_chat_settings_blacklists():
-    global CHAT_SETTINGS_BLACKLISTS
     for x in BL_SETTING.find():
         CHAT_SETTINGS_BLACKLISTS[x["chat_id"]] = {
             "blacklist_type": x["blacklist_type"],
