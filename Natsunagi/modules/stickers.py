@@ -61,7 +61,7 @@ def cb_sticker(update: Update, context: CallbackContext):
     reply = f"Stickers for *{split[1]}*:"
     for result, title in zip(results, titles):
         link = result["href"]
-        reply += f"\n• [{title.get_text()}]({link})"
+        reply += f"\n× [{title.get_text()}]({link})"
     msg.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
 
 

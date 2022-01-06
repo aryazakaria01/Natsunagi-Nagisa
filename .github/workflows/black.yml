@@ -22,7 +22,7 @@ jobs:
           body: Automated code formatting.
           labels: ⚫️ black
           branch: autofix
-          committer: aryazakarai01<88209926+aryazakarai01@users.noreply.github.com>
+          committer: DynamicFurry<88209926+DynamicFurry@sakuraempire.net>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: true
           delete-branch: true

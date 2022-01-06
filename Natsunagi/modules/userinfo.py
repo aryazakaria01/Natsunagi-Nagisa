@@ -7,6 +7,7 @@ from platform import python_version
 
 import requests
 from psutil import boot_time, cpu_percent, disk_usage, virtual_memory
+from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
 from telegram import (
     MAX_MESSAGE_LENGTH,
     InlineKeyboardButton,
@@ -493,16 +494,16 @@ def stats(update, context):
     status += "*× Uptime:* " + str(botuptime) + "\n"
     status += "*× Database size:* " + str(db_size) + "\n"
     kb = [[InlineKeyboardButton("Ping", callback_data="pingCB")]]
-    repo = git.Repo(search_parent_directories=True)
-    sha = repo.head.object.hexsha
-    status += f"*× Commit*: {sha[0:9]}\n"
+    # repo = git.Repo(search_parent_directories=True)
+    # sha = repo.head.object.hexsha
+    # status += f"*× Commit*: {sha[0:9]}\n"
     try:
         update.effective_message.reply_text(
             status
             + "\n*Bot statistics*:\n"
             + "\n".join([mod.__stats__() for mod in STATS])
-            + "\n\n[⍙ GitHub](https://github.com/aryazakaria01/Natsunagi-Nagisa) | [⍚ GitLab](https://gitlab.com/aryazakaria01/Natsunagi-Nagisa)\n\n"
-            + "╘══「 by [Dynamic](github.com/aryazakaria01) 」\n",
+            + "\n\n[⍙ GitHub](https://github.com/DynamicFurry/Natsunagi-Nagisa) | [⍚ GitLab](https://gitlab.com/DynamicFurry/Natsunagi-Nagisa)\n\n"
+            + "╘══「 by [Dynamic](github.com/DynamicFurry) 」\n",
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=InlineKeyboardMarkup(kb),
             disable_web_page_preview=True,
@@ -515,9 +516,9 @@ def stats(update, context):
                         "\n*Bot statistics*:\n"
                         + "\n".join(mod.__stats__() for mod in STATS)
                     )
-                    + "\n\n⍙ [GitHub](https://github.com/aryazakaria01/Natsunagi-Nagisa) | ⍚ [GitLab](https://gitlab.com/aryazakaria01/Natsunagi-Nagisa)\n\n"
+                    + "\n\n⍙ [GitHub](https://github.com/DynamicFurry/Natsunagi-Nagisa) | ⍚ [GitLab](https://gitlab.com/DynamicFurry/Natsunagi-Nagisa)\n\n"
                 )
-                + "╘══「 by [Dynamic](github.com/aryazakaria01) 」\n"
+                + "╘══「 by [Dynamic](github.com/DynamicFurry) 」\n"
             ),
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=InlineKeyboardMarkup(kb),

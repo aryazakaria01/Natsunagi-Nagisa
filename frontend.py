@@ -12,7 +12,7 @@ except ImportError:
 
 with window("About"):
     add_text("Natsunagi Nagisa")
-    add_text("Maintained with <3 by aryazakaria01 (github.com/aryazakaria01)")
+    add_text("Maintained with <3 by DynamicFurry (github.com/DynamicFurry)")
     add_text("Enviroment:")
     add_text(f"Bot lib: python-telegram-bot v{pver}.", bullet=True)
     add_text(f"Python version: {python_version()}.", bullet=True)

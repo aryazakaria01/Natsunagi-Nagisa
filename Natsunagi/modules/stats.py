@@ -1,7 +1,11 @@
 import os
 import time
-
 import psutil
+
+from telegram import __version__ as peler
+from platform import python_version as memek
+from telethon import __version__ as tlh
+from pyrogram import __version__ as pyr
 
 import Natsunagi.modules.no_sql.users_db as user_db
 from Natsunagi import StartTime
@@ -20,10 +24,14 @@ async def bot_sys_stats():
 arya@MacBook:~$ NatsunagiProBot:
 ------------------
 Uptime: {formatter.get_readable_time((bot_uptime))}
-Bot: {round(process.memory_info()[0] / 1024 ** 2)} MB
-CPU: {cpu}%
-Ram: {mem}%
+CPU Usage: {cpu}%
+Ram Usage: {mem}%
 Disk: {disk}%
+Bot: {round(process.memory_info()[0] / 1024 ** 2)} MB
+Python version: {memek()}
+Library version: v{peler}
+Telethon version: {tlh}
+Pyrogram version: {pyr}
 Users: {user_db.num_users()} users.
 Groups: {user_db.num_chats()} groups.
 """
