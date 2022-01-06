@@ -23,6 +23,6 @@ jobs:
           labels: ⚫️ black
           branch: autofix
           committer: DynamicFurry<88209926+DynamicFurry@sakuraempire.net>
-          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@sakuraempire.net>
           signoff: true
           delete-branch: true
