@@ -1,4 +1,4 @@
-aryazakaria01aryazakaria01aryazakaria01aryazakaria01aryazakaria01aryazakaria01aryazakaria01aryazakaria01from platform import python_version
+from platform import python_version
 
 from dearpygui.core import *
 from dearpygui.simple import *

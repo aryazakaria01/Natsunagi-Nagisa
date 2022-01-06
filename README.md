@@ -1,4 +1,4 @@
-aryazakaria01aryazakaria01aryazakaria01<p align="center">
+<p align="center">
   <img src="https://telegra.ph/file/8984ceb8f8f9c57bb9c74.jpg">
 <p>
 
