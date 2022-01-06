@@ -8,14 +8,10 @@ from sys import argv
 from typing import Optional
 
 from telegram import (
-    Chat,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
-    Message,
     ParseMode,
-    Update,
-    User,
-)
+    Update)
 from telegram.error import (
     BadRequest,
     ChatMigrated,
@@ -30,10 +26,7 @@ from telegram.utils.helpers import escape_markdown
 
 from Natsunagi import (
     CERT_PATH,
-    DEMONS,
-    DEV_USERS,
     DONATION_LINK,
-    DRAGONS,
     LOGGER,
     OWNER_ID,
     PORT,
@@ -45,8 +38,7 @@ from Natsunagi import (
     dispatcher,
     pgram,
     telethn,
-    updater,
-)
+    updater)
 from Natsunagi.modules import ALL_MODULES
 from Natsunagi.modules.helper_funcs.alternate import typing_action
 from Natsunagi.modules.helper_funcs.chat_status import is_user_admin
