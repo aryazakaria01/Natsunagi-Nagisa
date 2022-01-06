@@ -107,8 +107,7 @@ buttons = [
 
 
 HELP_STRINGS = f"""
-✨ I'm a modular group management bot with a few fun extras! Have a look at the following for an 
-idea of some of the things I can help you with. Main commands available: 
+✨ I'm a modular group management bot with a few fun extras! Have a look at the following for an idea of some of the things I can help you with. Main commands available: 
 
 × /start: starts me!
 × /help: makes me send or redirect you to THIS message.
@@ -307,7 +306,6 @@ def help_button(update, context):
     mod_match = re.match(r"help_module\((.+?)\)", query.data)
     prev_match = re.match(r"help_prev\((.+?)\)", query.data)
     next_match = re.match(r"help_next\((.+?)\)", query.data)
-    re.match(r"help_staff", query.data)
     back_match = re.match(r"help_back", query.data)
 
     print(query.message.chat.id)
