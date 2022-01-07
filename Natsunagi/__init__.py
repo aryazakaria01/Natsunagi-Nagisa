@@ -85,11 +85,6 @@ if ENV:
         raise Exception("Your whitelisted users list does not contain valid integers.")
 
     try:
-        SPAMMERS = set(int(x) for x in os.environ.get("SPAMMERS", "").split())
-    except ValueError:
-        raise Exception("Your spammers users list does not contain valid integers.")
-
-    try:
         TIGERS = {int(x) for x in os.environ.get("TIGERS", "").split()}
     except ValueError:
         raise Exception("Your scout users list does not contain valid integers.")
@@ -111,7 +106,6 @@ if ENV:
     NO_LOAD = os.environ.get("NO_LOAD", "translation").split()
     DEL_CMDS = bool(os.environ.get("DEL_CMDS", False))
     STRICT_GBAN = bool(os.environ.get("STRICT_GBAN", False))
-    STRICT_GMUTE = bool(os.environ.get('STRICT_GMUTE', False))
     WORKERS = int(os.environ.get("WORKERS", 8))
     BAN_STICKER = os.environ.get("BAN_STICKER", "CAADAgADOwADPPEcAXkko5EB3YGYAg")
     ALLOW_EXCL = os.environ.get("ALLOW_EXCL", False)
@@ -141,9 +135,6 @@ if ENV:
     ARQ_API_URL = os.environ.get("ARQ_API_URL")
     BOT_API_URL = os.environ.get("BOT_API_URL", "https://api.telegram.org/bot")
     LOG_GROUP_ID = os.environ.get("LOG_GROUP_ID")
-    HELP_IMG = os.environ.get("HELP_IMG", True)
-    GROUP_START_IMG = os.environ.get("GROUP_START_IMG", True)
-    NAGISA_PHOTO = os.environ.get("NAGISA_PHOTO", True)
     OPENWEATHERMAP_ID = os.environ.get("OPENWEATHERMAP_ID", "")
     ARQ_API_KEY = os.environ.get("ARQ_API_KEY")
     DEL_CMDS = bool(os.environ.get("DEL_CMDS", False))
@@ -152,10 +143,6 @@ if ENV:
     CUSTOM_CMD = os.environ.get("CUSTOM_CMD", "?")
     BOTLOG_CHATID = os.environ.get("BOTLOG_CHATID")
     SUDO_USERS = os.environ.get("SUDO_USERS")
-    MESSAGE_DUMP_CHAT = os.environ.get("MESSAGE_DUMP_CHAT")
-    WELCOME_DELAY_KICK_SEC = os.environ.get("WELCOME_DELAY_KICK_SEC")
-    LOG_MENTIONS = os.environ.get("LOG_MENTIONS")
-    RSS_DELAY = os.environ.get("RSS_DELAY")
 
     try:
         WHITELIST_CHATS = {
@@ -215,7 +202,6 @@ else:
     DB_URL = Config.SQLALCHEMY_DATABASE_URI
     DONATION_LINK = Config.DONATION_LINK
     STRICT_GBAN = Config.STRICT_GBAN
-    STRICT_GMUTE = Config.STRICT_GMUTE
     WORKERS = Config.WORKERS
     BAN_STICKER = Config.BAN_STICKER
     TEMP_DOWNLOAD_DIRECTORY = Config.TEMP_DOWNLOAD_DIRECTORY
@@ -234,7 +220,6 @@ else:
     APP_HASH = Config.APP_HASH
     BOT_ID = Config.BOT_ID
     BOT_USERNAME = Config.BOT_USERNAME
-    STRING_SESSION = Config.STRING_SESSION
     GENIUS_API_TOKEN = Config.GENIUS_API_TOKEN
     YOUTUBE_API_KEY = Config.YOUTUBE_API_KEY
     ALLOW_EXCL = Config.ALLOW_EXCL
@@ -246,9 +231,6 @@ else:
     MONGO_DB_URL = Config.MONGO_DB_URL
     MONGO_DB = Config.MONGO_DB
     MONGO_URI = Config.MONG_URI
-    HELP_IMG = Config.HELP_IMG
-    START_IMG = Config.START_IMG
-    NAGISA_PHOTO = Config.NAGISA_PHOTO
     LOG_GROUP_ID = Config.LOG_GROUP_ID
     OPENWEATHERMAP_ID = Config.OPENWEATHERMAP_ID
     ARQ_API_KEY = Config.ARQ_API_KEY
@@ -258,10 +240,6 @@ else:
     CUSTOM_CMD = Config.CUSTOM_CMD
     BOTLOG_CHATID = Config.BOTLOG_CHATID
     SUDO_USERS = Config.SUDO_USERS
-    MESSAGE_DUMP_CHAT = Config.MESSAGE_DUMP_CHAT
-    WELCOME_DELAY_KICK_SEC = Config.WELCOME_DELAY_KICK_SEC
-    LOG_MENTIONS = Config.LOG_MENTIONS
-    RSS_DELAY = Config.RSS_DELAY
 
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
@@ -360,7 +338,6 @@ DEV_USERS = list(DEV_USERS)
 WOLVES = list(WOLVES)
 DEMONS = list(DEMONS)
 TIGERS = list(TIGERS)
-SPAMMERS = list(SPAMMERS)
 
 async def eor(msg: Message, **kwargs):
     func = (
@@ -384,11 +361,3 @@ from Natsunagi.modules.helper_funcs.handlers import CustomCommandHandler
 
 if CUSTOM_CMD and len(CUSTOM_CMD) >= 1:
     tg.CommandHandler = CustomCommandHandler
-
-
-def spamfilters(text, user_id, chat_id):
-    if int(user_id) not in SPAMMERS:
-        return False
-
-    print("This user is a spammer!")
-    return True
