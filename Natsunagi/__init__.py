@@ -103,7 +103,7 @@ if ENV:
     DB_URL = DB_URL.replace("postgres://", "postgresql://", 1)
     DONATION_LINK = os.environ.get("DONATION_LINK")
     LOAD = os.environ.get("LOAD", "").split()
-    NO_LOAD = os.environ.get("NO_LOAD").split()
+    NO_LOAD = os.environ.get("NO_LOAD", "translation").split()
     DEL_CMDS = bool(os.environ.get("DEL_CMDS", False))
     STRICT_GBAN = bool(os.environ.get("STRICT_GBAN", False))
     WORKERS = int(os.environ.get("WORKERS", 8))
@@ -134,10 +134,8 @@ if ENV:
     OPENWEATHERMAP_ID = os.environ.get("OPENWEATHERMAP_ID", "")
     ARQ_API_KEY = os.environ.get("ARQ_API_KEY")
     DEL_CMDS = bool(os.environ.get("DEL_CMDS", False))
-    WHITELIST_CHATS = os.environ.get("WHITELIST_CHATS", "")
     MONGO_PORT = os.environ.get("MONGO_PORT")
     CUSTOM_CMD = os.environ.get("CUSTOM_CMD", "?")
-    BOTLOG_CHATID = os.environ.get("BOTLOG_CHATID")
 
     try:
         WHITELIST_CHATS = {
@@ -224,10 +222,8 @@ else:
     OPENWEATHERMAP_ID = Config.OPENWEATHERMAP_ID
     ARQ_API_KEY = Config.ARQ_API_KEY
     DEL_CMDS = Config.DEL_CMDS
-    WHITELIST_CHATS = Config.WHITELIST_CHATS
     MONGO_PORT = Config.MONGO_PORT
     CUSTOM_CMD = Config.CUSTOM_CMD
-    BOTLOG_CHATID = Config.BOTLOG_CHATID
 
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
