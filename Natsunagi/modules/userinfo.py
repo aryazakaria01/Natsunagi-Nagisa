@@ -177,6 +177,7 @@ def get_id(update: Update, context: CallbackContext):
         )
 
     else:
+        user = bot.get_chat(user_id)
         msg.reply_text(
             f"× {html.escape(user.first_name)}'s id is <code>{user.id}</code>\n",
             f"× This group's id is <code>{chat.id}</code>",
