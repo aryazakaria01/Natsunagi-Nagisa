@@ -4,7 +4,7 @@ from telegram.error import BadRequest, TelegramError
 from telegram.ext import CommandHandler, Filters
 from telegram.utils.helpers import mention_html
 
-from Natsunagi import dispatcher, OWNER_ID, DEV_USERS, DEMONS, GBAN_LOGS, DRAGONS
+from Natsunagi import dispatcher, OWNER_ID, DEV_USERS, DEMONS, EVENTS_LOGS, DRAGONS
 from Natsunagi.modules.helper_funcs.extraction import extract_user, extract_user_and_text
 from Natsunagi.modules.helper_funcs.filters import CustomFilters
 from Natsunagi.modules.helper_funcs.misc import send_to_list
@@ -79,11 +79,11 @@ def gkick(bot: Bot, update: Update, args: List[str]):
     if GBAN_LOGS:
         try:
             log = bot.send_message(
-                GBAN_LOGS, log_message, parse_mode=ParseMode.HTML)
+                EVENTS_LOGS, log_message, parse_mode=ParseMode.HTML)
         except BadRequest as e:
             print(e)
             log = bot.send_message(
-                GBAN_LOGS,
+                EVENTS_LOGS,
                 log_message +
                 "\n\nFormatting has been disabled due to an unexpected error.")
 
