@@ -6,7 +6,6 @@ from pyrogram.errors.exceptions.forbidden_403 import ChatWriteForbidden
 
 from Natsunagi import SUPPORT_CHAT, pgram
 
-
 def split_limits(text):
     if len(text) < 2048:
         return [text]

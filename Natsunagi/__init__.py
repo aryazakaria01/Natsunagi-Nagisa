@@ -136,6 +136,7 @@ if ENV:
     DEL_CMDS = bool(os.environ.get("DEL_CMDS", False))
     MONGO_PORT = os.environ.get("MONGO_PORT")
     CUSTOM_CMD = os.environ.get("CUSTOM_CMD", "?")
+    GENIUS_API_TOKEN = os.environ.get("GENIUS_API_TOKEN")
 
     try:
         WHITELIST_CHATS = {
@@ -224,6 +225,7 @@ else:
     DEL_CMDS = Config.DEL_CMDS
     MONGO_PORT = Config.MONGO_PORT
     CUSTOM_CMD = Config.CUSTOM_CMD
+    GENIUS_API_TOKEN = Config.GENIUS_API_TOKEN
 
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
