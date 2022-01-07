@@ -145,6 +145,7 @@ def get_id(update: Update, context: CallbackContext):
     message = update.effective_message
     chat = update.effective_chat
     msg = update.effective_message
+    user = update.effective_user
     user_id = extract_user(msg, args)
 
     if user_id:
