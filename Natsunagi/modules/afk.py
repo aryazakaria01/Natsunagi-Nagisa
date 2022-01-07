@@ -39,7 +39,7 @@ def afk(update, _):
     REDIS.set(f"afk_time_{user.id}", start_afk_time)
     fname = user.first_name
     try:
-        message.reply_text(f"See you later 👋 `{fname}`!", parse_mode=ParseMode.MARKDOWN)
+        message.reply_text(f"See you later 👋 `{fname}`!", parse_mode=ParseMode.HTML)
     except BadRequest:
         pass
 
@@ -63,7 +63,7 @@ def no_longer_afk(update, _):
         firstname = update.effective_user.first_name
         try:
             message.reply_text(
-                f"Welcome back `{firstname}`!\n\nYou were away for: `{end_afk_time}`", parse_mode=ParseMode.MARKDOWN
+                f"Welcome back `{firstname}`!\n\nYou were away for: `{end_afk_time}`", parse_mode=ParseMode.HTML
             )
         except BadRequest:
             return
@@ -137,7 +137,7 @@ def check_afk(update, _, user_id: int, fst_name: int, userc_id: int):
         else:
             res = f"`{fst_name}`` is now away!\nReason: `{reason}`\n\nLast seen: `{since_afk}`"
 
-        update.effective_message.reply_text(res, parse_mode=ParseMode.MARKDOWN)
+        update.effective_message.reply_text(res, parse_mode=ParseMode.HTML)
 
 
 def __gdpr__(user_id):
