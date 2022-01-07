@@ -103,20 +103,17 @@ if ENV:
     DB_URL = DB_URL.replace("postgres://", "postgresql://", 1)
     DONATION_LINK = os.environ.get("DONATION_LINK")
     LOAD = os.environ.get("LOAD", "").split()
-    NO_LOAD = os.environ.get("NO_LOAD", "translation").split()
+    NO_LOAD = os.environ.get("NO_LOAD").split()
     DEL_CMDS = bool(os.environ.get("DEL_CMDS", False))
     STRICT_GBAN = bool(os.environ.get("STRICT_GBAN", False))
     WORKERS = int(os.environ.get("WORKERS", 8))
     BAN_STICKER = os.environ.get("BAN_STICKER", "CAADAgADOwADPPEcAXkko5EB3YGYAg")
     ALLOW_EXCL = os.environ.get("ALLOW_EXCL", False)
     TEMP_DOWNLOAD_DIRECTORY = os.environ.get("TEMP_DOWNLOAD_DIRECTORY", "./")
-    CASH_API_KEY = os.environ.get("CASH_API_KEY")
     TIME_API_KEY = os.environ.get("TIME_API_KEY")
     WALL_API = os.environ.get("WALL_API")
     REM_BG_API_KEY = os.environ.get("REM_BG_API_KEY")
     OPENWEATHERMAP_ID = os.environ.get("OPENWEATHERMAP_ID", "")
-    GENIUS_API_TOKEN = os.environ.get("GENIUS_API_TOKEN")
-    MONGO_DB_URL = os.environ.get("MONGO_DB_URL")
     REDIS_URL = os.environ.get("REDIS_URL")
     BOT_ID = int(os.environ.get("BOT_ID"))
     SUPPORT_CHAT = os.environ.get("SUPPORT_CHAT")
@@ -127,7 +124,6 @@ if ENV:
     APP_HASH = os.environ.get("APP_HASH")
     HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", True)
     HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY", True)
-    YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY", True)
     ALLOW_CHATS = os.environ.get("ALLOW_CHATS", True)
     BOT_NAME = os.environ.get("BOT_NAME", True)
     MONGO_DB = os.environ.get("MONGO_DB", "Natsunagi")
@@ -142,7 +138,6 @@ if ENV:
     MONGO_PORT = os.environ.get("MONGO_PORT")
     CUSTOM_CMD = os.environ.get("CUSTOM_CMD", "?")
     BOTLOG_CHATID = os.environ.get("BOTLOG_CHATID")
-    SUDO_USERS = os.environ.get("SUDO_USERS")
 
     try:
         WHITELIST_CHATS = {
@@ -207,8 +202,6 @@ else:
     TEMP_DOWNLOAD_DIRECTORY = Config.TEMP_DOWNLOAD_DIRECTORY
     LOAD = Config.LOAD
     NO_LOAD = Config.NO_LOAD
-    CASH_API_KEY = Config.CASH_API_KEY
-    TIME_API_KEY = Config.TIME_API_KEY
     WALL_API = Config.WALL_API
     REDIS_URL = Config.REDIS_URL
     SUPPORT_CHAT = Config.SUPPORT_CHAT
@@ -220,15 +213,11 @@ else:
     APP_HASH = Config.APP_HASH
     BOT_ID = Config.BOT_ID
     BOT_USERNAME = Config.BOT_USERNAME
-    GENIUS_API_TOKEN = Config.GENIUS_API_TOKEN
-    YOUTUBE_API_KEY = Config.YOUTUBE_API_KEY
     ALLOW_EXCL = Config.ALLOW_EXCL
-    TEMP_DOWNLOAD_DIRECTORY = Config.TEMP_DOWNLOAD_DIRECTORY
     ARQ_API_URL = Config.ARQ_API_URL
     BOT_NAME = Config.BOT_NAME
     DEL_CMDS = Config.DEL_CMDS
     BOT_API_URL = Config.BOT_API_URL
-    MONGO_DB_URL = Config.MONGO_DB_URL
     MONGO_DB = Config.MONGO_DB
     MONGO_URI = Config.MONG_URI
     LOG_GROUP_ID = Config.LOG_GROUP_ID
@@ -239,7 +228,6 @@ else:
     MONGO_PORT = Config.MONGO_PORT
     CUSTOM_CMD = Config.CUSTOM_CMD
     BOTLOG_CHATID = Config.BOTLOG_CHATID
-    SUDO_USERS = Config.SUDO_USERS
 
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
