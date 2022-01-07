@@ -1,7 +1,7 @@
 from telegram import Update, Bot, User, ParseMode
 from typing import List, Optional
 from telegram.error import BadRequest, TelegramError
-from telegram.ext import CommandHandler, Filters
+from telegram.ext import CommandHandler, Filters, CallbackContext
 from telegram.utils.helpers import mention_html
 
 from Natsunagi import dispatcher, OWNER_ID, DEV_USERS, DEMONS, EVENT_LOGS, DRAGONS
@@ -33,9 +33,10 @@ GKICK_ERRORS = {
 }
 
 
-def gkick(bot: Bot, update: Update, args: List[str]):
+def gkick(bot: Bot, update: Update, context: CallbackContext):
     message = update.effective_message
     user_id = extract_user(message, args)
+    args = context.args
     try:
         user_chat = bot.get_chat(user_id)
     except BadRequest as excp:
