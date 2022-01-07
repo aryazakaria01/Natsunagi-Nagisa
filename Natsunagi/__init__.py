@@ -137,6 +137,7 @@ if ENV:
     MONGO_PORT = os.environ.get("MONGO_PORT")
     CUSTOM_CMD = os.environ.get("CUSTOM_CMD", "?")
     GENIUS_API_TOKEN = os.environ.get("GENIUS_API_TOKEN")
+    CASH_API_KEY = os.environ.get("CASH_API_KEY", None)
 
     try:
         WHITELIST_CHATS = {
@@ -226,6 +227,7 @@ else:
     MONGO_PORT = Config.MONGO_PORT
     CUSTOM_CMD = Config.CUSTOM_CMD
     GENIUS_API_TOKEN = Config.GENIUS_API_TOKEN
+    CASH_API_KEY = Config.CASH_API_KEY
 
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}
