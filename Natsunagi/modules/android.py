@@ -29,13 +29,13 @@ def magisk(update, _):
         if types != "Canary":
             releases += (
                 f"*{types}*: \n"
-                f'• App - [{data["magisk"]["version"]}-{data["magisk"]["versionCode"]}]({data["magisk"]["link"]}) - ['
+                f'× App - [{data["magisk"]["version"]}-{data["magisk"]["versionCode"]}]({data["magisk"]["link"]}) - ['
                 f'Changelog]({data["magisk"]["note"]})\n \n'
             )
         else:
             releases += (
                 f"*{types}*: \n"
-                f'• App - [{data["magisk"]["version"]}-{data["magisk"]["versionCode"]}]({data["magisk"]["link"]}) - ['
+                f'× App - [{data["magisk"]["version"]}-{data["magisk"]["versionCode"]}]({data["magisk"]["link"]}) - ['
                 f'Changelog]({data["magisk"]["note"]})\n'
                 f"\n Now magisk is packed as all in one, "
                 f"refer [this installation](https://topjohnwu.github.io/Magisk/install.html) procedure for more info.\n"
@@ -218,17 +218,17 @@ def orangefox(update, _):
             date = datetime.fromtimestamp(page["date"])
             md5 = page["md5"]
             msg = f"*Latest OrangeFox Recovery for the {full_name}*\n\n"
-            msg += f"• Manufacturer: `{oem}`\n"
-            msg += f"• Model: `{model}`\n"
-            msg += f"• Codename: `{devices}`\n"
-            msg += f"• Build type: `{build_type}`\n"
-            msg += f"• Maintainer: `{maintainer}`\n"
-            msg += f"• Version: `{version}`\n"
-            msg += f"• Changelog: `{changelog}`\n"
-            msg += f"• Size: `{size}`\n"
-            msg += f"• Date: `{date}`\n"
-            msg += f"• File: `{dl_file}`\n"
-            msg += f"• MD5: `{md5}`\n"
+            msg += f"× Manufacturer: `{oem}`\n"
+            msg += f"× Model: `{model}`\n"
+            msg += f"× Codename: `{devices}`\n"
+            msg += f"× Build type: `{build_type}`\n"
+            msg += f"× Maintainer: `{maintainer}`\n"
+            msg += f"× Version: `{version}`\n"
+            msg += f"× Changelog: `{changelog}`\n"
+            msg += f"× Size: `{size}`\n"
+            msg += f"× Date: `{date}`\n"
+            msg += f"× File: `{dl_file}`\n"
+            msg += f"× MD5: `{md5}`\n"
             btn = [[InlineKeyboardButton(text="Download", url=dl_link)]]
     else:
         msg = "Enter the device codename to fetch, like:\n`/orangefox mido`"
