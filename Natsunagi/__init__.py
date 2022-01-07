@@ -3,6 +3,7 @@ import logging
 import os
 import sys
 import time
+import json
 from inspect import getfullargspec
 
 import spamwatch
@@ -47,10 +48,10 @@ LOGGER.info(
 LOGGER.info("Not affiliated to Tantei Wa Mou or Villain in any way whatsoever.")
 LOGGER.info("Project maintained by: github.com/aryazakaria01 (t.me/FurryChemistry)")
 
-# if version < 3.9, stop bot.
-if sys.version_info[0] < 3 or sys.version_info[1] < 9:
+# if version < 3.10, stop bot.
+if sys.version_info[0] < 3 or sys.version_info[1] < 10:
     LOGGER.error(
-        "You MUST have a python version of at least 3.9! Multiple features depend on this. Bot quitting.",
+        "You MUST have a python version of at least 3.10! Multiple features depend on this. Bot quitting.",
     )
     sys.exit(1)
 
@@ -84,6 +85,11 @@ if ENV:
         raise Exception("Your whitelisted users list does not contain valid integers.")
 
     try:
+        SPAMMERS = set(int(x) for x in os.environ.get("SPAMMERS", "").split())
+    except ValueError:
+        raise Exception("Your spammers users list does not contain valid integers.")
+
+    try:
         TIGERS = {int(x) for x in os.environ.get("TIGERS", "").split()}
     except ValueError:
         raise Exception("Your scout users list does not contain valid integers.")
@@ -105,6 +111,7 @@ if ENV:
     NO_LOAD = os.environ.get("NO_LOAD", "translation").split()
     DEL_CMDS = bool(os.environ.get("DEL_CMDS", False))
     STRICT_GBAN = bool(os.environ.get("STRICT_GBAN", False))
+    STRICT_GMUTE = bool(os.environ.get('STRICT_GMUTE', False))
     WORKERS = int(os.environ.get("WORKERS", 8))
     BAN_STICKER = os.environ.get("BAN_STICKER", "CAADAgADOwADPPEcAXkko5EB3YGYAg")
     ALLOW_EXCL = os.environ.get("ALLOW_EXCL", False)
@@ -208,6 +215,7 @@ else:
     DB_URL = Config.SQLALCHEMY_DATABASE_URI
     DONATION_LINK = Config.DONATION_LINK
     STRICT_GBAN = Config.STRICT_GBAN
+    STRICT_GMUTE = Config.STRICT_GMUTE
     WORKERS = Config.WORKERS
     BAN_STICKER = Config.BAN_STICKER
     TEMP_DOWNLOAD_DIRECTORY = Config.TEMP_DOWNLOAD_DIRECTORY
@@ -352,7 +360,7 @@ DEV_USERS = list(DEV_USERS)
 WOLVES = list(WOLVES)
 DEMONS = list(DEMONS)
 TIGERS = list(TIGERS)
-
+SPAMMERS = list(SPAMMERS)
 
 async def eor(msg: Message, **kwargs):
     func = (
