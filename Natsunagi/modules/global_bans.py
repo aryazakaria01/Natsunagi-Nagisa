@@ -507,7 +507,7 @@ def clear_gbans(bot: Bot, update: Update):
     deleted = 0
     for user in banned:
         id = user["user_id"]
-        time.sleep(0.1) # Reduce floodwait
+        time.sleep(0.1)  # Reduce floodwait
         try:
             acc = bot.get_chat(id)
             if not acc.first_name:
@@ -516,9 +516,11 @@ def clear_gbans(bot: Bot, update: Update):
         except BadRequest:
             deleted += 1
             sql.ungban_user(id)
-    update.message.reply_text("Done! `{}` deleted accounts were removed " \
-    "from the gbanlist.".format(deleted), parse_mode=ParseMode.MARKDOWN)
-    
+    update.message.reply_text(
+        "Done! `{}` deleted accounts were removed "
+        "from the gbanlist.".format(deleted),
+        parse_mode=ParseMode.MARKDOWN,
+    )
 
 
 def check_gbans(bot: Bot, update: Update):
@@ -526,7 +528,7 @@ def check_gbans(bot: Bot, update: Update):
     deleted = 0
     for user in banned:
         id = user["user_id"]
-        time.sleep(0.1) # Reduce floodwait
+        time.sleep(0.1)  # Reduce floodwait
         try:
             acc = bot.get_chat(id)
             if not acc.first_name:
@@ -534,9 +536,11 @@ def check_gbans(bot: Bot, update: Update):
         except BadRequest:
             deleted += 1
     if deleted:
-        update.message.reply_text("`{}` deleted accounts found in the gbanlist! " \
-        "Run /cleangb to remove them from the database!".format(deleted),
-        parse_mode=ParseMode.MARKDOWN)
+        update.message.reply_text(
+            "`{}` deleted accounts found in the gbanlist! "
+            "Run /cleangb to remove them from the database!".format(deleted),
+            parse_mode=ParseMode.MARKDOWN,
+        )
     else:
         update.message.reply_text("No deleted accounts in the gbanlist!")
 
@@ -595,8 +599,12 @@ GBAN_LIST = CommandHandler("gbanlist", gbanlist, run_async=True)
 GBAN_STATUS = CommandHandler(
     "antispam", gbanstat, filters=Filters.chat_type.groups, run_async=True
 )
-CHECK_GBAN_HANDLER = CommandHandler("checkgb", check_gbans, filters=Filters.user(OWNER_ID), run_async=True)
-CLEAN_GBAN_HANDLER = CommandHandler("cleangb", clear_gbans, filters=Filters.user(OWNER_ID), run_async=True)
+CHECK_GBAN_HANDLER = CommandHandler(
+    "checkgb", check_gbans, filters=Filters.user(OWNER_ID), run_async=True
+)
+CLEAN_GBAN_HANDLER = CommandHandler(
+    "cleangb", clear_gbans, filters=Filters.user(OWNER_ID), run_async=True
+)
 
 GBAN_ENFORCER = MessageHandler(
     Filters.all & Filters.chat_type.groups, enforce_gban, run_async=True
