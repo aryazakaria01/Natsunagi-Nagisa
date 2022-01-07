@@ -18,7 +18,6 @@ from pyrogram.types import Message
 from wget import download
 
 from Natsunagi.utils import aiodownloader
-from Natsunagi.utils.dbfunctions import start_restart_stage
 from Natsunagi.utils.fetch import fetch
 
 """
@@ -28,12 +27,6 @@ download file from a given url
 downloader = aiodownloader.Handler()
 
 # Another downloader, but with wget
-
-
-async def restart(m: Message):
-    if m:
-        await start_restart_stage(m.chat.id, m.message_id)
-    execvp(executable, [executable, "-m", "Natsunagi"])
 
 
 async def download_url(url: str):
