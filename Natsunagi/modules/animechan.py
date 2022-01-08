@@ -2,7 +2,7 @@ import requests
 from Natsunagi import pgram
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from Natsunagi.modules.helpers_funcs.chat_status import callbacks_in_filters
+from Natsunagi.modules.helper_funcs.chat_status import callbacks_in_filters
 
 
 @pgram.on_callback_query(callbacks_in_filters('quotek'))
