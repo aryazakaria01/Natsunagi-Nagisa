@@ -1,65 +1,79 @@
-from Natsunagi import telethn
+import os
+
 from Natsunagi.events import register
+from Natsunagi import telethn as Client
+from telethon import events, Button, types
 
 TMP_DOWNLOAD_DIRECTORY = "./"
-import os
-from datetime import datetime
 
 from PIL import Image
-from telegraph import Telegraph, exceptions, upload_file
+from datetime import datetime
+from telegraph import Telegraph, upload_file, exceptions
 
-Natsunagi = "Natsunagi"
+
+wibu = "Natsunagi"
 telegraph = Telegraph()
-r = telegraph.create_account(short_name=Natsunagi)
-auth_url = r["auth_url"]
+data = telegraph.create_account(short_name=wibu)
+auth_url = data["auth_url"]
 
 
 @register(pattern="^/t(gm|gt) ?(.*)")
-async def _(event):
-    if event.fwd_from:
-        return
+async def telegrap(event):
     optional_title = event.pattern_match.group(2)
     if event.reply_to_msg_id:
         start = datetime.now()
-        r_message = await event.get_reply_message()
+        reply_msg = await event.get_reply_message()
         input_str = event.pattern_match.group(1)
         if input_str == "gm":
-            downloaded_file_name = await telethn.download_media(
-                r_message, TMP_DOWNLOAD_DIRECTORY
+            downloaded_file_name = await Client.download_media(
+                reply_msg,
+                TMP_DOWNLOAD_DIRECTORY
             )
             end = datetime.now()
             ms = (end - start).seconds
-            h = await event.reply(
-                "Downloaded to {} in {} seconds.".format(downloaded_file_name, ms)
-            )
-            if downloaded_file_name.endswith((".webp")):
-                resize_image(downloaded_file_name)
-            try:
-                start = datetime.now()
-                media_urls = upload_file(downloaded_file_name)
-            except exceptions.TelegraphException as exc:
-                await h.edit("ERROR: " + str(exc))
-                os.remove(downloaded_file_name)
-            else:
-                end = datetime.now()
-                (end - start).seconds
-                os.remove(downloaded_file_name)
-                await h.edit(
-                    "Uploaded to https://telegra.ph{}".format(media_urls[0], ms),
-                    link_preview=False,
+            if not downloaded_file_name:
+                await Client.send_message(
+                    event.chat_id,
+                    "Not Supported Format Media!"
                 )
+                return
+            else:
+                if downloaded_file_name.endswith((".webp")):
+                    resize_image(downloaded_file_name)
+                try:
+                    start = datetime.now()
+                    media_urls = upload_file(downloaded_file_name)
+                except exceptions.TelegraphException as exc:
+                    await event.reply("ERROR: " + str(exc))
+                    os.remove(downloaded_file_name)
+                else:
+                    end = datetime.now()
+                    ms_two = (end - start).seconds
+                    os.remove(downloaded_file_name)
+                    await Client.send_message(
+                        event.chat_id,
+                        "Your telegraph link is complete uploaded!",
+                        buttons=[
+                            [
+                                types.KeyboardButtonUrl(
+                                    "Here Your Telegra.ph Link", "https://telegra.ph{}".format(media_urls[0], (ms + ms_two))
+                                )
+                            ]
+                        ]
+                    )
         elif input_str == "gt":
-            user_object = await telethn.get_entity(r_message.sender_id)
-            title_of_page = user_object.first_name  # + " " + user_object.last_name
+            user_object = await Client.get_entity(reply_msg.sender_id)
+            title_of_page = user_object.first_name # + " " + user_object.last_name
             # apparently, all Users do not have last_name field
             if optional_title:
                 title_of_page = optional_title
-            page_content = r_message.message
-            if r_message.media:
+            page_content = reply_msg.message
+            if reply_msg.media:
                 if page_content != "":
                     title_of_page = page_content
-                downloaded_file_name = await telethn.download_media(
-                    r_message, TMP_DOWNLOAD_DIRECTORY
+                downloaded_file_name = await Client.download_media(
+                    reply_msg,
+                    TMP_DOWNLOAD_DIRECTORY
                 )
                 m_list = None
                 with open(downloaded_file_name, "rb") as fd:
@@ -68,13 +82,23 @@ async def _(event):
                     page_content += m.decode("UTF-8") + "\n"
                 os.remove(downloaded_file_name)
             page_content = page_content.replace("\n", "<br>")
-            response = telegraph.create_page(title_of_page, html_content=page_content)
+            response = telegraph.create_page(
+                title_of_page,
+                html_content=page_content
+            )
             end = datetime.now()
             ms = (end - start).seconds
-            await event.reply(
-                "Pasted to https://telegra.ph/{}".format(response["path"], ms),
-                link_preview=False,
-            )
+            await Client.send_message(
+                    event.chat_id,
+                    "Your telegraph link is complete uploaded!",
+                    buttons=[
+                        [
+                            types.KeyboardButtonUrl(
+                                "Here Your Telegra.ph Link", "https://telegra.ph/{}".format(response["path"], ms)
+                            )
+                        ]
+                    ]
+                )
     else:
         await event.reply("Reply to a message to get a permanent telegra.ph link.")
 
@@ -82,7 +106,6 @@ async def _(event):
 def resize_image(image):
     im = Image.open(image)
     im.save(image, "PNG")
-
 
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
