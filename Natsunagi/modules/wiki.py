@@ -7,8 +7,9 @@ from telegram.error import BadRequest
 from Natsunagi import dispatcher
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.alternate import typing_action
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
 
-
+@natsunagicmd(command="wiki")
 @typing_action
 def wiki(update, context):
     Shinano = re.split(pattern="wiki", string=update.effective_message.text)
@@ -46,7 +47,3 @@ def wiki(update, context):
             update.effective_message.reply_text(
                 f"⚠ Error Detected\n\nThere are too many query! Express it more!\n\nPossible query result:\n\n{eet}"
             )
-
-
-WIKI_HANDLER = DisableAbleCommandHandler("wiki", wiki, run_async=True)
-dispatcher.add_handler(WIKI_HANDLER)

@@ -7,10 +7,11 @@ from telegram.ext import CallbackContext
 from Natsunagi import SUPPORT_CHAT, WALL_API, dispatcher
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.alternate import send_action
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
 
 # Wallpaper module powered by wall.alphacoders.com
 
-
+@natsunagicmd(command="wall")
 @send_action(ChatAction.UPLOAD_PHOTO)
 def wall(update: Update, context: CallbackContext):
     chat_id = update.effective_chat.id
@@ -53,7 +54,3 @@ def wall(update: Update, context: CallbackContext):
             reply_to_message_id=msg_id,
             timeout=60,
         )
-
-
-WALLPAPER_HANDLER = DisableAbleCommandHandler("wall", wall, run_async=True)
-dispatcher.add_handler(WALLPAPER_HANDLER)

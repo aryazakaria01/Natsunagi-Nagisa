@@ -93,7 +93,7 @@ class NatsunagiTelegramHandler:
 
     def message(
         self,
-        pattern: Optional[MessageFilter] = None,
+        pattern: Optional[str] = None,
         can_disable: bool = True,
         run_async: bool = True,
         group: Optional[Union[int, str]] = 60,
