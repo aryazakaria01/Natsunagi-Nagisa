@@ -36,7 +36,7 @@ def quote(_, message):
 **Anime:** `{anime}`
 **Character:** `{character}`
 **Quote:** `{quote}`"""
-    bot.send_message(message.chat.id,
+    pgram.send_message(message.chat.id,
                      caption,
                      reply_markup=InlineKeyboardMarkup([[
                          InlineKeyboardButton("Change",
