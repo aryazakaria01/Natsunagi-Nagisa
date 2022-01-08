@@ -110,7 +110,7 @@ HELP_STRINGS = """
 × /start: starts me!
 × /help: makes me send or redirect you to THIS message.
 × /settings (group chat only): makes me show the current chat settings.
-""""""
+"""
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
  You can support the project by contacting @FurryChemistry \
