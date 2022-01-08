@@ -1,5 +1,4 @@
 from requests import get
-from telegram import ParseMode
 
 from Natsunagi import dispatcher
 from Natsunagi.modules.disable import DisableAbleCommandHandler
@@ -13,7 +12,7 @@ def ud(update, context):
     args = context.args
     text = " ".join(args).lower()
     if not text:
-        msg.reply_text("<code>Please enter keywords to search on ud!</code>", parse_mode=ParseMode.HTML)
+        msg.reply_text("Please enter keywords to search on ud!")
         return
     if text == "Arya":
         msg.reply_text("Arya is my owner so if you search him on urban dictionary you can't find the meaning because he is my husband and only me who know what's the meaning of Arya!")
@@ -24,7 +23,7 @@ def ud(update, context):
         reply_text += f'\n\nExample: \n{results["list"][0]["example"]}'
     except IndexError:
         reply_text = (
-            f"Word: <code>{text}</code>\n\nResults: <code>Sorry could not find any matching results!</code>", parse_mode=ParseMode.HTML
+            f"Word: {text}\n\nResults: Sorry could not find any matching results!"
         )
     ignore_chars = "[]"
     reply = reply_text
@@ -35,4 +34,4 @@ def ud(update, context):
     try:
         msg.reply_text(reply)
     except BadRequest as err:
-        msg.reply_text(f"Error! <code>{err.message}</code>", parse_mode=ParseMode.HTML)
+        msg.reply_text(f"Error! {err.message}")
