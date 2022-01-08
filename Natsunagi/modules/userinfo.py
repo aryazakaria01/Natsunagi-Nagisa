@@ -164,6 +164,7 @@ async def showid(client, message):
     chat_type = message.chat.type
     if chat_type == "private":
         user_id = message.chat.id
+        user2 = message.reply_to_message.forward_from
         first = message.from_user.first_name
         last = message.from_user.last_name or ""
         username = message.from_user.username
@@ -182,6 +183,8 @@ async def showid(client, message):
                 f"<code>{message.from_user.id}</code>\n"
                 "<b>× Replied User ID</b>: "
                 f"<code>{message.reply_to_message.from_user.id}</code>\n"
+                "<b>× Forwarded User ID</b>: "
+                f"<code>{user2.id}</code>"
             )
             file_info = get_file_id(message.reply_to_message)
         else:

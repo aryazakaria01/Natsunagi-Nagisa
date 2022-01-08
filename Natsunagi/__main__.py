@@ -84,7 +84,7 @@ def get_readable_time(seconds: int) -> str:
     return ping_time
 
 
-PM_START_TEXT = """
+PM_START_TEXT = f"""
 👋 Hai there, My name is [{dispatcher.bot.first_name}](https://telegra.ph/file/d58da3669dc9395a29cb8.jpg)
 ──────────────────
 A powerful group management bot built to help you manage your group!
