@@ -758,7 +758,7 @@ def goodbye(update: Update, context: CallbackContext):
                 keyb = build_keyboard(buttons)
                 keyboard = InlineKeyboardMarkup(keyb)
 
-                send(update, goodbye_m, keyboard, random.choice(sql.DEFAULT_GOODBYE_MESSAGES)
+                send(update, goodbye_m, keyboard, random.choice(sql.DEFAULT_GOODBYE_MESSAGES))
 
         elif noformat:
             ENUM_FUNC_MAP[goodbye_type](chat.id, goodbye_m)
@@ -814,7 +814,7 @@ def reset_welcome(update: Update, context: CallbackContext) -> str:
     chat = update.effective_chat
     user = update.effective_user
 
-    sql.set_custom_welcome(chat.id, None, random.choice(sql.DEFAULT_WELCOME_MESSAGES, sql.Types.TEXT)
+    sql.set_custom_welcome(chat.id, None, random.choice(sql.DEFAULT_WELCOME_MESSAGES), sql.Types.TEXT)
     update.effective_message.reply_text(
         "Successfully reset welcome message to default!"
     )
@@ -855,7 +855,7 @@ def reset_goodbye(update: Update, context: CallbackContext) -> str:
     chat = update.effective_chat
     user = update.effective_user
 
-    sql.set_custom_gdbye(chat.id, random.choice(sql.DEFAULT_GOODBYE_MESSAGES, sql.Types.TEXT)
+    sql.set_custom_gdbye(chat.id, random.choice(sql.DEFAULT_GOODBYE_MESSAGES), sql.Types.TEXT)
     update.effective_message.reply_text(
         "Successfully reset goodbye message to default!"
     )
