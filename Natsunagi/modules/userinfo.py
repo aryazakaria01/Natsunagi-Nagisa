@@ -176,19 +176,19 @@ async def showid(client, message):
 
     elif chat_type in ["group", "supergroup", "megagroup", "gigagroup"]:
         _id = ""
-        _id += "<b>× Chat ID</b>: " f"<code>{message.chat.id}</code>\n"
+        _id += "<b>× This group's ID</b>: " f"<code>{message.chat.id}</code>\n"
         if message.reply_to_message:
             _id += (
-                "<b>× User ID</b>: "
+                "<b>× Your ID</b>: "
                 f"<code>{message.from_user.id}</code>\n"
                 "<b>× Replied User ID</b>: "
                 f"<code>{message.reply_to_message.from_user.id}</code>\n"
                 "<b>× Forwarded User ID</b>: "
-                f"<code>{user2.id}</code>"
+                f"<code>{user2.id}</code>\n"
             )
             file_info = get_file_id(message.reply_to_message)
         else:
-            _id += "<b>× User ID</b>: " f"<code>{message.from_user.id}</code>\n"
+            _id += "<b>× Your ID</b>: " f"<code>{message.from_user.id}</code>\n"
             file_info = get_file_id(message)
         if file_info:
             _id += (
