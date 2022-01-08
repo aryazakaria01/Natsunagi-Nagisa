@@ -697,7 +697,7 @@ def welcome(update: Update, context: CallbackContext):
                 keyboard = InlineKeyboardMarkup(keyb)
 
                 send(update, welcome_m, keyboard, random.choice(sql.DEFAULT_WELCOME_MESSAGES)
-        else:
+    else:
             buttons = sql.get_welc_buttons(chat.id)
             if noformat:
                 welcome_m += revert_buttons(buttons)
