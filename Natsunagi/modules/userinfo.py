@@ -21,6 +21,7 @@ from telegram.utils.helpers import escape_markdown, mention_html
 from telethon import events
 from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.types import ChannelParticipantsAdmins
+from pyrogram import filters
 from pyrogram.types import Message
 
 import Natsunagi.modules.sql.userinfo_sql as sql
