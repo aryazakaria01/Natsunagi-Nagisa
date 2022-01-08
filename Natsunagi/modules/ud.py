@@ -20,8 +20,8 @@ def ud(update, context):
         return
     try:
         results = get(f"http://api.urbandictionary.com/v0/define?term={text}").json()
-        reply_text = f"Word: <code>{text}</code>\n\nDefinition: \n<code>{results["list"][0]["definition"]}</code>", parse_mode=ParseMode.HTML
-        reply_text += f"\n\nExample: \n<code>{results["list"][0]["example"]}</code>", parse_mode=ParseMode.HTML
+        reply_text = f"Word: {text}\n\nDefinition: \n{results["list"][0]["definition"]}"
+        reply_text += f"\n\nExample: \n{results["list"][0]["example"]}"
     except IndexError:
         reply_text = (
             f"Word: <code>{text}</code>\n\nResults: <code>Sorry could not find any matching results!</code>", parse_mode=ParseMode.HTML
