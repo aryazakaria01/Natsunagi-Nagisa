@@ -796,37 +796,38 @@ def invite(update, context):
         )
 
 
-@pgram.on_message(filters.command("admins"))
+@pgram.on_message(filters.command(["staff", "admins", "adminlist"]) & filters.group)
 def staff(client: Client, message: Message):
-    chat_id = message.chat.id
-    chat_title = message.chat.title
     creator = []
     co_founder = []
     admin = []
     admin_check = pgram.get_chat_members(message.chat.id, filter="administrators")
     for x in admin_check:
+        # Ini buat nyari co-founder
         if x.status == "administrator" and x.can_promote_members and x.title:
             title = escape(x.title)
             co_founder.append(
-                f" <b>├</b> <a href='tg://user?id={x.user.id}'>{x.user.first_name}</a> <i>- {title}</i>"
+                f" <b>├</b> <a href='tg://user?id={x.user.id}'>{x.user.first_name}</a> »<i> {title}</i>"
             )
         elif x.status == "administrator" and x.can_promote_members and not x.title:
             co_founder.append(
                 f" <b>├</b> <a href='tg://user?id={x.user.id}'>{x.user.first_name}</a>"
             )
+        # ini buat nyari admin
         elif x.status == "administrator" and not x.can_promote_members and x.title:
             title = escape(x.title)
             admin.append(
-                f" <b>├</b> <a href='tg://user?id={x.user.id}'>{x.user.first_name}</a> <i>- {title}</i>"
+                f" <b>├</b> <a href='tg://user?id={x.user.id}'>{x.user.first_name}</a> »<i> {title}</i>"
             )
         elif x.status == "administrator" and not x.can_promote_members and not x.title:
             admin.append(
                 f" <b>├</b> <a href='tg://user?id={x.user.id}'>{x.user.first_name}</a>"
             )
+        # ini buat nyari creator
         elif x.status == "creator" and x.title:
             title = escape(x.title)
             creator.append(
-                f" <b>└</b> <a href='tg://user?id={x.user.id}'>{x.user.first_name}</a> <i>- {title}</i>"
+                f" <b>└</b> <a href='tg://user?id={x.user.id}'>{x.user.first_name}</a> »<i> {title}</i>"
             )
         elif x.status == "creator" and not x.title:
             creator.append(
@@ -834,33 +835,21 @@ def staff(client: Client, message: Message):
             )
 
     if len(co_founder) == 0 and len(admin) == 0:
-        result = (
-            f"Admins on <b>{chat_title}</b>\n\n🤴 <b>Group Founder</b>\n"
-            + "\n".join(creator)
-        )
-
+        result = f"<b>Staff {message.chat.title}</b>\n\n👑 <b>Founder</b>\n" + "\n".join(creator)
     elif len(co_founder) == 0 and len(admin) > 0:
         res_admin = admin[-1].replace("├", "└")
         admin.pop(-1)
         admin.append(res_admin)
-        result = (
-            f"Admins on <b>{chat_title}</b>\n\n🤴 <b>Group Founder</b>\n"
-            + "\n".join(creator)
-            + "\n\n"
-            "👮‍♂ <b>Admin</b>\n" + "\n".join(admin)
-        )
-
+        result = f"<b>Staff {message.chat.title}</b>\n\n👑 <b>Founder</b>\n" + "\n".join(
+            creator
+        ) + "\n\n" "👮‍♂ <b>Admin</b>\n" + "\n".join(admin)
     elif len(co_founder) > 0 and len(admin) == 0:
         resco_founder = co_founder[-1].replace("├", "└")
         co_founder.pop(-1)
         co_founder.append(resco_founder)
-        result = (
-            f"Admins on <b>{chat_title}</b>\n\n🤴 <b>Group Founder</b>\n"
-            + "\n".join(creator)
-            + "\n\n"
-            "👨‍✈️ <b>Co-Founder</b>\n" + "\n".join(co_founder)
-        )
-
+        result = f"<b>Staff {message.chat.title}</b>\n\n👑 <b>Founder</b>\n" + "\n".join(
+            creator
+        ) + "\n\n" "🔱 <b>Co-Founder</b>\n" + "\n".join(co_founder)
     else:
         resco_founder = co_founder[-1].replace("├", "└")
         res_admin = admin[-1].replace("├", "└")
@@ -869,13 +858,12 @@ def staff(client: Client, message: Message):
         co_founder.append(resco_founder)
         admin.append(res_admin)
         result = (
-            f"Admins on <b>{chat_title}</b>\n\n🤴 <b>Group Founder</b>\n"
-            + "\n".join(creator)
-            + "\n\n"
-            "👨‍✈️ <b>Co-Founder</b>\n" + "\n".join(co_founder) + "\n\n"
-            "👮‍♂ <b>Admin</b>\n" + "\n".join(admin)
+                f"<b>Staff {message.chat.title}</b>\n\n👑 <b>Founder</b>\n" + "\n".join(creator) + "\n\n"
+                                                                    "🔱 <b>Co-Founder</b>\n" + "\n".join(
+            co_founder) + "\n\n"
+                          "👮‍♂ <b>Admin</b>\n" + "\n".join(admin)
         )
-    client.send_message(chat_id, result)
+    pgram.send_message(message.chat.id, result)
 
 
 @bot_admin
