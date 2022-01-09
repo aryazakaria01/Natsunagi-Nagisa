@@ -46,12 +46,12 @@ def user_admin(permission: AdminPerms):
                 )
                 anon_callback_messages[(message.chat.id, message.message_id)] = (
                     message.reply_text(
-                        "Seems like you're anonymous, click the button below to prove your identity",
+                        "It looks like you're anonymous. Tap this button to confirm your identity.",
                         reply_markup=InlineKeyboardMarkup(
                             [
                                 [
                                     InlineKeyboardButton(
-                                        text="Prove identity", callback_data=callback_id
+                                        text="Click here to prove admin", callback_data=callback_id
                                     )
                                 ]
                             ]
