@@ -1,6 +1,7 @@
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from telethon import *
 from telethon.tl.types import ChatBannedRights
+from telegram import ParseMode
 
 from Natsunagi import LOGGER, OWNER_ID, telethn
 from Natsunagi.events import register
@@ -112,7 +113,8 @@ async def job_close():
         try:
             await telethn.send_message(
                 int(pro.chat_id),
-                "12:00 Am, Group Is Closing Till 6 Am. Night Mode Started ! \n**Powered By @YuiiDev_bot**",
+                "🌗 Night Mode Starting: <code>Chat close initiated</code>\n\nOnly Admins Should Be Able To Send Messages",
+                parse_mode=ParseMode.HTML,
             )
             await telethn(
                 functions.messages.EditChatDefaultBannedRightsRequest(
@@ -137,7 +139,8 @@ async def job_open():
         try:
             await telethn.send_message(
                 int(pro.chat_id),
-                "06:00 Am, Group Is Opening.\n**Powered By @YuiiDev_bot**",
+                "🌗 Night Mode Ended: <code>Chat Opening</code>\n\nEveryOne Should Be Able To Send Messages",
+                parse_mode=ParseMode.HTML,
             )
             await telethn(
                 functions.messages.EditChatDefaultBannedRightsRequest(
@@ -150,12 +153,12 @@ async def job_open():
 
 # Run everyday at 06
 scheduler = AsyncIOScheduler(timezone="Asia/Jakarta")
-scheduler.add_job(job_open, trigger="cron", hour=5, minute=58)
+scheduler.add_job(job_open, trigger="cron", hour=5, minute=59)
 scheduler.start()
 
 
 __help__ = """
-  ➢ `/nightmode`*:* on/off
+❂ `/nightmode`*:* on/off
 
 **Note:** Night Mode chats get Automatically closed at 12 PM (IST)
 and Automatically openned at 6 AM (IST) To Prevent Night Spams.
