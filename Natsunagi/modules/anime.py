@@ -5,6 +5,7 @@ import textwrap
 import bs4
 import jikanpy
 import requests
+import random
 
 from bs4 import BeautifulSoup
 from pyrogram import filters
