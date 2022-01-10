@@ -52,9 +52,12 @@ def no_longer_afk(update, _):
 
     if not is_user_afk(user.id):  # Check if user is afk or not
         return
-    end_afk_time = get_readable_time(
-        (time.time() - float(REDIS.get(f"afk_time_{user.id}")))
-    )
+
+    the_heck = REDIS.get(f"afk_time_{user.id}")
+    if not the_heck:
+        return
+
+    end_afk_time = get_readable_time((time.time() - float(the_heck)))
     REDIS.delete(f"afk_time_{user.id}")
     res = end_afk(user.id)
     if res:
@@ -128,9 +131,11 @@ def reply_afk(update, context):
 def check_afk(update, _, user_id: int, fst_name: int, userc_id: int):
     if is_user_afk(user_id):
         reason = afk_reason(user_id)
-        since_afk = get_readable_time(
-            (time.time() - float(REDIS.get(f"afk_time_{user_id}")))
-        )
+        pussy = REDIS.get(f"afk_time_{user_id}")
+        if not pussy:
+            return
+
+        since_afk = get_readable_time((time.time() - float(pussy)))
         if int(userc_id) == int(user_id):
             return
         if reason == "none":
