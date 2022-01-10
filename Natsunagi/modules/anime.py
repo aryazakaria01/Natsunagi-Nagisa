@@ -1,13 +1,21 @@
 import datetime
 import html
+import os
+import asyncio
 import json
 import textwrap
-
 import bs4
 import jikanpy
 import requests
+import tempfile
+import time
+import aiohttp
+
 from bs4 import BeautifulSoup
-from pyrogram import filters
+from datetime import timedelta
+from decimal import Decimal
+from pyrogram import filters, Client
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
 from telegram.ext import CallbackContext, CallbackQueryHandler
 from telegram.utils.helpers import mention_html
@@ -15,6 +23,11 @@ from telegram.utils.helpers import mention_html
 from Natsunagi import OWNER_ID, REDIS, dispatcher, pgram
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.alternate import typing_action
+from Natsunagi.modules.helper_funcs.chat_status import callbacks_in_filters
+
+
+session = aiohttp.ClientSession()
+progress_callback_data = {}
 
 kaizoku_btn = "Kaizoku ☠️"
 kayo_btn = "Kayo 🏴‍☠️"
@@ -122,6 +135,34 @@ def t(milliseconds: int) -> str:
         + ((str(milliseconds) + " ms, ") if milliseconds else "")
     )
     return tmp[:-2]
+
+
+def format_bytes(size):
+    size = int(size)
+    # 2**10 = 1024
+    power = 1024
+    n = 0
+    power_labels = {0: "", 1: "K", 2: "M", 3: "G", 4: "T"}
+    while size > power:
+        size /= power
+        n += 1
+    return f"{size:.2f} {power_labels[n]+'B'}"
+
+
+def return_progress_string(current, total):
+    filled_length = int(30 * current // total)
+    return "[" + "=" * filled_length + " " * (30 - filled_length) + "]"
+
+
+def calculate_eta(current, total, start_time):
+    if not current:
+        return "00:00:00"
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    seconds = (elapsed_time * (total / current)) - elapsed_time
+    thing = "".join(str(timedelta(seconds=seconds)).split(".")[:-1]).split(", ")
+    thing[-1] = thing[-1].rjust(8, "0")
+    return ", ".join(thing)
 
 
 airing_query = """
@@ -251,11 +292,7 @@ def airing(update, context):
     variables = {"search": search_str[1]}
     response = requests.post(
         url, json={"query": airing_query, "variables": variables}
-    ).json()
-    if "errors" in response.keys():
-        update.effective_message.reply_text("Anime not found!")
-        return
-    response = response["data"]["Media"]
+    ).json()["data"]["Media"]
     info = response.get("siteUrl")
     image = info.replace("anilist.co/anime/", "img.anili.st/media/")
     msg = f"*Name*: *{response['title']['romaji']}*(`{response['title']['native']}`)\n*• ID*: `{response['id']}`[⁠ ⁠]({image})"
@@ -951,39 +988,214 @@ def watchorderx(_, message):
     message.reply_text(f"Watchorder of {anime}: \n```{data}```")
 
 
+@pgram.on_callback_query(callbacks_in_filters('quotek'))
+def callback_quotek(_, query):
+    if query.data.split(":")[1] == "change":
+        #         query.message.delete()
+        kk = requests.get('https://animechan.vercel.app/api/random').json()
+        anime = kk['anime']
+        quote = kk['quote']
+        character = kk['character']
+        caption = f"""
+**Anime:** `{anime}`
+**Character:** `{character}`
+**Quote:** `{quote}`"""
+        query.message.edit(caption,
+                           reply_markup=InlineKeyboardMarkup([
+                               [
+                                   InlineKeyboardButton(
+                                       "Change", callback_data="quotek:change")
+                               ],
+                           ]))
+
+
+@pgram.on_message(filters.command('aquote'))
+def quote(_, message):
+    kk = requests.get('https://animechan.vercel.app/api/random').json()
+    anime = kk['anime']
+    quote = kk['quote']
+    character = kk['character']
+    caption = f"""
+**Anime:** `{anime}`
+**Character:** `{character}`
+**Quote:** `{quote}`"""
+    pgram.send_message(message.chat.id,
+                     caption,
+                     reply_markup=InlineKeyboardMarkup([[
+                         InlineKeyboardButton("Change",
+                                              callback_data="quotek:change")
+                     ]]))
+
+
+@pgram.on_message(filters.command("whatanime", prefixes=(["!", "/"])))
+async def whatanime(c: Client, m: Message):
+    media = m.photo or m.animation or m.video or m.document
+    if not media:
+        reply = m.reply_to_message
+        if not getattr(reply, "empty", True):
+            media = reply.photo or reply.animation or reply.video or reply.document
+    if not media:
+        await m.reply_text("Please reply it to a Photo or Gif or Video to work")
+        return
+    with tempfile.TemporaryDirectory() as tempdir:
+        reply = await m.reply_text("Downloading media...")
+        path = await c.download_media(
+            media,
+            file_name=os.path.join(tempdir, "0"),
+            progress=progress_callback,
+            progress_args=(reply,),
+        )
+        new_path = os.path.join(tempdir, "1.png")
+        proc = await asyncio.create_subprocess_exec(
+            "ffmpeg", "-i", path, "-frames:v", "1", new_path
+        )
+        await proc.communicate()
+        await reply.edit_text("Uploading media to Trace.moe and finding results...")
+        with open(new_path, "rb") as file:
+            async with session.post(
+                "https://api.trace.moe/search?anilistInfo", data={"image": file}
+            ) as resp:
+                json = await resp.json()
+    if isinstance(json, str):
+        await reply.edit_text(html.escape(json))
+    else:
+        try:
+            match = json.get("result")
+        except StopIteration:
+            await reply.edit_text("No match")
+        else:
+            match = match[0]
+            title_native = match["anilist"]["title"]["native"]
+            title_english = match["anilist"]["title"]["english"]
+            match["anilist"]["title"]["romaji"]
+            anilist_id = match["anilist"]["id"]
+            episode = match["episode"]
+            similarity = match["similarity"]
+            synonyms = match["anilist"]["synonyms"]
+            is_adult = match["anilist"]["isAdult"]
+            from_time = (
+                str(datetime.timedelta(seconds=match["from"]))
+                .split(".", 1)[0]
+                .rjust(8, "0")
+            )
+            to_time = (
+                str(datetime.timedelta(seconds=match["to"]))
+                .split(".", 1)[0]
+                .rjust(8, "0")
+            )
+            text = f"<b>Anime Name:</b> {title_english}"
+            if title_native:
+                text += f" ({title_native}) \n "
+            if synonyms:
+                synonyms.sort()
+                syn = ", ".join(synonyms)
+                text += f"\n<b>Related:</b> {syn}"
+
+            if is_adult:
+                text += "\n<b>NSFW:</b> True"
+            text += f'\n<b>Similarity:</b> {(Decimal(similarity) * 100).quantize(Decimal(".01"))}%\n'
+            if episode:
+                text += f"<b>Episode:</b> {episode}"
+            text += f"\n<b>Scene Timestamp:</b> from {from_time} to {to_time}\n"
+
+            keyboard = InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            "More Info",
+                            url="https://anilist.co/anime/{}".format(anilist_id),
+                        )
+                    ]
+                ]
+            )
+
+            async def _send_preview():
+                with tempfile.NamedTemporaryFile() as file:
+                    async with session.get(match["video"]) as resp:
+                        while True:
+                            chunk = await resp.content.read(10)
+                            if not chunk:
+                                break
+                            file.write(chunk)
+                    file.seek(0)
+                    try:
+                        await m.reply_video(
+                            file.name, caption=text, reply_markup=keyboard
+                        )
+                        await reply.delete()
+                    except Exception:
+                        await reply.reply_text("Cannot send preview")
+
+            await _send_preview()
+
+
+async def progress_callback(current, total, reply):
+    message_identifier = (reply.chat.id, reply.message_id)
+    last_edit_time, prevtext, start_time = progress_callback_data.get(
+        message_identifier, (0, None, time.time())
+    )
+    if current == total:
+        try:
+            progress_callback_data.pop(message_identifier)
+        except KeyError:
+            pass
+    elif (time.time() - last_edit_time) > 1:
+        if last_edit_time:
+            download_speed = format_bytes(
+                (total - current) / (time.time() - start_time)
+            )
+        else:
+            download_speed = "0 B"
+        text = f"""Downloading...
+<code>{return_progress_string(current, total)}</code>
+<b>Total Size:</b> {format_bytes(total)}
+<b>Downladed Size:</b> {format_bytes(current)}
+<b>Download Speed:</b> {download_speed}/s
+<b>ETA:</b> {calculate_eta(current, total, start_time)}"""
+        if prevtext != text:
+            await reply.edit_text(text)
+            prevtext = text
+            last_edit_time = time.time()
+            progress_callback_data[message_identifier] = (
+                last_edit_time,
+                prevtext,
+                start_time,
+            )
+
+
 __help__ = """
 Get information about anime, manga or characters from [AniList](anilist.co)
 *AniList Commands:*
-  ➢ `/anime <anime>`*:* returns information about the anime from AniList.
-  ➢ `/character <character>`*:* returns information about the character from AniList.
-  ➢ `/manga <manga>`*:* returns information about the manga from AniList.
-  ➢ `/upcoming`*:* returns a list of new anime in the upcoming seasons from AniList.
-  ➢ `/airing <anime>`*:* returns anime airing info from AniList.
+× `/anime <anime>`*:* returns information about the anime from AniList.
+× `/character <character>`*:* returns information about the character from AniList.
+× `/manga <manga>`*:* returns information about the manga from AniList.
+× `/upcoming`*:* returns a list of new anime in the upcoming seasons from AniList.
+× `/airing <anime>`*:* returns anime airing info from AniList.
 
 Get information about anime, manga or characters from [MAL](https://myanimelist.net/)
 *My Anime list Commands:*
-  ➢ `/manime <anime>`*:* returns information about the anime MAL.
-  ➢ `/mcharacter` <character>*:* returns information about the character from MAL.
-  ➢ `/mmanga <manga>`*:* returns information about the manga from MAL.
-  ➢ `/mupcoming`*:* returns a list of new anime in the upcoming seasons from MAL.
-  ➢ `/user <user>`*:* returns information about a MyAnimeList user.
-  ➢ `/animequotes`*:* sends random anime quotes.
+× `/manime <anime>`*:* returns information about the anime MAL.
+× `/mcharacter` <character>*:* returns information about the character from MAL.
+× `/mmanga <manga>`*:* returns information about the manga from MAL.
+× `/mupcoming`*:* returns a list of new anime in the upcoming seasons from MAL.
+× `/user <user>`*:* returns information about a MyAnimeList user.
+× `/animequotes`*:* sends random anime quotes.
 
 *Anime Search Commands:*
-   ➢ `/kayo`*:* search an Anime on AnimeKayo website.
-   ➢ `/kaizoku`*:* search an Anime on AnimeKaizoku website.
-   ➢ `/whatanime`*:* Please reply to a Gif or Photo or Video, then bot gives information about the anime.
+× `/kayo`*:* search an Anime on AnimeKayo website.
+× `/kaizoku`*:* search an Anime on AnimeKaizoku website.
+× `/whatanime`*:* Please reply to a Gif or Photo or Video, then bot gives information about the anime.
 
 *Anime Search Commands:*
-  ➢ `/meme`*:* sends Anime Memes.
-  ➢ `/hmeme`*:* sends Hentai Memes.
-  ➢ `/rmeme`*:* sends Reddit Memes.
+× `/meme`*:* sends Anime Memes.
+× `/hmeme`*:* sends Hentai Memes.
+× `/rmeme`*:* sends Reddit Memes.
 
 *Anime Search Commands:*
-  ➢ `/watchorder <anime>`*:* send watch Order of anime.
+× `/watchorder <anime>`*:* send watch Order of anime.
 
 You saw a good anime video, photo, gif but dont know what is that anime's name?
-This is where whatanime comes in, just reply to that media with /whatanime and it will search the anime name for you from anilist.                             
+This is where whatanime comes in, just reply to that media with `/whatanime` and it will search the anime name for you from anilist.                             
  """
 
 ANIME_HANDLER = DisableAbleCommandHandler("anime", anime, run_async=True)

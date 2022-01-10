@@ -1,13 +1,9 @@
 import os
 import time
+
 import psutil
 
-from telegram import __version__ as peler
-from platform import python_version as memek
-from telethon import __version__ as tlh
-from pyrogram import __version__ as pyr
-
-import Natsunagi.modules.no_sql.users_db as user_db
+import Natsunagi.modules.no_sql.users_sql as users_db
 from Natsunagi import StartTime
 from Natsunagi.modules.helper_funcs import formatter
 
@@ -21,19 +17,15 @@ async def bot_sys_stats():
     disk = psutil.disk_usage("/").percent
     process = psutil.Process(os.getpid())
     stats = f"""
-arya@MacBook:~$ NatsunagiProBot:
+arya@FurryChemistry:~$ Natsunagi:
 ------------------
-Uptime: {formatter.get_readable_time((bot_uptime))}
+Natsunagi Nagisa Uptime: {formatter.get_readable_time((bot_uptime))}
+Bot Capasity: {round(process.memory_info()[0] / 1024 ** 2)} MB
 CPU Usage: {cpu}%
-Ram Usage: {mem}%
-Disk: {disk}%
-Bot: {round(process.memory_info()[0] / 1024 ** 2)} MB
-Python version: {memek()}
-Library version: v{peler}
-Telethon version: {tlh}
-Pyrogram version: {pyr}
-Users: {user_db.num_users()} users.
-Groups: {user_db.num_chats()} groups.
+RAM Usage: {mem}%
+Disk Usage: {disk}%
+Users: {users_db.num_users()} users.
+Groups: {users_db.num_chats()} groups.
 """
 
     return stats

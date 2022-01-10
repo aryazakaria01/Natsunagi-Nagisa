@@ -1,9 +1,17 @@
 import datetime
 import platform
 import random
+import re
+import wikipedia
+import os
+
 from platform import python_version
 
 import requests as r
+from requests import get
+from random import randint
+from PIL import Image
+from telegraph import Telegraph, upload_file, exceptions
 from psutil import boot_time, cpu_percent, disk_usage, virtual_memory
 from spamwatch import __version__ as __sw__
 from telegram import (
@@ -16,12 +24,16 @@ from telegram import (
 )
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, Filters
+from telethon import events, Button, types
 
-from Natsunagi import OWNER_ID, dispatcher
+from Natsunagi import OWNER_ID, SUPPORT_CHAT, WALL_API, dispatcher, telethn as Client
+from Natsunagi.events import register
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.alternate import send_action, typing_action
 from Natsunagi.modules.helper_funcs.chat_status import user_admin
 from Natsunagi.modules.helper_funcs.filters import CustomFilters
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
+
 
 MARKDOWN_HELP = f"""
 Markdown is a very powerful formatting tool supported by telegram. {dispatcher.bot.first_name} has some enhancements, to make sure that \
@@ -42,6 +54,12 @@ If you want multiple buttons on the same line, use :same, as such:
 This will create two buttons on a single line, instead of one button per line.
 Keep in mind that your message <b>MUST</b> contain some text other than just a button!
 """
+
+wibu = "Natsunagi"
+telegraph = Telegraph()
+data = telegraph.create_account(short_name=wibu)
+auth_url = data["auth_url"]
+TMP_DOWNLOAD_DIRECTORY = "./"
 
 
 @user_admin
@@ -188,6 +206,218 @@ def system_status(update, context):
     context.bot.sendMessage(update.effective_chat.id, status, parse_mode=ParseMode.HTML)
 
 
+@natsunagicmd(command="wiki")
+@typing_action
+def wiki(update, context):
+    Shinano = re.split(pattern="wiki", string=update.effective_message.text)
+    wikipedia.set_lang("en")
+    if len(str(Shinano[1])) == 0:
+        update.effective_message.reply_text(
+            "Enter the keywords for searching to wikipedia!"
+        )
+    else:
+        try:
+            Natsunagi = update.effective_message.reply_text(
+                "Searching the keywords from wikipedia..."
+            )
+            keyboard = InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            text="More Information",
+                            url=wikipedia.page(Shinano).url,
+                        )
+                    ]
+                ]
+            )
+            context.bot.editMessageText(
+                chat_id=update.effective_chat.id,
+                message_id=Natsunagi.message_id,
+                text=wikipedia.summary(Shinano, sentences=10),
+                reply_markup=keyboard,
+            )
+        except wikipedia.PageError as e:
+            update.effective_message.reply_text(f"⚠ Error Detected: {e}")
+        except BadRequest as et:
+            update.effective_message.reply_text(f"⚠ Error Detected: {et}")
+        except wikipedia.exceptions.DisambiguationError as eet:
+            update.effective_message.reply_text(
+                f"⚠ Error Detected\n\nThere are too many query! Express it more!\n\nPossible query result:\n\n{eet}"
+            )
+
+
+@natsunagicmd(command="ud")
+@typing_action
+def ud(update, context):
+    msg = update.effective_message
+    args = context.args
+    text = " ".join(args).lower()
+    if not text:
+        msg.reply_text("Please enter keywords to search on ud!")
+        return
+    if text == "Arya":
+        msg.reply_text("Arya is my owner so if you search him on urban dictionary you can't find the meaning because he is my husband and only me who know what's the meaning of Arya!")
+        return
+    try:
+        results = get(f"http://api.urbandictionary.com/v0/define?term={text}").json()
+        reply_text = f'Word: {text}\n\nDefinition: \n{results["list"][0]["definition"]}'
+        reply_text += f'\n\nExample: \n{results["list"][0]["example"]}'
+    except IndexError:
+        reply_text = (
+            f"Word: {text}\n\nResults: Sorry could not find any matching results!"
+        )
+    ignore_chars = "[]"
+    reply = reply_text
+    for chars in ignore_chars:
+        reply = reply.replace(chars, "")
+    if len(reply) >= 4096:
+        reply = reply[:4096]  # max msg lenth of tg.
+    try:
+        msg.reply_text(reply)
+    except BadRequest as err:
+        msg.reply_text(f"Error! {err.message}")
+
+
+@natsunagicmd(command="wall")
+@send_action(ChatAction.UPLOAD_PHOTO)
+def wall(update: Update, context: CallbackContext):
+    chat_id = update.effective_chat.id
+    msg = update.effective_message
+    args = context.args
+    msg_id = update.effective_message.message_id
+    bot = context.bot
+    query = " ".join(args)
+    if not query:
+        msg.reply_text("Please enter a query!")
+        return
+    caption = query
+    term = query.replace(" ", "%20")
+    json_rep = r.get(
+        f"https://wall.alphacoders.com/api2.0/get.php?auth={WALL_API}&method=search&term={term}"
+    ).json()
+    if not json_rep.get("success"):
+        msg.reply_text(f"An error occurred! Report this @{SUPPORT_CHAT}")
+    else:
+        wallpapers = json_rep.get("wallpapers")
+        if not wallpapers:
+            msg.reply_text("No results found! Refine your search.")
+            return
+        index = randint(0, len(wallpapers) - 1)  # Choose random index
+        wallpaper = wallpapers[index]
+        wallpaper = wallpaper.get("url_image")
+        wallpaper = wallpaper.replace("\\", "")
+        bot.send_photo(
+            chat_id,
+            photo=wallpaper,
+            caption="Preview",
+            reply_to_message_id=msg_id,
+            timeout=60,
+        )
+        bot.send_document(
+            chat_id,
+            document=wallpaper,
+            filename="wallpaper",
+            caption=caption,
+            reply_to_message_id=msg_id,
+            timeout=60,
+        )
+
+
+@register(pattern="^/t(gm|gt) ?(.*)")
+async def telegrap(event):
+    optional_title = event.pattern_match.group(2)
+    if event.reply_to_msg_id:
+        start = datetime.now()
+        reply_msg = await event.get_reply_message()
+        input_str = event.pattern_match.group(1)
+        if input_str == "gm":
+            downloaded_file_name = await Client.download_media(
+                reply_msg,
+                TMP_DOWNLOAD_DIRECTORY
+            )
+            end = datetime.now()
+            ms = (end - start).seconds
+            if not downloaded_file_name:
+                await Client.send_message(
+                    event.chat_id,
+                    "Not Supported Format Media!"
+                )
+                return
+            else:
+                if downloaded_file_name.endswith((".webp")):
+                    resize_image(downloaded_file_name)
+                try:
+                    start = datetime.now()
+                    media_urls = upload_file(downloaded_file_name)
+                except exceptions.TelegraphException as exc:
+                    await event.reply("ERROR: " + str(exc))
+                    os.remove(downloaded_file_name)
+                else:
+                    end = datetime.now()
+                    ms_two = (end - start).seconds
+                    os.remove(downloaded_file_name)
+                    await Client.send_message(
+                        event.chat_id,
+                        "Your telegraph link is complete uploaded!",
+                        buttons=[
+                            [
+                                types.KeyboardButtonUrl(
+                                    "Here Your Telegra.ph Link", "https://telegra.ph{}".format(media_urls[0], (ms + ms_two))
+                                )
+                            ]
+                        ]
+                    )
+        elif input_str == "gt":
+            user_object = await Client.get_entity(reply_msg.sender_id)
+            title_of_page = user_object.first_name # + " " + user_object.last_name
+            # apparently, all Users do not have last_name field
+            if optional_title:
+                title_of_page = optional_title
+            page_content = reply_msg.message
+            if reply_msg.media:
+                if page_content != "":
+                    title_of_page = page_content
+                downloaded_file_name = await Client.download_media(
+                    reply_msg,
+                    TMP_DOWNLOAD_DIRECTORY
+                )
+                m_list = None
+                with open(downloaded_file_name, "rb") as fd:
+                    m_list = fd.readlines()
+                for m in m_list:
+                    page_content += m.decode("UTF-8") + "\n"
+                os.remove(downloaded_file_name)
+            page_content = page_content.replace("\n", "<br>")
+            response = telegraph.create_page(
+                title_of_page,
+                html_content=page_content
+            )
+            end = datetime.now()
+            ms = (end - start).seconds
+            await Client.send_message(
+                    event.chat_id,
+                    "Your telegraph link is complete uploaded!",
+                    buttons=[
+                        [
+                            types.KeyboardButtonUrl(
+                                "Here Your Telegra.ph Link", "https://telegra.ph/{}".format(response["path"], ms)
+                            )
+                        ]
+                    ]
+                )
+    else:
+        await event.reply("Reply to a message to get a permanent telegra.ph link.")
+
+
+def resize_image(image):
+    im = Image.open(image)
+    im.save(image, "PNG")
+
+file_help = os.path.basename(__file__)
+file_help = file_help.replace(".py", "")
+file_helpo = file_help.replace("_", " ")
+
+
 __help__ = """
 Available commands:
 *Markdown*:
@@ -240,6 +470,10 @@ Compress And Decompress:
 
 *Text To Speech*:
 ❂ `/tts <text>`*:* Converts a text message to a voice message.
+
+*Telegraph*:
+❂ `tgm`*:* Upload media to telegraph
+❂ `tgt`*:* Upload text to telegraph
 """
 
 ECHO_HANDLER = DisableAbleCommandHandler(

@@ -20,7 +20,6 @@ async def arq_stats(_, message):
     users = data.users
     statistics = f"""
 **System Statistics**
-
 **Uptime:** `{uptime}`
 **Requests Since Uptime:** `{requests}`
 **CPU:** `{cpu}`
@@ -32,7 +31,6 @@ async def arq_stats(_, message):
 **Python:** `{python_version}`
 
 **ARQ Statistics:**
-
 **Users:** `{users}`
 
 **@{BOT_USERNAME} Some Modules Running On ARQ**
