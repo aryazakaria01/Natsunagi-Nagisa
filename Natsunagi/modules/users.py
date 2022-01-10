@@ -94,7 +94,7 @@ def broadcast(update: Update, context: CallbackContext):
         )
 
 
-@natsunagimsg((Filters.all & Filters.chat_type.groups), group=USERS_GROUP))
+@natsunagimsg((Filters.all & Filters.chat_type.groups), group=USERS_GROUP)
 def log_user(update: Update, context: CallbackContext):
     chat = update.effective_chat
     msg = update.effective_message
@@ -143,7 +143,7 @@ def chats(update: Update, context: CallbackContext):
         )
 
 
-@natsunagimsg((Filters.all & Filters.chat_type.groups), group=CHAT_GROUP))
+@natsunagimsg((Filters.all & Filters.chat_type.groups), group=CHAT_GROUP)
 def chat_checker(update: Update, context: CallbackContext):
     bot = context.bot
     try:
