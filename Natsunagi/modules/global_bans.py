@@ -503,7 +503,7 @@ def gbanstat(update: Update, context: CallbackContext):
 
 
 def clear_gbans(bot: Bot, update: Update):
-    banned = sql.get_gban_list()
+    banned = gban_db.get_gban_list()
     deleted = 0
     for user in banned:
         id = user["user_id"]
@@ -512,17 +512,17 @@ def clear_gbans(bot: Bot, update: Update):
             acc = bot.get_chat(id)
             if not acc.first_name:
                 deleted += 1
-                sql.ungban_user(id)
+                gban_db.ungban_user(id)
         except BadRequest:
             deleted += 1
-            sql.ungban_user(id)
+            gban_db.ungban_user(id)
     update.message.reply_text("Done! `{}` deleted accounts were removed " \
     "from the gbanlist.".format(deleted), parse_mode=ParseMode.MARKDOWN)
     
 
 
 def check_gbans(bot: Bot, update: Update):
-    banned = sql.get_gban_list()
+    banned = gban_db.get_gban_list()
     deleted = 0
     for user in banned:
         id = user["user_id"]

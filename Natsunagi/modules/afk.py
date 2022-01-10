@@ -2,14 +2,11 @@ import time
 
 from telegram import MessageEntity, ParseMode
 from telegram.error import BadRequest
-from telegram.ext import Filters, MessageHandler
+from telegram.ext import Filters
 
-from Natsunagi import REDIS, dispatcher
-from Natsunagi.modules.disable import (
-    DisableAbleCommandHandler,
-    DisableAbleMessageHandler,
-)
+from Natsunagi import REDIS
 from Natsunagi.modules.helper_funcs.readable_time import get_readable_time
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd, natsunagimsg
 from Natsunagi.modules.redis.afk_redis import (
     afk_reason,
     end_afk,
@@ -22,6 +19,8 @@ AFK_GROUP = 7
 AFK_REPLY_GROUP = 8
 
 
+@natsunagicmd(command="afk", group=AFK_GROUP, can_disable=False)
+@natsunagimsg((Filters.regex("(?i)^brb"))), group=AFK_GROUP)
 def afk(update, _):
     message = update.effective_message
     args = message.text.split(None, 1)
@@ -44,6 +43,7 @@ def afk(update, _):
         pass
 
 
+@natsunagicmd((Filters.all & Filters.chat_type.groups)), group=AFK_GROUP)
 def no_longer_afk(update, _):
     user = update.effective_user
     message = update.effective_message
@@ -69,6 +69,7 @@ def no_longer_afk(update, _):
             return
 
 
+@natsunagimsg((Filters.all & Filters.chat_type.groups & ~Filters.update.edited_message)), group=AFK_REPLY_GROUP)
 def reply_afk(update, context):
     message = update.effective_message
     userc = update.effective_user
@@ -154,38 +155,4 @@ An example of how to afk or brb:
 `/afk dinner` or brb dinner.
 """
 
-AFK_HANDLER = DisableAbleCommandHandler(
-    "afk",
-    afk,
-    run_async=True,
-)
-AFK_REGEX_HANDLER = DisableAbleMessageHandler(
-    Filters.regex("(?i)^brb"),
-    afk,
-    friendly="afk",
-    run_async=True,
-)
-NO_AFK_HANDLER = MessageHandler(
-    Filters.all & Filters.chat_type.groups,
-    no_longer_afk,
-    run_async=True,
-)
-AFK_REPLY_HANDLER = MessageHandler(
-    Filters.all & Filters.chat_type.groups & ~Filters.update.edited_message,
-    reply_afk,
-    run_async=True,
-)
-
-dispatcher.add_handler(AFK_HANDLER, AFK_GROUP)
-dispatcher.add_handler(AFK_REGEX_HANDLER, AFK_GROUP)
-dispatcher.add_handler(NO_AFK_HANDLER, AFK_GROUP)
-dispatcher.add_handler(AFK_REPLY_HANDLER, AFK_REPLY_GROUP)
-
 __mod_name__ = "AFK"
-__command_list__ = ["afk"]
-__handlers__ = [
-    (AFK_HANDLER, AFK_GROUP),
-    (AFK_REGEX_HANDLER, AFK_GROUP),
-    (NO_AFK_HANDLER, AFK_GROUP),
-    (AFK_REPLY_HANDLER, AFK_REPLY_GROUP),
-]

@@ -9,6 +9,7 @@ from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.alternate import typing_action
 from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
 
+
 @natsunagicmd(command="wiki")
 @typing_action
 def wiki(update, context):

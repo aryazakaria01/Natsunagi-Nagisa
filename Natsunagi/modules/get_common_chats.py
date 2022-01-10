@@ -3,13 +3,15 @@ from time import sleep
 
 from telegram import Update
 from telegram.error import BadRequest, RetryAfter, Unauthorized
-from telegram.ext import CallbackContext, CommandHandler, Filters
+from telegram.ext import CallbackContext
 
-from Natsunagi import OWNER_ID, dispatcher
+from Natsunagi import OWNER_ID
 from Natsunagi.modules.helper_funcs.extraction import extract_user
 from Natsunagi.modules.no_sql.users_db import get_user_com_chats
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
 
 
+@natsunagicmd(command="getchats", can_disable=False)
 def get_user_common_chats(update: Update, context: CallbackContext):
     bot, args = context.bot, context.args
     msg = update.effective_message
@@ -41,13 +43,3 @@ def get_user_common_chats(update: Update, context: CallbackContext):
         with open("common_chats.txt", "rb") as f:
             msg.reply_document(f)
         os.remove("common_chats.txt")
-
-
-COMMON_CHATS_HANDLER = CommandHandler(
-    "getchats",
-    get_user_common_chats,
-    filters=Filters.user(OWNER_ID),
-    run_async=True,
-)
-
-dispatcher.add_handler(COMMON_CHATS_HANDLER)

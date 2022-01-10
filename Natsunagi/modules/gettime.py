@@ -5,8 +5,8 @@ import requests
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext
 
-from Natsunagi import TIME_API_KEY, dispatcher
-from Natsunagi.modules.disable import DisableAbleCommandHandler
+from Natsunagi import TIME_API_KEY
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
 
 
 def generate_time(to_find: str, findtype: List[str]) -> str:
@@ -58,6 +58,7 @@ def generate_time(to_find: str, findtype: List[str]) -> str:
     return result
 
 
+@natsunagicmd(command="time", can_disable=False)
 def gettime(update: Update, context: CallbackContext):
     message = update.effective_message
 
@@ -91,12 +92,3 @@ def gettime(update: Update, context: CallbackContext):
         parse_mode=ParseMode.HTML,
         disable_web_page_preview=True,
     )
-
-
-TIME_HANDLER = DisableAbleCommandHandler("time", gettime, run_async=True)
-
-dispatcher.add_handler(TIME_HANDLER)
-
-__mod_name__ = "Time"
-__command_list__ = ["time"]
-__handlers__ = [TIME_HANDLER]

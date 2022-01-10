@@ -1,14 +1,16 @@
 from io import BytesIO
 from time import sleep
 
-from telegram import TelegramError, Update
+from telegram import TelegramError, Update, ParseMode
 from telegram.error import BadRequest, Unauthorized
-from telegram.ext import CallbackContext, CommandHandler, Filters, MessageHandler
+from telegram.ext import CallbackContext, Filters
 
 import Natsunagi.modules.no_sql.users_db as user_db
 from Natsunagi import DEV_USERS, LOGGER, OWNER_ID, dispatcher
 from Natsunagi.modules.helper_funcs.chat_status import dev_plus, sudo_plus
 from Natsunagi.modules.no_sql.users_db import get_all_users
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd, natsunagimsg
+
 
 USERS_GROUP = 4
 CHAT_GROUP = 5
@@ -44,6 +46,7 @@ def get_user_id(username):
     return None
 
 
+@natsunagicmd(command=["broadcastall", "broadcastusers", "broadcastgroups"])
 @dev_plus
 def broadcast(update: Update, context: CallbackContext):
     to_send = update.effective_message.text.split(None, 1)
@@ -86,10 +89,12 @@ def broadcast(update: Update, context: CallbackContext):
                 except TelegramError:
                     failed_user += 1
         update.effective_message.reply_text(
-            f"Broadcast complete.\nGroups failed: {failed}.\nUsers failed: {failed_user}.",
+            f"Broadcast complete.\nGroups failed: <code>{failed}</code>.\nUsers failed: <code>{failed_user}</code>.",
+            parse_mode=ParseMode.HTML,
         )
 
 
+@natsunagimsg((Filters.all & Filters.chat_type.groups)), group=USERS_GROUP)
 def log_user(update: Update, context: CallbackContext):
     chat = update.effective_chat
     msg = update.effective_message
@@ -108,6 +113,7 @@ def log_user(update: Update, context: CallbackContext):
         user_db.update_user(msg.forward_from.id, msg.forward_from.username)
 
 
+@natsunagicmd(command="groups")
 @sudo_plus
 def chats(update: Update, context: CallbackContext):
     all_chats = user_db.get_all_chats() or []
@@ -137,6 +143,7 @@ def chats(update: Update, context: CallbackContext):
         )
 
 
+@natsunagimsg((Filters.all & Filters.chat_type.groups)), group=CHAT_GROUP)
 def chat_checker(update: Update, context: CallbackContext):
     bot = context.bot
     try:
@@ -163,24 +170,4 @@ def __migrate__(old_chat_id, new_chat_id):
     user_db.migrate_chat(old_chat_id, new_chat_id)
 
 
-BROADCAST_HANDLER = CommandHandler(
-    ["broadcastall", "broadcastusers", "broadcastgroups"],
-    broadcast,
-    run_async=True,
-)
-USER_HANDLER = MessageHandler(
-    Filters.all & Filters.chat_type.groups, log_user, run_async=True
-)
-CHAT_CHECKER_HANDLER = MessageHandler(
-    Filters.all & Filters.chat_type.groups, chat_checker, run_async=True
-)
-CHATLIST_HANDLER = CommandHandler("groups", chats, run_async=True)
-
-dispatcher.add_handler(USER_HANDLER, USERS_GROUP)
-dispatcher.add_handler(BROADCAST_HANDLER)
-dispatcher.add_handler(CHATLIST_HANDLER)
-dispatcher.add_handler(CHAT_CHECKER_HANDLER, CHAT_GROUP)
-
 __mod_name__ = "Users"
-
-__handlers__ = [(USER_HANDLER, USERS_GROUP), BROADCAST_HANDLER, CHATLIST_HANDLER]
