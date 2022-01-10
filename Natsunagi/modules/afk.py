@@ -19,8 +19,8 @@ AFK_GROUP = 7
 AFK_REPLY_GROUP = 8
 
 
-@natsunagicmd(command="afk", group=AFK_GROUP, can_disable=False)
-@natsunagimsg((Filters.regex("(?i)^brb")), group=AFK_GROUP)
+@natsunagicmd(command="afk", group=AFK_GROUP)
+@natsunagimsg(Filters.regex("(?i)^brb"), friendly="afk", group=AFK_GROUP)
 def afk(update, _):
     message = update.effective_message
     args = message.text.split(None, 1)
@@ -43,7 +43,7 @@ def afk(update, _):
         pass
 
 
-@natsunagicmd((Filters.all & Filters.chat_type.groups), group=AFK_GROUP)
+@natsunagimsg((Filters.all & Filters.chat_type.groups), friendly='afk', group=AFK_GROUP)
 def no_longer_afk(update, _):
     user = update.effective_user
     message = update.effective_message
@@ -69,7 +69,7 @@ def no_longer_afk(update, _):
             return
 
 
-@natsunagimsg((Filters.all & Filters.chat_type.groups & ~Filters.update.edited_message), group=AFK_REPLY_GROUP)
+@natsunagimsg((Filters.all & Filters.chat_type.groups & ~Filters.update.edited_message), friendly="afk", group=AFK_REPLY_GROUP)
 def reply_afk(update, context):
     message = update.effective_message
     userc = update.effective_user
