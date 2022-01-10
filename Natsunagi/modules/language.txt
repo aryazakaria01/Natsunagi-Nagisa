@@ -8,6 +8,7 @@ from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 import Natsunagi.modules.sql.language_sql as sql
 from Natsunagi import dispatcher
 from Natsunagi.modules.helper_funcs.chat_status import user_admin, user_admin_no_reply
+from Natsunagi.modules.helper_funcs.decorators import natsunagicallback, natsunagicmd
 from Natsunagi.langs import get_string, get_languages, get_language
 
 
