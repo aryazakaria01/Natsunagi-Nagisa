@@ -401,7 +401,7 @@ def removetiger(update: Update, context: CallbackContext) -> str:
     if user_id in TIGERS:
         message.reply_text("Requested the Sakura Union to demote this user to Civilian")
         TIGERS.remove(user_id)
-        data["Tigers"].remove(user_id)
+        data["tigers"].remove(user_id)
 
         with open(ELEVATED_USERS_FILE, "w") as outfile:
             json.dump(data, outfile, indent=4)
