@@ -3,7 +3,7 @@ import time
 
 import psutil
 
-import Natsunagi.modules.no_sql.users_sql as users_db
+import Natsunagi.modules.no_sql.users_db as users_db
 from Natsunagi import StartTime
 from Natsunagi.modules.helper_funcs import formatter
 
