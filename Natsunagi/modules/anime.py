@@ -251,7 +251,11 @@ def airing(update, context):
     variables = {"search": search_str[1]}
     response = requests.post(
         url, json={"query": airing_query, "variables": variables}
-    ).json()["data"]["Media"]
+    ).json()
+    if "errors" in response.keys():
+        update.effective_message.reply_text("Anime not found!")
+        return
+    response = response["data"]["Media"]
     info = response.get("siteUrl")
     image = info.replace("anilist.co/anime/", "img.anili.st/media/")
     msg = f"*Name*: *{response['title']['romaji']}*(`{response['title']['native']}`)\n*• ID*: `{response['id']}`[⁠ ⁠]({image})"
