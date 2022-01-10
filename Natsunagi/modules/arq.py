@@ -20,6 +20,7 @@ async def arq_stats(_, message):
     users = data.users
     statistics = f"""
 **System Statistics**
+
 **Uptime:** `{uptime}`
 **Requests Since Uptime:** `{requests}`
 **CPU:** `{cpu}`
@@ -29,8 +30,11 @@ async def arq_stats(_, message):
 **Disk:** `{disk}`
 **Platform:** `{platform}`
 **Python:** `{python_version}`
+
 **ARQ Statistics:**
+
 **Users:** `{users}`
+
 **@{BOT_USERNAME} Some Modules Running On ARQ**
 """
     await message.reply_text(statistics, disable_web_page_preview=True)

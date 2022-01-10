@@ -1,11 +1,12 @@
-from typing import Union, List, Dict, Callable, Generator, Any
 import itertools
+
+from typing import Union, List, Dict, Callable, Generator, Any
 from collections.abc import Iterable
 from telegram.ext import CommandHandler, CallbackQueryHandler
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 
-from Natsunagi import dispatcher
 import Natsunagi.modules.sql.language_sql as sql
+from Natsunagi import dispatcher
 from Natsunagi.modules.helper_funcs.chat_status import user_admin, user_admin_no_reply
 from Natsunagi.langs import get_string, get_languages, get_language
 
@@ -30,6 +31,7 @@ def gs(chat_id: Union[int, str], string: str) -> str:
     return get_string(lang, string)
 
 
+@natsunagicmd(command="language")
 @user_admin
 def set_lang(update: Update, _) -> None:
     chat = update.effective_chat
@@ -60,6 +62,7 @@ def set_lang(update: Update, _) -> None:
     msg.reply_text(msg_text, reply_markup=InlineKeyboardMarkup(keyb))
 
 
+@natsunagicallback(pattern=r"setLang_")
 @user_admin_no_reply
 def lang_button(update: Update, _) -> None:
     query = update.callback_query
@@ -72,10 +75,3 @@ def lang_button(update: Update, _) -> None:
     query.message.edit_text(
         gs(chat.id, "set_chat_lang").format(get_language(lang)[:-3])
     )
-
-
-SETLANG_HANDLER = CommandHandler("language", set_lang, run_async=True)
-SETLANG_BUTTON_HANDLER = CallbackQueryHandler(lang_button, pattern=r"setLang_", run_async=True)
-
-dispatcher.add_handler(SETLANG_HANDLER)
-dispatcher.add_handler(SETLANG_BUTTON_HANDLER)
