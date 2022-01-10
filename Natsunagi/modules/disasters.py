@@ -522,14 +522,14 @@ WHITELIST_HANDLER = CommandHandler(
     ("addvillain", "addwhitelist"), addwhitelist, run_async=True
 )
 UNSUDO_HANDLER = CommandHandler(
-    ("removesudo", "removeshadowslayers"), removesudo, run_async=True
+    ("rmsudo", "rmshadowslayers"), removesudo, run_async=True
 )
 UNSUPPORT_HANDLER = CommandHandler(
-    ("removesupport", "removeguardian"), removesupport, run_async=True
+    ("rmsupport", "rmguardian"), removesupport, run_async=True
 )
-UNTIGER_HANDLER = CommandHandler(("removelightshooters"), removetiger)
+UNTIGER_HANDLER = CommandHandler(("rmlightshooters"), removetiger)
 UNWHITELIST_HANDLER = CommandHandler(
-    ("removewhitelist", "removevillain"), removewhitelist, run_async=True
+    ("rmwhitelist", "rmvillain"), removewhitelist, run_async=True
 )
 WHITELISTLIST_HANDLER = CommandHandler(
     ["whitelistlist", "villain"], whitelistlist, run_async=True
