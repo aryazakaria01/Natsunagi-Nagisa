@@ -4,7 +4,6 @@ import math
 import requests
 import cloudscraper
 import urllib.request as urllib
-
 from PIL import Image
 from html import escape
 from bs4 import BeautifulSoup as bs
@@ -548,7 +547,7 @@ def cb_sticker(update: Update, context: CallbackContext):
     reply = f"Stickers for *{split[1]}*:"
     for result, title in zip(results, titles):
         link = result["href"]
-        reply += f"\n• [{title.get_text()}]({link})"
+        reply += f"\n× [{title.get_text()}]({link})"
     msg.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
 
 
