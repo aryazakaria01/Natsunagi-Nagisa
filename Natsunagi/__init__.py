@@ -327,6 +327,7 @@ WOLVES = list(WOLVES)
 DEMONS = list(DEMONS)
 TIGERS = list(TIGERS)
 
+
 async def eor(msg: Message, **kwargs):
     func = (
         (msg.edit_text if msg.from_user.is_self else msg.reply)

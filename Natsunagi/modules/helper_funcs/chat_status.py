@@ -406,9 +406,7 @@ def can_restrict(func):
 
         if chat.get_member(bot.id).can_restrict_members:
             return func(update, context, *args, **kwargs)
-        update.effective_message.reply_text(
-            cant_restrict, parse_mode=ParseMode.HTML
-        )
+        update.effective_message.reply_text(cant_restrict, parse_mode=ParseMode.HTML)
 
     return restrict_rights
 

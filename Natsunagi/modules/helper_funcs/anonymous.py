@@ -51,7 +51,8 @@ def user_admin(permission: AdminPerms):
                             [
                                 [
                                     InlineKeyboardButton(
-                                        text="Click here to prove admin", callback_data=callback_id
+                                        text="Click here to prove admin",
+                                        callback_data=callback_id,
                                     )
                                 ]
                             ]

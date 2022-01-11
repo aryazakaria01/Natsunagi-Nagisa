@@ -29,6 +29,7 @@ downloader = aiodownloader.Handler()
 
 # Another downloader, but with wget
 
+
 async def restart(m: Message):
     if m:
         await start_restart_stage(m.chat.id, m.message_id)
