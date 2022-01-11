@@ -14,6 +14,7 @@ from telegram.ext import CallbackContext
 from telegram.utils.helpers import mention_html
 
 from Natsunagi import dispatcher
+from Natsunagi.events import register
 from Natsunagi.modules.disable import DisableAbleCommandHandler
 from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
 
