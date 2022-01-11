@@ -139,8 +139,9 @@ def kang(update, context):
                     ]
                 )
                 msg.reply_text(
-                    f"<b>Your sticker has been added!</b>"
-                    f"\nEmoji Is : {sticker_emoji}",
+                    "Your Sticker Pack has been created!\n\n"
+                    "You can now reply to images, stickers and animated sticker with <code>/steal</code> or <code>/kang</code>to add them to your pack\n\n"
+                    "Send <code>/stickers</code> to find sticker pack.",
                     reply_markup=edited_keyboard,
                     parse_mode=ParseMode.HTML,
                 )
@@ -181,8 +182,9 @@ def kang(update, context):
                         ]
                     )
                     msg.reply_text(
-                        f"<b>Your sticker has been added!</b>"
-                        f"\nEmoji Is : {sticker_emoji}",
+                        "Your Sticker Pack has been created!\n\n"
+                        "You can now reply to images, stickers and animated sticker with <code>/steal</code> or <code>/kang</code>to add them to your pack\n\n"
+                        "Send <code>/stickers</code> to find sticker pack.",
                         reply_markup=edited_keyboard,
                         parse_mode=ParseMode.HTML,
                     )
@@ -201,8 +203,9 @@ def kang(update, context):
                         ]
                     )
                     msg.reply_text(
-                        f"<b>Your sticker has been added!</b>"
-                        f"\nEmoji Is : {sticker_emoji}",
+                        "Your Sticker Pack has been created!\n\n"
+                        "You can now reply to images, stickers and animated sticker with <code>/steal</code> or <code>/kang</code>to add them to your pack\n\n"
+                        "Send <code>/stickers</code> to find sticker pack.",
                         reply_markup=edited_keyboard,
                         parse_mode=ParseMode.HTML,
                     )
@@ -247,8 +250,9 @@ def kang(update, context):
                     ]
                 )
                 msg.reply_text(
-                    f"<b>Your sticker has been added!</b>"
-                    f"\nEmoji Is : {sticker_emoji}",
+                    "Your Sticker Pack has been created!\n\n"
+                    "You can now reply to images, stickers and animated sticker with <code>/steal</code> or <code>/kang</code>to add them to your pack\n\n"
+                    "Send <code>/stickers</code> to find sticker pack.",
                     reply_markup=edited_keyboard,
                     parse_mode=ParseMode.HTML,
                 )
@@ -278,8 +282,9 @@ def kang(update, context):
                         ]
                     )
                     msg.reply_text(
-                        f"<b>Your sticker has been added!</b>"
-                        f"\nEmoji Is : {sticker_emoji}",
+                        "Your Sticker Pack has been created!\n\n"
+                        "You can now reply to images, stickers and animated sticker with <code>/steal</code> or <code>/kang</code>to add them to your pack\n\n"
+                        "Send <code>/stickers</code> to find sticker pack.",
                         reply_markup=edited_keyboard,
                         parse_mode=ParseMode.HTML,
                     )
@@ -331,7 +336,9 @@ def kang(update, context):
                 ]
             )
             msg.reply_text(
-                f"<b>Your sticker has been added!</b>" f"\nEmoji Is : {sticker_emoji}",
+                "Your Sticker Pack has been created!\n\n" 
+                "You can now reply to images, stickers and animated sticker with <code>/steal</code> or <code>/kang</code>to add them to your pack\n\n"
+                "Send <code>/stickers</code> to find sticker pack.",
                 reply_markup=edited_keyboard,
                 parse_mode=ParseMode.HTML,
             )
@@ -370,8 +377,9 @@ def kang(update, context):
                     ]
                 )
                 msg.reply_text(
-                    f"<b>Your sticker has been added!</b>"
-                    f"\nEmoji Is : {sticker_emoji}",
+                    "Your Sticker Pack has been created!\n\n"
+                    "You can now reply to images, stickers and animated sticker with <code>/steal</code> or <code>/kang</code>to add them to your pack\n\n"
+                    "Send <code>/stickers</code> to find sticker pack.",
                     reply_markup=edited_keyboard,
                     parse_mode=ParseMode.HTML,
                 )
@@ -381,14 +389,15 @@ def kang(update, context):
                 msg.reply_text("Max packsize reached. Press F to pay respecc.")
             elif e.message == "Internal Server Error: sticker set not found (500)":
                 msg.reply_text(
-                    f"<b>Your sticker has been added!</b>"
-                    f"\nEmoji Is : {sticker_emoji}",
+                    "Your Sticker Pack has been created!\n\n"
+                    "You can now reply to images, stickers and animated sticker with <code>/steal</code> or <code>/kang</code>to add them to your pack\n\n"
+                    "Send <code>/stickers</code> to find sticker pack.",
                     reply_markup=edited_keyboard,
                     parse_mode=ParseMode.HTML,
                 )
             print(e)
     else:
-        packs_text = "*Please reply to a sticker, or image to kang it!*\n"
+        packs_text = "Please reply to a sticker, or image to kang it!\nOh, by the way, here are your packs:"
         if packnum > 0:
             firstpackname = "a" + str(user.id) + "_by_" + context.bot.username
             for i in range(0, packnum + 1):
