@@ -77,7 +77,7 @@ class Config(object):
     OPENWEATHERMAP_ID = "887da2c60d9f13fe78b0f9d0c5cbaade"
     ALLOW_CHATS = None
     TEMP_DOWNLOAD_DIRECTORY = "./"
-    REDIS_URI = "KNTL"
+    REDIS_URL = "KNTL"
     MONGO_URI = "KNTL"
 
 class Production(Config):
