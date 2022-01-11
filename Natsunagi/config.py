@@ -16,22 +16,28 @@ class Config(object):
 
     API_ID = 123456  # integer value, dont use ""
     API_HASH = "awoo"
+    APP_ID = 8172
+    APP_HASH ="KNTL"
+    DB_URL = "JQUE"
     TOKEN = "BOT_TOKEN"  # This var used to be API_KEY but it is now TOKEN, adjust accordingly.
     OWNER_ID = 945137470  # If you dont know, run the bot and do /id in your private chat with it, also an integer
     OWNER_USERNAME = "FurryChemistry"
     SUPPORT_CHAT = "NatsunagiCorporationGroup"  # Your own group for support, do not add the @
     JOIN_LOGGER = (
-        -1001180007354
+        -1001748076180
     )  # Prints any new group the bot is added to, prints just the name and ID.
     EVENT_LOGS = (
-        -1001237968047
+        -1001748076180
     )  # Prints information like gbans, sudo promotes, AI enabled disable states that may help in debugging and shit
-
+    ERROR_LOGS = (
+         -1001657496255
+    )
     # RECOMMENDED
     SQLALCHEMY_DATABASE_URI = "something://somewhat:user@hosturl:port/databasename"  # needed for any database modules
     LOAD = []
     NO_LOAD = []
     WEBHOOK = False
+    DEBUG = False
     INFOPIC = True
     URL = None
     SPAMWATCH_API = ""  # go to support.spamwat.ch to get key
@@ -69,7 +75,7 @@ class Config(object):
     SPAMMERS = None
     REM_BG_API_KEY = "xYCR1ZyK3ZsofjH7Y6hPcyzC"
     OPENWEATHERMAP_ID = "887da2c60d9f13fe78b0f9d0c5cbaade"
-
+    ALLOW_CHATS = None
 
 class Production(Config):
     LOGGER = True
