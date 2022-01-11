@@ -11,6 +11,10 @@ from Natsunagi import pgram as app
 from Natsunagi.utils.errors import capture_err
 from Natsunagi.utils.pastebin import paste
 
+pattern = re.compile(
+    r"^text/|json$|yaml$|xml$|toml$|x-sh$|x-shellscript$"
+)
+
 
 async def isPreviewUp(preview: str) -> bool:
     for _ in range(7):
