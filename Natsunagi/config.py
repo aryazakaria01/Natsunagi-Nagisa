@@ -79,6 +79,7 @@ class Config(object):
     TEMP_DOWNLOAD_DIRECTORY = "./"
     REDIS_URL = "KNTL"
     MONGO_URI = "KNTL"
+    BOT_ID = 7373
 
 class Production(Config):
     LOGGER = True
