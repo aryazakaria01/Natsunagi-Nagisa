@@ -38,12 +38,14 @@ def afk(update, _):
     REDIS.set(f"afk_time_{user.id}", start_afk_time)
     fname = user.first_name
     try:
-        message.reply_text(f"See you later 👋 <code>{fname}</code>!", parse_mode=ParseMode.HTML)
+        message.reply_text(
+            f"See you later 👋 <code>{fname}</code>!", parse_mode=ParseMode.HTML
+        )
     except BadRequest:
         pass
 
 
-@natsunagimsg((Filters.all & Filters.chat_type.groups), friendly='afk', group=AFK_GROUP)
+@natsunagimsg((Filters.all & Filters.chat_type.groups), friendly="afk", group=AFK_GROUP)
 def no_longer_afk(update, _):
     user = update.effective_user
     message = update.effective_message
@@ -66,13 +68,18 @@ def no_longer_afk(update, _):
         firstname = update.effective_user.first_name
         try:
             message.reply_text(
-                f"Welcome back <code>{firstname}</code>!\n\nYou were away for: <code>{end_afk_time}</code>", parse_mode=ParseMode.HTML
+                f"Welcome back <code>{firstname}</code>!\n\nYou were away for: <code>{end_afk_time}</code>",
+                parse_mode=ParseMode.HTML,
             )
         except BadRequest:
             return
 
 
-@natsunagimsg((Filters.all & Filters.chat_type.groups & ~Filters.update.edited_message), friendly="afk", group=AFK_REPLY_GROUP)
+@natsunagimsg(
+    (Filters.all & Filters.chat_type.groups & ~Filters.update.edited_message),
+    friendly="afk",
+    group=AFK_REPLY_GROUP,
+)
 def reply_afk(update, context):
     message = update.effective_message
     userc = update.effective_user

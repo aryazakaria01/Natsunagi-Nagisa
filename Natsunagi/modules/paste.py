@@ -235,7 +235,9 @@ def paste(update: Update, context: CallbackContext):
     else:
         txt = "Successfully uploaded to [PrivateBin]({})".format(paste_url)
 
-    message.reply_text(txt, disable_web_page_preview=True, parse_mode=ParseMode.MARKDOWN)
+    message.reply_text(
+        txt, disable_web_page_preview=True, parse_mode=ParseMode.MARKDOWN
+    )
 
 
 __mod_name__ = "Paste"

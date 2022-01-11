@@ -256,7 +256,9 @@ def ud(update, context):
         msg.reply_text("Please enter keywords to search on ud!")
         return
     if text == "Arya":
-        msg.reply_text("Arya is my owner so if you search him on urban dictionary you can't find the meaning because he is my husband and only me who know what's the meaning of Arya!")
+        msg.reply_text(
+            "Arya is my owner so if you search him on urban dictionary you can't find the meaning because he is my husband and only me who know what's the meaning of Arya!"
+        )
         return
     try:
         results = get(f"http://api.urbandictionary.com/v0/define?term={text}").json()
@@ -332,16 +334,12 @@ async def telegrap(event):
         input_str = event.pattern_match.group(1)
         if input_str == "gm":
             downloaded_file_name = await Client.download_media(
-                reply_msg,
-                TMP_DOWNLOAD_DIRECTORY
+                reply_msg, TMP_DOWNLOAD_DIRECTORY
             )
             end = datetime.now()
             ms = (end - start).seconds
             if not downloaded_file_name:
-                await Client.send_message(
-                    event.chat_id,
-                    "Not Supported Format Media!"
-                )
+                await Client.send_message(event.chat_id, "Not Supported Format Media!")
                 return
             else:
                 if downloaded_file_name.endswith((".webp")):
@@ -362,14 +360,17 @@ async def telegrap(event):
                         buttons=[
                             [
                                 types.KeyboardButtonUrl(
-                                    "Here Your Telegra.ph Link", "https://telegra.ph{}".format(media_urls[0], (ms + ms_two))
+                                    "Here Your Telegra.ph Link",
+                                    "https://telegra.ph{}".format(
+                                        media_urls[0], (ms + ms_two)
+                                    ),
                                 )
                             ]
-                        ]
+                        ],
                     )
         elif input_str == "gt":
             user_object = await Client.get_entity(reply_msg.sender_id)
-            title_of_page = user_object.first_name # + " " + user_object.last_name
+            title_of_page = user_object.first_name  # + " " + user_object.last_name
             # apparently, all Users do not have last_name field
             if optional_title:
                 title_of_page = optional_title
@@ -378,8 +379,7 @@ async def telegrap(event):
                 if page_content != "":
                     title_of_page = page_content
                 downloaded_file_name = await Client.download_media(
-                    reply_msg,
-                    TMP_DOWNLOAD_DIRECTORY
+                    reply_msg, TMP_DOWNLOAD_DIRECTORY
                 )
                 m_list = None
                 with open(downloaded_file_name, "rb") as fd:
@@ -388,23 +388,21 @@ async def telegrap(event):
                     page_content += m.decode("UTF-8") + "\n"
                 os.remove(downloaded_file_name)
             page_content = page_content.replace("\n", "<br>")
-            response = telegraph.create_page(
-                title_of_page,
-                html_content=page_content
-            )
+            response = telegraph.create_page(title_of_page, html_content=page_content)
             end = datetime.now()
             ms = (end - start).seconds
             await Client.send_message(
-                    event.chat_id,
-                    "Your telegraph link is complete uploaded!",
-                    buttons=[
-                        [
-                            types.KeyboardButtonUrl(
-                                "Here Your Telegra.ph Link", "https://telegra.ph/{}".format(response["path"], ms)
-                            )
-                        ]
+                event.chat_id,
+                "Your telegraph link is complete uploaded!",
+                buttons=[
+                    [
+                        types.KeyboardButtonUrl(
+                            "Here Your Telegra.ph Link",
+                            "https://telegra.ph/{}".format(response["path"], ms),
+                        )
                     ]
-                )
+                ],
+            )
     else:
         await event.reply("Reply to a message to get a permanent telegra.ph link.")
 
@@ -412,6 +410,7 @@ async def telegrap(event):
 def resize_image(image):
     im = Image.open(image)
     im.save(image, "PNG")
+
 
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
