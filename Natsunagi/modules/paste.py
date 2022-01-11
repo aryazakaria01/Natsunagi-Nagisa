@@ -233,7 +233,7 @@ def paste(update: Update, context: CallbackContext):
     if not paste_url:
         txt = "Failed to paste data"
     else:
-        txt = "Successfully uploaded to Privatebin: {}".format(paste_url)
+        txt = "Successfully uploaded to [PrivateBin]({})".format(paste_url)
 
     message.reply_text(txt, disable_web_page_preview=True)
 
