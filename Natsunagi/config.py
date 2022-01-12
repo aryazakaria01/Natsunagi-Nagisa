@@ -43,7 +43,8 @@ class Config(object):
     URL = None
     SPAMWATCH_API = ""  # go to support.spamwat.ch to get key
     SPAMWATCH_SUPPORT_CHAT = "@SpamWatchSupport"
-
+    MONGO_URI = "KNTL"
+    
     # OPTIONAL
     ##List of id's -  (not usernames) for users which have sudo access to the bot.
     DRAGONS = get_user_list("elevated_users.json", "sudos")
@@ -85,7 +86,6 @@ class Config(object):
     BOT_NAME = "Natsunagi Nagisa"
     BOT_API_URL = "https://api.telegram.org/bot"
     MONGO_DB = "Natsunagi"
-    MONGO_URI = "KNTL"
     
 class Production(Config):
     LOGGER = True
