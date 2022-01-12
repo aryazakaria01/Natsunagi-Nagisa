@@ -83,7 +83,8 @@ class Config(object):
     BOT_ID = 7373
     ARQ_API_URL = "https://thearq.tech/"
     ARQ_API_KEY = "BCYKVF-KYQWFM-JCMORU-RZWOFQ-ARQ"
-
+    BOT_NAME = "Natsunagi Nagisa"
+    
 class Production(Config):
     LOGGER = True
 
