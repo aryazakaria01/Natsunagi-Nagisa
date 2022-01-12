@@ -79,13 +79,13 @@ class Config(object):
     ALLOW_CHATS = None
     TEMP_DOWNLOAD_DIRECTORY = "./"
     REDIS_URL = "KNTL"
-    MONGO_URI = "KNTL"
     BOT_ID = 7373
     ARQ_API_URL = "https://thearq.tech/"
     ARQ_API_KEY = "BCYKVF-KYQWFM-JCMORU-RZWOFQ-ARQ"
     BOT_NAME = "Natsunagi Nagisa"
     BOT_API_URL = "https://api.telegram.org/bot"
     MONGO_DB = "Natsunagi"
+    MONGO_URI = "KNTL"
     
 class Production(Config):
     LOGGER = True
