@@ -22,6 +22,7 @@ class Config(object):
     TOKEN = "BOT_TOKEN"  # This var used to be API_KEY but it is now TOKEN, adjust accordingly.
     OWNER_ID = 945137470  # If you dont know, run the bot and do /id in your private chat with it, also an integer
     OWNER_USERNAME = "FurryChemistry"
+    BOT_USERNAME = "@NatsunagiProBot"
     SUPPORT_CHAT = "NatsunagiCorporationGroup"  # Your own group for support, do not add the @
     JOIN_LOGGER = (
         -1001748076180
@@ -80,7 +81,6 @@ class Config(object):
     REDIS_URL = "KNTL"
     MONGO_URI = "KNTL"
     BOT_ID = 7373
-    BOT_USERNAME = NatsunagiProBot
 
 class Production(Config):
     LOGGER = True
