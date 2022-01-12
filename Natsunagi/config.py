@@ -84,6 +84,7 @@ class Config(object):
     ARQ_API_URL = "https://thearq.tech/"
     ARQ_API_KEY = "BCYKVF-KYQWFM-JCMORU-RZWOFQ-ARQ"
     BOT_NAME = "Natsunagi Nagisa"
+    BOT_API_URL = "https://api.telegram.org/bot"
     
 class Production(Config):
     LOGGER = True
