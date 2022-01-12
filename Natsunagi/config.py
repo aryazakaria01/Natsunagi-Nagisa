@@ -80,7 +80,7 @@ class Config(object):
     REDIS_URL = "KNTL"
     MONGO_URI = "KNTL"
     BOT_ID = 7373
-    BOT_USERNAME = "NatsunagiProBot"
+    BOT_USERNAME = NatsunagiProBot
 
 class Production(Config):
     LOGGER = True
