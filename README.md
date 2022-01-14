@@ -37,7 +37,7 @@ This repo was just reamped to suit an Anime-centric community. All original cred
 The Support group can be reached out to at [𝐍𝐀𝐓𝐒𝐔𝐍𝐀𝐆𝐈 x 𝐒𝐀𝐆𝐀 x 𝐀𝐂𝐊𝐄𝐑𝐌𝐀𝐍 | ᴅɪsᴄᴜssɪᴏɴ](https://t.me/NatsunagiCorporationGroup), where you can ask for help about [Natsunagi Nagisa](https://t.me/NatsunagiProBot), discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
 
 ## ╒═══「 Notes 」
-This repository is not longer maintained because the new one is more good than this and all bug is already fix but the features is still same
+This repository is not longer maintained because so many bugs so the new one is more good than this and all bug is already fix but the features is still same with this repo
 
 <details>
 	<summary>Heroku Deploy</summary>
