@@ -48,8 +48,9 @@ def split_message(msg: str) -> List[str]:
         else:
             result.append(small_msg)
             small_msg = line
-    # Else statement at the end of the for loop, so append the leftover string.
-    result.append(small_msg)
+    else:
+        # Else statement at the end of the for loop, so append the leftover string.
+        result.append(small_msg)
 
     return result
 
@@ -61,11 +62,11 @@ def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
                 EqInlineKeyboardButton(
                     x.__mod_name__,
                     callback_data="{}_module({})".format(
-                        prefix, x.__mod_name__.lower()
+                        prefix, x.__mod_name__.lower(),
                     ),
                 )
                 for x in module_dict.values()
-            ]
+            ],
         )
     else:
         modules = sorted(
@@ -73,11 +74,11 @@ def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
                 EqInlineKeyboardButton(
                     x.__mod_name__,
                     callback_data="{}_module({},{})".format(
-                        prefix, chat, x.__mod_name__.lower()
+                        prefix, chat, x.__mod_name__.lower(),
                     ),
                 )
                 for x in module_dict.values()
-            ]
+            ],
         )
 
     pairs = [modules[i * 3 : (i + 1) * 3] for i in range((len(modules) + 3 - 1) // 3)]
@@ -86,11 +87,6 @@ def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
     calc = len(modules) - round(round_num)
     if calc in [1, 2]:
         pairs.append((modules[-1],))
-    else:
-        pairs += [
-            [EqInlineKeyboardButton("Back To Home", callback_data="help_back")]
-        ]
-
     return pairs
 
 
@@ -117,7 +113,7 @@ def article(
 
 
 def send_to_list(
-    bot: Bot, send_to: list, message: str, markdown=False, html=False
+    bot: Bot, send_to: list, message: str, markdown=False, html=False,
 ) -> None:
     if html and markdown:
         raise Exception("Can only send with either markdown or HTML!")
@@ -145,12 +141,14 @@ def build_keyboard(buttons):
 
 
 def revert_buttons(buttons):
-    return "".join(
-        "\n[{}](buttonurl://{}:same)".format(btn.name, btn.url)
-        if btn.same_line
-        else "\n[{}](buttonurl://{})".format(btn.name, btn.url)
-        for btn in buttons
-    )
+    res = ""
+    for btn in buttons:
+        if btn.same_line:
+            res += "\n[{}](buttonurl://{}:same)".format(btn.name, btn.url)
+        else:
+            res += "\n[{}](buttonurl://{})".format(btn.name, btn.url)
+
+    return res
 
 
 def build_keyboard_parser(bot, chat_id, buttons):
