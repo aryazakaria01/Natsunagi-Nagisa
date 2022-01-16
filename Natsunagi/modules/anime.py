@@ -127,6 +127,16 @@ def t(milliseconds: int) -> str:
     return tmp[:-2]
 
 
+def extract_arg(message: Message):
+    split = message.text.split(" ", 1)
+    if len(split) > 1:
+        return split[1]
+    reply = message.reply_to_message
+    if reply is not None:
+        return reply.text
+    return None
+
+
 airing_query = """
     query ($id: Int,$search: String) {
       Media (id: $id, type: ANIME,search: $search) {
