@@ -8,7 +8,7 @@ from telegram.update import Update
 from telegram.ext.filters import Filters
 from telegram.ext.callbackcontext import CallbackContext
 
-from Natsunagi import DATABASE_URL, OWNER_ID, DEV_USERS, dispatcher, LOGGER, BACKUP_PASS
+from Natsunagi import DB_URL, OWNER_ID, DEV_USERS, dispatcher, LOGGER, BACKUP_PASS
 from Natsunagi.modules.helper_funcs.decorators import natsunagicmd
 
 
@@ -37,7 +37,7 @@ def backup_db(_: CallbackContext):
     datenow = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     dbbkpname = "db_{}_{}.tar".format(bot.username, datenow)
     bkplocation = "backups/{}".format(datenow)
-    bkpcmd = "pg_dump {} --format=tar > {}/{}".format(DATABASE_URL, bkplocation, dbbkpname)
+    bkpcmd = "pg_dump {} --format=tar > {}/{}".format(DB_URL, bkplocation, dbbkpname)
 
     if not os.path.exists(bkplocation):
         os.makedirs(bkplocation)
