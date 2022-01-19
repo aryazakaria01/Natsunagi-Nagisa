@@ -138,6 +138,8 @@ if ENV:
     CUSTOM_CMD = os.environ.get("CUSTOM_CMD", "?")
     GENIUS_API_TOKEN = os.environ.get("GENIUS_API_TOKEN")
     CASH_API_KEY = os.environ.get("CASH_API_KEY", None)
+    MOD_USERS = os.environ.get("MOD_USERS")
+    BACKUP_PASS = os.environ.get("BACKUP_PASS", None)
 
     try:
         WHITELIST_CHATS = {
@@ -228,6 +230,8 @@ else:
     CUSTOM_CMD = Config.CUSTOM_CMD
     GENIUS_API_TOKEN = Config.GENIUS_API_TOKEN
     CASH_API_KEY = Config.CASH_API_KEY
+    MOD_USERS = Config.MOD_USERS
+    BACKUP_PASS = Config.BACKUP_PASS
 
     try:
         BL_CHATS = {int(x) for x in Config.BL_CHATS or []}

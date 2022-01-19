@@ -48,6 +48,16 @@ LOCK_TYPES = {
     "rtl": "rtl",
     "button": "button",
     "inline": "inline",
+    "apk" : Filters.document.mime_type("application/vnd.android.package-archive"),
+    "doc" : Filters.document.mime_type("application/msword"),
+    "exe" : Filters.document.mime_type("application/x-ms-dos-executable"),
+    "gif" : Filters.document.mime_type("video/mp4"),
+    "jpg" : Filters.document.mime_type("image/jpeg"),
+    "mp3" : Filters.document.mime_type("audio/mpeg"),
+    "pdf" : Filters.document.mime_type("application/pdf"),
+    "txt" : Filters.document.mime_type("text/plain"),
+    "xml" : Filters.document.mime_type("application/xml"),
+    "zip" : Filters.document.mime_type("application/zip"),
 }
 
 LOCK_CHAT_RESTRICTION = {
@@ -461,6 +471,15 @@ def build_lock_message(chat_id):
         locklist.append("button = `{}`".format(locks.button))
         locklist.append("egame = `{}`".format(locks.egame))
         locklist.append("inline = `{}`".format(locks.inline))
+        locklist.append("apk = `{}`".format(locks.apk))
+        locklist.append("doc = `{}`".format(locks.doc))
+        locklist.append("exe = `{}`".format(locks.exe))
+        locklist.append("jpg = `{}`".format(locks.jpg))
+        locklist.append("mp3 = `{}`".format(locks.mp3))
+        locklist.append("pdf = `{}`".format(locks.pdf))
+        locklist.append("txt = `{}`".format(locks.txt))
+        locklist.append("xml = `{}`".format(locks.xml))
+        locklist.append("zip = `{}`".format(locks.zip))
     permissions = dispatcher.bot.get_chat(chat_id).permissions
     permslist.append("messages = `{}`".format(permissions.can_send_messages))
     permslist.append("media = `{}`".format(permissions.can_send_media_messages))
