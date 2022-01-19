@@ -5,7 +5,7 @@ authors: "@Yoga_CIC"
 improved: "@Anomaliii"
 
 # languages
-curr_chat_lang: "Halo. Kamu menggunakan bahasa {}, pilih salah satu yang ingin anda gunakan :)"
+curr_chat_lang: "Halo. Kamu menggunakan bahasa {}, pilih salah satu yang ingin anda gunakan"
 set_chat_lang: "Selamat, {} bahasa berhasil diganti!"
 
 
