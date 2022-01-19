@@ -1,10 +1,8 @@
 from enum import Enum
 import functools
 
-from telegram import Update, ParseMode
+from telegram import Update, ParseMode, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CallbackContext
-from telegram.inline.inlinekeyboardbutton import InlineKeyboardButton
-from telegram.inline.inlinekeyboardmarkup import InlineKeyboardMarkup
 
 from Natsunagi import DEV_USERS, MOD_USERS, DRAGONS, dispatcher
 from Natsunagi.modules.helper_funcs.decorators import natsunagicallback
@@ -20,7 +18,7 @@ class AdminPerms(Enum):
 
 class UserClass(Enum):
     ADMIN = DRAGONS
-    MOD = MOD_USERS + DRAGONS
+    MOD = DEV_USERS
 
 class ChatStatus(Enum):
     CREATOR = "creator"
