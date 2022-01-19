@@ -4,7 +4,7 @@ import math
 import requests
 import cloudscraper
 import urllib.request as urllib
-from PIL import Image
+from PIL import Image, ImageFont
 from html import escape
 from bs4 import BeautifulSoup as bs
 
