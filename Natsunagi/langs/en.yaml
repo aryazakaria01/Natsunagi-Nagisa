@@ -4,7 +4,7 @@ language: "English 🇺🇲"
 authors: "@dank_as_fuck"
 
 # languages
-curr_chat_lang: "Hey. Your current language is {}, select the one you want from the buttons below :)"
+curr_chat_lang: "Hey. Your current language is {}, select the one you want from the buttons below"
 set_chat_lang: "Great, {} it is from now on!"
 
 
