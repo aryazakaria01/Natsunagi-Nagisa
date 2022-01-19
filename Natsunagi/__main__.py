@@ -314,7 +314,7 @@ def help_button(update, context):
                 parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(
-                    [[InlineKeyboardButton(text="Home", callback_data="help_back")]]
+                    [[InlineKeyboardButton(text="Go Back", callback_data="help_back")]]
                 ),
             )
 
@@ -367,7 +367,7 @@ def natsunagi_callback_data(update, context):
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
-                    InlineKeyboardButton(text="Go Back", callback_data="natsunagi_back")
+                    InlineKeyboardButton(text="Go Home", callback_data="natsunagi_back")
                  ]
                 ]
             ),
