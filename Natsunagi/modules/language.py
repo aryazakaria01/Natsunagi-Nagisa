@@ -32,7 +32,7 @@ def gs(chat_id: Union[int, str], string: str) -> str:
     return get_string(lang, string)
 
 
-@natsunagicmd(command="language")
+@natsunagicmd(command="setlang")
 @user_admin
 def set_lang(update: Update, _) -> None:
     chat = update.effective_chat
