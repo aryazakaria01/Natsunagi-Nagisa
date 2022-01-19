@@ -4,7 +4,7 @@ from time import perf_counter
 
 from cachetools import TTLCache
 from pyrogram import filters
-from telegram import Chat, ChatMember, ParseMode, Update, User
+from telegram import Chat, ChatMember, ParseMode, Update, User, TelegramError, Message
 from telegram.ext import CallbackContext
 
 from Natsunagi import DEL_CMDS, DEMONS, DEV_USERS, DRAGONS, TIGERS, WOLVES, dispatcher
@@ -65,6 +65,36 @@ def is_user_admin(update: Update, user_id: int, member: ChatMember = None) -> bo
             # KeyError happened means cache is deleted,
             # so query bot api again and return user status
             # while saving it in cache for future usage...
+            chat_admins = dispatcher.bot.getChatAdministrators(chat.id)
+            admin_list = [x.user.id for x in chat_admins]
+            ADMIN_CACHE[chat.id] = admin_list
+
+            if user_id in admin_list:
+                return True
+            return False
+
+
+def is_user_mod(update: Update, user_id: int, member: ChatMember = None) -> bool:
+    chat = update.effective_chat
+    msg = update.effective_message
+    if (
+        chat.type == "private"
+        or user_id in MOD_USERS
+        or user_id in DEMONS
+        or user_id in DEV_USERS
+        or chat.all_members_are_administrators
+        or (msg.sender_chat is not None and msg.sender_chat.type != "channel")
+    ):  # Count telegram and Group Anonymous as admin
+        return True
+
+    if not member:
+        # try to fetch from cache first.
+        try:
+            return user_id in ADMIN_CACHE[chat.id]
+        except KeyError:
+            # keyerror happend means cache is deleted,
+            # so query bot api again and return user status
+            # while saving it in cache for future useage...
             chat_admins = dispatcher.bot.getChatAdministrators(chat.id)
             admin_list = [x.user.id for x in chat_admins]
             ADMIN_CACHE[chat.id] = admin_list
@@ -462,6 +492,63 @@ def connection_status(func):
         return func(update, context, *args, **kwargs)
 
     return connected_status
+
+
+def user_admin_no_reply(func):
+    @wraps(func)
+    def is_not_admin_no_reply(
+        update: Update, context: CallbackContext, *args, **kwargs
+    ):
+        # bot = context.bot
+        user = update.effective_user
+        # chat = update.effective_chat
+        query = update.callback_query
+
+        if user: 
+            if is_user_admin(update, user.id):
+                return func(update, context, *args, **kwargs)
+            else:
+                query.answer("this is not for you")
+        elif not user:
+            query.answer("this is not for you")
+        elif DEL_CMDS and " " not in update.effective_message.text:
+            try:
+                update.effective_message.delete()
+            except TelegramError:
+                pass
+
+    return is_not_admin_no_reply
+
+
+def user_can_restrict_no_reply(func):
+    @wraps(func)
+    def u_can_restrict_noreply(
+        update: Update, context: CallbackContext, *args, **kwargs
+    ):
+        bot = context.bot
+        user = update.effective_user
+        chat = update.effective_chat
+        query = update.callback_query
+        member = chat.get_member(user.id)
+
+        if user:
+            if (
+                member.can_restrict_members
+                or member.status == "creator"
+                or user.id in SUDO_USERS
+            ):
+                return func(update, context, *args, **kwargs)
+            elif member.status == 'administrator':
+                query.answer("You're missing the `can_restrict_members` permission.")
+            else:
+                query.answer("You need to be admin with `can_restrict_users` permission to do this.")
+        elif DEL_CMDS and " " not in update.effective_message.text:
+            try:
+                update.effective_message.delete()
+            except:
+                pass
+
+    return u_can_restrict_noreply
 
 
 # Workaround for circular import with connection.py
