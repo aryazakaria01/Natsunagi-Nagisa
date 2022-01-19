@@ -5,7 +5,7 @@ authors: "@dank_as_fuck"
 
 # languages
 curr_chat_lang: "Hey. Your current language is {}, select the one you want from the buttons below"
-set_chat_lang: "Great, {} it is from now on!"
+set_chat_lang: "Okay, language {} from now on!"
 
 
 pm_start_text: |
