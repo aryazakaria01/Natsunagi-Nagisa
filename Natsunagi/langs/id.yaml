@@ -5,13 +5,13 @@ authors: "@Yoga_CIC"
 improved: "@Anomaliii"
 
 # languages
-curr_chat_lang: "Halo. Kamu menggunakan bahasa {}, pilih salah satu yang ingin anda gunakan"
-set_chat_lang: "Selamat, {} bahasa berhasil diganti!"
+curr_chat_lang: "Hai. Bahasa anda saat ini adalah {}, pilih bahasa yang anda inginkan melalui tombol dibawah ini"
+set_chat_lang: "Oke, bahasa {} mulai saat inii!"
 
 
 pm_start_text: |
    Halo {}, nama saya adalah {}!
-   Saya adalah robot manager grup dengan tema anime dan beberapa fitur canggih ;)
+   Saya adalah robot manager grup dengan tema anime dan beberapa fitur canggih
    Tekan tombol dibawah untuk mengetahui fungsi saya.
 
 grp_start_text: "Ya, saya online!"
