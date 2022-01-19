@@ -85,7 +85,7 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = f"""
-👋 Hai there, My name is [{dispatcher.bot.first_name}](https://telegra.ph/file/d58da3669dc9395a29cb8.jpg)
+👋 Hai there, My name is [{}](https://telegra.ph/file/d58da3669dc9395a29cb8.jpg)
 ──────────────────
 A powerful group management bot built to help you manage your group!
 ──────────────────
@@ -219,7 +219,8 @@ def start(update: Update, context: CallbackContext):
         else:
             first_name = update.effective_user.first_name
             update.effective_message.reply_text(
-                PM_START_TEXT,
+                PM_START_TEXT.format(
+                     escape_markdown(context.bot.first_name),
                 reply_markup=InlineKeyboardMarkup(buttons),
                 parse_mode=ParseMode.MARKDOWN,
                 timeout=60,
@@ -352,6 +353,35 @@ def help_button(update, context):
 
     except BadRequest:
         pass
+
+
+@natsunagicallback(pattern=r"natsunagi_")
+def natsunagi_callback_data(update, context):
+    query = update.callback_query
+    uptime = get_readable_time((time.time() - StartTime))
+    if query.data == "natsunagi_":
+        query.message.edit_text(
+            text="""CallBackQueriesData Here""",
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                 [
+                    InlineKeyboardButton(text="Go Back", callback_data="natsunagi_back")
+                 ]
+                ]
+            ),
+        )
+    elif query.data == "natsunagi_back":
+        first_name = update.effective_user.first_name
+        query.message.edit_text(
+                PM_START_TEXT.format(
+                    escape_markdown(context.bot.first_name),
+                reply_markup=InlineKeyboardMarkup(buttons),
+                parse_mode=ParseMode.MARKDOWN,
+                timeout=60,
+                disable_web_page_preview=False,
+        )
 
 
 @natsunagicmd(command="help")
