@@ -377,6 +377,7 @@ def natsunagi_callback_data(update, context):
         query.message.edit_text(
                 PM_START_TEXT.format(
                     escape_markdown(context.bot.first_name),
+                ),
                 reply_markup=InlineKeyboardMarkup(buttons),
                 parse_mode=ParseMode.MARKDOWN,
                 timeout=60,
