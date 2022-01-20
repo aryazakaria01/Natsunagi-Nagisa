@@ -4,6 +4,7 @@ import typing
 import zlib
 from typing import Dict, List
 from urllib.parse import urljoin, urlparse, urlunparse
+from asyncio import sleep
 from uuid import uuid4
 
 import base58
@@ -172,6 +173,14 @@ def build_keyboard_parser(bot, chat_id, buttons):
 
 def is_module_loaded(name):
     return name not in NO_LOAD
+
+
+def delete(delmsg, timer):
+    sleep(timer)
+    try:
+        delmsg.delete()
+    except:
+        return
 
 
 def upload_text(data: str) -> typing.Optional[str]:
