@@ -1,7 +1,7 @@
 # Language name in their native
 language: "English 🇺🇲"
 # name of people(s) who worked on this translation
-authors: "@dank_as_fuck"
+authors: "@FurryChemistry"
 
 # languages
 curr_chat_lang: "Hey. Your current language is {}, select the one you want from the buttons below"
@@ -9,29 +9,29 @@ set_chat_lang: "Okay, language {} from now on!"
 
 
 pm_start_text: |
-   Hi {}, my name is {}!
-   I am an Anime themed group management bot with some fun extras ;)
-   Try the buttons below to know how I work.
+   👋 Hai there, My name is [{}](https://telegra.ph/file/d58da3669dc9395a29cb8.jpg)
+   ──────────────────
+   A powerful group management bot built to help you manage your group!
+   ──────────────────
+   Click the /help button below to learn more how to use me.
+   """
    
-grp_start_text: "Well I'm alive!"
+grp_start_text: "👋 Hi Darling, I'm now alive"
+grp_started_text: "👋 Hi there, My name is {}. Nice to meet you"
 
 pm_help_text: |
-   Hello there! My name is *Yuii*.*.
-   I'm a modular group management bot with a few fun extras! Have a look at the following for an idea of some of
-   the things I can help you with.
-   *Main* commands available:
-    • /start: Starts me, can be used to check I'm alive or not.
-    • /help: PM's you this message.
-    • /language: Change bot language.
-    • /settings:
-      - in PM: will send you your settings for all supported modules.
-      - in a group: will redirect you to pm, with all that chat's settings.
-    Click on the buttons below to get documentation about specific modules!
+   ✨ I'm a modular group management bot with a few fun extras! Have a look at the following for an idea of some of the things I can help you with. Main commands available: 
 
-add_bot_to_group_btn: "Add Yuii"
+   × /start: starts me!
+   × /help: makes me send or redirect you to THIS message.
+   × /settings (group chat only): makes me show the current chat settings.
+   """
+
+pm_help_module_text: "Here is the help for the *{}* module :\n\n"
+add_bot_to_group_btn: "➗ Add Natsunagi To Your Group ➗"
 support_chat_link_btn: "Support"
 updates_channel_link_btn: "Updates"
-src_btn: "Source code"
+help_btn: "Get Help"
 
 admin_help: |
    • `/admins`*:* list of admins in the chat
