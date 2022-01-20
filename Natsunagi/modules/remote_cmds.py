@@ -512,7 +512,7 @@ def runmute(update: Update, context: CallbackContext):
             message.reply_text("Well damn, I can't unmute that user.")
 
 
-@natsunagicmd(command='recho')
+@natsunagicmd(command="recho")
 @dev_plus
 def recho(update: Update, context: CallbackContext):
     bot = context.bot
@@ -528,4 +528,6 @@ def recho(update: Update, context: CallbackContext):
         try:
             bot.sendMessage(int(chat_id), str(to_send))
         except TelegramError:
-            message.reply_text("Couldn't send the message. Perhaps I'm not part of that group?")
+            message.reply_text(
+                "Couldn't send the message. Perhaps I'm not part of that group?"
+            )

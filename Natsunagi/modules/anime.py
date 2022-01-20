@@ -10,7 +10,13 @@ import random
 from bs4 import BeautifulSoup
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update, Message
+from telegram import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    ParseMode,
+    Update,
+    Message,
+)
 from telegram.ext import CallbackContext, CallbackQueryHandler
 from telegram.utils.helpers import mention_html
 
@@ -264,7 +270,7 @@ def airing(update, context):
     variables = {"search": search_str[1]}
     response = requests.post(
         url, json={"query": airing_query, "variables": variables}
-     ).json()
+    ).json()
     if "errors" in response.keys():
         update.effective_message.reply_text("Anime not found!")
         return
@@ -964,43 +970,45 @@ def watchorderx(_, message):
     message.reply_text(f"Watchorder of {anime}: \n```{data}```")
 
 
-@pgram.on_callback_query(callbacks_in_filters('quotek'))
+@pgram.on_callback_query(callbacks_in_filters("quotek"))
 def callback_quotek(_, query):
     if query.data.split(":")[1] == "change":
         #         query.message.delete()
-        kk = requests.get('https://animechan.vercel.app/api/random').json()
-        anime = kk['anime']
-        quote = kk['quote']
-        character = kk['character']
+        kk = requests.get("https://animechan.vercel.app/api/random").json()
+        anime = kk["anime"]
+        quote = kk["quote"]
+        character = kk["character"]
         caption = f"""
 **Anime:** `{anime}`
 **Character:** `{character}`
 **Quote:** `{quote}`"""
-        query.message.edit(caption,
-                           reply_markup=InlineKeyboardMarkup([
-                               [
-                                   InlineKeyboardButton(
-                                       "Change", callback_data="quotek:change")
-                               ],
-                           ]))
+        query.message.edit(
+            caption,
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [InlineKeyboardButton("Change", callback_data="quotek:change")],
+                ]
+            ),
+        )
 
 
-@pgram.on_message(filters.command('aquote'))
+@pgram.on_message(filters.command("aquote"))
 def quote(_, message):
-    kk = requests.get('https://animechan.vercel.app/api/random').json()
-    anime = kk['anime']
-    quote = kk['quote']
-    character = kk['character']
+    kk = requests.get("https://animechan.vercel.app/api/random").json()
+    anime = kk["anime"]
+    quote = kk["quote"]
+    character = kk["character"]
     caption = f"""
 **Anime:** `{anime}`
 **Character:** `{character}`
 **Quote:** `{quote}`"""
-    pgram.send_message(message.chat.id,
-                     caption,
-                     reply_markup=InlineKeyboardMarkup([[
-                         InlineKeyboardButton("Change",
-                                              callback_data="quotek:change")
-                     ]]))
+    pgram.send_message(
+        message.chat.id,
+        caption,
+        reply_markup=InlineKeyboardMarkup(
+            [[InlineKeyboardButton("Change", callback_data="quotek:change")]]
+        ),
+    )
 
 
 __help__ = """
