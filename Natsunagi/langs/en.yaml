@@ -39,6 +39,8 @@ group_settings_text: "Click here to get this chat's settings, as well as yours."
 group_settings_button: "Settings"
 add_bot_to_group_btn: "➗ Add Natsunagi To Your Group ➗"
 support_chat_link_btn: "Support"
+back_button: "Go Back"
+go_back_home_button: "Go Home"
 updates_channel_link_btn: "Updates"
 help_btn: "Get Help"
 
