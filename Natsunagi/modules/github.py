@@ -8,6 +8,7 @@ import Natsunagi.modules.helper_funcs.git_api as api
 import Natsunagi.modules.sql.github_sql as sql
 
 from Natsunagi import pgram, OWNER_ID, DEV_USERS, DEMONS, dispatcher
+from Natsunagi.modules.sql.clear_cmd_sql import get_clearcmd
 from Natsunagi.utils.errors import capture_err
 from Natsunagi.modules.helper_funcs.filters import CustomFilters
 from Natsunagi.modules.helper_funcs.chat_status import user_admin
