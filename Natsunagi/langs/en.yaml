@@ -29,7 +29,7 @@ pm_help_text: |
 group_help_text: "Contact me in PM to get the list of possible commands."
 group_help_modules_text: "Contact me in PM to get help of {}"
 group_help_button: "Help"
-pm_settings_personal_text: "These are your current settings: "
+pm_settings_personal_text: "These are your current settings: \n\n"
 pm_settings_group_text: "Which module would you like to check {}'s settings for?"
 pm_help_module_text: "Here is the help for the {} module :\n\n"
 pm_settings_groups_text: "*{}* has the following settings for the *{}* module:\n\n"
