@@ -58,6 +58,11 @@ LOCK_TYPES = {
     "txt" : Filters.document.mime_type("text/plain"),
     "xml" : Filters.document.mime_type("application/xml"),
     "zip" : Filters.document.mime_type("application/zip"),
+    "docx" : Filters.document.mime_type("application/vnd.openxmlformats-officedocument.wordprocessingml.document"),
+    "py" : Filters.document.mime_type("text/x-python"),
+    "svg" : Filters.document.mime_type("image/svg+xml"),
+    "targz" : Filters.document.mime_type("application/x-compressed-tar"),
+    "wav" : Filters.document.mime_type("audio/x-wav"),
 }
 
 LOCK_CHAT_RESTRICTION = {
@@ -480,6 +485,11 @@ def build_lock_message(chat_id):
         locklist.append("txt = `{}`".format(locks.txt))
         locklist.append("xml = `{}`".format(locks.xml))
         locklist.append("zip = `{}`".format(locks.zip))
+        locklist.append("docx = `{}`".format(locks.docx))
+        locklist.append("py = `{}`".format(locks.py))
+        locklist.append("svg = `{}`".format(locks.svg))
+        locklist.append("targz = `{}`".format(locks.targz))
+        locklist.append("wav = `{}`".format(locks.wav))
     permissions = dispatcher.bot.get_chat(chat_id).permissions
     permslist.append("messages = `{}`".format(permissions.can_send_messages))
     permslist.append("media = `{}`".format(permissions.can_send_media_messages))
