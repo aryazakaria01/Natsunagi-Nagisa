@@ -7,7 +7,6 @@ authors: "@FurryChemistry"
 curr_chat_lang: "Hey. Your current language is {}, select the one you want from the buttons below"
 set_chat_lang: "Okay, language {} from now on!"
 
-
 pm_start_text: |
    👋 Hai there, My name is [{}](https://telegra.ph/file/d58da3669dc9395a29cb8.jpg)
    ──────────────────
@@ -27,7 +26,17 @@ pm_help_text: |
    × /settings (group chat only): makes me show the current chat settings.
    """
 
-pm_help_module_text: "Here is the help for the *{}* module :\n\n"
+group_help_text: "Contact me in PM to get the list of possible commands."
+group_help_modules_text: "Contact me in PM to get help of {}"
+group_help_button: "Help"
+pm_settings_personal_text: "These are your current settings: "
+pm_settings_group_text: "Which module would you like to check {}'s settings for?"
+pm_help_module_text: "Here is the help for the {} module :\n\n"
+pm_settings_groups_text: "*{}* has the following settings for the *{}* module:\n\n"
+pm_settings_groupss_text: |
+    Hi there! There are quite a few settings for {} - go ahead and pick what you're interested in.
+group_settings_text: "Click here to get this chat's settings, as well as yours."
+group_settings_button: "Settings"
 add_bot_to_group_btn: "➗ Add Natsunagi To Your Group ➗"
 support_chat_link_btn: "Support"
 updates_channel_link_btn: "Updates"
