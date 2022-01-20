@@ -26,6 +26,15 @@ class Permissions(BASE):
     button = Column(Boolean, default=False)
     egame = Column(Boolean, default=False)
     inline = Column(Boolean, default=False)
+    apk = Column(Boolean, default=False)
+    doc = Column(Boolean, default=False)
+    exe = Column(Boolean, default=False)
+    jpg = Column(Boolean, default=False)
+    mp3 = Column(Boolean, default=False)
+    pdf = Column(Boolean, default=False)
+    txt = Column(Boolean, default=False)
+    xml = Column(Boolean, default=False)
+    zip = Column(Boolean, default=False)
 
     def __init__(self, chat_id):
         self.chat_id = str(chat_id)  # ensure string
@@ -46,6 +55,15 @@ class Permissions(BASE):
         self.button = False
         self.egame = False
         self.inline = False
+        self.apk = False
+        self.doc = False
+        self.exe = False
+        self.jpg = False
+        self.mp3 = False
+        self.pdf = False
+        self.txt = False
+        self.xml = False
+        self.zip = False
 
     def __repr__(self):
         return "<Permissions for %s>" % self.chat_id
@@ -144,6 +162,24 @@ def update_lock(chat_id, lock_type, locked):
             curr_perm.egame = locked
         elif lock_type == "inline":
             curr_perm.inline = locked
+        elif lock_type == "apk":
+            curr_perm.apk = locked
+        elif lock_type == "doc":
+            curr_perm.doc = locked
+        elif lock_type == "exe":
+            curr_perm.exe = locked
+        elif lock_type == "jpg":
+            curr_perm.jpg = locked
+        elif lock_type == "mp3":
+            curr_perm.mp3 = locked
+        elif lock_type == "pdf":
+            curr_perm.pdf = locked
+        elif lock_type == "txt":
+            curr_perm.txt = locked
+        elif lock_type == "xml":
+            curr_perm.xml = locked
+        elif lock_type == "zip":
+            curr_perm.zip = locked
 
         SESSION.add(curr_perm)
         SESSION.commit()
@@ -213,6 +249,24 @@ def is_locked(chat_id, lock_type):
         return curr_perm.egame
     if lock_type == "inline":
         return curr_perm.inline
+    if lock_type == "apk":
+        return curr_perm.apk
+    if lock_type == "doc":
+        return curr_perm.doc
+    if lock_type == "exe":
+        return curr_perm.exe
+    if lock_type == "jpg":
+        return curr_perm.jpg
+    if lock_type == "mp3":
+        return curr_perm.mp3
+    if lock_type == "pdf":
+        return curr_perm.pdf
+    if lock_type == "txt":
+        return curr_perm.txt
+    if lock_type == "xml":
+        return curr_perm.xml
+    if lock_type == "zip":
+        return curr_perm.zip
 
 
 def is_restr_locked(chat_id, lock_type):
