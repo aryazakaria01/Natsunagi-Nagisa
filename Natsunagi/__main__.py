@@ -6,6 +6,8 @@ import time
 import re
 import sys
 import traceback
+
+from sqlalchemy.sql.expression import text, update
 from sys import argv
 from typing import Optional
 from telegram import __version__ as peler
@@ -32,6 +34,7 @@ from Natsunagi import (
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from Natsunagi.modules import ALL_MODULES
+from Natsunagi.modules.language import gs
 from Natsunagi.modules.helper_funcs.chat_status import is_user_admin
 from Natsunagi.modules.helper_funcs.misc import paginate_modules
 from Natsunagi.modules.helper_funcs.decorators import (
@@ -82,35 +85,6 @@ def get_readable_time(seconds: int) -> str:
     ping_time += ":".join(time_list)
 
     return ping_time
-
-
-PM_START_TEXT = """
-👋 Hai there, My name is [{}](https://telegra.ph/file/d58da3669dc9395a29cb8.jpg)
-──────────────────
-A powerful group management bot built to help you manage your group!
-──────────────────
-Click the /help button below to learn more how to use me.
-"""
-
-buttons = [
-    [
-        InlineKeyboardButton(text="Get Help", callback_data="help_back"),
-        InlineKeyboardButton(text="Support", url="https://t.me/NatsunagiCorporationGroup")
-    ],
-    [
-        InlineKeyboardButton(
-            text="➗ Add Natsunagi To Your Group ➗", url="t.me/NatsunagiProBot?startgroup=new"),
-    ],
-]
-
-
-HELP_STRINGS = """
-✨ I'm a modular group management bot with a few fun extras! Have a look at the following for an idea of some of the things I can help you with. Main commands available: 
-
-× /start: starts me!
-× /help: makes me send or redirect you to THIS message.
-× /settings (group chat only): makes me show the current chat settings.
-"""
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
  You can support the project by contacting @FurryChemistry \
@@ -191,7 +165,10 @@ def start(update: Update, context: CallbackContext):
     if update.effective_chat.type == "private":
         if len(args) >= 1:
             if args[0].lower() == "help":
-                send_help(update.effective_chat.id, HELP_STRINGS)
+                send_help(
+                    update.effective_chat.id, 
+                    text=gs(chat.id, "pm_help_text"),
+                )
             elif args[0].lower().startswith("ghelp_"):
                 mod = args[0].lower().split("_", 1)[1]
                 if not HELPABLE.get(mod, False):
@@ -219,16 +196,28 @@ def start(update: Update, context: CallbackContext):
         else:
             first_name = update.effective_user.first_name
             update.effective_message.reply_text(
-                PM_START_TEXT.format(
-                    escape_markdown(context.bot.first_name),
+                text=gs(chat.id, "pm_start_text").format(
+                    escape_markdown(dispatcher.bot.first_name),
+                )
+                reply_markup=InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton(text=gs(chat.id, "help_btn"), callback_data="help_back"),
+                            InlineKeyboardButton(text=gs(chat.id, "support_chat_link_btn"), url="https://t.me/NatsunagiCorporationGroup"),
+                        ],
+                        [
+                            InlineKeyboardButton(
+                                text=gs(chat.id, "add_bot_to_group_btn"), url="t.me/NatsunagiProBot?startgroup=new"),
+                        ]
+                    ]
                 ),
-                reply_markup=InlineKeyboardMarkup(buttons),
                 parse_mode=ParseMode.MARKDOWN,
                 timeout=60,
             )
     else:
         update.effective_message.reply_text(
-            f"👋 Hi there, My name is {dispatcher.bot.first_name}. Nice to meet you!"
+            text=gs(chat.id, "grp_started_text").format(
+                escape_markdown(dispatcher.bot.first_name),
         )
 
 
