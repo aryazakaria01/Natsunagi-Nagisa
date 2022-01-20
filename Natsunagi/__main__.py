@@ -294,7 +294,7 @@ def help_button(update, context):
         if mod_match:
             module = mod_match.group(1)
             text = (
-                "Here is the help for the *{}* module:\n".format(
+                gs(chat.id "pm_help_module_text").format(
                     HELPABLE[module].__mod_name__
                 )
                 + HELPABLE[module].__help__
@@ -304,7 +304,11 @@ def help_button(update, context):
                 parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(
-                    [[InlineKeyboardButton(text="Go Back", callback_data="help_back")]]
+                    [
+                        [
+                            InlineKeyboardButton(text=gs(chat.id, "back_button"), callback_data="help_back"),
+                        ]
+                    ]
                 ),
             )
 
@@ -358,7 +362,7 @@ def natsunagi_callback_data(update, context):
             reply_markup=InlineKeyboardMarkup(
                 [
                  [
-                    InlineKeyboardButton(text="Go Home", callback_data="natsunagi_back")
+                    InlineKeyboardButton(text=gs(chat.id, "go_back_home_button"), callback_data="natsunagi_back")
                  ]
                 ]
             ),
