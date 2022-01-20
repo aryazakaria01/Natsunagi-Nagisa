@@ -6,7 +6,7 @@ import traceback
 
 import pretty_errors
 import requests
-from telegram import(
+from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
     ParseMode,

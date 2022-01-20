@@ -436,9 +436,7 @@ def can_restrict(func):
 
         if chat.get_member(bot.id).can_restrict_members:
             return func(update, context, *args, **kwargs)
-        update.effective_message.reply_text(
-            cant_restrict, parse_mode=ParseMode.HTML
-        )
+        update.effective_message.reply_text(cant_restrict, parse_mode=ParseMode.HTML)
 
     return restrict_rights
 
@@ -504,7 +502,7 @@ def user_admin_no_reply(func):
         # chat = update.effective_chat
         query = update.callback_query
 
-        if user: 
+        if user:
             if is_user_admin(update, user.id):
                 return func(update, context, *args, **kwargs)
             else:
@@ -538,10 +536,12 @@ def user_can_restrict_no_reply(func):
                 or user.id in SUDO_USERS
             ):
                 return func(update, context, *args, **kwargs)
-            elif member.status == 'administrator':
+            elif member.status == "administrator":
                 query.answer("You're missing the `can_restrict_members` permission.")
             else:
-                query.answer("You need to be admin with `can_restrict_users` permission to do this.")
+                query.answer(
+                    "You need to be admin with `can_restrict_users` permission to do this."
+                )
         elif DEL_CMDS and " " not in update.effective_message.text:
             try:
                 update.effective_message.delete()

@@ -133,7 +133,8 @@ def kang(update, context):
                     [
                         [
                             InlineKeyboardButton(
-                                text="View Pack", url=f"https://t.me/addstickers/{packname}"
+                                text="View Pack",
+                                url=f"https://t.me/addstickers/{packname}",
                             )
                         ]
                     ]
@@ -163,7 +164,7 @@ def kang(update, context):
                         packnum,
                         png_sticker=open("kangsticker.png", "rb"),
                     )
-                    
+
                 elif e.message == "Sticker_png_dimensions":
                     im.save(kangsticker, "PNG")
                     context.bot.add_sticker_to_set(
@@ -176,7 +177,8 @@ def kang(update, context):
                         [
                             [
                                 InlineKeyboardButton(
-                                    text="View Pack", url=f"https://t.me/addstickers/{packname}"
+                                    text="View Pack",
+                                    url=f"https://t.me/addstickers/{packname}",
                                 )
                             ]
                         ]
@@ -197,7 +199,8 @@ def kang(update, context):
                         [
                             [
                                 InlineKeyboardButton(
-                                    text="View Pack", url=f"https://t.me/addstickers/{packname}"
+                                    text="View Pack",
+                                    url=f"https://t.me/addstickers/{packname}",
                                 )
                             ]
                         ]
@@ -244,7 +247,8 @@ def kang(update, context):
                     [
                         [
                             InlineKeyboardButton(
-                                text="View Pack", url=f"https://t.me/addstickers/{packname}"
+                                text="View Pack",
+                                url=f"https://t.me/addstickers/{packname}",
                             )
                         ]
                     ]
@@ -268,7 +272,7 @@ def kang(update, context):
                         packnum,
                         tgs_sticker=open("kangsticker.tgs", "rb"),
                     )
-                    
+
                 elif e.message == "Invalid sticker emojis":
                     msg.reply_text("Invalid emoji(s).")
                 elif e.message == "Internal Server Error: sticker set not found (500)":
@@ -276,7 +280,8 @@ def kang(update, context):
                         [
                             [
                                 InlineKeyboardButton(
-                                    text="View Pack", url=f"https://t.me/addstickers/{packname}"
+                                    text="View Pack",
+                                    url=f"https://t.me/addstickers/{packname}",
                                 )
                             ]
                         ]
@@ -336,7 +341,7 @@ def kang(update, context):
                 ]
             )
             msg.reply_text(
-                "Your Sticker Pack has been created!\n\n" 
+                "Your Sticker Pack has been created!\n\n"
                 "You can now reply to images, stickers and animated sticker with <code>/steal</code> or <code>/kang</code> to add them to your pack\n\n"
                 "Send <code>/stickers</code> to find sticker pack.",
                 reply_markup=edited_keyboard,
@@ -358,7 +363,7 @@ def kang(update, context):
                     packnum,
                     png_sticker=open("kangsticker.png", "rb"),
                 )
-                
+
             elif e.message == "Sticker_png_dimensions":
                 im.save(kangsticker, "PNG")
                 context.bot.add_sticker_to_set(
@@ -371,7 +376,8 @@ def kang(update, context):
                     [
                         [
                             InlineKeyboardButton(
-                                text="View Pack", url=f"https://t.me/addstickers/{packname}"
+                                text="View Pack",
+                                url=f"https://t.me/addstickers/{packname}",
                             )
                         ]
                     ]
@@ -480,7 +486,8 @@ def makepack_internal(
                     [
                         [
                             InlineKeyboardButton(
-                                text="Unblock", url=f"https://t.me/{context.bot.username}"
+                                text="Unblock",
+                                url=f"https://t.me/{context.bot.username}",
                             )
                         ]
                     ]
@@ -734,6 +741,7 @@ async def drawText(image_path, text):
     webp_file = os.path.join(image_name)
     img.save(webp_file, "webp")
     return webp_file
+
 
 __mod_name__ = "Stickers"
 

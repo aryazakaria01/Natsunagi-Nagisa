@@ -11,7 +11,10 @@ from telegram.utils.helpers import mention_html
 
 from Natsunagi import dispatcher
 from Natsunagi.modules.helper_funcs.decorators import natsunagicallback
-from Natsunagi.modules.helper_funcs.chat_status import user_can_restrict_no_reply, bot_admin
+from Natsunagi.modules.helper_funcs.chat_status import (
+    user_can_restrict_no_reply,
+    bot_admin,
+)
 from Natsunagi.modules.log_channel import loggable
 
 
@@ -60,11 +63,11 @@ def approve_joinreq(update: Update, context: CallbackContext) -> str:
             parse_mode="HTML",
         )
         logmsg = (
-                f"<b>{html.escape(chat.title)}:</b>\n"
-                f"#JOIN_REQUEST\n"
-                f"Approved\n"
-                f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
-                f"<b>User:</b> {mention_html(user_id, html.escape(user.first_name))}\n"
+            f"<b>{html.escape(chat.title)}:</b>\n"
+            f"#JOIN_REQUEST\n"
+            f"Approved\n"
+            f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
+            f"<b>User:</b> {mention_html(user_id, html.escape(user.first_name))}\n"
         )
         return logmsg
     except Exception as e:
@@ -91,11 +94,11 @@ def decline_joinreq(update: Update, context: CallbackContext) -> str:
             parse_mode="HTML",
         )
         logmsg = (
-                f"<b>{html.escape(chat.title)}:</b>\n"
-                f"#JOIN_REQUEST\n"
-                f"Declined\n"
-                f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
-                f"<b>User:</b> {mention_html(user_id, html.escape(user.first_name))}\n"
+            f"<b>{html.escape(chat.title)}:</b>\n"
+            f"#JOIN_REQUEST\n"
+            f"Declined\n"
+            f"<b>Admin:</b> {mention_html(user.id, html.escape(user.first_name))}\n"
+            f"<b>User:</b> {mention_html(user_id, html.escape(user.first_name))}\n"
         )
         return logmsg
     except Exception as e:

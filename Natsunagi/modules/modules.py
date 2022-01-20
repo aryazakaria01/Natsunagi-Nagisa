@@ -178,4 +178,5 @@ def listmodules(update: Update, context: CallbackContext):
     module_list = "Following modules are loaded : \n\n" + "".join(module_list)
     message.reply_text(module_list, parse_mode=ParseMode.HTML)
 
+
 __mod_name__ = "Modules"

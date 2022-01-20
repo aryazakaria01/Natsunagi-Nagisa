@@ -95,11 +95,15 @@ Click the /help button below to learn more how to use me.
 buttons = [
     [
         InlineKeyboardButton(text="Get Help", callback_data="help_back"),
-        InlineKeyboardButton(text="Support", url="https://t.me/NatsunagiCorporationGroup")
+        InlineKeyboardButton(
+            text="Support", url="https://t.me/NatsunagiCorporationGroup"
+        ),
     ],
     [
         InlineKeyboardButton(
-            text="➗ Add Natsunagi To Your Group ➗", url="t.me/NatsunagiProBot?startgroup=new"),
+            text="➗ Add Natsunagi To Your Group ➗",
+            url="t.me/NatsunagiProBot?startgroup=new",
+        ),
     ],
 ]
 
@@ -365,23 +369,19 @@ def natsunagi_callback_data(update, context):
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
-                [
-                 [
-                    InlineKeyboardButton(text="Go Home", callback_data="natsunagi_back")
-                 ]
-                ]
+                [[InlineKeyboardButton(text="Go Home", callback_data="natsunagi_back")]]
             ),
         )
     elif query.data == "natsunagi_back":
         first_name = update.effective_user.first_name
         query.message.edit_text(
-                PM_START_TEXT.format(
-                    escape_markdown(context.bot.first_name),
-                ),
-                reply_markup=InlineKeyboardMarkup(buttons),
-                parse_mode=ParseMode.MARKDOWN,
-                timeout=60,
-                disable_web_page_preview=False,
+            PM_START_TEXT.format(
+                escape_markdown(context.bot.first_name),
+            ),
+            reply_markup=InlineKeyboardMarkup(buttons),
+            parse_mode=ParseMode.MARKDOWN,
+            timeout=60,
+            disable_web_page_preview=False,
         )
 
 
@@ -673,7 +673,9 @@ def main():
     dispatcher.add_error_handler(error_callback)
 
     if WEBHOOK:
-        LOGGER.info(f"{dispatcher.bot.first_name} started, Using webhook. | BOT: [@{dispatcher.bot.username}]")
+        LOGGER.info(
+            f"{dispatcher.bot.first_name} started, Using webhook. | BOT: [@{dispatcher.bot.username}]"
+        )
         updater.start_webhook(listen="127.0.0.1", port=PORT, url_path=TOKEN)
 
         if CERT_PATH:
@@ -682,7 +684,9 @@ def main():
             updater.bot.set_webhook(url=URL + TOKEN)
 
     else:
-        LOGGER.info(f"{dispatcher.bot.first_name} started, Using long polling. | BOT: [@{dispatcher.bot.username}]")
+        LOGGER.info(
+            f"{dispatcher.bot.first_name} started, Using long polling. | BOT: [@{dispatcher.bot.username}]"
+        )
         updater.start_polling(timeout=15, read_latency=4, drop_pending_updates=True)
 
     if len(argv) not in (1, 3, 4):
@@ -694,7 +698,9 @@ def main():
 
 
 if __name__ == "__main__":
-    LOGGER.info(f"{dispatcher.bot.first_name} successfully loaded modules: " + str(ALL_MODULES))
+    LOGGER.info(
+        f"{dispatcher.bot.first_name} successfully loaded modules: " + str(ALL_MODULES)
+    )
     telethn.start(bot_token=TOKEN)
     pgram.start()
     main()

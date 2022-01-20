@@ -298,6 +298,7 @@ def is_locked(chat_id, lock_type):
     if lock_type == "wav":
         return curr_perm.wav
 
+
 def is_restr_locked(chat_id, lock_type):
     curr_restr = SESSION.query(Restrictions).get(str(chat_id))
     SESSION.close()
