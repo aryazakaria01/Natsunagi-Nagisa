@@ -426,11 +426,11 @@ def checkfw(update: Update, context: CallbackContext):
             if page.find("latest").text.strip():
                 msg = f'*Latest released firmware for {model.upper()} and {csc.upper()} is:*\n'
                 pda, csc, phone = page.find("latest").text.strip().split('/')
-                msg += f'• PDA: `{pda}`\n• CSC: `{csc}`\n'
+                msg += f'× PDA: `{pda}`\n× CSC: `{csc}`\n'
                 if phone:
-                    msg += f'• Phone: `{phone}`\n'
+                    msg += f'× Phone: `{phone}`\n'
                 if os:
-                    msg += f'• Android: `{os}`\n'
+                    msg += f'× Android: `{os}`\n'
                 msg += ''
             else:
                 msg = f'*No public release found for {model.upper()} and {csc.upper()}.*\n\n'
@@ -481,11 +481,11 @@ def getfw(update: Update, context: CallbackContext):
             if page.find("latest").text.strip():
                 pda, csc2, phone = page.find("latest").text.strip().split('/')
                 msg += f'*Latest firmware for {model.upper()} and {csc.upper()} is:*\n'
-                msg += f'• PDA: `{pda}`\n• CSC: `{csc2}`\n'
+                msg += f'× PDA: `{pda}`\n× CSC: `{csc2}`\n'
                 if phone:
-                    msg += f'• Phone: `{phone}`\n'
+                    msg += f'× Phone: `{phone}`\n'
                 if os:
-                    msg += f'• Android: `{os}`\n'
+                    msg += f'× Android: `{os}`\n'
             msg += '\n'
             msg += f'*Downloads for {model.upper()} and {csc.upper()}*\n'
             btn = [[InlineKeyboardButton(text=f"samfrew.com", url = url1)]]
