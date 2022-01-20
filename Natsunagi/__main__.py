@@ -282,6 +282,7 @@ def error_callback(update: Update, context: CallbackContext):
 @natsunagicallback(pattern=r"help_")
 def help_button(update, context):
     query = update.callback_query
+    chat = update.effective_chat
     mod_match = re.match(r"help_module\((.+?)\)", query.data)
     prev_match = re.match(r"help_prev\((.+?)\)", query.data)
     next_match = re.match(r"help_next\((.+?)\)", query.data)
@@ -310,7 +311,7 @@ def help_button(update, context):
         elif prev_match:
             curr_page = int(prev_match.group(1))
             query.message.edit_text(
-                text=HELP_STRINGS,
+                text=gs(chat.id, "pm_help_text"),
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(curr_page - 1, HELPABLE, "help")
@@ -320,7 +321,7 @@ def help_button(update, context):
         elif next_match:
             next_page = int(next_match.group(1))
             query.message.edit_text(
-                text=HELP_STRINGS,
+                text=gs(chat.id, "pm_help_text"),
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(next_page + 1, HELPABLE, "help")
@@ -329,7 +330,7 @@ def help_button(update, context):
 
         elif back_match:
             query.message.edit_text(
-                text=HELP_STRINGS,
+                text=gs(chat.id, "pm_help_text"),
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(0, HELPABLE, "help")
@@ -347,6 +348,7 @@ def help_button(update, context):
 @natsunagicallback(pattern=r"natsunagi_")
 def natsunagi_callback_data(update, context):
     query = update.callback_query
+    chat = udpate.effective_chat
     uptime = get_readable_time((time.time() - StartTime))
     if query.data == "natsunagi_":
         query.message.edit_text(
@@ -364,7 +366,7 @@ def natsunagi_callback_data(update, context):
     elif query.data == "natsunagi_back":
         first_name = update.effective_user.first_name
         query.message.edit_text(
-                PM_START_TEXT.format(
+                text=gs(chat.id, "pm_start_text").format(
                     escape_markdown(context.bot.first_name),
                 ),
                 reply_markup=InlineKeyboardMarkup(buttons),
@@ -384,7 +386,7 @@ def get_help(update: Update, context: CallbackContext):
         if len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
             module = args[1].lower()
             update.effective_message.reply_text(
-                f"Contact me in PM to get help of {module.capitalize()}",
+                text=gs(chat.id, "group_help_modules_text").format(html.escape(module.capitalize()),
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
@@ -400,7 +402,7 @@ def get_help(update: Update, context: CallbackContext):
             )
             return
         update.effective_message.reply_text(
-            "Contact me in PM to get the list of possible commands.",
+            text=gs(chat.id, "group_help_text"),
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -417,7 +419,7 @@ def get_help(update: Update, context: CallbackContext):
     elif len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
         module = args[1].lower()
         text = (
-            "Here is the available help for the *{}* module:\n".format(
+            text=gs(chat.id, "pm_help_module_text").format(
                 HELPABLE[module].__mod_name__
             )
             + HELPABLE[module].__help__
@@ -443,7 +445,7 @@ def send_settings(chat_id, user_id, user=False):
             )
             dispatcher.bot.send_message(
                 user_id,
-                "These are your current settings:" + "\n\n" + settings,
+                text=gs(chat_id, "pm_settings_personal_text") + settings,
                 parse_mode=ParseMode.MARKDOWN,
             )
 
@@ -459,7 +461,7 @@ def send_settings(chat_id, user_id, user=False):
             chat_name = dispatcher.bot.getChat(chat_id).title
             dispatcher.bot.send_message(
                 user_id,
-                text="Which module would you like to check {}'s settings for?".format(
+                text=gs(chat_id, "pm_settings_group_text").format(
                     chat_name
                 ),
                 reply_markup=InlineKeyboardMarkup(
