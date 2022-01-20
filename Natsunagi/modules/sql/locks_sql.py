@@ -35,6 +35,11 @@ class Permissions(BASE):
     txt = Column(Boolean, default=False)
     xml = Column(Boolean, default=False)
     zip = Column(Boolean, default=False)
+    docx = Column(Boolean, default=False)
+    py = Column(Boolean, default=False)
+    svg = Column(Boolean, default=False)
+    targz = Column(Boolean, default=False)
+    wav = Column(Boolean, default=False)
 
     def __init__(self, chat_id):
         self.chat_id = str(chat_id)  # ensure string
@@ -64,6 +69,11 @@ class Permissions(BASE):
         self.txt = False
         self.xml = False
         self.zip = False
+        self.docx = False
+        self.py = False
+        self.svg = False
+        self.targz = False
+        self.wav = False
 
     def __repr__(self):
         return "<Permissions for %s>" % self.chat_id
@@ -180,6 +190,16 @@ def update_lock(chat_id, lock_type, locked):
             curr_perm.xml = locked
         elif lock_type == "zip":
             curr_perm.zip = locked
+        elif lock_type == "docx":
+            curr_perm.doc = locked
+        elif lock_type == "py":
+            curr_perm.py = locked
+        elif lock_type == "svg":
+            curr_perm.svg = locked
+        elif lock_type == "targz":
+            curr_perm.tar = locked
+        elif lock_type == "wav":
+            curr_perm.wav = locked
 
         SESSION.add(curr_perm)
         SESSION.commit()
@@ -267,7 +287,16 @@ def is_locked(chat_id, lock_type):
         return curr_perm.xml
     if lock_type == "zip":
         return curr_perm.zip
-
+    if lock_type == "docx":
+        return curr_perm.docx
+    if lock_type == "py":
+        return curr_perm.py
+    if lock_type == "svg":
+        return curr_perm.svg
+    if lock_type == "targz":
+        return curr_perm.targz
+    if lock_type == "wav":
+        return curr_perm.wav
 
 def is_restr_locked(chat_id, lock_type):
     curr_restr = SESSION.query(Restrictions).get(str(chat_id))
