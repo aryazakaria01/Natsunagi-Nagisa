@@ -46,8 +46,8 @@ from telegram.ext import (
 )
 from telegram.utils.helpers import escape_markdown, mention_html, mention_markdown
 import Natsunagi.modules.sql.log_channel_sql as logsql
-from ..modules.helper_funcs.anonymous import user_admin, AdminPerms
-
+from Natsunagi.modules.helper_funcs.anonymous import user_admin, AdminPerms
+from Natsunagi.modules.helper_funcs.decorators import natsunagicmd, natsunagimsg, natsunagicallback
 VALID_WELCOME_FORMATTERS = [
     "first",
     "last",
@@ -72,6 +72,7 @@ ENUM_FUNC_MAP = {
 
 VERIFIED_USER_WAITLIST = {}
 CAPTCHA_ANS_DICT = {}
+WELCOME_GROUP = 19
 
 from multicolorcaptcha import CaptchaGenerator
 
@@ -162,6 +163,7 @@ def send(update, message, keyboard, backup_message):
     return msg
 
 
+@natsunagimsg((Filters.status_update.new_chat_members), group=WELCOME_GROUP)
 @loggable
 def new_member(update: Update, context: CallbackContext):  # sourcery no-metrics
     bot, job_queue = context.bot, context.job_queue
@@ -563,6 +565,7 @@ def check_not_bot(member: User, chat_id: int, message_id: int, context: Callback
                              chat_id=chat_id, parse_mode=ParseMode.HTML)
 
 
+@natsunagimsg((Filters.status_update.left_chat_member), group=WELCOME_GROUP)
 def left_member(update: Update, context: CallbackContext):  # sourcery no-metrics
     bot = context.bot
     chat = update.effective_chat
@@ -672,6 +675,7 @@ def left_member(update: Update, context: CallbackContext):  # sourcery no-metric
             )
 
 
+@natsunagicmd(command="welcome")
 @u_admin
 def welcome(update: Update, context: CallbackContext):
     args = context.args
@@ -734,6 +738,7 @@ def welcome(update: Update, context: CallbackContext):
             )
 
 
+@natsunagicmd(command="goodbye")
 @u_admin
 def goodbye(update: Update, context: CallbackContext):
     args = context.args
@@ -784,6 +789,7 @@ def goodbye(update: Update, context: CallbackContext):
             )
 
 
+@natsunagicmd(command="setwelcome")
 @user_admin(AdminPerms.CAN_CHANGE_INFO)
 @loggable
 def set_welcome(update: Update, context: CallbackContext) -> str:
@@ -808,6 +814,7 @@ def set_welcome(update: Update, context: CallbackContext) -> str:
     )
 
 
+@natsunagicmd(command="resetwelcome")
 @user_admin(AdminPerms.CAN_CHANGE_INFO)
 @loggable
 def reset_welcome(update: Update, context: CallbackContext) -> str:
@@ -827,6 +834,7 @@ def reset_welcome(update: Update, context: CallbackContext) -> str:
     )
 
 
+@natsunagicmd(command="setgoodbye")
 @user_admin(AdminPerms.CAN_CHANGE_INFO)
 @loggable
 def set_goodbye(update: Update, context: CallbackContext) -> str:
@@ -849,6 +857,7 @@ def set_goodbye(update: Update, context: CallbackContext) -> str:
     )
 
 
+@natsunagicmd(command="resetgoodbye")
 @user_admin(AdminPerms.CAN_CHANGE_INFO)
 @loggable
 def reset_goodbye(update: Update, context: CallbackContext) -> str:
@@ -868,6 +877,7 @@ def reset_goodbye(update: Update, context: CallbackContext) -> str:
     )
 
 
+@natsunagicmd(command="welcomemute")
 @user_admin(AdminPerms.CAN_CHANGE_INFO)
 @loggable
 def welcomemute(update: Update, context: CallbackContext) -> str:
@@ -937,6 +947,7 @@ def welcomemute(update: Update, context: CallbackContext) -> str:
         return ""
 
 
+@natsunagicmd(command="cleanwelcome")
 @user_admin(AdminPerms.CAN_CHANGE_INFO)
 @loggable
 def clean_welcome(update: Update, context: CallbackContext) -> str:
@@ -979,6 +990,7 @@ def clean_welcome(update: Update, context: CallbackContext) -> str:
         return ""
 
 
+@natsunagicmd(command="cleanservice")
 @user_admin(AdminPerms.CAN_CHANGE_INFO)
 def cleanservice(update: Update, context: CallbackContext) -> str:
     args = context.args
@@ -1012,6 +1024,7 @@ def cleanservice(update: Update, context: CallbackContext) -> str:
         )
 
 
+@natsunagicallback(pattern=r"user_join_")
 def user_button(update: Update, context: CallbackContext):
     chat = update.effective_chat
     user = update.effective_user
@@ -1075,6 +1088,7 @@ def user_button(update: Update, context: CallbackContext):
         query.answer(text="You're not allowed to do this!")
 
 
+@natsunagicallback(pattern=r"user_captchajoin_\([\d\-]+,\d+\)_\(\d{4}\)")
 def user_captcha_button(update: Update, context: CallbackContext):
     # sourcery no-metrics
     chat = update.effective_chat
@@ -1158,6 +1172,37 @@ def user_captcha_button(update: Update, context: CallbackContext):
         query.answer(text="You're not allowed to do this!")
 
 
+@natsunagicmd(command="lockgroup", pass_args=True)
+@u_admin(AdminPerms.CAN_CHANGE_INFO)
+def setDefense(update: Update, context: CallbackContext):
+    bot = context.bot
+    args = context.args
+    chat = update.effective_chat
+    msg = update.effective_message
+    u = update.effective_user
+    user = res_user(u, msg.message_id, chat)
+    stat, time, acttime = sql.getDefenseStatus(chat.id)
+    if len(args) != 1:
+        text = "Give me some arguments to choose a setting! on/off, yes/no!\n\nYour current setting is: {}\nWhen True, every user that joins will be auto kicked.""".format(stat)
+        msg.reply_text(text, parse_mode=ParseMode.HTML)
+        return
+    param = args[0]
+    if param in ["on", "true"]:
+        sql.setDefenseStatus(chat.id, True, time, acttime)
+        msg.reply_text(
+            "Lockgroup mode has been turned on, this group is under attack. Every user that now joins will be auto kicked."
+        )
+    elif param in ["off", "false"]:
+        sql.setDefenseStatus(chat.id, False, time, acttime)
+        msg.reply_text(
+            "Lockgroup mode has been turned off, group is no longer under attack."
+        )
+    else:
+        msg.reply_text("Invalid status to set!")  #on or off ffs
+
+    return
+
+
 WELC_HELP_TXT = (
     "Your group's welcome/goodbye messages can be personalised in multiple ways. If you want the messages"
     " to be individually generated, like the default welcome message is, you can use *these* variables:\n"
@@ -1195,11 +1240,13 @@ WELC_MUTE_HELP_TXT = (
 )
 
 
+@natsunagicmd(command="welcomehelp")
 @u_admin
 def welcome_help(update: Update, context: CallbackContext):
     update.effective_message.reply_text(WELC_HELP_TXT, parse_mode=ParseMode.MARKDOWN)
 
 
+@natsunagicmd(command="welcomemutehelp")
 @u_admin
 def welcome_mute_help(update: Update, context: CallbackContext):
     update.effective_message.reply_text(
@@ -1231,101 +1278,51 @@ def __chat_settings__(chat_id, user_id):
         "It's goodbye preference is `{}`.".format(welcome_pref, goodbye_pref)
     )
 
-__help__ = """
-*Admins only:*
-× `/welcome <on/off>`*:* enable/disable welcome messages.
-× `/welcome`*:* shows current welcome settings.
-× `/welcome noformat`*:* shows current welcome settings, without the formatting - useful to recycle your welcome messages!
-× `/goodbye`*:* same usage and args as `/welcome`.
-× `/setwelcome <sometext>`*:* set a custom welcome message. If used replying to media, uses that media.
-× `/setgoodbye <sometext>`*:* set a custom goodbye message. If used replying to media, uses that media.
-× `/resetwelcome`*:* reset to the default welcome message.
-× `/resetgoodbye`*:* reset to the default goodbye message.
-× `/cleanwelcome <on/off>`*:* On new member, try to delete the previous welcome message to avoid spamming the chat.
-× `/welcomemutehelp`*:* gives information about welcome mutes.
-× `/cleanservice <on/off`*:* deletes telegrams welcome/left service messages.
 
-*Example:*
-user joined chat, user left chat.
+from Natsunagi.modules.language import gs
 
-*Welcome markdown:*
-× `/welcomehelp`*:* view more formatting information for custom welcome/goodbye messages.
-"""
 
-NEW_MEM_HANDLER = MessageHandler(
-    Filters.status_update.new_chat_members, new_member, run_async=True
-)
-LEFT_MEM_HANDLER = MessageHandler(
-    Filters.status_update.left_chat_member, left_member, run_async=True
-)
-WELC_PREF_HANDLER = CommandHandler(
-    "welcome", welcome, filters=Filters.chat_type.groups, run_async=True
-)
-GOODBYE_PREF_HANDLER = CommandHandler(
-    "goodbye", goodbye, filters=Filters.chat_type.groups, run_async=True
-)
-SET_WELCOME = CommandHandler(
-    "setwelcome", set_welcome, filters=Filters.chat_type.groups, run_async=True
-)
-SET_GOODBYE = CommandHandler(
-    "setgoodbye", set_goodbye, filters=Filters.chat_type.groups, run_async=True
-)
-RESET_WELCOME = CommandHandler(
-    "resetwelcome", reset_welcome, filters=Filters.chat_type.groups, run_async=True
-)
-RESET_GOODBYE = CommandHandler(
-    "resetgoodbye", reset_goodbye, filters=Filters.chat_type.groups, run_async=True
-)
-WELCOMEMUTE_HANDLER = CommandHandler(
-    "welcomemute", welcomemute, filters=Filters.chat_type.groups, run_async=True
-)
-CLEAN_SERVICE_HANDLER = CommandHandler(
-    "cleanservice", cleanservice, filters=Filters.chat_type.groups, run_async=True
-)
-CLEAN_WELCOME = CommandHandler(
-    "cleanwelcome", clean_welcome, filters=Filters.chat_type.groups, run_async=True
-)
-WELCOME_HELP = CommandHandler("welcomehelp", welcome_help, run_async=True)
-WELCOME_MUTE_HELP = CommandHandler("welcomemutehelp", welcome_mute_help, run_async=True)
-BUTTON_VERIFY_HANDLER = CallbackQueryHandler(
-    user_button, pattern=r"user_join_", run_async=True
-)
-CAPTCHA_BUTTON_VERIFY_HANDLER = CallbackQueryHandler(
-    user_captcha_button, pattern=r"user_captchajoin_\([\d\-]+,\d+\)_\(\d{4}\)", run_async=True
-)
+def wlc_m_help(update: Update, context: CallbackContext):
+    update.effective_message.reply_text(
+        gs(update.effective_chat.id, "welcome_mutes"),
+        parse_mode=ParseMode.HTML,
+    )
 
-dispatcher.add_handler(NEW_MEM_HANDLER)
-dispatcher.add_handler(LEFT_MEM_HANDLER)
-dispatcher.add_handler(WELC_PREF_HANDLER)
-dispatcher.add_handler(GOODBYE_PREF_HANDLER)
-dispatcher.add_handler(SET_WELCOME)
-dispatcher.add_handler(SET_GOODBYE)
-dispatcher.add_handler(RESET_WELCOME)
-dispatcher.add_handler(RESET_GOODBYE)
-dispatcher.add_handler(CLEAN_WELCOME)
-dispatcher.add_handler(WELCOME_HELP)
-dispatcher.add_handler(WELCOMEMUTE_HANDLER)
-dispatcher.add_handler(CLEAN_SERVICE_HANDLER)
-dispatcher.add_handler(BUTTON_VERIFY_HANDLER)
-dispatcher.add_handler(WELCOME_MUTE_HELP)
-dispatcher.add_handler(CAPTCHA_BUTTON_VERIFY_HANDLER)
+
+def wlc_fill_help(update: Update, context: CallbackContext):
+    update.effective_message.reply_text(
+        gs(update.effective_chat.id, "welcome_help"),
+        parse_mode=ParseMode.HTML,
+    )
+
+
+@natsunagicallback(pattern=r"wlc_help_")
+def fmt_help(update: Update, context: CallbackContext):
+    query = update.callback_query
+    bot = context.bot
+    help_info = query.data.split("wlc_help_")[1]
+    if help_info == "m":
+        help_text = gs(update.effective_chat.id, "welcome_mutes")
+    elif help_info == "h":
+        help_text = gs(update.effective_chat.id, "welcome_help")#.format(escape_markdown(dispatcher.bot.username))) 
+    query.message.edit_text(
+        text=help_text,
+        parse_mode=ParseMode.HTML,
+        reply_markup=InlineKeyboardMarkup(
+            [[InlineKeyboardButton(text="Back", callback_data=f"help_module({__mod_name__.lower()})"),
+            InlineKeyboardButton(text='Support', url="https://t.me/NatsunagiCorporationGroup")]]
+        ),
+    )
+    bot.answer_callback_query(query.id)
+
+
+def get_help(chat):
+    return [gs(chat, "greetings_help"),
+    [
+        InlineKeyboardButton(text="Welcome Mutes", callback_data="wlc_help_m"),
+        InlineKeyboardButton(text="Welcome Formatting", callback_data="wlc_help_h")
+    ]
+]
+
 
 __mod_name__ = "Greetings"
-__command_list__ = []
-__handlers__ = [
-    NEW_MEM_HANDLER,
-    LEFT_MEM_HANDLER,
-    WELC_PREF_HANDLER,
-    GOODBYE_PREF_HANDLER,
-    SET_WELCOME,
-    SET_GOODBYE,
-    RESET_WELCOME,
-    RESET_GOODBYE,
-    CLEAN_WELCOME,
-    WELCOME_HELP,
-    WELCOMEMUTE_HANDLER,
-    CLEAN_SERVICE_HANDLER,
-    BUTTON_VERIFY_HANDLER,
-    CAPTCHA_BUTTON_VERIFY_HANDLER,
-    WELCOME_MUTE_HELP,
-]
