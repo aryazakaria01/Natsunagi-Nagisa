@@ -402,8 +402,11 @@ def get_help(update: Update, context: CallbackContext):
     if chat.type != chat.PRIVATE:
         if len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
             module = args[1].lower()
+            moduls = module.capitalize()
             update.effective_message.reply_text(
-                text=gs(chat.id, "group_help_modules_text").format(html.escape(module.capitalize()),
+                text=gs(chat.id, "group_help_modules_text").format(
+                    escape_markdown(moduls),
+                    ),
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
