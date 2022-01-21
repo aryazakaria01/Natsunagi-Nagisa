@@ -197,9 +197,10 @@ def start(update: Update, context: CallbackContext):
         else:
             first_name = update.effective_user.first_name
             update.effective_message.reply_text(
-                text=gs(chat.id, "pm_start_text").format(
+                    text=gs(chat.id, "pm_start_text").format(
                     escape_markdown(dispatcher.bot.first_name),
-                )
+                    OWNER_ID,
+                ),
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
