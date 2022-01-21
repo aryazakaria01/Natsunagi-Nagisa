@@ -220,6 +220,8 @@ def start(update: Update, context: CallbackContext):
         update.effective_message.reply_text(
             text=gs(chat.id, "grp_started_text").format(
                 escape_markdown(dispatcher.bot.first_name),
+                ),
+            parse_mode=ParseMode.MARKDOWN
         )
 
 
