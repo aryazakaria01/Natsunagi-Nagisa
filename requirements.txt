@@ -41,7 +41,6 @@ wget
 lyricsgenius
 envparse
 cryptg
-aioredis
 odmantic
 pykeyboard
 aiofiles
@@ -112,7 +111,6 @@ configparser
 gitpython
 prettytable
 pytz
-qrcode
 randomstuff.py
 setuptools
 urlextract
@@ -126,3 +124,4 @@ APScheduler
 pycryptodome
 base58
 pytimeparser
+carbonnow
