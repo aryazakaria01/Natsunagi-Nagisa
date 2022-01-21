@@ -442,7 +442,7 @@ def get_help(update: Update, context: CallbackContext):
             "Here is the available help for the *{}* module:\n".format(
                 HELPABLE[module].__mod_name__
             )
-            + HELPABLE[module].helps
+            + HELPABLE[module].__help__
         )
         send_help(
             chat.id,
