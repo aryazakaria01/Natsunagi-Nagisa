@@ -160,6 +160,7 @@ def test(update: Update, context: CallbackContext):
 
 @natsunagicmd(command="start", pass_args=True)
 def start(update: Update, context: CallbackContext):
+    chat = update.effective_chat
     args = context.args
     uptime = get_readable_time((time.time() - StartTime))
     if update.effective_chat.type == "private":
