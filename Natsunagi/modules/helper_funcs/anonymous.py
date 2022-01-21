@@ -24,6 +24,7 @@ class ChatStatus(Enum):
 
 anon_callbacks = {}
 anon_callback_messages = {}
+anon_users = {}
 
 
 def user_admin(permission: AdminPerms):
@@ -83,3 +84,18 @@ def anon_callback_handler1(upd: Update, _: CallbackContext):
             return cb[1](cb[0][0], cb[0][1])
     else:
         callback.answer("This isn't for ya")
+
+
+def resolve_user(user, message_id, chat):
+    if user.id == 1087968824:
+        try:
+            uid = anon_users.pop((chat.id, message_id))
+            user = chat.get_member(uid).user
+        except KeyError:
+            return dispatcher.bot.edit_message_text(chat.id, message_id, "You're now identified as: {}".format(user.first_name))
+        except BaseException as e:
+            return dispatcher.bot.edit_message_text(chat.id, message_id, f"Error: {e}")
+
+    else:
+        user = user
+    return user
