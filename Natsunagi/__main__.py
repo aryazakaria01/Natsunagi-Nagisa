@@ -218,11 +218,11 @@ def start(update: Update, context: CallbackContext):
             )
     else:
         update.effective_message.reply_text(
-            text=gs(chat.id, "grp_started_text").format(
+            text=gs(chat.id, "grp_start_text").format(
                 escape_markdown(dispatcher.bot.first_name),
                 ),
             parse_mode=ParseMode.MARKDOWN
-        )
+       )
 
 
 def error_handler(update, context):
