@@ -296,10 +296,21 @@ def help_button(update, context):
     try:
         if mod_match:
             module = mod_match.group(1)
-            help_mod = HELPABLE[module]
+
+            # Convert Function To String
+            module = module.replace("_", " ")
+            help_list = HELPABLE[module].helps(update.effective_chat.id)
+            if isinstance(help_list, list):
+                help_text = help_list[0]
+            elif isinstance(help_list, str):
+                help_text = help_list
+            
+            # Call The Converted Module
             text = (
-                gs(chat.id "pm_help_module_text").format(help_mod.__mod_name__)
-                + HELPABLE[module].__help__
+                gs(chat.id, "pm_help_module_text").format(
+                    HELPABLE[module].__mod_name__
+                )
+                + help_text
             )
             query.message.edit_text(
                 text=text,
