@@ -141,61 +141,47 @@ def make_bar(per):
     return "⬢" * done + "⬡" * (10 - done)
 
 
-def get_file_id(msg: Message):
-    if msg.media:
-        for message_type in (
-            "photo",
-            "animation",
-            "audio",
-            "document",
-            "video",
-            "video_note",
-            "voice",
-            "sticker",
-        ):
-            obj = getattr(msg, message_type)
-            if obj:
-                setattr(obj, "message_type", message_type)
-                return obj
+@natsunagicmd(command="id")
+def get_id(update: Update, context: CallbackContext):
+    bot, args = context.bot, context.args
+    message = update.effective_message
+    chat = update.effective_chat
+    msg = update.effective_message
+    user_id = extract_user(msg, args)
 
+    if user_id:
 
-@pgram.on_message(filters.command("id"))
-async def showid(client, message):
-    chat_type = message.chat.type
-    if chat_type == "private":
-        user_id = message.chat.id
-        user2 = message.reply_to_message.forward_from
-        first = message.from_user.first_name
-        last = message.from_user.last_name or ""
-        username = message.from_user.username
-        dc_id = message.from_user.dc_id or ""
-        await message.reply_text(
-            f"<b>× First Name:</b> {first}\n<b>× Last Name:</b> {last}\n<b>× Username:</b> {username}\n<b>× Telegram ID:</b> <code>{user_id}</code>\n<b>× Data Center:</b> <code>{dc_id}</code>",
-            quote=True,
-        )
+        if msg.reply_to_message and msg.reply_to_message.forward_from:
 
-    elif chat_type in ["group", "supergroup", "megagroup", "gigagroup"]:
-        _id = ""
-        _id += "<b>× This group's ID</b>: " f"<code>{message.chat.id}</code>\n"
-        if message.reply_to_message:
-            _id += (
-                "<b>× Your ID</b>: "
-                f"<code>{message.from_user.id}</code>\n"
-                "<b>× Replied User ID</b>: "
-                f"<code>{message.reply_to_message.from_user.id}</code>\n"
-                "<b>× Forwarded User ID</b>: "
-                f"<code>{user2.id}</code>\n"
+            user1 = message.reply_to_message.from_user
+            user2 = message.reply_to_message.forward_from
+
+            msg.reply_text(
+                f"× <b>Sender:</b> {mention_html(user2.id, user2.first_name)} - <code>{user2.id}</code>.\n"
+                f"× <b>Forwarder:</b> {mention_html(user1.id, user1.first_name)} - <code>{user1.id}</code>.",
+                parse_mode=ParseMode.HTML,
             )
-            file_info = get_file_id(message.reply_to_message)
+
         else:
-            _id += "<b>× Your ID</b>: " f"<code>{message.from_user.id}</code>\n"
-            file_info = get_file_id(message)
-        if file_info:
-            _id += (
-                f"<b>{file_info.message_type}</b>: "
-                f"<code>{file_info.file_id}</code>\n"
+
+            user = bot.get_chat(user_id)
+            msg.reply_text(
+                f"× <b>Replied to:</b> {mention_html(user.id, user.first_name)}\n× <b>ID of the user:</b> <code>{user.id}</code>",
+                parse_mode=ParseMode.HTML,
             )
-        await message.reply_text(_id, quote=True)
+
+    else:
+
+        if chat.type == "private":
+            msg.reply_text(
+                f"× Your id is <code>{chat.id}</code>.", parse_mode=ParseMode.HTML
+            )
+
+        else:
+            msg.reply_text(
+                f"× <b>User:</b> {mention_html(msg.from_user.id, msg.from_user.first_name)}\n× <b>From User ID:</b> <code>{update.effective_message.from_user.id}</code>\n× <b>This Group ID:</b> <code>{chat.id}</code>", 
+                parse_mode=ParseMode.HTML,
+            )
 
 
 @Natsunagi.on(
