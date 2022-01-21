@@ -301,10 +301,6 @@ def help_button(update, context):
                 gs(chat.id "pm_help_module_text").format(help_mod.__mod_name__)
                 + HELPABLE[module].__help__
             )
-
-            help_buttons.append(
-                [InlineKeyboardButton(text=gs(chat.id, "back_button"), callback_data="help_back")]
-            )
             query.message.edit_text(
                 text=text,
                 parse_mode=ParseMode.MARKDOWN,
