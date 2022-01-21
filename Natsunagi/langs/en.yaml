@@ -435,3 +435,37 @@ raid_help: |
 
    • /raidactiontime `(time optional)` : view or set the default duration that the raid mode will tempban
    Default is 1 hour
+
+welcome_mutes: |
+   You can get the bot to mute new people who join your group and hence prevent spambots from flooding your group.
+   The following options are possible:
+   • <code>/welcomemute soft</code><b>:</b> restricts new members from sending media for 24 hours.
+   • <code>/welcomemute strong</code><b>:</b> mutes new members till they tap on a button thereby verifying they're human.
+   • <code>/welcomemute captcha</code><b>:</b>  mutes new members till they solve a button captcha thereby verifying they're human.
+   • <code>/welcomemute off</code><b>:</b> turns off welcomemute.
+   <b>Note:</b> Strong mode kicks a user from the chat if they dont verify in 120 seconds. They can always rejoin though
+
+welcome_help: |
+   Your group's welcome/goodbye messages can be personalised in multiple ways. If you want the messages
+   to be individually generated, like the default welcome message is, you can use *these* variables:
+   • <code>{first}</code><b>:</b> this represents the user's *first* name
+   • <code>{last}</code><b>:</b> this represents the user's *last* name. Defaults to *first name* if user has no 
+   last name.
+   • <code>{fullname}</code><b>:</b> this represents the user's *full* name. Defaults to *first name* if user has no 
+   last name.
+   • <code>{username}</code><b>:</b> this represents the user's *username*. Defaults to a *mention* of the user's 
+   first name if has no username.
+   • <code>{mention}</code><b>:</b> this simply *mentions* a user - tagging them with their first name.
+   • <code>{id}</code><b>:</b> this represents the user's *id*
+   • <code>{count}</code><b>:</b> this represents the user's *member number*.
+   • <code>{chatname}</code><b>:</b> this represents the *current chat name*.
+   Each variable MUST be surrounded by <code>{}</code> to be replaced.
+   Welcome messages also support markdown, so you can make any elements bold/italic/code/links. 
+   Buttons are also supported, so you can make your welcomes look awesome with some nice intro 
+   buttons.
+   "To create a button linking to your rules, use this: <code>[Rules](buttonurl://t.me/{dispatcher.bot.username}?start=group_id)</code>. 
+   Simply replace <code>group_id</code> with your group's id, which can be obtained via /id, and you're good to 
+   go. Note that group ids are usually preceded by a <code>-</code> sign; this is required, so please don't 
+   remove it.
+   You can even set images/gifs/videos/voice messages as the welcome message by 
+   replying to the desired media, and calling <code>/setwelcome</code>.
