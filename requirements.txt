@@ -67,7 +67,6 @@ python-barcode
 ffmpeg
 python-rapidjson
 markdown2
-cowpy
 selenium
 hiredis
 pendulum
