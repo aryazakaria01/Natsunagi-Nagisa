@@ -13,7 +13,6 @@ pm_start_text: |
    A powerful group management bot built to help you manage your group!
    ──────────────────
    Click the /help button below to learn more how to use me.
-   """
    
 grp_start_text: "👋 Hi Darling, I'm now alive"
 grp_started_text: "👋 Hi there, My name is {}. Nice to meet you"
@@ -24,7 +23,6 @@ pm_help_text: |
    × /start: starts me!
    × /help: makes me send or redirect you to THIS message.
    × /settings (group chat only): makes me show the current chat settings.
-   """
 
 group_help_text: "Contact me in PM to get the list of possible commands."
 group_help_modules_text: "Contact me in PM to get help of {}"
