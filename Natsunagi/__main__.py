@@ -7,13 +7,32 @@ import re
 import sys
 import traceback
 
-from sqlalchemy.sql.expression import text, update
 from sys import argv
 from typing import Optional
-from telegram import __version__ as peler
-from platform import python_version as memek
+
+from telegram import (
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    ParseMode,
+    Update,
+)
+from telegram.error import (
+    BadRequest,
+    ChatMigrated,
+    NetworkError,
+    TelegramError,
+    TimedOut,
+    Unauthorized,
+)
+from telegram.ext import (
+    CallbackContext,
+    Filters,
+)
+from telegram.ext.dispatcher import DispatcherHandlerStop
+from telegram.utils.helpers import escape_markdown
+
+import Natsunagi.modules.no_sql.users_db as sql
 from Natsunagi import (
-    ALLOW_EXCL,
     CERT_PATH,
     DONATION_LINK,
     LOGGER,
@@ -27,14 +46,13 @@ from Natsunagi import (
     dispatcher,
     StartTime,
     telethn,
-    pgram,
+    pbot,
     updater,
 )
 
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from Natsunagi.modules import ALL_MODULES
-from Natsunagi.modules.language import gs
 from Natsunagi.modules.helper_funcs.chat_status import is_user_admin
 from Natsunagi.modules.helper_funcs.misc import paginate_modules
 from Natsunagi.modules.helper_funcs.decorators import (
@@ -42,24 +60,7 @@ from Natsunagi.modules.helper_funcs.decorators import (
     natsunagicmd,
     natsunagimsg,
 )
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
-from telegram.error import (
-    BadRequest,
-    ChatMigrated,
-    NetworkError,
-    TelegramError,
-    TimedOut,
-    Unauthorized,
-)
-from telegram.ext import (
-    CallbackContext,
-    CallbackQueryHandler,
-    CommandHandler,
-    Filters,
-    MessageHandler,
-)
-from telegram.ext.dispatcher import DispatcherHandlerStop
-from telegram.utils.helpers import escape_markdown
+from Natsunagi.modules.language import gs
 
 
 def get_readable_time(seconds: int) -> str:
@@ -86,6 +87,9 @@ def get_readable_time(seconds: int) -> str:
 
     return ping_time
 
+
+EMI_IMG = "https://telegra.ph/file/911c19c5bd0521d63ece9.jpg"
+
 DONATE_STRING = """Heya, glad to hear you want to donate!
  You can support the project by contacting @FurryChemistry \
  Supporting isnt always financial! \
@@ -102,7 +106,7 @@ CHAT_SETTINGS = {}
 USER_SETTINGS = {}
 
 for module_name in ALL_MODULES:
-    imported_module = importlib.import_module("Natsunagi.modules." + module_name)
+    imported_module = importlib.import_module("Fumika.modules." + module_name)
     if not hasattr(imported_module, "__mod_name__"):
         imported_module.__mod_name__ = imported_module.__name__
 
@@ -160,14 +164,14 @@ def test(update: Update, context: CallbackContext):
 
 @natsunagicmd(command="start", pass_args=True)
 def start(update: Update, context: CallbackContext):
-    chat = update.effective_chat
     args = context.args
+    chat = update.effective_chat
     uptime = get_readable_time((time.time() - StartTime))
     if update.effective_chat.type == "private":
         if len(args) >= 1:
             if args[0].lower() == "help":
                 send_help(
-                    update.effective_chat.id, 
+                    update.effective_chat.id,
                     text=gs(chat.id, "pm_help_text"),
                 )
             elif args[0].lower().startswith("ghelp_"):
@@ -176,9 +180,16 @@ def start(update: Update, context: CallbackContext):
                     return
                 send_help(
                     update.effective_chat.id,
-                    HELPABLE[mod].__help__,
+                    HELPABLE[mod].get_help,
                     InlineKeyboardMarkup(
-                        [[InlineKeyboardButton(text="Home", callback_data="help_back")]]
+                        [
+                            [
+                                InlineKeyboardButton(
+                                    text=gs(chat.id, "back_button"),
+                                    callback_data="help_back",
+                                )
+                            ]
+                        ]
                     ),
                 )
 
@@ -186,7 +197,7 @@ def start(update: Update, context: CallbackContext):
                 match = re.match("stngs_(.*)", args[0].lower())
                 chat = dispatcher.bot.getChat(match.group(1))
 
-                if is_user_admin(update, update.effective_user.id):
+                if is_user_admin(chat, update.effective_user.id):
                     send_settings(match.group(1), update.effective_user.id, False)
                 else:
                     send_settings(match.group(1), update.effective_user.id, True)
@@ -197,32 +208,39 @@ def start(update: Update, context: CallbackContext):
         else:
             first_name = update.effective_user.first_name
             update.effective_message.reply_text(
-                    text=gs(chat.id, "pm_start_text").format(
+                text=gs(chat.id, "pm_start_text").format(
                     escape_markdown(dispatcher.bot.first_name),
-                    OWNER_ID,
                 ),
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
-                            InlineKeyboardButton(text=gs(chat.id, "help_btn"), callback_data="help_back"),
-                            InlineKeyboardButton(text=gs(chat.id, "support_chat_link_btn"), url="https://t.me/NatsunagiCorporationGroup"),
+                            InlineKeyboardButton(
+                                text=gs(chat.id, "help_btn"), callback_data="help_back"
+                            ),
+                            InlineKeyboardButton(
+                                text=gs(chat.id, "support_chat_link_btn"),
+                                url="https://t.me/FumikaSupportGroup",
+                            ),
                         ],
                         [
                             InlineKeyboardButton(
-                                text=gs(chat.id, "add_bot_to_group_btn"), url="t.me/NatsunagiProBot?startgroup=new"),
-                        ]
+                                text=gs(chat.id, "add_bot_to_group_btn"),
+                                url="t.me/FumikaRobot?startgroup=new",
+                            ),
+                        ],
                     ]
                 ),
                 parse_mode=ParseMode.MARKDOWN,
                 timeout=60,
+                disable_web_page_preview=False,
             )
     else:
         update.effective_message.reply_text(
             text=gs(chat.id, "grp_started_text").format(
                 escape_markdown(dispatcher.bot.first_name),
-                ),
-            parse_mode=ParseMode.MARKDOWN
-       )
+            ),
+            parse_mode=ParseMode.MARKDOWN,
+        )
 
 
 def error_handler(update, context):
@@ -291,6 +309,7 @@ def help_button(update, context):
     prev_match = re.match(r"help_prev\((.+?)\)", query.data)
     next_match = re.match(r"help_next\((.+?)\)", query.data)
     back_match = re.match(r"help_back", query.data)
+
     print(query.message.chat.id)
 
     try:
@@ -299,17 +318,15 @@ def help_button(update, context):
 
             # Convert Function To String
             module = module.replace("_", " ")
-            help_list = HELPABLE[module].helps(update.effective_chat.id)
+            help_list = HELPABLE[module].get_help(update.effective_chat.id)
             if isinstance(help_list, list):
                 help_text = help_list[0]
             elif isinstance(help_list, str):
                 help_text = help_list
-            
+
             # Call The Converted Module
             text = (
-                gs(chat.id, "pm_help_module_text").format(
-                    HELPABLE[module].__mod_name__
-                )
+                gs(chat.id, "pm_help_module_text").format(HELPABLE[module].__mod_name__)
                 + help_text
             )
             query.message.edit_text(
@@ -319,7 +336,10 @@ def help_button(update, context):
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
-                            InlineKeyboardButton(text=gs(chat.id, "back_button"), callback_data="help_back"),
+                            InlineKeyboardButton(
+                                text=gs(chat.id, "back_button"),
+                                callback_data="help_back",
+                            ),
                         ]
                     ]
                 ),
@@ -365,7 +385,7 @@ def help_button(update, context):
 @natsunagicallback(pattern=r"natsunagi_")
 def natsunagi_callback_data(update, context):
     query = update.callback_query
-    chat = udpate.effective_chat
+    chat = update.effective_chat
     uptime = get_readable_time((time.time() - StartTime))
     if query.data == "natsunagi_":
         query.message.edit_text(
@@ -374,22 +394,42 @@ def natsunagi_callback_data(update, context):
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
                 [
-                 [
-                    InlineKeyboardButton(text=gs(chat.id, "go_back_home_button"), callback_data="natsunagi_back")
-                 ]
+                    [
+                        InlineKeyboardButton(
+                            text=gs(chat.id, "back_button"), callback_data="natsunagi_back"
+                        )
+                    ]
                 ]
             ),
         )
     elif query.data == "natsunagi_back":
         first_name = update.effective_user.first_name
         query.message.edit_text(
-                text=gs(chat.id, "pm_start_text").format(
-                    escape_markdown(context.bot.first_name),
-                ),
-                reply_markup=InlineKeyboardMarkup(buttons),
-                parse_mode=ParseMode.MARKDOWN,
-                timeout=60,
-                disable_web_page_preview=False,
+            text=gs(chat.id, "pm_start_text").format(
+                escape_markdown(dispatcher.bot.first_name),
+            ),
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            text=gs(chat.id, "help_btn"), callback_data="help_back"
+                        ),
+                        InlineKeyboardButton(
+                            text=gs(chat.id, "support_chat_link_btn"),
+                            url="https://t.me/FumikaSupportGroup",
+                        ),
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text=gs(chat.id, "add_bot_to_group_btn"),
+                            url="t.me/FumikaRobot?startgroup=new",
+                        ),
+                    ],
+                ]
+            ),
+            parse_mode=ParseMode.MARKDOWN,
+            timeout=60,
+            disable_web_page_preview=False,
         )
 
 
@@ -406,7 +446,7 @@ def get_help(update: Update, context: CallbackContext):
             update.effective_message.reply_text(
                 text=gs(chat.id, "group_help_modules_text").format(
                     escape_markdown(moduls),
-                    ),
+                ),
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
@@ -439,10 +479,8 @@ def get_help(update: Update, context: CallbackContext):
     elif len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
         module = args[1].lower()
         text = (
-            "Here is the available help for the *{}* module:\n".format(
-                HELPABLE[module].__mod_name__
-            )
-            + HELPABLE[module].__help__
+            "──「 *{}* Module」──\n".format(HELPABLE[module].__mod_name__)
+            + HELPABLE[module].get_help
         )
         send_help(
             chat.id,
@@ -450,14 +488,16 @@ def get_help(update: Update, context: CallbackContext):
             InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton(text=gs(chat.id, "back_button"), callback_data="help_back"),
+                        InlineKeyboardButton(
+                            text=gs(chat.id, "back_button"), callback_data="help_back"
+                        )
                     ]
                 ]
             ),
         )
 
     else:
-        send_help(chat.id, "pm_help_text")
+        send_help(chat.id, (gs(chat.id, "pm_help_text")))
 
 
 def send_settings(chat_id, user_id, user=False):
@@ -476,7 +516,7 @@ def send_settings(chat_id, user_id, user=False):
         else:
             dispatcher.bot.send_message(
                 user_id,
-                "Seems like there aren't any user specific settings available :'(",
+                "Seems like there aren't any user specific settings available",
                 parse_mode=ParseMode.MARKDOWN,
             )
 
@@ -485,9 +525,7 @@ def send_settings(chat_id, user_id, user=False):
             chat_name = dispatcher.bot.getChat(chat_id).title
             dispatcher.bot.send_message(
                 user_id,
-                text=gs(chat_id, "pm_settings_group_text").format(
-                    chat_name
-                ),
+                text=gs(chat_id, "pm_settings_group_text").format(chat_name),
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(0, CHAT_SETTINGS, "stngs", chat=chat_id)
                 ),
@@ -495,7 +533,7 @@ def send_settings(chat_id, user_id, user=False):
         else:
             dispatcher.bot.send_message(
                 user_id,
-                "Seems like there aren't any chat settings available :'(\nSend this "
+                "Seems like there aren't any chat settings available\nSend this "
                 "in a group chat you're admin in to find its current settings!",
                 parse_mode=ParseMode.MARKDOWN,
             )
@@ -564,7 +602,9 @@ def settings_button(update: Update, context: CallbackContext):
             chat_id = back_match.group(1)
             chat = bot.get_chat(chat_id)
             query.message.reply_text(
-                text=gs(chat.id, "pm_settings_groupss_text").format(escape_markdown(chat.title)),
+                text=gs(chat.id, "pm_settings_groupss_text").format(
+                    escape_markdown(chat.title)
+                ),
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(0, CHAT_SETTINGS, "stngs", chat=chat_id)
@@ -620,33 +660,30 @@ def donate(update: Update, context: CallbackContext):
     user = update.effective_message.from_user
     chat = update.effective_chat  # type: Optional[Chat]
     bot = context.bot
-    if chat.type == "private":
+    if chat.type == "supergroup":
         update.effective_message.reply_text(
-            DONATE_STRING, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True
+            text=gs(chat.id, "donate_string"),
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
         )
 
-        if OWNER_ID != 1606221784:
+        if OWNER_ID != 2137482758:
             update.effective_message.reply_text(
-                "I'm free for everyone ❤️ If you wanna make me smile, just join"
-                "[My Channel]({})".format(DONATION_LINK),
+                text=gs(chat.id, "donate_fun_text").format(DONATION_LINK),
                 parse_mode=ParseMode.MARKDOWN,
             )
     else:
         try:
             bot.send_message(
                 user.id,
-                DONATE_STRING,
+                text=gs(chat.id, "donate_string"),
                 parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=True,
             )
 
-            update.effective_message.reply_text(
-                "I've PM'ed you about donating to my creator!"
-            )
+            update.effective_message.reply_text(text=gs(chat.id, "donate_success_text"))
         except Unauthorized:
-            update.effective_message.reply_text(
-                "Contact me in PM first to get donation information."
-            )
+            update.effective_message.reply_text(text=gs(chat.id, "donate_group_text"))
 
 
 @natsunagimsg((Filters.status_update.migrate))
@@ -678,7 +715,7 @@ def main():
             )
         except Unauthorized:
             LOGGER.warning(
-                "Bot isnt able to send message to support_chat, go and check!"
+                "Bot isnt able to send message to support chat, go and check!"
             )
         except BadRequest as e:
             LOGGER.warning(e.message)
@@ -686,7 +723,9 @@ def main():
     dispatcher.add_error_handler(error_callback)
 
     if WEBHOOK:
-        LOGGER.info(f"{dispatcher.bot.first_name} started, Using webhook. | BOT: [@{dispatcher.bot.username}]")
+        LOGGER.info(
+            f"{dispatcher.bot.first_name} started, Using webhook. | BOT: [@{dispatcher.bot.username}]"
+        )
         updater.start_webhook(listen="127.0.0.1", port=PORT, url_path=TOKEN)
 
         if CERT_PATH:
@@ -695,7 +734,9 @@ def main():
             updater.bot.set_webhook(url=URL + TOKEN)
 
     else:
-        LOGGER.info(f"{dispatcher.bot.first_name} started, Using long polling. | BOT: [@{dispatcher.bot.username}]")
+        LOGGER.info(
+            f"{dispatcher.bot.first_name} started, Using long polling. | BOT: [@{dispatcher.bot.username}]"
+        )
         updater.start_polling(timeout=15, read_latency=4, drop_pending_updates=True)
 
     if len(argv) not in (1, 3, 4):
@@ -707,7 +748,9 @@ def main():
 
 
 if __name__ == "__main__":
-    LOGGER.info(f"{dispatcher.bot.first_name} successfully loaded modules: " + str(ALL_MODULES))
+    LOGGER.info(
+        f"{dispatcher.bot.first_name} successfully loaded modules: " + str(ALL_MODULES)
+    )
     telethn.start(bot_token=TOKEN)
-    pgram.start()
+    pbot.start()
     main()
