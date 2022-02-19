@@ -20,6 +20,7 @@ from Natsunagi.modules.helper_funcs.chat_status import (
     user_admin as u_admin,
 )
 from Natsunagi.modules.helper_funcs.misc import build_keyboard, revert_buttons
+from Natsunagi.mdoules.helper_funcs.anonymous import user_admin as u_admin, AdminPerms, resolve_user as res_user
 from Natsunagi.modules.helper_funcs.msg_types import get_welcome_type
 from Natsunagi.modules.helper_funcs.string_handling import (
     escape_invalid_curly_brackets,
