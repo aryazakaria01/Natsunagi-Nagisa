@@ -5,8 +5,8 @@ wget
 gtts
 beautifulsoup4
 requests
-python-telegram-bot==13.11.0
-SQLAlchemy==1.4.35
+python-telegram-bot==13.13
+SQLAlchemy==1.4.39
 psycopg2-binary
 feedparser
 faker
@@ -43,7 +43,7 @@ ujson
 pretty_errors
 pygithub
 TgCrypto
-pyrogram
+pyrogram==1.4.16
 PyDictionary
 git+https://github.com/Sorrybabe/downloader
 youtube_search_python
